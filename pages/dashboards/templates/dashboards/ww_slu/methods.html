@@ -1,0 +1,154 @@
+{% extends "dashboards/ww_slu/base.html" %}
+{% load static %}
+
+{% block slu_content %}
+
+<h4>What is wastewater based virus surveillance?</h4>
+<p>
+    Wastewater-based virus surveillance is a valuable complement to traditional epidemiological approaches, 
+    such as monitoring reported cases in healthcare or intensive care admissions, when assessing the spread 
+    of different viruses. Because the method captures contributions from everyone connected to a given sewage 
+    network, a single sample can provide an overview of infection levels among thousands, or even millions, 
+    of people. Although wastewater surveillance has been applied for several decades, it gained increased 
+    attention during the Covid-19 pandemic, when it proved to be an effective tool for tracking viral spread 
+    within communities.
+</p>
+
+<h4>Process and sampleing sites</h4>
+<p>
+    Overview of the wastewater-based virus surveillance procedure at SLU-SEEC. 
+    The entire process, from sampling, transport, and analysis to quality control 
+    and reporting, usually takes anywhere from a few days to a week.
+</p>
+
+<div class="md:flex md:gap-6 bg-gray-100 px-8 py-6">
+    <div class="md:flex-1 bg-white content-center p-4">
+        <img src="{% static "dashboards/ww_slu_flowchart.png" %}"
+            alt="SLU methodology flowchart">
+    </div>
+
+    <div class="md:flex-1 flex flex-col max-md:mt-4">
+        {% for site in site_info %}
+            <div class="flex justify-between border-b border-gray-300 gap-2 py-1.5
+                        first:font-semibold last:border-0">
+                {% for s in site %}
+                    <span>{{ s }}</span>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+<details class="my-6 group">
+    <summary class="bg-gray-200 px-5 py-3 text-lg font-medium marker:text-gray-600 cursor-pointer
+                after:text-xs group-not-open:after:content-['(click_to_expand)']
+                group-open:after:content-['(click_to_close)'] after:font-normal">
+        Excretion of viruses into wastewater
+    </summary>
+    <div class="py-4">
+        Traditionally, wastewater surveillance has been used mainly in research and for monitoring viruses that 
+        infect the gastrointestinal tract, such as poliovirus, norovirus (which causes winter vomiting disease), 
+        and hepatitis A virus. These viruses are excreted in large quantities in the faeces of infected individuals 
+        and are relatively stable in the environment, which makes them comparatively easy to detect in wastewater.
+    </div>
+    <div>
+        "In recent years, however, it has become evident that genetic material from many respiratory viruses can 
+        also be identified in faeces and wastewater, particularly with the development of more sensitive analytical 
+        methods. Examples include influenza viruses, respiratory syncytial virus (RSV), and SARS CoV-2. Unlike 
+        classic gastrointestinal viruses, these pathogens do not primarily spread through faeces. However, 
+        fragments of their genetic material can still be excreted and ultimately detected in wastewater.
+    </div>
+</details>
+
+<details class="my-6 group">
+    <summary class="bg-gray-200 px-5 py-3 text-lg font-medium marker:text-gray-600 cursor-pointer
+                after:text-xs group-not-open:after:content-['(click_to_expand)']
+                group-open:after:content-['(click_to_close)'] after:font-normal">
+        Analytical procedure at SLU-SEEC
+    </summary>
+
+    <h5 class="mt-0 pt-7">Sampling</h5>
+    <p>
+        At wastewater treatment plants, so-called flow-proportional composite samples of untreated wastewater 
+        are collected over a 24-hour period. This provides a representative picture of the water flow and virus 
+        levels across an entire day. In some cases, samples can be collected over longer periods, such as a week, 
+        to give an even more balanced view of virus occurrence. In our sampling programme, all treatment plants 
+        collect 24-hour composite samples, except Uppsala, which provides weekly composite samples. Samples are 
+        typically taken on Mondays.
+    </p>
+    <p>
+        During the sampling period, the total wastewater flow is also measured. This information is necessary to 
+        convert virus concentrations (genome copies per litre of wastewater) into the total amount of virus present 
+        during the period. After collection, samples are kept cold and transported to the laboratory in Uppsala for analysis.
+    </p>
+
+    <h5>Sample processing and analysis</h5>
+    <p>
+        In the laboratory, wastewater samples are processed to extract and concentrate the genetic material 
+        (DNA or RNA) of viruses and remove substances from the wastewater that could interfere with the analysis. 
+        A range of methods can be used for this step, including filtration, centrifugation, and chemical precipitation. 
+        At SEEC-SLU, we use a filtration-based method (Maxwell RSC Enviro TNA kit from Promega).
+    </p>
+    <p>
+        Once concentrated and prepared, the samples are analysed using reverse transcription real-time quantitative 
+        polymerase chain reaction (RT-qPCR). This technique enables us to determine the amount of genetic material 
+        from the different viruses present in each sample. At SEEC-SLU, we have RT-qPCR assays for influenza A and B virus, 
+        RSV, and SARS CoV-2.
+    </p>
+
+    <h5>Quality assurance</h5>
+    <p>
+        All analyses are subject to quality control, including the use of positive and negative controls and 
+        checks for PCR inhibition, to ensure reliable results. Samples that do not meet these quality criteria 
+        are marked as invalid and excluded from the figures presented in the dashboard. It is important to note 
+        that the methodology is still under development and is not accredited.
+    </p>
+
+    <h5>Handling values below detection and quantification limits</h5>
+    <p>
+        The limit of detection (LOD) is the lowest concentration of a target virus that can be reliably identified, 
+        while the limit of quantification (LOQ) is the lowest concentration that can be measured with acceptable precision. 
+        For each target virus, both the 95% LOD, i.e. the concentration at which detection is 95% probable, and the LOQ 
+        have been established for the RT-qPCR methods.
+    </p>
+    <p>
+        When results fall below these thresholds, they are treated in a standardised way. Samples with concentrations 
+        below the LOQ but above the 95% LOD are assigned a value equal to the average of the 95% LOD and the LOQ. 
+        Positive samples below the 95% LOD are assigned a value equal to half of the 95% LOD.
+    </p>
+
+    <h5>Population normalisation</h5>
+    <p>
+        To make viral levels from wastewater surveillance comparable over time and between treatment plants, 
+        it is important to estimate how many people the sample represents. The number of contributors can vary 
+        due to factors such as holiday periods, rainfall, snowmelt, or other circumstances that affect water flow.
+    </p>
+    <p>
+        A common approach is to first convert virus levels from genome copies per litre into genome copies per day, 
+        based on the measured daily wastewater flow. This value is then divided by the number of inhabitants connected 
+        to the treatment plant, giving an estimated number of viral genome copies per person per day.
+    </p>
+    <p>
+        An alternative, more dynamic method is to use a so-called population marker. This is a substance in wastewater 
+        that reflects how many people actually contributed to the sample, and ideally also mirrors how stable viruses 
+        are in the sewer system and during transport to the laboratory.
+    </p>
+    <p>
+        Although no perfect marker exists, the plant virus Pepper Mild Mottle Virus (PMMoV) is widely used in virus 
+        surveillance. Humans are not infected by PMMoV, but ingest it through food, particularly spices such as paprika 
+        powder and chilli, which are common in highly consumed processed foods. PMMoV is excreted in faeces and consistently 
+        found at high levels in human wastewater. By measuring PMMoV alongside the target virus, results can be normalised, 
+        which can improve comparability between different regions and over time.
+    </p>
+    <p>
+        In this dashboard, wastewater data are presented in three ways:
+        <ul class="list-disc mx-8">
+            <li>Non-normalised: virus genome copies per litre wastewater</li>
+            <li>Flow-normalised: virus genome copies per day per inhabitant</li>
+            <li>PMMoV-normalised</li>
+        </ul>
+    </p>
+</details>
+
+{% endblock slu_content %}

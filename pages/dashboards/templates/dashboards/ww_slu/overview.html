@@ -1,0 +1,208 @@
+{% extends "dashboards/ww_slu/base.html" %}
+
+{% block slu_content %}
+
+<p>
+    The data presented in this dashboard originate from the Swedish University of Agricultural Sciences (SLU)
+    and the <a target="_blank" href="https://www.slu.se/forskning/forskningskatalog/grupper/s/seec/"
+    rel="noopener noreferrer"> Swedish Environmental Epidemiology Centre (SEEC)</a>. The monitoring includes
+    detection and quantification of generic material from influenza A virus, influenza B virus, respiratory
+    syncytial virus (RSV) and SARS CoV-2 in untreated wastewater. We thank all participating wastewater
+    treatment plants for their invaluable efforts in collecting samples and associated data. For more
+    information kindly visit methodology page.
+</p>
+
+<!-- Recent data details -->
+<details class="group">
+    <summary class="bg-gray-200 px-5 py-2 marker:text-gray-600 cursor-pointer
+                after:text-xs group-not-open:after:content-['(click_to_expand)']
+                group-open:after:content-['(click_to_close)']">
+        Recent data summary
+    </summary>
+    <div class="md:flex gap-4 bg-gray-100 px-6 py-3">
+        <div class="md:flex-2 flex flex-col gap-3 pr-2 max-md:mb-3 md:border-r md:border-gray-300">
+            <div class="text-lg">
+                Latest data sampling date
+            </div>
+            <div>{{ sampling_date }}</div>
+            <div class="text-lg">Latest data sampling sites</div>
+            <div>
+                {{ sampling_sites }}
+                Collectively, these sites represent {{ sampling_sites_pop }}% of Sweden's population.
+            </div>
+            <div class="text-lg">Comments from research group</div>
+            <div>
+                To be implemented
+            </div>
+        </div>
+
+        <div class="md:flex-1 flex flex-col gap-3 md:pl-2">
+            <div class="text-lg">Sample summary</div>
+            <div class="flex flex-col">
+                {% for row in sample_summary %}
+                    <div class="flex justify-between border-b border-gray-300 gap-2 py-1.5
+                                first:font-medium last:border-0">
+                        {% for v in row %}
+                            <span
+                            {% if forloop.first %}
+                                class="flex-2"
+                            {% else %}
+                                class="flex-1 text-right"
+                            {% endif %}
+                            >
+                                {{ v }}
+                            </span>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</details>
+
+<!-- Quantitative overview -->
+
+<h5>Quantitative overview</h5>
+<p>
+    The figure shows measured virus levels in wastewater from 2024 and onwards. Each dot represents
+    the population-weighted weekly mean across the selected plants. The lines show rolling averages,
+    also weighted by the population served by each plant. You can select the years, months, time-series
+    window (for rolling average) and wastewater treatment plants from the below filter section.
+</p>
+
+<!-- Plot area -->
+<div id="quant-overview-plot"
+    hx-get="{% url 'dashboards:slu_overview' %}?update_plot=true"
+    hx-trigger="input from:#plot-filters delay:300ms, click from:#siteSelector>span delay:300ms"
+    hx-include="#plot-filters input, #plot-filters select"
+    hx-target="#quant-overview-plot"
+    hx-swap="innerHTML"
+    hx-on::before-request="this.classList.add('opacity-40')"
+    hx-on::after-settle="this.classList.remove('opacity-40')"
+    >
+    {{ quant_plot_html|safe }}
+</div>
+
+<!-- Fliter section -->
+<details class="group my-6 bg-gray-50 max-lg:hidden">
+    <summary class="bg-gray-200 px-5 py-2 marker:text-gray-600 cursor-pointer
+                after:text-xs
+                group-not-open:after:content-['(click_to_expand)']
+                group-open:after:content-['(click_to_close)']">
+        Plot Filters
+    </summary>
+    <p class="px-5">Use the filters below to update the above plot.</p>
+    <div id="plot-filters">
+        <div class="grid grid-cols-4 mb-5">
+            <!-- Years checkbox -->
+            <div>
+                <div class="font-medium mb-4 bg-gray-200/50 py-1.5 px-5">Years</div>
+                <div class="px-5">
+                    {% for y in input_years %}
+                    <input type="checkbox" id="yr-{{y}}" name="year" value="{{y}}" class="scale-112 mr-0.5" checked/>
+                    <label for="yr-{{y}}" class="mr-4">{{y}}</label>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Months slider -->
+            <div>
+                <div class="font-medium mb-4 bg-gray-200/50  py-1.5">Months</div>
+                <input type="range" id="months" name="months"
+                    min="{{ input_months|first }}" max="{{ input_months|last }}"
+                    value="{{ input_months|last }}" step="1" list="markers"/>
+                <datalist id="markers">
+                    {% for m in input_months %}
+                    <option value="{{m}}"></option>
+                    {% endfor %}
+                </datalist>
+            </div>
+
+            <!-- Normalisation methodology dropdown -->
+            <div>
+                <div class="font-medium mb-4 bg-gray-200/50 py-1.5">Normalisation method</div>
+                <select name="method" id="norm-method" class="border p-2">
+                    {% for k,v in input_methods.items %}
+                    <option value="{{k}}" {% if k == "pmmov_normalised" %}selected{% endif %}>{{v}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Rolling average dropdown -->
+            <div>
+                <div class="font-medium mb-4 bg-gray-200/50 py-1.5">Time series display</div>
+                <select name="timeseries" id="timeseries" class="border p-2">
+                    {% for k,v in input_timeseries.items %}
+                    <option value="{{k}}" {% if k == 3 %}selected{% endif %}>{{v}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <!-- Sampling sites checkbox -->
+        <div class="pb-3">
+            <div class="flex justify-between mb-4 bg-gray-200/50 py-1.5 px-5">
+                <span class="font-medium" >Sampling sites</span>
+                <div id="siteSelector">
+                    <span class="border rounded text-xs px-1.5 mr-3
+                        hover:bg-gray-600 hover:text-white cursor-pointer"
+                        onclick="siteSelector(true)">
+                        All
+                    </span>
+                    <span class="border rounded text-xs px-1.5
+                        hover:bg-gray-600 hover:text-white cursor-pointer"
+                        onclick="siteSelector(false)">
+                        None
+                    </span>
+                </div>
+            </div>
+            <div class="columns-4 px-5">
+                {% for site in input_sites %}
+                <div>
+                    <input type="checkbox" id="site-{{site|lower}}" name="site" value="{{site}}"
+                            class="scale-112 mr-0.5" checked/>
+                    <label for="site-{{site|lower}}" class="mr-4">{{site}}</label>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</details>
+
+<!-- Qualitative overview -->
+
+<h5>Qualitative overview</h5>
+<p>
+    The figure displays the status of each individual sample, categorised as positive,
+    negative, or invalid. Empty cells indicate missing samples.
+</p>
+
+<!-- Plot area -->
+<div id="qual-overview-plot" class="mb-4">
+    {{ qual_plot_html|safe }}
+</div>
+
+
+<!-- Load htmx -->
+<script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.7/dist/htmx.min.js"></script>
+<script>
+    // check if any year or site is selected before the HTMX request is sent
+    document.body.addEventListener('htmx:beforeRequest', function(evt) {
+        const requestPath = evt.detail.pathInfo.finalRequestPath;
+        if (!requestPath.includes("year=") || !requestPath.includes("site=")) {
+            evt.preventDefault();
+            evt.target.innerHTML = `
+                <div id='input-alert' class='min-h-[450px] content-center text-red-500 text-center'>
+                    Atleast one year and one sampling site should be selected
+                </div>`;
+        }
+    });
+
+    // helper function to select/unselect all sites
+    function siteSelector(checked) {
+        [...document.querySelectorAll("input[name='site']")].forEach((i) => {
+            i.checked = checked
+        });
+    }
+</script>
+{% endblock slu_content %}

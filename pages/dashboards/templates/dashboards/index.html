@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+
     <!-- WIP - This template will change -->
     <span class="bg-red-300 p-4 text-center block mt-6">
         Temp layout, will be worked on when all or most of the dashboard URLs are sorted
@@ -16,5 +17,9 @@
         <li>
             <a href="{% url 'dashboards:lineage_competition' %}">SARS-CoV-2 Variant Competition</a>
         </li>
+        <li>
+            <a href="{% url 'dashboards:slu_overview' %}">Wastewater SLU</a>
+        </li>
     </ul>
+
 {% endblock %}

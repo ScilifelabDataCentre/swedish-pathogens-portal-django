@@ -8,7 +8,9 @@ dependencies = [
     "django>=5.2.4",
     "django-environ>=0.12.0",
     "markdown>=3.5.0",
+    "pandas>=2.3.2",
     "pillow>=10.0.0",
+    "plotly>=6.3.0",
 ]
 
 [dependency-groups]
