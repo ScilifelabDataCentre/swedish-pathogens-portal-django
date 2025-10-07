@@ -1,23 +1,29 @@
 from utils.views import BaseTemplateView
 
-# Create your views here.
-
 
 class About(BaseTemplateView):
+    """A template view class to render About page"""
+
     template_name = "about/index.html"
     title = "About"
 
 
 class Partners(BaseTemplateView):
+    """A template view class to render Partners page"""
+
     template_name = "about/partners.html"
     title = "Partners"
 
 
-class Funding(BaseTemplateView):
+class Funders(BaseTemplateView):
+    """A template view class to render Funders page"""
+
     template_name = "about/funders.html"
     title = "Funders"
 
 
-class Nodes(BaseTemplateView):
+class NationalNodes(BaseTemplateView):
+    """A template view class to render PPN page"""
+
     template_name = "about/nodes.html"
     title = "Pathogens Portal Nodes"

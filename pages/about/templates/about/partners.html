@@ -7,112 +7,116 @@
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12 mt-16">
 
     <!-- GA4GH -->
-    <a href="https://www.ga4gh.org/" target="_blank" rel="noopener noreferrer" 
-    class="block bg-white border border-pp-pale-grey rounded-lg p-6 hover:shadow-lg 
-    hover:border-pp-mid-blue transition-all duration-200 group no-underline">
-      <div class="flex flex-col items-center text-center">
-        <div class="mb-4">
-          <img class="h-16 w-auto object-contain" 
-          src="{% static 'about/images/partners/ga4gh_logo.png' %}" alt="GA4GH Logo" />
+    <a class="block bg-white border border-pp-pale-grey rounded-lg p-6 hover:shadow-lg
+    hover:border-pp-dark-blue/40 transition-all duration-200 group no-underline"
+    target="_blank" rel="noopener noreferrer"
+    href="https://www.ga4gh.org/"
+    >
+        <div>
+            <img class="h-16 w-auto m-auto object-contain"
+            src="{% static 'about/images/partners/ga4gh_logo.png' %}" alt="GA4GH Logo"/>
         </div>
-        <h5 class="text-lg font-semibold text-pp-dark-grey mb-2 
-        group-hover:text-pp-mid-blue transition-colors duration-200">
-          GA4GH
+        <h5 class="text-lg font-semibold text-center text-pp-dark-grey
+        group-hover:text-pp-mid-blue transition-colors duration-200"
+        >
+            GA4GH
         </h5>
-        <p class="text-sm text-pp-dark-grey">
-          Global Alliance for Genomics and Health (GA4GH) establishes standards and frameworks 
-          for responsible genomic data sharing.
+        <p class="text-sm text-pp-dark-grey mb-0">
+            Global Alliance for Genomics and Health (GA4GH) establishes standards and frameworks
+            for responsible genomic data sharing.
         </p>
-      </div>
     </a>
 
-  <!-- Partner 1: PDN -->
-  <a href="https://pathogendatanetwork.org/" target="_blank" rel="noopener noreferrer" 
-  class="block bg-white border border-pp-pale-grey rounded-lg p-6 hover:shadow-lg 
-  hover:border-pp-mid-blue transition-all duration-200 group no-underline">
-    <div class="flex flex-col items-center text-center">
-      <div class="mb-4">
-        <img class="h-16 w-auto object-contain" 
-        src="{% static 'about/images/partners/pdn_logo.png' %}" alt="PDN Logo" />
-      </div>
-      <h5 class="text-lg font-semibold text-pp-dark-grey mb-2 
-      group-hover:text-pp-mid-blue transition-colors duration-200">
-        Pathogen Data Network (PDN)
-      </h5>
-      <p class="text-sm text-pp-dark-grey">
-        A global network facilitating pathogen data sharing and collaboration for 
-        infectious disease research and surveillance.
-      </p>
-    </div>
-  </a>
+    <!-- PDN -->
+    <a class="block bg-white border border-pp-pale-grey rounded-lg p-6 hover:shadow-lg
+    hover:border-pp-dark-blue/40 transition-all duration-200 group no-underline"
+    target="_blank" rel="noopener noreferrer"
+    href="https://pathogendatanetwork.org/"
+    >
+        <div>
+            <img class="h-16 w-auto m-auto object-contain"
+            src="{% static 'about/images/partners/pdn_logo.png' %}" alt="PDN Logo"/>
+        </div>
+        <h5 class="text-lg font-semibold text-center text-pp-dark-grey
+        group-hover:text-pp-dark-blue transition-colors duration-200"
+        >
+            Pathogen Data Network (PDN)
+        </h5>
+        <p class="text-sm text-pp-dark-grey mb-0">
+            A global network facilitating pathogen data sharing and collaboration for
+            infectious disease research and surveillance.
+        </p>
+    </a>
 
-  <!-- Partner 2: Pathogens Portal -->
-  <a href="https://www.pathogensportal.org/" target="_blank" rel="noopener noreferrer" 
-  class="block bg-white border border-pp-pale-grey rounded-lg p-6 hover:shadow-lg 
-  hover:border-pp-mid-blue transition-all duration-200 group no-underline">
-    <div class="flex flex-col items-center text-center">
-      <div class="mb-4">
-        <img class="h-16 w-auto object-contain" 
-        src="{% static 'about/images/partners/eml_portal_logo.svg' %}" 
-        alt="EMBL-EBI Pathogens Logo" />
-      </div>
-      <h5 class="text-lg font-semibold text-pp-dark-grey mb-2 
-      group-hover:text-pp-mid-blue transition-colors duration-200">
-        Pathogens Portal
-      </h5>
-      <p class="text-sm text-pp-dark-grey">
-        EMBL-EBI's comprehensive platform for pathogen data. It provides access to 
-        curated datasets and analytical tools.
-      </p>
-    </div>
-  </a>
+    <!-- Main Pathogens Portal -->
+    <a class="block bg-white border border-pp-pale-grey rounded-lg p-6 hover:shadow-lg
+    hover:border-pp-dark-blue/40 transition-all duration-200 group no-underline"
+    target="_blank" rel="noopener noreferrer"
+    href="https://www.pathogensportal.org/"
+    >
+        <div>
+            <img class="h-16 w-auto m-auto object-contain"
+            src="{% static 'about/images/partners/eml_portal_logo.svg' %}"
+            alt="EMBL-EBI Pathogens Logo"/>
+        </div>
+        <h5 class="text-lg font-semibold text-center text-pp-dark-grey
+        group-hover:text-pp-dark-blue transition-colors duration-200"
+        >
+            Pathogens Portal
+        </h5>
+        <p class="text-sm text-pp-dark-grey mb-0">
+            EMBL-EBI's comprehensive platform for pathogen data. It provides access to
+            curated datasets and analytical tools.
+        </p>
+    </a>
 
+    <!-- European COVID-19 Data Portal -->
+    <a class="block bg-white border border-pp-pale-grey rounded-lg p-6 hover:shadow-lg
+    hover:border-pp-dark-blue/40 transition-all duration-200 group no-underline"
+    target="_blank" rel="noopener noreferrer"
+    href="https://www.covid19dataportal.org/"
+    >
+        <div>
+            <img class="h-16 w-auto m-auto object-contain"
+            src="{% static 'about/images/partners/covid19_data_portal.svg' %}"
+            alt="European COVID-19 Data Portal Logo"/>
+        </div>
+        <h5 class="text-lg font-semibold text-center text-pp-dark-grey
+        group-hover:text-pp-mid-blue transition-colors duration-200"
+        >
+            European COVID-19 Data Portal
+        </h5>
+        <p class="text-sm text-pp-dark-grey mb-0">
+            Centralised European platform for COVID-19 research data that supports collaborative
+            research and rapid response efforts.
+        </p>
+    </a>
 
+    <!-- NBIS & ELIXIR Sweden -->
+    <a class="block bg-white border border-pp-pale-grey rounded-lg p-6 hover:shadow-lg
+    hover:border-pp-dark-blue/40 transition-all duration-200 group no-underline"
+    target="_blank" rel="noopener noreferrer"
+    href="https://nbis.se/"
+    >
+        <div class="flex justify-center items-center gap-3">
+            <img class="h-16 w-auto object-contain"
+            src="{% static 'about/images/partners/nbis_logo.svg' %}"
+            alt="NBIS Logo"/>
+            <img class="h-16 w-auto object-contain"
+            src="{% static 'about/images/partners/elixir_logo.png' %}"
+            alt="ELIXIR Sweden Logo"/>
+        </div>
+        <h5 class="text-lg font-semibold text-center text-pp-dark-grey
+        group-hover:text-pp-dark-blue transition-colors duration-200"
+        >
+            NBIS and ELIXIR Sweden
+        </h5>
+        <p class="text-sm text-pp-dark-grey mb-0">
+            National Bioinformatics Infrastructure Sweden (NBIS) and ELIXIR Sweden provide
+            resources, support, and expertise for life science research.
+        </p>
+    </a>
 
-  <!-- Partner 4: European COVID-19 Data Portal -->
-  <a href="https://www.covid19dataportal.org/" target="_blank" rel="noopener noreferrer" 
-  class="block bg-white border border-pp-pale-grey rounded-lg p-6 hover:shadow-lg 
-  hover:border-pp-mid-blue transition-all duration-200 group no-underline">
-    <div class="flex flex-col items-center text-center">
-      <div class="mb-4">
-        <img class="h-16 w-auto object-contain" 
-        src="{% static 'about/images/partners/covid19_data_portal.svg' %}" 
-        alt="European COVID-19 Data Portal Logo" />
-      </div>
-      <h5 class="text-lg font-semibold text-pp-dark-grey mb-2 
-      group-hover:text-pp-mid-blue transition-colors duration-200">
-        European COVID-19 Data Portal
-      </h5>
-      <p class="text-sm text-pp-dark-grey">
-        Centralised European platform for COVID-19 research data that supports collaborative 
-        research and rapid response efforts.
-      </p>
-    </div>
-  </a>
-
-  <!-- Partner 5: NBIS & ELIXIR Sweden -->
-  <a href="https://nbis.se/" target="_blank" rel="noopener noreferrer" 
-  class="block bg-white border border-pp-pale-grey rounded-lg p-6 hover:shadow-lg 
-  hover:border-pp-mid-blue transition-all duration-200 group no-underline">
-    <div class="flex flex-col items-center text-center">
-      <div class="mb-4 flex items-center gap-3">
-        <img class="h-12 w-auto object-contain" 
-        src="{% static 'about/images/partners/nbis_logo.svg' %}" 
-        alt="NBIS Logo" />
-        <img class="h-12 w-auto object-contain" 
-        src="{% static 'about/images/partners/elixir_logo.png' %}" 
-        alt="ELIXIR Sweden Logo" />
-      </div>
-      <h5 class="text-lg font-semibold text-pp-dark-grey mb-2 
-      group-hover:text-pp-mid-blue transition-colors duration-200">
-        NBIS and ELIXIR Sweden
-      </h5>
-      <p class="text-sm text-pp-dark-grey">
-        National Bioinformatics Infrastructure Sweden (NBIS) and ELIXIR Sweden provide 
-        resources, support, and expertise for life science research.
-      </p>
-    </div>
-  </a>
 </div>
 
 {% endblock %}
