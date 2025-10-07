@@ -1,0 +1,202 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ title }} - Swedish Pathogens Portal{% endblock %}
+
+{% block content %}
+<!-- Main Content -->
+<div class="py-8" id="content">
+    <!-- Page Header -->
+    <div class="mb-8">
+        <p>
+            The Data Highlights section showcases recently published datasets relevant to pandemic 
+            preparedness research by researchers affiliated with a Swedish research institute. Specifically, 
+            in our case we write about e.g. COVID-19 and SARS-CoV-2, infectious diseases in general, 
+            and antibiotic resistance. The goal is to highlight openly shared data that can potentially 
+            be used by many other researchers to make further discoveries. 
+            <br>
+            <br>
+            To easily find data highlights relevant to a specific topic, simply click on the coloured tag and 
+            the page will filter and display only the highlights related to that topic. Alternatively, use the search bar to find 
+            highlights of potential interest.
+            <br>
+            <br>
+            If you have published or are about to publish data that you think should be highlighted in this section, 
+            please click the button below to suggest a data highlight and the editorial team will get in touch with 
+            you as soon as possible to discuss your suggestion.
+        </p>
+    </div>
+    
+    <!-- Search Bar -->
+    <div class="mb-8 flex justify-end">
+        <input type="text" 
+               id="searchInput" 
+               class="w-80 px-4 py-2 border border-pp-pale-grey rounded-lg 
+                      focus:ring-2 focus:ring-pp-teal focus:border-pp-teal 
+                      text-pp-dark-grey placeholder-pp-dark-grey bg-white" 
+               placeholder="Search Highlights" 
+               aria-label="Search"
+               data-search-area="highlights_container">
+    </div>
+
+    
+    
+    {% if highlights %}
+        <div id="highlights_container" 
+             class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-3">
+            {% for highlight in highlights %}
+                <div class="data-highlight" 
+                     data-search-text="{{ highlight.title|lower }} 
+                                      {{ highlight.summary|lower }} 
+                                      {% for topic in highlight.topics.all %}
+                                          {{ topic.name|lower }} 
+                                      {% endfor %}">
+                    <div class="bg-highlight">
+                        <!-- Featured Image -->
+                        {% if highlight.featured_image %}
+                            <div aria-hidden="true">
+                                <a href="{% url 'highlights:detail' highlight.slug %}">
+                                    <img class="img-fluid rounded-top" 
+                                         src="{{ highlight.featured_image.url }}" 
+                                         alt="{{ highlight.title }}">
+                                </a>
+                            </div>
+                        {% endif %}
+                        
+                        <!-- Date -->
+                        <div class="mt-2">
+                            <small>{{ highlight.created_at|date:"F j, Y" }}</small>
+                        </div>
+                        
+                        <!-- Title -->
+                        <div>
+                            <h6 class="my-1">
+                                <a class="dark-blue" 
+                                   href="{% url 'highlights:detail' highlight.slug %}">
+                                    {{ highlight.title }}
+                                </a>
+                            </h6>
+                        </div>
+                        
+                        <!-- Summary and Topics -->
+                        <div>
+                            <p class="mb-2">{{ highlight.summary|safe }}</p>
+                            
+                            <!-- Topics -->
+                            {% if highlight.topics.exists %}
+                                <div class="mt-1">
+                                    {% for topic in highlight.topics.all %}
+                                        <span class="topic_badge_small">
+                                            <a href="{% url 'topics:topic_detail' topic.slug %}">
+                                                {{ topic.name }}
+                                            </a>
+                                        </span>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        
+        <!-- No Search Results Message -->
+        <div id="noResults" 
+             class="hidden text-center py-16" 
+             style="display: none;">
+            <div class="max-w-md mx-auto">
+                <div class="w-20 h-20 bg-pp-pale-grey rounded-full 
+                            flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-10 h-10 text-pp-dark-grey" 
+                         fill="none" 
+                         stroke="currentColor" 
+                         viewBox="0 0 24 24">
+                        <path stroke-linecap="round" 
+                              stroke-linejoin="round" 
+                              stroke-width="2" 
+                              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z">
+                        </path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-pp-dark-grey mb-2">
+                    No Results Found
+                </h3>
+                <p class="text-pp-dark-grey">
+                    No highlights match your search criteria. 
+                    Try adjusting your search terms.
+                </p>
+            </div>
+        </div>
+    {% else %}
+        <!-- No Highlights Message -->
+        <div class="text-center py-16">
+            <div class="max-w-md mx-auto">
+                <div class="w-20 h-20 bg-pp-pale-grey rounded-full 
+                            flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-10 h-10 text-pp-dark-grey" 
+                         fill="none" 
+                         stroke="currentColor" 
+                         viewBox="0 0 24 24">
+                        <path stroke-linecap="round" 
+                              stroke-linejoin="round" 
+                              stroke-width="2" 
+                              d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z">
+                        </path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-pp-dark-grey mb-2">
+                    No Highlights Available
+                </h3>
+                <p class="text-pp-dark-grey">
+                    There are currently no data highlights available. 
+                    Please check back later for the latest research findings.
+                </p>
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    const highlightsContainer = document.getElementById('highlights_container');
+    const noResults = document.getElementById('noResults');
+    const highlightCards = document.querySelectorAll('.data-highlight');
+    
+    function performSearch() {
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        let visibleCount = 0;
+        
+        // Filter cards based on search term
+        highlightCards.forEach(card => {
+            const searchText = card.getAttribute('data-search-text') || '';
+            const isVisible = searchTerm === '' || searchText.includes(searchTerm);
+            
+            if (isVisible) {
+                card.style.display = 'block';
+                visibleCount++;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+        
+        // Show/hide no results message
+        if (searchTerm && visibleCount === 0) {
+            noResults.style.display = 'block';
+            highlightsContainer.style.display = 'none';
+        } else {
+            noResults.style.display = 'none';
+            highlightsContainer.style.display = 'grid';
+        }
+    }
+    
+    if (searchInput && highlightsContainer && noResults) {
+        // Initialize the page state
+        performSearch();
+        
+        // Add search functionality
+        searchInput.addEventListener('input', performSearch);
+    }
+});
+</script>
+{% endblock %}

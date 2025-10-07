@@ -22,6 +22,81 @@
     --color-pp-almost-black: #1a1c1a;
 }
 
+/* Custom components for data highlights */
+@layer components {
+    /* Figure floating component for highlight detail pages */
+    .figure-float {
+        @apply float-none md:float-right mx-0 md:mx-2 mb-4 md:mb-0;
+    }
+    
+    .figure-float img {
+        @apply w-96 h-auto rounded border border-pp-pale-grey float-right;
+    }
+    
+    .figure-float figcaption {
+        @apply text-sm text-pp-dark-grey mt-1 italic;
+    }
+    
+    /* Social media sharing buttons */
+    .share-button {
+        @apply inline-flex items-center justify-center w-8 h-8 text-pp-mid-blue hover:text-pp-mid-blue transition-colors duration-200 mr-2;
+    }
+    
+    /* Data highlight card styling */
+    .bg-highlight {
+        @apply h-full px-2.5 py-3 rounded-sm;
+        background-color: #d8d8d8;
+    }
+    
+    .bg-highlight:hover {
+        box-shadow: 0px 0px 3px #55585a;
+    }
+    
+    .bg-highlight img {
+        @apply w-full h-48 object-cover rounded-t-sm;
+    }
+    
+    .bg-highlight h6 {
+        @apply my-1;
+    }
+    
+    .bg-highlight h6 a.dark-blue {
+        @apply text-pp-dark-blue hover:text-pp-teal transition-colors duration-200;
+    }
+    
+    .bg-highlight small {
+        @apply text-pp-dark-grey text-sm;
+    }
+    
+    .bg-highlight p {
+        @apply text-pp-dark-grey text-sm leading-relaxed mb-2;
+    }
+
+    /* Topic badge styling */
+    .topic_badge_small {
+        @apply inline-block text-white bg-pp-dark-blue px-1 py-1 text-xs font-bold leading-none text-center whitespace-nowrap align-baseline rounded transition-all duration-150 ease-in-out mr-1 mb-1;
+    }
+    
+    .topic_badge_small a {
+        @apply text-white hover:text-white transition-all duration-150 ease-in-out;
+    }
+    
+    /* Responsive image utility */
+    .img-fluid {
+        @apply max-w-full h-auto;
+    }
+    
+    /* Rounded top border utility */
+    .rounded-top {
+        @apply rounded-t-sm;
+    }
+    
+    /* Announcement message styling */
+    .announcement {
+        @apply bg-gray-200 border rounded py-2 px-4 my-3 italic;
+    }
+}
+
 /* Site's default element level styling */
 @layer base {
     /* Enables transition between absolute values and derived ones */

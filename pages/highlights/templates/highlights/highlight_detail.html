@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ highlight.title }} - Data Highlights - Swedish Pathogens Portal{% endblock %}
+
+{% block content %}
+<!-- Main Content -->
+<div class="py-8">
+    <!-- Announcement (if present) -->
+    {% if highlight.announcement %}
+        <div class="announcement">
+            {% if highlight.rendered_announcement %}
+                {{ highlight.rendered_announcement|safe }}
+            {% else %}
+                {{ highlight.announcement }}
+            {% endif %}
+        </div>
+    {% endif %}
+    
+    <!-- Title and Publication Date -->
+    <h1 class="text-3xl text-pp-almost-black mb-2">
+        {{ highlight.title }}
+    </h1>
+    <p class="text-pp-dark-grey mb-6">
+        Published: {{ highlight.created_at|date:"F j, Y" }}
+    </p>
+    
+    <!-- Featured Image (floated right on medium+ screens) -->
+    {% if highlight.featured_image %}
+        <figure class="figure-float">
+            <img src="{{ highlight.featured_image.url }}" 
+                 alt="{{ highlight.title }}">
+            {% if highlight.figure_caption %}
+                <figcaption>
+                    {{ highlight.figure_caption }}
+                </figcaption>
+            {% endif %}
+        </figure>
+    {% endif %}
+    
+    <!-- Main Content -->
+    {% if highlight.content %}
+        <div class="prose prose-lg max-w-none text-pp-dark-grey mb-8">
+            {% if highlight.rendered_content %}
+                {{ highlight.rendered_content|safe }}
+            {% else %}
+                {{ highlight.content }}
+            {% endif %}
+        </div>
+    {% endif %}
+    
+    <!-- Topics and Social Media Sharing -->
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
+        <div class="mb-4 md:mb-0">
+            <span class="font-semibold text-pp-dark-blue">Topics: </span>
+            {% for topic in highlight.topics.all %}
+                <span class="topic_badge_small">
+                    <a href="{% url 'topics:topic_detail' topic.slug %}">
+                        {{ topic.name }}
+                    </a>
+                </span>
+            {% empty %}
+                <span class="text-pp-dark-grey italic">
+                    No topics assigned
+                </span>
+            {% endfor %}
+        </div>
+        
+        <div class="flex items-center">
+            <span class="font-semibold text-pp-dark-blue mr-2">Share this: </span>
+            <a target="_blank" 
+               class="share-button" 
+               aria-label="Share highlight on X"
+               href="https://twitter.com/intent/tweet?text=Data%20highlight%20on%20the%20Swedish%20Pathogens%20Portal:%20{{ highlight.title|urlencode }}&url={{ request.build_absolute_uri }}">
+                <svg class="w-4 h-4" 
+                     fill="currentColor" 
+                     viewBox="0 0 24 24">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                </svg>
+            </a>
+            <a target="_blank" 
+               class="share-button" 
+               aria-label="Share highlight on LinkedIn"
+               href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri }}">
+                <svg class="w-4 h-4" 
+                     fill="currentColor" 
+                     viewBox="0 0 24 24">
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                </svg>
+            </a>
+            <a target="_blank" 
+               class="share-button" 
+               aria-label="Share highlight on Facebook"
+               href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}">
+                <svg class="w-4 h-4" 
+                     fill="currentColor" 
+                     viewBox="0 0 24 24">
+                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                </svg>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Related Highlights -->
+    {% if related_highlights %}
+        <div class="border-t border-pp-pale-grey pt-8">
+            <h3 class="text-2xl font-semibold text-pp-dark-blue mb-6">
+                Related highlights & editorials
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {% for related in related_highlights %}
+                    <div class="data-highlight">
+                        <div class="bg-highlight">
+                            <!-- Featured Image -->
+                            {% if related.featured_image %}
+                                <div aria-hidden="true">
+                                    <a href="{% url 'highlights:detail' related.slug %}">
+                                        <img class="img-fluid rounded-top" 
+                                             src="{{ related.featured_image.url }}" 
+                                             alt="{{ related.title }}">
+                                    </a>
+                                </div>
+                            {% endif %}
+                            
+                            <!-- Date -->
+                            <div class="mt-2">
+                                <small>
+                                    {{ related.created_at|date:"F j, Y" }}
+                                </small>
+                            </div>
+                            
+                            <!-- Title -->
+                            <div>
+                                <h6 class="my-1">
+                                    <a class="dark-blue" 
+                                       href="{% url 'highlights:detail' related.slug %}">
+                                        {{ related.title }}
+                                    </a>
+                                </h6>
+                            </div>                               
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+    
+</div>
+{% endblock %}
