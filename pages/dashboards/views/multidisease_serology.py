@@ -7,7 +7,9 @@ from pages.dashboards.utils.blobserver import fetch_excel_first_sheet_as_records
 
 
 KTH_XLSX_URL = "https://blobserver.dc.scilifelab.se/blob/KTH-produced-antigens.xlsx"
-EXTERNAL_XLSX_URL = "https://blobserver.dc.scilifelab.se/blob/External-PLP-proteinlist.xlsx"
+EXTERNAL_XLSX_URL = (
+    "https://blobserver.dc.scilifelab.se/blob/External-PLP-proteinlist.xlsx"
+)
 
 # Explicit column orders for deterministic display
 KTH_HEADERS: List[str] = ["Virus type", "Variant", "Protein", "Details", "Host"]
@@ -26,7 +28,9 @@ class MultiDiseaseSerology(BaseTemplateView):
     template_name = "dashboards/multidisease_serology.html"
     title = "Multi-disease serology"
 
-    def _normalise_records_to_rows(self, records: List[Dict[str, Any]], headers: List[str]) -> List[List[Any]]:
+    def _normalise_records_to_rows(
+        self, records: List[Dict[str, Any]], headers: List[str]
+    ) -> List[List[Any]]:
         """
         Convert a list of record dicts into a list of row lists aligned to the provided headers.
         Missing keys become empty strings to keep rendering safe and consistent.
@@ -54,7 +58,9 @@ class MultiDiseaseSerology(BaseTemplateView):
             external_records = fetch_excel_first_sheet_as_records(EXTERNAL_XLSX_URL)
         except Exception:
             external_records = []
-        external_rows_aligned = self._normalise_records_to_rows(external_records, EXTERNAL_HEADERS)
+        external_rows_aligned = self._normalise_records_to_rows(
+            external_records, EXTERNAL_HEADERS
+        )
 
         context.update(
             {

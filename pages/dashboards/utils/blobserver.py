@@ -11,7 +11,9 @@ DEFAULT_TIMEOUT = httpx.Timeout(10.0, connect=5.0)
 DEFAULT_HEADERS = {"User-Agent": "pathogens-portal/multidisease-serology"}
 
 
-def get_with_retries(url: str, retries: int = 3, timeout: Optional[httpx.Timeout] = None) -> httpx.Response:
+def get_with_retries(
+    url: str, retries: int = 3, timeout: Optional[httpx.Timeout] = None
+) -> httpx.Response:
     """
     Fetch a URL with a small number of retries and a sane timeout.
     Raises an exception if all attempts fail.
@@ -26,10 +28,14 @@ def get_with_retries(url: str, retries: int = 3, timeout: Optional[httpx.Timeout
                 return response
         except Exception as exc:
             last_error = exc
-    raise RuntimeError(f"Failed to fetch URL after {retries} attempts: {url!r}") from last_error
+    raise RuntimeError(
+        f"Failed to fetch URL after {retries} attempts: {url!r}"
+    ) from last_error
 
 
-def fetch_excel_first_sheet_as_records(url: str, retries: int = 3) -> List[Dict[str, Any]]:
+def fetch_excel_first_sheet_as_records(
+    url: str, retries: int = 3
+) -> List[Dict[str, Any]]:
     """
     Download an Excel file and return the first sheet as a list of dict records.
     - Header row is the first row of the sheet.
@@ -37,7 +43,9 @@ def fetch_excel_first_sheet_as_records(url: str, retries: int = 3) -> List[Dict[
     - Empty rows are skipped.
     """
     response = get_with_retries(url, retries=retries)
-    workbook = load_workbook(io.BytesIO(response.content), read_only=True, data_only=True)
+    workbook = load_workbook(
+        io.BytesIO(response.content), read_only=True, data_only=True
+    )
     worksheet = workbook[workbook.sheetnames[0]]
 
     row_iterator = worksheet.iter_rows(values_only=True)
@@ -70,5 +78,3 @@ def fetch_excel_first_sheet_as_records(url: str, retries: int = 3) -> List[Dict[
             records.append({key: record.get(key, "") for key in normalised_headers})
 
     return records
-
-
