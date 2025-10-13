@@ -49,7 +49,6 @@ class DataHighlight(models.Model):
     slug = models.SlugField(
         max_length=255,
         unique=True,
-        blank=True,
         help_text="URL-friendly version of the title (auto-generated from title)"
     )
     
