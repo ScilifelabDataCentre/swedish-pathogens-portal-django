@@ -1,34 +1,36 @@
-from django.views.generic import ListView, DetailView
+from utils.views import BaseListView, BaseDetailView
 from .models import News
 
 
-class NewsListView(ListView):
+class NewsIndex(BaseListView):
+    """Display a list of all active news.
+
+    List all active news, sorted by creation date.
+
+    Attributes:
+        model: News model to display.
+        template_name: Template for rendering the list.
+        context_object_name: Name for news in template context.
+        title: Page title displayed in template.
+    """
+
     model = News
-    template_name = 'news/list.html'
-    context_object_name = 'news_list'
-    paginate_by = 10
-    
-    def get_queryset(self):
-        return News.objects.filter(isactive=True)
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'News | Swedish Pathogens Portal'
-        return context
+    template_name = "news/index.html"
+    context_object_name = "news_list"
+    title = "News and Updates"
 
 
-class NewsDetailView(DetailView):
+class NewsDetail(BaseDetailView):
+    """Display detailed information about a specific news.
+
+    Shows the full news content, uses slug-based URL lookup.
+
+    Attributes:
+        model: News model to display.
+        template_name: Template for rendering the detail view.
+        context_object_name: Name for news in template context.
+    """
+
     model = News
-    template_name = 'news/detail.html'
-    context_object_name = 'news'
-    slug_field = 'slug'
-    slug_url_kwarg = 'slug'
-    
-    def get_queryset(self):
-        return News.objects.filter(isactive=True)
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        news = self.get_object()
-        context['title'] = f'{news.title} | Swedish Pathogens Portal'
-        return context
+    template_name = "news/detail.html"
+    context_object_name = "news"

@@ -23,14 +23,13 @@ from django.conf.urls.static import static
 urlpatterns = [
     path(settings.ADMIN_URL, admin.site.urls, name="admin"),
     path("", include("pages.home.urls")),
+    path("citation/", include("pages.citation.urls")),
+    path("dashboards/", include("pages.dashboards.urls")),
+    path("data-management/", include("pages.data_management.urls")),
     path("news/", include("pages.news.urls")),
     path("privacy/", include("pages.privacy.urls")),
     path("topics/", include("pages.topics.urls")),
 ]
-
-# Serve media files in development
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # Auto browser reload addition for local development
 if settings.DEBUG:
