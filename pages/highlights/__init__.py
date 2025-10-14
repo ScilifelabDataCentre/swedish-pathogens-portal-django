@@ -1,0 +1,1 @@
+"""Highlights app package."""
