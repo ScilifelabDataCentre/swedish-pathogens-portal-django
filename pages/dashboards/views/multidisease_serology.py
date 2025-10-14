@@ -8,6 +8,7 @@ exposing normalised table data to the template.
 from __future__ import annotations
 
 from typing import Any, Dict, List
+import logging
 
 from utils.views import BaseTemplateView
 from pages.dashboards.utils.blobserver import fetch_excel_first_sheet_as_records
@@ -21,6 +22,8 @@ EXTERNAL_XLSX_URL = (
 # Explicit column orders for deterministic display
 KTH_HEADERS: List[str] = ["Virus type", "Variant", "Protein", "Details", "Host"]
 EXTERNAL_HEADERS: List[str] = ["Pathogen", "Variant", "Protein", "Details", "Host"]
+
+logger = logging.getLogger(__name__)
 
 
 class MultiDiseaseSerology(BaseTemplateView):
@@ -71,20 +74,41 @@ class MultiDiseaseSerology(BaseTemplateView):
 
         # KTH-produced antigens (server-side parsed)
         try:
-            kth_records = fetch_excel_first_sheet_as_records(KTH_XLSX_URL)
+            logger.info("serology_fetch_start", extra={"source": "kth", "url": KTH_XLSX_URL})
+            kth_records = fetch_excel_first_sheet_as_records(
+                KTH_XLSX_URL,
+                user_agent="pathogens-portal/multidisease-serology",
+            )
+            logger.info("serology_fetch_success", extra={"source": "kth", "records": len(kth_records)})
         except Exception:
+            logger.exception("serology_fetch_failed", extra={"source": "kth", "url": KTH_XLSX_URL})
             kth_records = []
         kth_rows_aligned = self._normalise_records_to_rows(kth_records, KTH_HEADERS)
 
         # Externally produced antigens (server-side parsed)
         try:
-            external_records = fetch_excel_first_sheet_as_records(EXTERNAL_XLSX_URL)
+            logger.info("serology_fetch_start", extra={"source": "external", "url": EXTERNAL_XLSX_URL})
+            external_records = fetch_excel_first_sheet_as_records(
+                EXTERNAL_XLSX_URL,
+                user_agent="pathogens-portal/multidisease-serology",
+            )
+            logger.info("serology_fetch_success", extra={"source": "external", "records": len(external_records)})
         except Exception:
+            logger.exception("serology_fetch_failed", extra={"source": "external", "url": EXTERNAL_XLSX_URL})
             external_records = []
         external_rows_aligned = self._normalise_records_to_rows(
             external_records, EXTERNAL_HEADERS
         )
 
+        logger.debug(
+            "serology_context_built",
+            extra={
+                "kth_rows": len(kth_rows_aligned),
+                "external_rows": len(external_rows_aligned),
+                "kth_headers": len(KTH_HEADERS),
+                "external_headers": len(EXTERNAL_HEADERS),
+            },
+        )
         context.update(
             {
                 "kth_headers": KTH_HEADERS,
