@@ -1,3 +1,10 @@
+"""Utilities for fetching and parsing serology data from blobserver.
+
+This module provides small helpers to fetch remote Excel files with retry
+logic and parse the first worksheet into a list of dictionary records that can
+be consumed by Django views and templates.
+"""
+
 from __future__ import annotations
 
 import io
@@ -14,9 +21,25 @@ DEFAULT_HEADERS = {"User-Agent": "pathogens-portal/multidisease-serology"}
 def get_with_retries(
     url: str, retries: int = 3, timeout: Optional[httpx.Timeout] = None
 ) -> httpx.Response:
-    """
-    Fetch a URL with a small number of retries and a sane timeout.
-    Raises an exception if all attempts fail.
+    """GET a URL with retry and timeout policy.
+
+    Args:
+        url: Absolute URL to fetch.
+        retries: Number of attempts before failing.
+        timeout: Optional custom timeout. If not provided, a sensible default
+            with separate connect timeout is used.
+        headers: Optional HTTP headers to include in the request. These
+            headers will override defaults if keys overlap.
+        user_agent: Optional User-Agent string. If provided, it overrides the
+            default; if ``headers`` also contains ``User-Agent``, that takes
+            precedence over this argument.
+
+    Returns:
+        httpx.Response: Successful response object with a 2xx status.
+
+    Raises:
+        RuntimeError: If all retry attempts fail. The original exception from
+            the last attempt is chained for debugging context.
     """
     timeout = timeout or DEFAULT_TIMEOUT
     last_error: Optional[Exception] = None
@@ -36,11 +59,22 @@ def get_with_retries(
 def fetch_excel_first_sheet_as_records(
     url: str, retries: int = 3
 ) -> List[Dict[str, Any]]:
-    """
-    Download an Excel file and return the first sheet as a list of dict records.
-    - Header row is the first row of the sheet.
-    - Empty headers are ignored.
-    - Empty rows are skipped.
+    """Parse the first worksheet of an Excel file into record dictionaries.
+
+    The first row is treated as the header row. Blank header cells are ignored,
+    and completely empty data rows are skipped. Values are normalised so that
+    missing cells become empty strings.
+
+    Args:
+        url: Absolute URL of the Excel file to download.
+        retries: Number of fetch attempts before failing.
+        headers: Optional HTTP headers forwarded to the download request.
+        user_agent: Optional User-Agent string to use for the request when
+            ``headers`` does not already define one.
+
+    Returns:
+        List[Dict[str, Any]]: One dictionary per non-empty row, limited to the
+        non-blank headers in the first row.
     """
     response = get_with_retries(url, retries=retries)
     workbook = load_workbook(

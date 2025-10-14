@@ -1,3 +1,10 @@
+"""Views for the multi-disease serology dashboard.
+
+This module defines the `MultiDiseaseSerology` view which renders a dashboard
+by fetching two Excel files from blobserver, parsing them server-side, and
+exposing normalised table data to the template.
+"""
+
 from __future__ import annotations
 
 from typing import Any, Dict, List
@@ -31,9 +38,16 @@ class MultiDiseaseSerology(BaseTemplateView):
     def _normalise_records_to_rows(
         self, records: List[Dict[str, Any]], headers: List[str]
     ) -> List[List[Any]]:
-        """
-        Convert a list of record dicts into a list of row lists aligned to the provided headers.
-        Missing keys become empty strings to keep rendering safe and consistent.
+        """Normalise dict records into deterministic row lists.
+
+        Args:
+            records: List of dictionary records parsed from Excel.
+            headers: Column headers that define the order of values in each row.
+
+        Returns:
+            List[List[Any]]: Rows where each row is ordered according to
+            ``headers``. Missing keys are represented as empty strings to keep
+            the rendering safe and consistent.
         """
         normalised_rows: List[List[Any]] = []
         for record in records:
@@ -44,6 +58,15 @@ class MultiDiseaseSerology(BaseTemplateView):
         return normalised_rows
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        """Build template context with normalised serology tables.
+
+        Args:
+            **kwargs: Standard Django context keyword arguments.
+
+        Returns:
+            Dict[str, Any]: Context including headers and row data for the
+            KTH-produced and externally produced antigens tables.
+        """
         context = super().get_context_data(**kwargs)
 
         # KTH-produced antigens (server-side parsed)
