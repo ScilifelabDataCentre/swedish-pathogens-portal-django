@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 """Contact form definitions and anti-spam validation.
 
 This module defines the `ContactForm` used by the contact page. It includes
@@ -9,6 +7,8 @@ double-submit cookie) and content validation.
 The form accepts `request` in its constructor to access cookies for the
 double-submit verification.
 """
+
+from __future__ import annotations
 
 import re
 import time

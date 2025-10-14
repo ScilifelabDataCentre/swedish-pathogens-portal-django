@@ -1,11 +1,11 @@
-from __future__ import annotations
-
 """Views for the contact page.
 
 This module contains a `FormView`-based implementation that issues anti-spam
 tokens on GET and validates user input on POST before sending an email via
 Django's email backend.
 """
+
+from __future__ import annotations
 
 import logging
 import os

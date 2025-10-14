@@ -1,10 +1,10 @@
-from __future__ import annotations
-
 """Tests for the contact form and view.
 
 Covers anti-spam (honeypot, timing, token), validation, and email sending.
 Uses Django's locmem email backend for assertions.
 """
+
+from __future__ import annotations
 
 import re
 import time
