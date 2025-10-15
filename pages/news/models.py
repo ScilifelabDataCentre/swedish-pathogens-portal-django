@@ -8,7 +8,7 @@ class News(models.Model):
     """News model for adding portal updates.
 
     Represents news items that can be updates, announcements, etc.
-    Each news can conntain the following information
+    Each news can contain the following information
 
     Attributes:
         title (str): Display name of the News (max 200 chars, unique).
@@ -66,13 +66,8 @@ class News(models.Model):
     def save(self, *args, **kwargs):
         """Save the news, auto-generating slug if not provided."""
         if not self.slug:
-            self.slug = slugify(self.name)
+            self.slug = slugify(self.title)
         super().save(*args, **kwargs)
-
-    @property
-    def display_image(self):
-        """Return the URL of the image."""
-        return self.image.url
 
     @property
     def rendered_content(self):

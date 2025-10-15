@@ -12,7 +12,7 @@ class NewsAdmin(admin.ModelAdmin):
     Features:
         - List display with title, slug, status, and creation date
         - Filtering by active status and creation date
-        - Search by name and summary
+        - Search by title and summary
         - Auto-populated slug field from title
         - Organized fieldsets for better UX
     """
