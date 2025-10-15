@@ -24,6 +24,7 @@ prod = [
     "gunicorn>=22.0.0",
     "psycopg[c]>=3.2.9",
     "wait-for-it>=2.3.0",
+    "whitenoise>=6.11.0",
 ]
 extensions = [
     {include-group = "dev"},

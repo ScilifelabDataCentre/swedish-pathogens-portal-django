@@ -19,6 +19,7 @@ wait-for-it --service ${POSTGRES_HOST}:${POSTGRES_PORT} -t 60
 
 # Prepare database and static files
 python manage.py migrate --settings core.settings.production --noinput
+python manage.py collectstatic --settings core.settings.production --noinput
 
 # If first arg looks like a flag, assume we want to run gunicorn
 if [ "${1:-}" = "" ] || [ "${1#-}" != "$1" ]; then

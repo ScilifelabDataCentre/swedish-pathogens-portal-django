@@ -1,5 +1,5 @@
 version = 1
-revision = 2
+revision = 3
 requires-python = ">=3.13"
 
 [[package]]
@@ -318,6 +318,7 @@ prod = [
     { name = "gunicorn" },
     { name = "psycopg", extra = ["c"] },
     { name = "wait-for-it" },
+    { name = "whitenoise" },
 ]
 
 [package.metadata]
@@ -350,6 +351,7 @@ prod = [
     { name = "gunicorn", specifier = ">=22.0.0" },
     { name = "psycopg", extras = ["c"], specifier = ">=3.2.9" },
     { name = "wait-for-it", specifier = ">=2.3.0" },
+    { name = "whitenoise", specifier = ">=6.11.0" },
 ]
 
 [[package]]
@@ -409,4 +411,13 @@ wheels = [
 [package.optional-dependencies]
 watchdog = [
     { name = "watchdog" },
+]
+
+[[package]]
+name = "whitenoise"
+version = "6.11.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/15/95/8c81ec6b6ebcbf8aca2de7603070ccf37dbb873b03f20708e0f7c1664bc6/whitenoise-6.11.0.tar.gz", hash = "sha256:0f5bfce6061ae6611cd9396a8231e088722e4fc67bc13a111be74c738d99375f", size = 26432, upload-time = "2025-09-18T09:16:10.995Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/6c/e9/4366332f9295fe0647d7d3251ce18f5615fbcb12d02c79a26f8dba9221b3/whitenoise-6.11.0-py3-none-any.whl", hash = "sha256:b2aeb45950597236f53b5342b3121c5de69c8da0109362aee506ce88e022d258", size = 20197, upload-time = "2025-09-18T09:16:09.754Z" },
 ]

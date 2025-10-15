@@ -16,6 +16,15 @@ ADMIN_URL = env("ADMIN_URL").rstrip("/") + "/"
 # ADMINS = [(Full name, email address)]
 # MANAGERS = ADMINS
 
+# PRODUCTION STATIC FILE SETTINGS
+# ------------------------------------------------------------------------------
+MIDDLEWARE.insert(1, "whitenoise.middleware.WhiteNoiseMiddleware")  # noqa: F405
+STORAGES = {
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
+
 # SECURITY
 # ------------------------------------------------------------------------------
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=[])
