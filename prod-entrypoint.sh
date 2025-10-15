@@ -14,11 +14,11 @@ set -eu
 # Export database URL environment variable
 export DATABASE_URL="postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}"
 
-# REVIEW: Database connection in production
-wait-for-it "${POSTGRES_HOST}:${POSTGRES_PORT}" -t 30
+# Wait if database connection is not up yet
+wait-for-it --service ${POSTGRES_HOST}:${POSTGRES_PORT} -t 60
 
 # Prepare database and static files
-python manage.py migrate --noinput
+python manage.py migrate --settings core.settings.production --noinput
 
 # If first arg looks like a flag, assume we want to run gunicorn
 if [ "${1:-}" = "" ] || [ "${1#-}" != "$1" ]; then
@@ -33,8 +33,3 @@ if [ "${1:-}" = "" ] || [ "${1#-}" != "$1" ]; then
 fi
 
 exec "$@"
-
-
-
-
-
