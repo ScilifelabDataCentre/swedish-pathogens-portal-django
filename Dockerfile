@@ -151,8 +151,8 @@ RUN apt-get update --quiet --assume-yes \
  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Create non-root group and user `app`
-RUN groupadd --system app \
- && useradd --system --no-user-group --home-dir /app --gid app app
+RUN groupadd --system --gid 800 app \
+ && useradd --system --no-user-group --home-dir /app --uid 800 --gid 800 app
 
 # Working directory
 WORKDIR /app
