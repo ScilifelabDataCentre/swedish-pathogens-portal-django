@@ -163,9 +163,7 @@ class Contact(FormView):
     def form_invalid(self, form: ContactForm) -> HttpResponse:
         """Log a reason code without personal information and re-render the form."""
         reason = getattr(form, "_blocked_reason", None) or "VALIDATION_ERROR"
-        self.logger.warning(
-            "event=contact_submit outcome=blocked reason=%s", reason
-        )
+        self.logger.warning("event=contact_submit outcome=blocked reason=%s", reason)
         # Re-issue tokens and cookie so user can retry without reload
         signed_ts, dsc_token = self._generate_tokens()
         # Update both initial and bound data so rendered hidden inputs match the new cookie

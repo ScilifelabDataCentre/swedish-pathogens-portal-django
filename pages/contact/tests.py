@@ -20,6 +20,7 @@ from unittest.mock import patch
 )
 class ContactFormTests(TestCase):
     """Integration tests for the contact view and form."""
+
     def setUp(self) -> None:
         """Initialise test client for each test."""
         self.client = Client()
