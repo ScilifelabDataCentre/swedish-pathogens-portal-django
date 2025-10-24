@@ -89,25 +89,6 @@ class ContactForm(forms.Form):
 			raise ValidationError("Enter a valid email address.")
 		return value
 
-	def clean_message(self) -> str:
-		"""Validate message content against HTML and URL constraints.
-
-		Returns:
-			The validated message content.
-
-		Raises:
-			ValidationError: If HTML-like tags are present or URL count exceeds
-			    the allowed threshold.
-		"""
-		value = self.cleaned_data.get("message", "")
-		# Reject HTML-like content
-		if "<" in value or ">" in value:
-			raise ValidationError("Please remove HTML tags.")
-		# Cap URLs
-		url_count = len(URL_REGEX.findall(value))
-		if url_count > MAX_URLS_ALLOWED:
-			raise ValidationError("Too many links in the message.")
-		return value
 
 	def clean(self) -> dict[str, Any]:
 		"""Form-level validation for category, timing, and token checks.
@@ -179,3 +160,22 @@ class ContactForm(forms.Form):
 			)
 
 		return cleaned
+    def clean_message(self) -> str:
+        """Validate message content against HTML and URL constraints.
+
+        Returns:
+            The validated message content.
+
+        Raises:
+            ValidationError: If HTML-like tags are present or URL count exceeds
+                the allowed threshold.
+        """
+        value = self.cleaned_data.get("message", "")
+        # Reject HTML-like tags
+        if re.search(r"</?[A-Za-z][^>]*>", value):
+            raise ValidationError("Please remove HTML tags.")
+        # Cap URLs
+        url_count = len(URL_REGEX.findall(value))
+        if url_count > MAX_URLS_ALLOWED:
+            raise ValidationError("Too many links in the message.")
+        return value
