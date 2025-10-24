@@ -152,6 +152,7 @@ class Contact(FormView):
                 exc_info=True,
             )
             # Re-render the form with a generic error
+            form._blocked_reason = "EMAIL_SEND_ERROR"
             form.add_error(
                 None, "We couldn't submit the form. Please try again in a moment."
             )
