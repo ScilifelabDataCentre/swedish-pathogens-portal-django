@@ -151,6 +151,7 @@ class ContactFormTests(TestCase):
             "name": "Alice",
             "email": "alice@example.org",
             "message": "Valid message body that is long enough.",
+            "suggestion": "on",
             "website": "",
             "contact_ts": ts,
             "contact_dsc": "wrong",
@@ -158,6 +159,8 @@ class ContactFormTests(TestCase):
         resp2 = self.client.post(url, data=post)
         self.assertEqual(resp2.status_code, 200)
         self.assertEqual(len(mail.outbox), 0)
+        # Category hint should not appear for non-category errors
+        self.assertNotIn(b"Please select at least one alternative.", resp2.content)
 
     def test_html_rejected_and_url_cap(self):
         """HTML content or too many URLs should be rejected."""
@@ -241,3 +244,42 @@ class ContactFormTests(TestCase):
         resp2 = self.client.post(url, data=post)
         self.assertEqual(resp2.status_code, 200)
         self.assertEqual(len(mail.outbox), 0)
+
+    def test_resubmission_after_error_works_without_reload(self):
+        """After validation error, new tokens/cookie allow retry without page reload."""
+        url = reverse("contact:contact")
+        # Initial GET
+        resp = self.client.get(url)
+        ts1, dsc1 = self._get_tokens_from_response(resp)
+        # Trigger a validation error (e.g., message too short)
+        post_invalid = {
+            "name": "Alice",
+            "email": "alice@example.org",
+            "message": "short",
+            "suggestion": "on",
+            "website": "",
+            "contact_ts": ts1,
+            "contact_dsc": dsc1,
+        }
+        resp_invalid = self.client.post(url, data=post_invalid)
+        self.assertEqual(resp_invalid.status_code, 200)
+        # Extract refreshed tokens from the error page
+        ts2, dsc2 = self._get_tokens_from_response(resp_invalid)
+        # Cookie must match hidden token
+        cookie_dsc = self.client.cookies.get("contact_dsc").value
+        self.assertEqual(dsc2, cookie_dsc)
+        # Wait to satisfy min timing before retry
+        time.sleep(2)
+        # Retry with corrected message and refreshed tokens
+        post_valid = {
+            "name": "Alice",
+            "email": "alice@example.org",
+            "message": "This is a valid message body that is long enough.",
+            "suggestion": "on",
+            "website": "",
+            "contact_ts": ts2,
+            "contact_dsc": dsc2,
+        }
+        resp_valid = self.client.post(url, data=post_valid, follow=True)
+        self.assertEqual(resp_valid.status_code, 200)
+        self.assertEqual(len(mail.outbox), 1)
