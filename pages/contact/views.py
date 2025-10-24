@@ -149,6 +149,7 @@ class Contact(FormView):
             self.logger.error(
                 "event=contact_submit outcome=error reason=EMAIL_SEND_ERROR duration_ms=%s",
                 duration_ms,
+                exc_info=True,
             )
             # Re-render the form with a generic error
             form.add_error(
@@ -165,4 +166,31 @@ class Contact(FormView):
         self.logger.warning(
             "event=contact_submit outcome=blocked reason=%s", reason
         )
-        return super().form_invalid(form)
+        # Re-issue tokens and cookie so user can retry without reload
+        signed_ts, dsc_token = self._generate_tokens()
+        # Update both initial and bound data so rendered hidden inputs match the new cookie
+        form.fields["contact_ts"].initial = signed_ts
+        form.fields["contact_dsc"].initial = dsc_token
+        try:
+            data = form.data.copy()
+            data["contact_ts"] = signed_ts
+            data["contact_dsc"] = dsc_token
+            form.data = data
+        except Exception:  # noqa: BLE001
+            # If form.data is not a QueryDict (unlikely), continue with initial values only
+            pass
+        response = super().form_invalid(form)
+        secure_flag = (
+            self.request.is_secure()
+            if hasattr(self.request, "is_secure")
+            else getattr(settings, "SESSION_COOKIE_SECURE", False)
+        )
+        response.set_cookie(
+            key="contact_dsc",
+            value=dsc_token,
+            max_age=30 * 60,
+            httponly=True,
+            secure=secure_flag,
+            samesite=getattr(settings, "SESSION_COOKIE_SAMESITE", "Lax"),
+        )
+        return response
