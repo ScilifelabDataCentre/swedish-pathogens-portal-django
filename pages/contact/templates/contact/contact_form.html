@@ -80,9 +80,11 @@
           <span>Other</span>
         </label>
       </div>
-      {% if form.non_field_errors %}
-        <p class="mt-1 text-sm text-red-600">Please select at least one alternative.</p>
-      {% endif %}
+      {% for err in form.non_field_errors %}
+        {% if "Please select at least one option." in err %}
+          <p class="mt-1 text-sm text-red-600">Please select at least one alternative.</p>
+        {% endif %}
+      {% endfor %}
       <p class="mt-1 text-sm text-gray-500">You can ask a question or suggest one or more items using this form.</p>
     </div>
 
