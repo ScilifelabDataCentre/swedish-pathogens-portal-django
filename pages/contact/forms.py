@@ -23,7 +23,6 @@ URL_REGEX = re.compile(r"(https?://|www\.)", re.IGNORECASE)
 
 # Validation and anti-spam constants
 MIN_SUBMIT_SECONDS = 2
-MAX_TOKEN_AGE_SECONDS = 60 * 60
 MAX_URLS_ALLOWED = 3
 
 
@@ -116,24 +115,6 @@ class ContactForm(forms.Form):
 				"We couldn't submit the form. Please try again in a moment."
 			)
 
-		# Timing token
-		ts_token = cleaned.get("contact_ts") or ""
-		try:
-			# Accept TimestampSigner style token or JSON payload signed via dumps
-			try:
-				signer = signing.TimestampSigner(salt="contact-ts")
-				ts_str = signer.unsign(ts_token, max_age=MAX_TOKEN_AGE_SECONDS)
-				ts = int(ts_str)
-			except signing.BadSignature:
-				payload = signing.loads(
-					ts_token, salt="contact-ts", max_age=MAX_TOKEN_AGE_SECONDS
-				)
-				ts = int(payload.get("ts", 0))
-		except signing.SignatureExpired:
-			self._blocked_reason = "TOKEN_EXPIRED"
-			raise ValidationError(
-				"We couldn't submit the form. Please try again in a moment."
-			)
 		except signing.BadSignature:
 			self._blocked_reason = "TOKEN_BAD_SIGNATURE"
 			raise ValidationError(
@@ -179,3 +160,19 @@ class ContactForm(forms.Form):
         if url_count > MAX_URLS_ALLOWED:
             raise ValidationError("Too many links in the message.")
         return value
+        # Timing token
+        ts_token = cleaned.get("contact_ts") or ""
+        try:
+            # Accept TimestampSigner style token or JSON payload signed via dumps
+            try:
+                signer = signing.TimestampSigner(salt="contact-ts")
+                ts_str = signer.unsign(ts_token)
+                ts = int(ts_str)
+            except signing.BadSignature:
+                payload = signing.loads(ts_token, salt="contact-ts")
+                ts = int(payload.get("ts", 0))
+        except signing.BadSignature:
+            self._blocked_reason = "TOKEN_BAD_SIGNATURE"
+            raise ValidationError(
+                "We couldn't submit the form. Please try again in a moment."
+            )
