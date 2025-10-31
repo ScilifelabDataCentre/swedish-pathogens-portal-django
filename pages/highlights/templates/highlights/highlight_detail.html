@@ -7,11 +7,7 @@
     <!-- Announcement (if present) -->
     {% if highlight.announcement %}
         <div class="announcement">
-            {% if highlight.rendered_announcement %}
-                {{ highlight.rendered_announcement|safe }}
-            {% else %}
-                {{ highlight.announcement }}
-            {% endif %}
+            {{ highlight.rendered_announcement|safe }}
         </div>
     {% endif %}
     
@@ -21,20 +17,21 @@
     </h1>
     <p class="text-pp-dark-grey mb-6">
         Published: {{ highlight.created_at|date:"F j, Y" }}
+        {% if highlight.type == "editorial" and highlight.author %}
+            | Written by: {{ highlight.author }}
+        {% endif %}
     </p>
     
     <!-- Featured Image (floated right on medium+ screens) -->
-    {% if highlight.featured_image %}
-        <figure class="figure-float">
-            <img src="{{ highlight.featured_image.url }}" 
-                 alt="{{ highlight.title }}">
-            {% if highlight.figure_caption %}
-                <figcaption>
-                    {{ highlight.figure_caption }}
-                </figcaption>
-            {% endif %}
-        </figure>
-    {% endif %}
+    <figure class="figure-float">
+        <img src="{{ highlight.featured_image.url }}" 
+             alt="{{ highlight.title }}">
+        {% if highlight.figure_caption %}
+            <figcaption>
+                {{ highlight.figure_caption }}
+            </figcaption>
+        {% endif %}
+    </figure>
     
     <!-- Main Content -->
     <div class="prose prose-lg max-w-none text-pp-dark-grey mb-8">
