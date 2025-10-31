@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 from django.utils.text import slugify
 from django.utils.safestring import mark_safe
 from typing import List
@@ -14,17 +15,19 @@ class DataHighlight(models.Model):
     with multiple topics for better content organization and discovery.
 
     Attributes:
+        type (str): Content type - either "Editorial" or "Data Highlight".
         title (str): Display title of the highlight (max 255 chars, unique).
         slug (str): URL-friendly version of title (auto-generated from title).
         summary (str): Brief summary displayed in highlight cards.
         content (str): Full markdown content displayed on detail pages.
         announcement (str, optional): Prominent announcement message for highlights.
         tags (str, optional): Comma-separated tags for content matching and search.
+        author (str, optional): Author name or names for the highlight.
         featured_image (ImageField): Primary image displayed with the highlight.
         figure_caption (str, optional): Descriptive caption for the featured image.
         topics (ManyToMany, optional): Research topics associated with this highlight.
         is_active (bool): Whether highlight is visible to users (default: True).
-        created_at (datetime): Timestamp when highlight was created.
+        created_at (datetime): Timestamp when highlight was created (editable in admin).
         updated_at (datetime): Timestamp when highlight was last modified.
 
     Example:
@@ -33,6 +36,7 @@ class DataHighlight(models.Model):
         .. code-block:: python
 
             highlight = DataHighlight.objects.create(
+                type="Data Highlight",
                 title="Novel Pathogen Discovery in Swedish Waters",
                 summary="Researchers discovered a new bacterial species...",
                 content="# Research Findings\n\nDetailed findings...",
@@ -40,7 +44,19 @@ class DataHighlight(models.Model):
             )
             # slug automatically generated as "novel-pathogen-discovery-in-swedish-waters"
     """
+    # Content type choices
+    CONTENT_TYPE_CHOICES = [
+        ("data_highlight", "Data Highlight"),
+        ("editorial", "Editorial"),
+    ]
+    
     # Required fields
+    type = models.CharField(
+        max_length=50,
+        choices=CONTENT_TYPE_CHOICES,
+        default="data_highlight",
+        help_text="Type of content: Data Highlight or Editorial"
+    )
     title = models.CharField(
         max_length=255,
         unique=True,
@@ -67,6 +83,11 @@ class DataHighlight(models.Model):
         blank=True,
         help_text="Comma-separated tags for related content matching and search"
     )
+    author = models.CharField(
+        max_length=255,
+        blank=True,
+        help_text="Author name or names for the highlight (optional)"
+    )
     
     # Media fields
     featured_image = models.ImageField(
@@ -92,7 +113,10 @@ class DataHighlight(models.Model):
     )
     
     # Timestamps
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(
+        default=timezone.now,
+        help_text="Creation date (defaults to current date if not provided)"
+    )
     updated_at = models.DateTimeField(auto_now=True)
     
     class Meta:

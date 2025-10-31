@@ -19,17 +19,17 @@ class DataHighlightAdmin(admin.ModelAdmin):
         - Bulk actions for activating/deactivating highlights
         - Organized fieldsets for better UX
     """
-    list_display = ["title", "slug", "is_active", "created_at", "updated_at"]
-    list_filter = ["is_active", "created_at", "updated_at", "topics"]
-    search_fields = ["title", "summary", "content", "announcement", "tags"]
+    list_display = ["title", "type", "slug", "is_active", "created_at", "updated_at"]
+    list_filter = ["is_active", "type", "created_at", "updated_at", "topics"]
+    search_fields = ["title", "summary", "content", "announcement", "tags", "author"]
     prepopulated_fields = {"slug": ("title",)}
-    readonly_fields = ["created_at", "updated_at"]
+    readonly_fields = ["updated_at"]
     filter_horizontal = ["topics"]
     actions = ["activate_highlights", "deactivate_highlights"]
     
     fieldsets = (
         ("Basic Information", {
-            "fields": ("title", "slug", "summary")
+            "fields": ("type", "title", "slug", "summary", "author")
         }),
         ("Content", {
             "fields": ("content", "announcement")
