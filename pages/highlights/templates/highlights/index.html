@@ -51,7 +51,12 @@
                                       {% for topic in highlight.topics.all %}
                                           {{ topic.name|lower }} 
                                       {% endfor %}">
-                    <div class="bg-highlight">
+                    <div class="bg-highlight relative">
+                        <!-- Content Type Badge -->
+                        <div class="content-type-badge {% if highlight.type == 'editorial' %}badge-editorial{% else %}badge-data-highlight{% endif %}">
+                            {{ highlight.get_type_display }}
+                        </div>
+                        
                         <!-- Featured Image -->
                         {% if highlight.featured_image %}
                             <div aria-hidden="true">

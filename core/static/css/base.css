@@ -75,6 +75,19 @@
     .bg-highlight p {
         @apply text-pp-dark-grey text-sm leading-relaxed mb-2;
     }
+    
+    /* Content type badge styling */
+    .content-type-badge {
+        @apply absolute top-2 right-2 px-2 py-1 text-xs font-semibold rounded shadow-sm z-10;
+    }
+    
+    .badge-data-highlight {
+        @apply bg-pp-teal text-white;
+    }
+    
+    .badge-editorial {
+        @apply bg-pp-dark-blue text-white;
+    }
 
     /* Topic badge styling */
     .topic_badge_small {
