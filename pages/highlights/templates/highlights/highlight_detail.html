@@ -37,15 +37,9 @@
     {% endif %}
     
     <!-- Main Content -->
-    {% if highlight.content %}
-        <div class="prose prose-lg max-w-none text-pp-dark-grey mb-8">
-            {% if highlight.rendered_content %}
-                {{ highlight.rendered_content|safe }}
-            {% else %}
-                {{ highlight.content }}
-            {% endif %}
-        </div>
-    {% endif %}
+    <div class="prose prose-lg max-w-none text-pp-dark-grey mb-8">
+        {{ highlight.rendered_content|safe }}
+    </div>
     
     <!-- Topics and Social Media Sharing -->
     <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
