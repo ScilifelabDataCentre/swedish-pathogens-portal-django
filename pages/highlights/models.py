@@ -161,6 +161,7 @@ class DataHighlight(models.Model):
         """Get related highlights based on tag similarity.
         
         Finds highlights with similar tags using Jaccard similarity algorithm.
+        Only considers highlights of the same type (Data Highlight or Editorial).
         Considers all related highlights regardless of creation date (past and future).
         Results are ordered by similarity score (highest first).
         
@@ -183,9 +184,10 @@ class DataHighlight(models.Model):
         if not self.tag_list:
             return DataHighlight.objects.none()
         
-        # Get all active highlights, excluding current highlight
+        # Get all active highlights of the same type, excluding current highlight
         candidate_highlights = DataHighlight.objects.filter(
-            is_active=True
+            is_active=True,
+            type=self.type
         ).exclude(id=self.id).order_by('-created_at')
         
         if not candidate_highlights.exists():
