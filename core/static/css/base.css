@@ -27,14 +27,18 @@
     /* Figure floating component for highlight detail pages */
     .figure-float {
         @apply float-none md:float-right mx-0 md:mx-2 mb-4 md:mb-0;
+        width: 24rem; /* w-96 = 24rem */
     }
     
     .figure-float img {
-        @apply w-96 h-auto rounded border border-pp-pale-grey float-right;
+        @apply w-full h-auto rounded border border-pp-pale-grey block;
     }
     
     .figure-float figcaption {
-        @apply text-sm text-pp-dark-grey mt-1 italic;
+        @apply text-sm text-pp-dark-grey mt-1 italic text-center block;
+        width: 100%;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
     }
     
     /* Social media sharing buttons */
