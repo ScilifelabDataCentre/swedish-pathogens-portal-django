@@ -78,7 +78,7 @@ class Article(models.Model):
     )
     announcement = models.TextField(
         blank=True,
-        help_text="Optional announcement message displayed at the top of the article"
+        help_text="Optional announcement message in markdown format displayed at the top of the article"
     )
     tags = models.TextField(
         blank=True,
