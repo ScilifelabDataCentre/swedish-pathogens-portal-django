@@ -12,7 +12,7 @@
             pieces discussing the current thinking in a given area.</p>
         <p>
             Use the tags or search bar to find data highlights or editorials of potential interest. 
-            If you are interested in having your work featured,  please <a href="/contact/">contact us</a>.
+            If you are interested in having your work featured, please <a href="/contact/">contact us</a>.
         </p>
     </div>
     
@@ -24,11 +24,8 @@
                       focus:ring-2 focus:ring-pp-teal focus:border-pp-teal 
                       text-pp-dark-grey placeholder-pp-dark-grey bg-white" 
                placeholder="Search Articles" 
-               aria-label="Search"
-               data-search-area="articles_container">
+               aria-label="Search">
     </div>
-
-    
     
     {% if articles %}
         <div id="articles_container" 
@@ -40,9 +37,9 @@
                                       {% for topic in article.topics.all %}
                                           {{ topic.name|lower }} 
                                       {% endfor %}">
-                    <div class="bg-highlight relative">
+                    <div class="h-full px-2.5 py-3 rounded-sm bg-[#d8d8d8] hover:shadow-[0px_0px_3px_#55585a] relative">
                         <!-- Content Type Badge -->
-                        <div class="content-type-badge {% if article.type == 'editorial' %}badge-editorial{% else %}badge-data-highlight{% endif %}">
+                        <div class="absolute top-2 right-2 px-2 py-1 text-xs font-semibold rounded shadow-sm z-10 {% if article.type == 'editorial' %}bg-pp-dark-blue text-white{% else %}bg-pp-teal text-white{% endif %}">
                             {{ article.get_type_display }}
                         </div>
                         
@@ -50,7 +47,7 @@
                         {% if article.featured_image %}
                             <div aria-hidden="true">
                                 <a href="{% url 'articles:detail' article.slug %}">
-                                    <img class="img-fluid rounded-top" 
+                                    <img class="w-full h-48 rounded-t-sm object-cover" 
                                          src="{{ article.featured_image.url }}" 
                                          alt="{{ article.title }}">
                                 </a>
@@ -59,13 +56,13 @@
                         
                         <!-- Date -->
                         <div class="mt-2">
-                            <small>{{ article.created_at|date:"F j, Y" }}</small>
+                            <small class="text-pp-dark-grey text-sm">{{ article.created_at|date:"F j, Y" }}</small>
                         </div>
                         
                         <!-- Title -->
                         <div>
                             <h6 class="my-1">
-                                <a class="dark-blue" 
+                                <a class="text-pp-dark-blue hover:text-pp-teal transition-colors duration-200" 
                                    href="{% url 'articles:detail' article.slug %}">
                                     {{ article.title }}
                                 </a>
@@ -74,7 +71,7 @@
                         
                         <!-- Summary and Topics -->
                         <div>
-                            <p class="mb-2">{{ article.summary|safe }}</p>
+                            <p class="text-pp-dark-grey text-sm leading-relaxed mb-2">{{ article.summary|safe }}</p>
                             
                             <!-- Topics -->
                             {% if article.topics.exists %}
@@ -96,8 +93,7 @@
         
         <!-- No Search Results Message -->
         <div id="noResults" 
-             class="hidden text-center py-16" 
-             style="display: none;">
+             class="hidden text-center py-16">
             <div class="max-w-md mx-auto">
                 <div class="w-20 h-20 bg-pp-pale-grey rounded-full 
                             flex items-center justify-center mx-auto mb-4">

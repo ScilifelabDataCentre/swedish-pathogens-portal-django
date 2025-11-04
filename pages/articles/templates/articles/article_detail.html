@@ -6,7 +6,7 @@
 <div class="py-8">
     <!-- Announcement (if present) -->
     {% if article.announcement %}
-        <div class="announcement">
+        <div class="bg-pp-pale-grey border rounded py-2 px-4 my-3 italic">
             {{ article.rendered_announcement|safe }}
         </div>
     {% endif %}
@@ -23,11 +23,12 @@
     </p>
     
     <!-- Featured Image (floated right on medium+ screens) -->
-    <figure class="figure-float">
+    <figure class="float-none md:float-right mx-0 md:mx-2 mb-4 md:mb-0 w-96">
         <img src="{{ article.featured_image.url }}" 
-             alt="{{ article.title }}">
+             alt="{{ article.title }}"
+             class="w-full h-auto rounded border border-pp-pale-grey block">
         {% if article.figure_caption %}
-            <figcaption>
+            <figcaption class="text-sm text-pp-dark-grey mt-1 italic text-center block w-full break-words">
                 {{ article.figure_caption }}
             </figcaption>
         {% endif %}
@@ -58,7 +59,7 @@
         <div class="flex items-center">
             <span class="font-semibold text-pp-dark-blue mr-2">Share this: </span>
             <a target="_blank" 
-               class="share-button" 
+               class="inline-flex items-center justify-center w-8 h-8 text-pp-mid-blue transition-colors duration-200 mr-2" 
                aria-label="Share article on X"
                href="https://twitter.com/intent/tweet?text=Article%20on%20the%20Swedish%20Pathogens%20Portal:%20{{ article.title|urlencode }}&url={{ request.build_absolute_uri }}">
                 <svg class="w-4 h-4" 
@@ -68,7 +69,7 @@
                 </svg>
             </a>
             <a target="_blank" 
-               class="share-button" 
+               class="inline-flex items-center justify-center w-8 h-8 text-pp-mid-blue transition-colors duration-200 mr-2" 
                aria-label="Share article on LinkedIn"
                href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri }}">
                 <svg class="w-4 h-4" 
@@ -78,7 +79,7 @@
                 </svg>
             </a>
             <a target="_blank" 
-               class="share-button" 
+               class="inline-flex items-center justify-center w-8 h-8 text-pp-mid-blue transition-colors duration-200 mr-2" 
                aria-label="Share article on Facebook"
                href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}">
                 <svg class="w-4 h-4" 
@@ -99,12 +100,12 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {% for related in related_articles %}
                     <div class="data-highlight">
-                        <div class="bg-highlight">
+                        <div class="h-full px-2.5 py-3 rounded-sm bg-[#d8d8d8] hover:shadow-[0px_0px_3px_#55585a]">
                             <!-- Featured Image -->
                             {% if related.featured_image %}
                                 <div aria-hidden="true">
                                     <a href="{% url 'articles:detail' related.slug %}">
-                                        <img class="img-fluid rounded-top" 
+                                        <img class="w-full h-48 rounded-t-sm object-cover" 
                                              src="{{ related.featured_image.url }}" 
                                              alt="{{ related.title }}">
                                     </a>
@@ -113,7 +114,7 @@
                             
                             <!-- Date -->
                             <div class="mt-2">
-                                <small>
+                                <small class="text-pp-dark-grey text-sm">
                                     {{ related.created_at|date:"F j, Y" }}
                                 </small>
                             </div>
@@ -121,7 +122,7 @@
                             <!-- Title -->
                             <div>
                                 <h6 class="my-1">
-                                    <a class="dark-blue" 
+                                    <a class="text-pp-dark-blue hover:text-pp-teal transition-colors duration-200" 
                                        href="{% url 'articles:detail' related.slug %}">
                                         {{ related.title }}
                                     </a>
