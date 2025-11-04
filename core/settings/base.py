@@ -51,9 +51,12 @@ THIRD_PARTY_APPS = []
 
 LOCAL_APPS = [
     "pages.articles",
+    "pages.about",
     "pages.citation",
+    "pages.dashboards",
     "pages.data_management",
     "pages.home",
+    "pages.news",
     "pages.privacy",
     "pages.topics",
 ]
@@ -134,4 +137,6 @@ AUTH_PASSWORD_VALIDATORS = [
 # REVIEW: These will depend on our static file serving strategy
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATIC_URL = "static/"
-STATICFILES_DIRS = [BASE_DIR / "core" / "static"]
+STATICFILES_DIRS = [
+    BASE_DIR / "core" / "static",
+]

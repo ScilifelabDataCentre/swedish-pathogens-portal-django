@@ -24,8 +24,11 @@ urlpatterns = [
     path(settings.ADMIN_URL, admin.site.urls, name="admin"),
     path("", include("pages.home.urls")),
     path("articles/", include("pages.articles.urls")),
+    path("about/", include("pages.about.urls")),
     path("citation/", include("pages.citation.urls")),
+    path("dashboards/", include("pages.dashboards.urls")),
     path("data-management/", include("pages.data_management.urls")),
+    path("news/", include("pages.news.urls")),
     path("privacy/", include("pages.privacy.urls")),
     path("topics/", include("pages.topics.urls")),
 ]
