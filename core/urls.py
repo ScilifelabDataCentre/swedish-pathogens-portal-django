@@ -25,7 +25,7 @@ urlpatterns = [
     path("", include("pages.home.urls")),
     path("citation/", include("pages.citation.urls")),
     path("data-management/", include("pages.data_management.urls")),
-    path("highlights/", include("pages.highlights.urls")),
+    path("articles/", include("pages.articles.urls")),
     path("privacy/", include("pages.privacy.urls")),
     path("topics/", include("pages.topics.urls")),
 ]

@@ -5,44 +5,44 @@
 <!-- Main Content -->
 <div class="py-8">
     <!-- Announcement (if present) -->
-    {% if highlight.announcement %}
+    {% if article.announcement %}
         <div class="announcement">
-            {{ highlight.rendered_announcement|safe }}
+            {{ article.rendered_announcement|safe }}
         </div>
     {% endif %}
     
     <!-- Title and Publication Date -->
     <h1 class="text-3xl text-pp-almost-black mb-2">
-        {{ highlight.title }}
+        {{ article.title }}
     </h1>
     <p class="text-pp-dark-grey mb-6">
-        Published: {{ highlight.created_at|date:"F j, Y" }}
-        {% if highlight.type == "editorial" and highlight.author %}
-            | Written by: {{ highlight.author }}
+        Published: {{ article.created_at|date:"F j, Y" }}
+        {% if article.type == "editorial" and article.author %}
+            | Written by: {{ article.author }}
         {% endif %}
     </p>
     
     <!-- Featured Image (floated right on medium+ screens) -->
     <figure class="figure-float">
-        <img src="{{ highlight.featured_image.url }}" 
-             alt="{{ highlight.title }}">
-        {% if highlight.figure_caption %}
+        <img src="{{ article.featured_image.url }}" 
+             alt="{{ article.title }}">
+        {% if article.figure_caption %}
             <figcaption>
-                {{ highlight.figure_caption }}
+                {{ article.figure_caption }}
             </figcaption>
         {% endif %}
     </figure>
     
     <!-- Main Content -->
     <div class="prose prose-lg max-w-none text-pp-dark-grey mb-8">
-        {{ highlight.rendered_content|safe }}
+        {{ article.rendered_content|safe }}
     </div>
     
     <!-- Topics and Social Media Sharing -->
     <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
         <div class="mb-4 md:mb-0">
             <span class="font-semibold text-pp-dark-blue">Topics: </span>
-            {% for topic in highlight.topics.all %}
+            {% for topic in article.topics.all %}
                 <span class="topic_badge_small">
                     <a href="{% url 'topics:topic_detail' topic.slug %}">
                         {{ topic.name }}
@@ -59,8 +59,8 @@
             <span class="font-semibold text-pp-dark-blue mr-2">Share this: </span>
             <a target="_blank" 
                class="share-button" 
-               aria-label="Share highlight on X"
-               href="https://twitter.com/intent/tweet?text=Data%20highlight%20on%20the%20Swedish%20Pathogens%20Portal:%20{{ highlight.title|urlencode }}&url={{ request.build_absolute_uri }}">
+               aria-label="Share article on X"
+               href="https://twitter.com/intent/tweet?text=Article%20on%20the%20Swedish%20Pathogens%20Portal:%20{{ article.title|urlencode }}&url={{ request.build_absolute_uri }}">
                 <svg class="w-4 h-4" 
                      fill="currentColor" 
                      viewBox="0 0 24 24">
@@ -69,7 +69,7 @@
             </a>
             <a target="_blank" 
                class="share-button" 
-               aria-label="Share highlight on LinkedIn"
+               aria-label="Share article on LinkedIn"
                href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri }}">
                 <svg class="w-4 h-4" 
                      fill="currentColor" 
@@ -79,7 +79,7 @@
             </a>
             <a target="_blank" 
                class="share-button" 
-               aria-label="Share highlight on Facebook"
+               aria-label="Share article on Facebook"
                href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}">
                 <svg class="w-4 h-4" 
                      fill="currentColor" 
@@ -90,20 +90,20 @@
         </div>
     </div>
     
-    <!-- Related Highlights -->
-    {% if related_highlights %}
+    <!-- Related Articles -->
+    {% if related_articles %}
         <div class="border-t border-pp-pale-grey pt-8">
             <h3 class="text-2xl font-semibold text-pp-dark-blue mb-6">
-                Related highlights & editorials
+                Related articles
             </h3>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {% for related in related_highlights %}
+                {% for related in related_articles %}
                     <div class="data-highlight">
                         <div class="bg-highlight">
                             <!-- Featured Image -->
                             {% if related.featured_image %}
                                 <div aria-hidden="true">
-                                    <a href="{% url 'highlights:detail' related.slug %}">
+                                    <a href="{% url 'articles:detail' related.slug %}">
                                         <img class="img-fluid rounded-top" 
                                              src="{{ related.featured_image.url }}" 
                                              alt="{{ related.title }}">
@@ -122,7 +122,7 @@
                             <div>
                                 <h6 class="my-1">
                                     <a class="dark-blue" 
-                                       href="{% url 'highlights:detail' related.slug %}">
+                                       href="{% url 'articles:detail' related.slug %}">
                                         {{ related.title }}
                                     </a>
                                 </h6>

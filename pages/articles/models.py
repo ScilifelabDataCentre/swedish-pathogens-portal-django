@@ -6,37 +6,38 @@ from typing import List
 import markdown
 
 
-class DataHighlight(models.Model):
-    """Data highlight model for showcasing research findings and scientific discoveries.
+class Article(models.Model):
+    """Article model for showcasing research findings and editorial content.
 
-    Represents research highlights that showcase important scientific findings,
-    data insights, and discoveries for the Swedish Pathogens Portal. Each highlight
-    includes comprehensive information about research projects and can be associated
-    with multiple topics for better content organization and discovery.
+    Represents articles (data highlights and editorials) that showcase important
+    scientific findings, data insights, and editorial content for the Swedish
+    Pathogens Portal. Each article includes comprehensive information about research
+    projects and can be associated with multiple topics for better content
+    organisation and discovery.
 
     Attributes:
         type (str): Content type - either "Editorial" or "Data Highlight".
-        title (str): Display title of the highlight (max 255 chars, unique).
+        title (str): Display title of the article (max 255 chars, unique).
         slug (str): URL-friendly version of title (auto-generated from title).
-        summary (str): Brief summary displayed in highlight cards.
+        summary (str): Brief summary displayed in article cards.
         content (str): Full markdown content displayed on detail pages.
-        announcement (str, optional): Prominent announcement message for highlights.
+        announcement (str, optional): Prominent announcement message for articles.
         tags (str, optional): Comma-separated tags for content matching and search.
-        author (str, optional): Author name or names for the highlight.
-        featured_image (ImageField): Primary image displayed with the highlight.
+        author (str, optional): Author name or names for the article.
+        featured_image (ImageField): Primary image displayed with the article.
         figure_caption (str, optional): Descriptive caption for the featured image.
-        topics (ManyToMany, optional): Research topics associated with this highlight.
-        is_active (bool): Whether highlight is visible to users (default: True).
-        created_at (datetime): Timestamp when highlight was created (editable in admin).
-        updated_at (datetime): Timestamp when highlight was last modified.
+        topics (ManyToMany, optional): Research topics associated with this article.
+        is_active (bool): Whether article is visible to users (default: True).
+        created_at (datetime): Timestamp when article was created (editable in admin).
+        updated_at (datetime): Timestamp when article was last modified.
 
     Example:
-        Create a new data highlight:
+        Create a new article:
 
         .. code-block:: python
 
-            highlight = DataHighlight.objects.create(
-                type="Data Highlight",
+            article = Article.objects.create(
+                type="data_highlight",
                 title="Novel Pathogen Discovery in Swedish Waters",
                 summary="Researchers discovered a new bacterial species...",
                 content="# Research Findings\n\nDetailed findings...",
@@ -60,7 +61,7 @@ class DataHighlight(models.Model):
     title = models.CharField(
         max_length=255,
         unique=True,
-        help_text="Title of the data highlight"
+        help_text="Title of the article"
     )
     slug = models.SlugField(
         max_length=255,
@@ -70,14 +71,14 @@ class DataHighlight(models.Model):
     
     # Content fields
     summary = models.TextField(
-        help_text="Brief summary of the highlight for display in cards"
+        help_text="Brief summary of the article for display in cards"
     )
     content = models.TextField(
         help_text="Full content in markdown format displayed on detail page"
     )
     announcement = models.TextField(
         blank=True,
-        help_text="Optional announcement message displayed at the top of the highlight"
+        help_text="Optional announcement message displayed at the top of the article"
     )
     tags = models.TextField(
         blank=True,
@@ -86,13 +87,13 @@ class DataHighlight(models.Model):
     author = models.CharField(
         max_length=255,
         blank=True,
-        help_text="Author name or names for the highlight (optional)"
+        help_text="Author name or names for the article (optional)"
     )
     
     # Media fields
     featured_image = models.ImageField(
-        upload_to="highlights/images/",
-        help_text="Featured image for the highlight"
+        upload_to="articles/images/",
+        help_text="Featured image for the article"
     )
     figure_caption = models.TextField(
         blank=True,
@@ -103,7 +104,7 @@ class DataHighlight(models.Model):
     topics = models.ManyToManyField(
         "topics.Topic",
         blank=True,
-        help_text="Research topics associated with this highlight (optional)"
+        help_text="Research topics associated with this article (optional)"
     )
     
     # Status field
@@ -121,15 +122,15 @@ class DataHighlight(models.Model):
     
     class Meta:
         ordering = ["-created_at"]
-        verbose_name = "Data Highlight"
-        verbose_name_plural = "Data Highlights"
+        verbose_name = "Article"
+        verbose_name_plural = "Articles"
     
     def __str__(self):
-        """Return the highlight title for string representation."""
+        """Return the article title for string representation."""
         return self.title
     
     def save(self, *args, **kwargs):
-        """Save the highlight, auto-generating slug if not provided."""
+        """Save the article, auto-generating slug if not provided."""
         if not self.slug:
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
@@ -157,56 +158,56 @@ class DataHighlight(models.Model):
             return []
         return [tag.strip().lower() for tag in self.tags.split(',') if tag.strip()]
     
-    def get_related_highlights(self, limit: int = 4, threshold: float = 0.1) -> List['DataHighlight']:
-        """Get related highlights based on tag similarity.
+    def get_related_articles(self, limit: int = 4, threshold: float = 0.1) -> List['Article']:
+        """Get related articles based on tag similarity.
         
-        Finds highlights with similar tags using Jaccard similarity algorithm.
-        Only considers highlights of the same type (Data Highlight or Editorial).
-        Considers all related highlights regardless of creation date (past and future).
+        Finds articles with similar tags using Jaccard similarity algorithm.
+        Only considers articles of the same type (Data Highlight or Editorial).
+        Considers all related articles regardless of creation date (past and future).
         Results are ordered by similarity score (highest first).
         
         Args:
-            limit: Maximum number of related highlights to return (default: 4)
+            limit: Maximum number of related articles to return (default: 4)
             threshold: Minimum similarity threshold between 0.0 and 1.0 (default: 0.1)
             
         Returns:
-            List of related highlights ordered by similarity score
+            List of related articles ordered by similarity score
             
         Example:
-            Get top 3 related highlights with at least 20% similarity:
+            Get top 3 related articles with at least 20% similarity:
             
             .. code-block:: python
                 
-                related = highlight.get_related_highlights(limit=3, threshold=0.2)
-                for related_highlight in related:
-                    print(related_highlight.title)
+                related = article.get_related_articles(limit=3, threshold=0.2)
+                for related_article in related:
+                    print(related_article.title)
         """
         if not self.tag_list:
-            return DataHighlight.objects.none()
+            return Article.objects.none()
         
-        # Get all active highlights of the same type, excluding current highlight
-        candidate_highlights = DataHighlight.objects.filter(
+        # Get all active articles of the same type, excluding current article
+        candidate_articles = Article.objects.filter(
             is_active=True,
             type=self.type
         ).exclude(id=self.id).order_by('-created_at')
         
-        if not candidate_highlights.exists():
-            return DataHighlight.objects.none()
+        if not candidate_articles.exists():
+            return Article.objects.none()
         
         # Calculate similarity scores efficiently
-        related_highlights = []
+        related_articles = []
         current_tags = set(self.tag_list)
         
-        # Process highlights in batches to avoid memory issues
-        for highlight in candidate_highlights.iterator(chunk_size=50):
-            if not highlight.tags:  # Skip highlights without tags
+        # Process articles in batches to avoid memory issues
+        for article in candidate_articles.iterator(chunk_size=50):
+            if not article.tags:  # Skip articles without tags
                 continue
                 
-            highlight_tags = set(highlight.tag_list)
+            article_tags = set(article.tag_list)
             
             # Calculate Jaccard similarity (intersection over union)
-            intersection = len(current_tags.intersection(highlight_tags))
-            union = len(current_tags.union(highlight_tags))
+            intersection = len(current_tags.intersection(article_tags))
+            union = len(current_tags.union(article_tags))
             
             if union == 0:
                 continue
@@ -214,15 +215,15 @@ class DataHighlight(models.Model):
             similarity = intersection / union
             
             if similarity >= threshold:
-                related_highlights.append((highlight, similarity))
+                related_articles.append((article, similarity))
                 
                 # Early termination if we have enough high-similarity results
-                if len(related_highlights) >= limit * 2:
+                if len(related_articles) >= limit * 2:
                     break
         
         # Sort by similarity (highest first) and return limited results
-        related_highlights.sort(key=lambda x: x[1], reverse=True)
-        return [highlight for highlight, _ in related_highlights[:limit]]
+        related_articles.sort(key=lambda x: x[1], reverse=True)
+        return [article for article, _ in related_articles[:limit]]
     
 
 

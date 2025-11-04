@@ -1,0 +1,1 @@
+"""Articles app package."""

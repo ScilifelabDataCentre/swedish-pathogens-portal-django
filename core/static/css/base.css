@@ -22,9 +22,9 @@
     --color-pp-almost-black: #1a1c1a;
 }
 
-/* Custom components for data highlights */
+/* Custom components for articles */
 @layer components {
-    /* Figure floating component for highlight detail pages */
+    /* Figure floating component for article detail pages */
     .figure-float {
         @apply float-none md:float-right mx-0 md:mx-2 mb-4 md:mb-0;
         width: 24rem; /* w-96 = 24rem */
@@ -46,7 +46,7 @@
         @apply inline-flex items-center justify-center w-8 h-8 text-pp-mid-blue hover:text-pp-mid-blue transition-colors duration-200 mr-2;
     }
     
-    /* Data highlight card styling */
+    /* Article card styling */
     .bg-highlight {
         @apply h-full px-2.5 py-3 rounded-sm;
         background-color: #d8d8d8;

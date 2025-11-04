@@ -1,23 +1,24 @@
 from django.contrib import admin
 from django.contrib import messages
-from .models import DataHighlight
+from .models import Article
 
 
-@admin.register(DataHighlight)
-class DataHighlightAdmin(admin.ModelAdmin):
-    """Admin interface for DataHighlight model.
+@admin.register(Article)
+class ArticleAdmin(admin.ModelAdmin):
+    """Admin interface for Article model.
 
-    Provides a comprehensive admin interface for managing data highlights
-    with organized fieldsets, search functionality, filtering, and bulk actions.
+    Provides a comprehensive admin interface for managing articles
+    (data highlights and editorials) with organised fieldsets, search
+    functionality, filtering, and bulk actions.
 
     Features:
-        - List display with title, slug, status, and timestamps
-        - Filtering by active status, creation date, update date, and topics
-        - Search by title, summary, content, announcement, and tags
+        - List display with title, type, slug, status, and timestamps
+        - Filtering by active status, type, creation date, update date, and topics
+        - Search by title, summary, content, announcement, tags, and author
         - Auto-populated slug field from title
         - Horizontal filter widget for topic selection
-        - Bulk actions for activating/deactivating highlights
-        - Organized fieldsets for better UX
+        - Bulk actions for activating/deactivating articles
+        - Organised fieldsets for better UX
     """
     list_display = ["title", "type", "slug", "is_active", "created_at", "updated_at"]
     list_filter = ["is_active", "type", "created_at", "updated_at", "topics"]
@@ -25,7 +26,7 @@ class DataHighlightAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("title",)}
     readonly_fields = ["updated_at"]
     filter_horizontal = ["topics"]
-    actions = ["activate_highlights", "deactivate_highlights"]
+    actions = ["activate_articles", "deactivate_articles"]
     
     fieldsets = (
         ("Basic Information", {
@@ -48,24 +49,24 @@ class DataHighlightAdmin(admin.ModelAdmin):
         }),
     )
     
-    def activate_highlights(self, request, queryset):
-        """Activate selected highlights."""
+    def activate_articles(self, request, queryset):
+        """Activate selected articles."""
         updated = queryset.update(is_active=True)
         self.message_user(
             request,
-            f"Successfully activated {updated} highlight(s).",
+            f"Successfully activated {updated} article(s).",
             messages.SUCCESS
         )
-    activate_highlights.short_description = "Activate selected highlights"
+    activate_articles.short_description = "Activate selected articles"
     
-    def deactivate_highlights(self, request, queryset):
-        """Deactivate selected highlights."""
+    def deactivate_articles(self, request, queryset):
+        """Deactivate selected articles."""
         updated = queryset.update(is_active=False)
         self.message_user(
             request,
-            f"Successfully deactivated {updated} highlight(s).",
+            f"Successfully deactivated {updated} article(s).",
             messages.SUCCESS
         )
-    deactivate_highlights.short_description = "Deactivate selected highlights"
+    deactivate_articles.short_description = "Deactivate selected articles"
 
 

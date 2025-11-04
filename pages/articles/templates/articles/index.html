@@ -7,22 +7,22 @@
     <!-- Page Header -->
     <div class="mb-8">
         <p>
-            The Data Highlights section showcases recently published datasets relevant to pandemic 
+            The Articles section showcases recently published datasets and editorial content relevant to pandemic 
             preparedness research by researchers affiliated with a Swedish research institute. Specifically, 
             in our case we write about e.g. COVID-19 and SARS-CoV-2, infectious diseases in general, 
-            and antibiotic resistance. The goal is to highlight openly shared data that can potentially 
+            and antibiotic resistance. The goal is to highlight openly shared data and editorial insights that can potentially 
             be used by many other researchers to make further discoveries.
         </p>
         
         <p>
-            To easily find data highlights relevant to a specific topic, simply click on the coloured tag and 
-            the page will filter and display only the highlights related to that topic. Alternatively, use the search bar to find 
-            highlights of potential interest.
+            To easily find articles relevant to a specific topic, simply click on the coloured tag and 
+            the page will filter and display only the articles related to that topic. Alternatively, use the search bar to find 
+            articles of potential interest.
         </p>
         
         <p>
-            If you have published or are about to publish data that you think should be highlighted in this section, 
-            please click the button below to suggest a data highlight and the editorial team will get in touch with 
+            If you have published or are about to publish data or editorial content that you think should be featured in this section, 
+            please click the button below to suggest an article and the editorial team will get in touch with 
             you as soon as possible to discuss your suggestion.
         </p>
     </div>
@@ -34,63 +34,63 @@
                class="w-80 px-4 py-2 border border-pp-pale-grey rounded-lg 
                       focus:ring-2 focus:ring-pp-teal focus:border-pp-teal 
                       text-pp-dark-grey placeholder-pp-dark-grey bg-white" 
-               placeholder="Search Highlights" 
+               placeholder="Search Articles" 
                aria-label="Search"
-               data-search-area="highlights_container">
+               data-search-area="articles_container">
     </div>
 
     
     
-    {% if highlights %}
-        <div id="highlights_container" 
+    {% if articles %}
+        <div id="articles_container" 
              class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-3">
-            {% for highlight in highlights %}
+            {% for article in articles %}
                 <div class="data-highlight" 
-                     data-search-text="{{ highlight.title|lower }} 
-                                      {{ highlight.summary|lower }} 
-                                      {% for topic in highlight.topics.all %}
+                     data-search-text="{{ article.title|lower }} 
+                                      {{ article.summary|lower }} 
+                                      {% for topic in article.topics.all %}
                                           {{ topic.name|lower }} 
                                       {% endfor %}">
                     <div class="bg-highlight relative">
                         <!-- Content Type Badge -->
-                        <div class="content-type-badge {% if highlight.type == 'editorial' %}badge-editorial{% else %}badge-data-highlight{% endif %}">
-                            {{ highlight.get_type_display }}
+                        <div class="content-type-badge {% if article.type == 'editorial' %}badge-editorial{% else %}badge-data-highlight{% endif %}">
+                            {{ article.get_type_display }}
                         </div>
                         
                         <!-- Featured Image -->
-                        {% if highlight.featured_image %}
+                        {% if article.featured_image %}
                             <div aria-hidden="true">
-                                <a href="{% url 'highlights:detail' highlight.slug %}">
+                                <a href="{% url 'articles:detail' article.slug %}">
                                     <img class="img-fluid rounded-top" 
-                                         src="{{ highlight.featured_image.url }}" 
-                                         alt="{{ highlight.title }}">
+                                         src="{{ article.featured_image.url }}" 
+                                         alt="{{ article.title }}">
                                 </a>
                             </div>
                         {% endif %}
                         
                         <!-- Date -->
                         <div class="mt-2">
-                            <small>{{ highlight.created_at|date:"F j, Y" }}</small>
+                            <small>{{ article.created_at|date:"F j, Y" }}</small>
                         </div>
                         
                         <!-- Title -->
                         <div>
                             <h6 class="my-1">
                                 <a class="dark-blue" 
-                                   href="{% url 'highlights:detail' highlight.slug %}">
-                                    {{ highlight.title }}
+                                   href="{% url 'articles:detail' article.slug %}">
+                                    {{ article.title }}
                                 </a>
                             </h6>
                         </div>
                         
                         <!-- Summary and Topics -->
                         <div>
-                            <p class="mb-2">{{ highlight.summary|safe }}</p>
+                            <p class="mb-2">{{ article.summary|safe }}</p>
                             
                             <!-- Topics -->
-                            {% if highlight.topics.exists %}
+                            {% if article.topics.exists %}
                                 <div class="mt-1">
-                                    {% for topic in highlight.topics.all %}
+                                    {% for topic in article.topics.all %}
                                         <span class="topic_badge_small">
                                             <a href="{% url 'topics:topic_detail' topic.slug %}">
                                                 {{ topic.name }}
@@ -127,13 +127,13 @@
                     No Results Found
                 </h3>
                 <p class="text-pp-dark-grey">
-                    No highlights match your search criteria. 
+                    No articles match your search criteria. 
                     Try adjusting your search terms.
                 </p>
             </div>
         </div>
     {% else %}
-        <!-- No Highlights Message -->
+        <!-- No Articles Message -->
         <div class="text-center py-16">
             <div class="max-w-md mx-auto">
                 <div class="w-20 h-20 bg-pp-pale-grey rounded-full 
@@ -150,11 +150,11 @@
                     </svg>
                 </div>
                 <h3 class="text-xl font-semibold text-pp-dark-grey mb-2">
-                    No Highlights Available
+                    No Articles Available
                 </h3>
                 <p class="text-pp-dark-grey">
-                    There are currently no data highlights available. 
-                    Please check back later for the latest research findings.
+                    There are currently no articles available. 
+                    Please check back later for the latest research findings and editorials.
                 </p>
             </div>
         </div>
@@ -164,16 +164,16 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('searchInput');
-    const highlightsContainer = document.getElementById('highlights_container');
+    const articlesContainer = document.getElementById('articles_container');
     const noResults = document.getElementById('noResults');
-    const highlightCards = document.querySelectorAll('.data-highlight');
+    const articleCards = document.querySelectorAll('.data-highlight');
     
     function performSearch() {
         const searchTerm = searchInput.value.toLowerCase().trim();
         let visibleCount = 0;
         
         // Filter cards based on search term
-        highlightCards.forEach(card => {
+        articleCards.forEach(card => {
             const searchText = card.getAttribute('data-search-text') || '';
             const isVisible = searchTerm === '' || searchText.includes(searchTerm);
             
@@ -188,14 +188,14 @@ document.addEventListener('DOMContentLoaded', function() {
         // Show/hide no results message
         if (searchTerm && visibleCount === 0) {
             noResults.style.display = 'block';
-            highlightsContainer.style.display = 'none';
+            articlesContainer.style.display = 'none';
         } else {
             noResults.style.display = 'none';
-            highlightsContainer.style.display = 'grid';
+            articlesContainer.style.display = 'grid';
         }
     }
     
-    if (searchInput && highlightsContainer && noResults) {
+    if (searchInput && articlesContainer && noResults) {
         // Initialize the page state
         performSearch();
         
