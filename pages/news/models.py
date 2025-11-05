@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 from django.utils.text import slugify
 from django.utils.safestring import mark_safe
 import markdown
@@ -52,7 +53,10 @@ class News(models.Model):
     is_active = models.BooleanField(
         default=True, help_text="Whether this news is active and visible"
     )
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(
+        default=timezone.now,
+        help_text="Creation date (defaults to current date if not provided)",
+    )
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
