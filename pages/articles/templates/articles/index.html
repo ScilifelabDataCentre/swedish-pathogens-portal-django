@@ -77,7 +77,7 @@
                             {% if article.topics.exists %}
                                 <div class="mt-1">
                                     {% for topic in article.topics.all %}
-                                        <span class="topic_badge_small">
+                                        <span class="badge badge-topic">
                                             <a href="{% url 'topics:topic_detail' topic.slug %}">
                                                 {{ topic.name }}
                                             </a>

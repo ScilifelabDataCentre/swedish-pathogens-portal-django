@@ -44,7 +44,7 @@
         <div class="mb-4 md:mb-0">
             <span class="font-semibold text-pp-dark-blue">Topics: </span>
             {% for topic in article.topics.all %}
-                <span class="topic_badge_small">
+                <span class="badge badge-topic">
                     <a href="{% url 'topics:topic_detail' topic.slug %}">
                         {{ topic.name }}
                     </a>
