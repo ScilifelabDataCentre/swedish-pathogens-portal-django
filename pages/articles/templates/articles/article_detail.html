@@ -15,10 +15,13 @@
     <h1 class="text-3xl text-pp-almost-black mb-2">
         {{ article.title }}
     </h1>
-    <p class="text-pp-dark-grey mb-6">
-        Published: {{ article.created_at|date:"F j, Y" }}
+    <p class="text-pp-dark-grey mb-6 flex items-center gap-2 flex-wrap">
+        <span class="px-2 py-1 text-xs font-semibold rounded shadow-sm {% if article.type == 'editorial' %}bg-pp-dark-blue text-white{% else %}bg-pp-teal text-white{% endif %}">
+            {{ article.get_type_display }}
+        </span>
+        <span>Published: {{ article.created_at|date:"F j, Y" }}</span>
         {% if article.type == "editorial" and article.author %}
-            | Written by: {{ article.author }}
+            <span>| Written by: {{ article.author }}</span>
         {% endif %}
     </p>
     
