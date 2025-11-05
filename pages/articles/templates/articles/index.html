@@ -37,7 +37,7 @@
                                       {% for topic in article.topics.all %}
                                           {{ topic.name|lower }} 
                                       {% endfor %}">
-                    <div class="h-full px-2.5 py-3 rounded-sm bg-[#d8d8d8] hover:shadow-[0px_0px_3px_#55585a] relative">
+                    <div class="h-full px-2.5 py-3 rounded-sm bg-pp-pale-grey hover:shadow-[0px_0px_3px_#55585a] relative">
                         <!-- Content Type Badge -->
                         <div class="absolute top-2 right-2 px-2 py-1 text-xs font-semibold rounded shadow-sm z-10 {% if article.type == 'editorial' %}bg-pp-dark-blue text-white{% else %}bg-pp-teal text-white{% endif %}">
                             {{ article.get_type_display }}
