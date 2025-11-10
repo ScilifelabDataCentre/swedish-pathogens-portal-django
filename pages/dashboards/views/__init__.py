@@ -6,8 +6,10 @@ URL configs and other modules.
 
 from .index import DashboardsIndex
 from .lineage_competition import LineageCompetition
+from .variants_region_uppsala import VariantsRegionUppsala
 
 __all__ = [
     "DashboardsIndex",
     "LineageCompetition",
+    "VariantsRegionUppsala",
 ]
