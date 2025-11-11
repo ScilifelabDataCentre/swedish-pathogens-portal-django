@@ -1,15 +1,7 @@
-import json
-import logging
-from urllib.error import URLError
-from urllib.request import urlopen
-
-from django.core.cache import cache
-from utils.views import BaseTemplateView
-
-logger = logging.getLogger(__name__)
+from .plotly import PlotlyDashboardView
 
 
-class VariantsRegionUppsala(BaseTemplateView):
+class VariantsRegionUppsala(PlotlyDashboardView):
     """SARS-CoV-2 variants detected in Region Uppsala dashboard page.
 
     This dashboard view class renders the template for the Uppsala University Hospital
@@ -26,15 +18,13 @@ class VariantsRegionUppsala(BaseTemplateView):
         title: Title displayed in the rendered page's banner section.
         description: Description to be used in the HTML's head.
         PLOTLY_SOURCES: Dictionary mapping chart IDs to blobserver URLs.
-        CACHE_TIMEOUT: Cache duration in seconds (default: 300 seconds / 5 minutes).
-        REQUEST_TIMEOUT: HTTP request timeout in seconds (default: 10 seconds).
 
     Example:
         The view automatically fetches and caches Plotly data:
 
         .. code-block:: python
 
-            class VariantsRegionUppsala(BaseTemplateView):
+            class VariantsRegionUppsala(PlotlyDashboardView):
                 template_name = "dashboards/variants_region_uppsala.html"
                 PLOTLY_SOURCES = {
                     "plotly_lineage_six_recent": "https://blobserver.dc.scilifelab.se/blob/lineage_six_recent.json",
@@ -55,90 +45,10 @@ class VariantsRegionUppsala(BaseTemplateView):
         "Uppsala University Hospital."
     )
 
-    # Cache and request timeout constants
-    CACHE_TIMEOUT = 300  # 5 minutes
-    REQUEST_TIMEOUT = 10  # 10 seconds
-
     # Plotly data source URLs mapped to chart container IDs
-    # Using underscores for IDs to enable direct template access without individual variables
+    # Using underscores for IDs to enable direct template access
     PLOTLY_SOURCES = {
         "plotly_lineage_six_recent": "https://blobserver.dc.scilifelab.se/blob/lineage_six_recent.json",
         "plotly_lineage_four_recent": "https://blobserver.dc.scilifelab.se/blob/lineage_four_recent.json",
         "plotly_lineage_wholetime": "https://blobserver.dc.scilifelab.se/blob/lineage_one_wholetime.json",
     }
-
-    def _fetch_plotly_data(self, url: str, cache_key: str) -> dict | None:
-        """Fetch Plotly JSON data from URL with caching.
-
-        Attempts to retrieve data from cache first. If not cached, fetches from
-        the external URL and caches the result. Handles network errors, timeouts,
-        and JSON parsing errors gracefully.
-
-        Args:
-            url: URL to fetch JSON data from.
-            cache_key: Cache key for storing/retrieving data.
-
-        Returns:
-            Parsed JSON data as dict, or None if fetch fails. Returns None on
-            network errors, timeouts, or invalid JSON responses.
-
-        Example:
-            .. code-block:: python
-
-                data = self._fetch_plotly_data(
-                    "https://blobserver.dc.scilifelab.se/blob/data.json",
-                    "plotly_data_chart1"
-                )
-                # Returns dict with 'data' and 'layout' keys, or None
-        """
-        # Try to get from cache first
-        cached_data = cache.get(cache_key)
-        if cached_data is not None:
-            return cached_data
-
-        try:
-            with urlopen(url, timeout=self.REQUEST_TIMEOUT) as response:
-                data = json.loads(response.read().decode("utf-8"))
-                # Cache for configured duration
-                cache.set(cache_key, data, self.CACHE_TIMEOUT)
-                return data
-        except URLError as e:
-            logger.warning(f"Network error fetching Plotly data from {url}: {e}")
-            return None
-        except TimeoutError as e:
-            logger.warning(f"Timeout fetching Plotly data from {url}: {e}")
-            return None
-        except json.JSONDecodeError as e:
-            logger.warning(f"Invalid JSON response from {url}: {e}")
-            return None
-
-    def get_context_data(self, **kwargs):
-        """Add Plotly JSON data to template context.
-
-        Fetches Plotly visualization data for all charts defined in PLOTLY_SOURCES.
-        Adds data to context as a dictionary for both JavaScript initialization
-        and direct template access.
-
-        Returns:
-            dict: Context data with plotly_data dictionary. Chart IDs use
-            underscores to enable direct template access (e.g., plotly_data.plotly_lineage_six_recent).
-
-        Example:
-            Context includes:
-            - plotly_data: {"plotly_lineage_six_recent": {...}, ...}
-            
-        Template access:
-            plotly_data.plotly_lineage_six_recent
-        """
-        context = super().get_context_data(**kwargs)
-
-        # Fetch Plotly data for each visualization
-        plotly_data = {}
-        for chart_id, url in self.PLOTLY_SOURCES.items():
-            cache_key = f"plotly_data_{chart_id}"
-            data = self._fetch_plotly_data(url, cache_key)
-            plotly_data[chart_id] = data
-
-        context["plotly_data"] = plotly_data
-
-        return context
