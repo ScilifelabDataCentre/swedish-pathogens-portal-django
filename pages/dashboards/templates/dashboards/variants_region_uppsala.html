@@ -68,22 +68,12 @@
                 view.
             </p>
 
-            <div class="md:hidden bg-pp-pale-grey/30 border-l-4 border-pp-mid-blue text-pp-dark-blue p-4" role="status">
+            <div class="plotly-mobile-alert" role="status">
                 <p class="m-0">Rotating your phone may improve graph layout</p>
             </div>
 
-            <div class="plot_wrapper mb-3">
-                <div class="table-responsive">
-                    <div
-                        id="plotly-lineage-six-recent"
-                        data-plotly-source="https://blobserver.dc.scilifelab.se/blob/lineage_six_recent.json"
-                        class="w-full"
-                        style="height: 800px; min-height: 400px;"
-                        role="img"
-                        aria-label="Recent sequences with Pango lineage (six-level granularity)">
-                        <p class="text-center text-pp-dark-grey py-8">Loading visualization...</p>
-                    </div>
-                </div>
+            <div class="plotly-wrapper">
+                {% include "dashboards/plotly_chart.html" with chart_id="plotly-lineage-six-recent" chart_data=plotly_lineage_six_recent chart_height=800 aria_label="Recent sequences with Pango lineage (six-level granularity)" %}
             </div>
 
             <p>
@@ -92,18 +82,8 @@
                 and data preparation script</a>.
             </p>
 
-            <div class="plot_wrapper mb-3">
-                <div class="table-responsive">
-                    <div
-                        id="plotly-lineage-four-recent"
-                        data-plotly-source="https://blobserver.dc.scilifelab.se/blob/lineage_four_recent.json"
-                        class="w-full"
-                        style="height: 600px; min-height: 400px;"
-                        role="img"
-                        aria-label="Recent sequences with Pango lineage (four-level granularity)">
-                        <p class="text-center text-pp-dark-grey py-8">Loading visualization...</p>
-                    </div>
-                </div>
+            <div class="plotly-wrapper">
+                {% include "dashboards/plotly_chart.html" with chart_id="plotly-lineage-four-recent" chart_data=plotly_lineage_four_recent chart_height=600 aria_label="Recent sequences with Pango lineage (four-level granularity)" %}
             </div>
 
             <p>
@@ -129,22 +109,12 @@
                 download as a .png file, or reset the axes to the original view.
             </p>
 
-            <div class="md:hidden bg-pp-pale-grey/30 border-l-4 border-pp-mid-blue text-pp-dark-blue p-4" role="status">
+            <div class="plotly-mobile-alert" role="status">
                 <p class="m-0">Rotating your phone may improve graph layout</p>
             </div>
 
-            <div class="plot_wrapper mb-3">
-                <div class="table-responsive">
-                    <div
-                        id="plotly-lineage-wholetime"
-                        data-plotly-source="https://blobserver.dc.scilifelab.se/blob/lineage_one_wholetime.json"
-                        class="w-full"
-                        style="height: 600px; min-height: 400px;"
-                        role="img"
-                        aria-label="All sequences with WHO label/Pango lineage">
-                        <p class="text-center text-pp-dark-grey py-8">Loading visualization...</p>
-                    </div>
-                </div>
+            <div class="plotly-wrapper">
+                {% include "dashboards/plotly_chart.html" with chart_id="plotly-lineage-wholetime" chart_data=plotly_lineage_wholetime chart_height=600 aria_label="All sequences with WHO label/Pango lineage" %}
             </div>
 
             <p>
@@ -214,4 +184,6 @@
             </ul>
         </div>
     </div>
+
+    {% include "dashboards/plotly_init.html" with plotly_data=plotly_data %}
 {% endblock %}

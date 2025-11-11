@@ -107,3 +107,36 @@
         @apply text-white *:text-white bg-pp-dark-blue text-xs;
     }
 }
+
+/* ============================================================================
+   Dashboard Components - Plotly Visualization Styling
+   ============================================================================
+   Styles for Plotly.js charts used in dashboard pages. These styles override
+   Plotly's default CSS to ensure proper horizontal toolbar layout and prevent
+   vertical stacking of toolbar buttons.
+   ============================================================================ */
+@layer components {
+    /* Plotly chart wrapper - container for chart with spacing and overflow */
+    .plotly-wrapper {
+        @apply mb-3 max-w-full overflow-x-auto;
+    }
+    
+    /* Plotly mobile alert - mobile-only info message for chart pages */
+    .plotly-mobile-alert {
+        @apply md:hidden bg-pp-pale-grey/30 border-l-4 border-pp-mid-blue text-pp-dark-blue p-4;
+    }
+    
+    /* Plotly modebar horizontal layout fix
+       Targets Plotly's dynamically generated toolbar to prevent vertical stacking */
+    .js-plotly-plot .plotly .modebar {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+    }
+    
+    /* Plotly modebar button groups - ensures horizontal button layout */
+    .js-plotly-plot .plotly .modebar-group {
+        display: flex !important;
+        flex-direction: row !important;
+    }
+}

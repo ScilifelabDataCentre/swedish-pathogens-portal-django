@@ -1,0 +1,65 @@
+{% comment %}
+Plotly.js initialization script for rendering charts from Django context.
+
+This template should be included once per page that uses Plotly charts.
+It expects plotly_data to be passed in the context with chart data.
+
+Usage:
+    {% include "dashboards/plotly_init.html" with plotly_data=plotly_data %}
+
+The plotly_data should be a dict where keys are chart IDs and values are
+Plotly JSON objects with 'data' and 'layout' properties.
+{% endcomment %}
+
+{% if plotly_data %}
+    <!-- Plotly.js library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/1.58.4/plotly.min.js"></script>
+
+
+    <!-- Pass Plotly data from Django context to JavaScript -->
+    {{ plotly_data|json_script:"plotly-data" }}
+
+    <script>
+        // Get Plotly data from Django context
+        const plotlyDataElement = document.getElementById("plotly-data");
+        const plotlyData = plotlyDataElement ? JSON.parse(plotlyDataElement.textContent) : {};
+
+        // Configuration for all Plotly charts
+        const plotlyConfig = {
+            responsive: true,
+            displayModeBar: true,
+            displaylogo: false,
+            modeBarButtonsToRemove: ["lasso2d", "select2d"]
+        };
+
+        // Render Plotly visualizations when DOM is ready
+        document.addEventListener("DOMContentLoaded", function() {
+            // Render all charts found in plotlyData
+            // The JSON from blobserver is already in Plotly format: {data: [...], layout: {...}}
+            Object.keys(plotlyData).forEach(function(chartId) {
+                const chartData = plotlyData[chartId];
+                const container = document.getElementById(chartId);
+                
+                if (container && chartData && chartData.data && chartData.layout) {
+                    container.innerHTML = "";
+                    Plotly.newPlot(chartId, chartData.data, chartData.layout, plotlyConfig);
+                }
+            });
+
+            // Handle window resize for responsive behavior
+            let resizeTimer;
+            window.addEventListener("resize", function() {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(function() {
+                    Object.keys(plotlyData).forEach(function(chartId) {
+                        const container = document.getElementById(chartId);
+                        if (container && container.querySelector(".plotly")) {
+                            Plotly.Plots.resize(chartId);
+                        }
+                    });
+                }, 250);
+            });
+        });
+    </script>
+{% endif %}
+

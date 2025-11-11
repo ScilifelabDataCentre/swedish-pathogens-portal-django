@@ -1,0 +1,26 @@
+{% comment %}
+Reusable Plotly chart container template for dashboards app.
+
+Usage:
+    {% include "dashboards/plotly_chart.html" with chart_id="my-chart" chart_data=plotly_data.key chart_height=600 %}
+
+Parameters:
+    chart_id: Unique ID for the chart container (required)
+    chart_data: Plotly JSON data object with 'data' and 'layout' properties (optional)
+    chart_height: Height of the chart in pixels (default: 600)
+    aria_label: Accessibility label for the chart (optional)
+{% endcomment %}
+
+<div
+    id="{{ chart_id }}"
+    class="w-full"
+    style="height: {{ chart_height|default:600 }}px; min-height: 400px; width: 100%;"
+    role="img"
+    aria-label="{{ aria_label|default:'Interactive data visualization' }}">
+    {% if chart_data %}
+        <p class="text-center text-pp-dark-grey py-8">Loading visualization...</p>
+    {% else %}
+        <p class="text-center text-pp-dark-grey py-8">Visualization data unavailable. Please try again later.</p>
+    {% endif %}
+</div>
+
