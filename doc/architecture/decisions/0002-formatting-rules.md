@@ -42,15 +42,16 @@ We will adopt the following formatting rules for the Swedish Pathogens Portal pr
 - **Current State**: Already followed throughout the codebase
 
 ### URL Naming Convention
-- **Rule**: Use dashes (hyphens) in URL paths (e.g., `/my-website-url/`, `/topic-detail/`)
+- **Rule**: Use lowercase with dashes (hyphens) in URL paths (e.g., `/my-website-url/`, `/topic-detail/`)
 - **Rationale**: 
   - More readable than underscores in URLs
-  - SEO-friendly (search engines prefer dashes)
+  - SEO-friendly (search engines prefer dashes and lowercase)
   - Consistent with web standards and best practices
-  - Django's `SlugField` automatically converts to dashes
+  - Avoids case-sensitivity issues
+  - Django's `SlugField` automatically converts to lowercase and dashes
 - **Examples**:
   - ✅ `/topics/covid-19-research/`, `/articles/my-article-title/`
-  - ❌ `/topics/covid_19_research/`, `/articles/myArticleTitle/`
+  - ❌ `/topics/covid_19_research/`, `/articles/MyArticleTitle/`, `/topics/COVID-19-Research/`
 - **Current State**: Already implemented via Django slug fields throughout the codebase
 
 ### Docstring Format
