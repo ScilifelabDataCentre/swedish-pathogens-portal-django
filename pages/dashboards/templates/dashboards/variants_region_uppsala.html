@@ -73,7 +73,7 @@
             </div>
 
             <div class="plotly-wrapper">
-                {% include "dashboards/plotly_chart.html" with chart_id="plotly-lineage-six-recent" chart_data=plotly_lineage_six_recent chart_height=800 aria_label="Recent sequences with Pango lineage (six-level granularity)" %}
+                {% include "dashboards/plotly_chart.html" with chart_id="plotly_lineage_six_recent" chart_data=plotly_data.plotly_lineage_six_recent chart_height=800 aria_label="Recent sequences with Pango lineage (six-level granularity)" %}
             </div>
 
             <p>
@@ -83,7 +83,7 @@
             </p>
 
             <div class="plotly-wrapper">
-                {% include "dashboards/plotly_chart.html" with chart_id="plotly-lineage-four-recent" chart_data=plotly_lineage_four_recent chart_height=600 aria_label="Recent sequences with Pango lineage (four-level granularity)" %}
+                {% include "dashboards/plotly_chart.html" with chart_id="plotly_lineage_four_recent" chart_data=plotly_data.plotly_lineage_four_recent chart_height=600 aria_label="Recent sequences with Pango lineage (four-level granularity)" %}
             </div>
 
             <p>
@@ -114,7 +114,7 @@
             </div>
 
             <div class="plotly-wrapper">
-                {% include "dashboards/plotly_chart.html" with chart_id="plotly-lineage-wholetime" chart_data=plotly_lineage_wholetime chart_height=600 aria_label="All sequences with WHO label/Pango lineage" %}
+                {% include "dashboards/plotly_chart.html" with chart_id="plotly_lineage_wholetime" chart_data=plotly_data.plotly_lineage_wholetime chart_height=600 aria_label="All sequences with WHO label/Pango lineage" %}
             </div>
 
             <p>
