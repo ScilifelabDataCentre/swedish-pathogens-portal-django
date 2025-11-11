@@ -23,11 +23,12 @@ Formalizing these rules will:
 
 We will adopt the following formatting rules for the Swedish Pathogens Portal project:
 
-### HTML Line Length
-- **Rule**: Maximum 80 characters per line in HTML template files, primarily referring to content/text displayed on webpages (e.g., text within `<p>`, `<h1>`, `<div>`, and other content tags)
-- **Rationale**: Improves readability in code reviews, easier to view in terminal/IDE side-by-side, aligns with common HTML style guides. Prevents overly long lines that are hard to scan, especially for content that will be displayed to users.
-- **Note**: While HTML templates with TailwindCSS utility classes can create long lines in code, the 80-character limit primarily applies to visible content/text. Code formatting (attributes, class lists) may exceed this limit when necessary for readability.
-- **Enforcement**: Manual code review. Automated tooling (e.g., Prettier, HTML linters) may be considered in the future to enforce this rule.
+### HTML Formatting
+- **Line Length**: Aim for approximately 90-100 characters per line in HTML template files, primarily referring to content/text displayed on webpages (e.g., text within `<p>`, `<h1>`, `<div>`, and other content tags). This is a guideline rather than a hard threshold, as there is no good automated tool to enforce it for HTML.
+- **Indentation**: If indentation is used, it should be 4 spaces (consistent with Python formatting).
+- **Rationale**: Improves readability in code reviews, easier to view in terminal/IDE side-by-side, aligns with common HTML style guides. Prevents overly long lines that are hard to scan, especially for content that will be displayed to users. The guideline is more lenient than Python's 88-character limit to account for HTML's structure and TailwindCSS utility classes.
+- **Note**: While HTML templates with TailwindCSS utility classes can create long lines in code, the line length guideline primarily applies to visible content/text. Code formatting (attributes, class lists) may exceed this guideline when necessary for readability. Since there's no good automated tool to enforce HTML line length, this is a soft guideline to avoid overly long lines when possible.
+- **Enforcement**: Manual code review. Automated tooling (e.g., Prettier, HTML linters) may be considered in the future, but currently there is no reliable tool to enforce HTML line length.
 
 ### File Naming Convention
 - **Rule**: Use lowercase with underscores for all file names (e.g., `my_file_name.html`, `topic_detail.py`)
@@ -113,10 +114,10 @@ These rules are enforced via Ruff configuration in `pyproject.toml`:
 - **Enforcement overhead**: Rules need to be checked and verified during code reviews, adding to review time
 - **Manual enforcement**: HTML line length and docstring format require manual verification as automated tooling is not currently configured
 - **Consistency maintenance**: Team members must remember and apply rules consistently across all code changes
-- **HTML content formatting**: May require more line breaks in content text within HTML tags to maintain 80-character limit
+- **HTML content formatting**: May require more line breaks in content text within HTML tags to follow the line length guideline
 
 ### Mitigation
 - Code review checklists can include formatting rule verification to ensure consistency
 - ADR documentation provides clear reference for all formatting rules
 - Examples in this ADR demonstrate correct usage patterns
-- HTML line length is a guideline - exceptions are acceptable when breaking would harm readability or when dealing with code formatting (attributes, class lists)
+- HTML line length is a soft guideline (90-100 characters) - exceptions are acceptable when breaking would harm readability or when dealing with code formatting (attributes, class lists)
