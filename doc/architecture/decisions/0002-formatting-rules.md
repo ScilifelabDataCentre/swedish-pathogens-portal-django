@@ -1,8 +1,6 @@
 # 2. Formatting Rules
 
-## Date
-
-**2025-11-10**
+**Date**: 2025-11-10
 
 ## Status
 
