@@ -1,8 +1,6 @@
 # 1. Record architecture decisions
 
-## Date
-
-**2025-11-10**
+**Date**: 2025-11-10
 
 ## Status
 
