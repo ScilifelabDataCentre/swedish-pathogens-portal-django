@@ -8,7 +8,7 @@ Accepted
 
 ## Context
 
-In Swedish Pathogens Portal, we develop and manage multiple dashboards. Each dashboard presents unique (and sometime multiple) plot. To support data visualization needs, we evaluated two main options for generating and displaying plots:
+Within the Swedish Pathogens Portal we develop and manage multiple dashboards. Each dashboard presents unique (and sometimes multiple) plots. To support data visualisation needs, we have evaluated two main options for generating and displaying plots:
 
 - Plotly _(integrated directly within the Django app)_
 
@@ -22,9 +22,16 @@ We decided to use **Plotly** as the primary plotting library for generating visu
 
 **Rationale:**
 
+- **Django Alignment:** Plotly integrates seamlessly with Django's template system and can be rendered server-side, maintaining our Django-based architecture.
+
+    **Implementation Approach:**
+
+    - Plots can be generated on the backend using the plotly python package.
+    - The plots embedded in the template can be rendered in the frontend using the plotly JavaScript library.
+
 - **Flexibility and Control:** Plotly allows full programmatic control over plot generation directly in Python, which fits well with our existing Django backend and development workflow.
 
-- **Simplicity of Integration:** Since our current requirements are modest, embedding Plotly charts directly within Django templates avoids the overhead of managing a separate visualization service.
+- **Simplicity of Integration:** The overhead of managing a separate visualization service is not outweighed by our current limited visualisation needs, thus simply embedding plots directly with the Django templates works more than sufficient.
 
 **Considered Alternatives:**
 
@@ -36,6 +43,15 @@ We decided to use **Plotly** as the primary plotting library for generating visu
 
 ## Consequences
 
-- Plot generation logic remains tightly coupled to the Django codebase, which is acceptable for the current project scale.
+**Positive:**
+- Plot generation logic stays within the Django codebase, ensuring straightforward integration, consistent development workflows, and minimal operational overhead.
 
-- If dashboards evolve into more complex or user-driven analytic interfaces, we may need to re-evaluate Superset or a similar dedicated BI solution in the future
+**Negative:**
+- The visualisation logic is tightly coupled to the Django application, which may limit scalability and flexibility if the number or complexity of the dashboards grows.
+- All dashboard modifications must go through the portal team. High request volumes would substantially increase the team’s workload.
+
+
+**Mitigation:**
+- We should have a structured request process or batching of changes to reduce the number of ad-hoc modifications submitted to the portal team.
+- If we wish to give users (researchers) the direct access to add/modify dashboards, we will re-evaluate Apache Superset or similar BI tools and make new decision based on the new requirement and use case.
+
