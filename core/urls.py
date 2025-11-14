@@ -15,26 +15,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
+# Third-party imports
 from django.contrib import admin
 from django.urls import path, include
-from django.http import JsonResponse
 from django.conf import settings
 from django.conf.urls.static import static
 
-def healthz(_request):
-    """Health check endpoint.
-    
-    Used for monitoring uptime of the service.
-    Always returns a JSON object indicating that the service is running.
-    
-    Args: 
-        _request: Incoming HTTP request object (not used)
-    
-    Returns:
-        JsonResponse: A JSON response indicating service status. 
-            Always returns 200 OK with {"status": "ok"} unless there is a server issue.
-    """
-    return JsonResponse({"status": "ok"})
+# Local imports
+from core.views import healthz
+
 
 urlpatterns = [
     path(settings.ADMIN_URL, admin.site.urls, name="admin"),
