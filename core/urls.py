@@ -24,7 +24,6 @@ from django.conf.urls.static import static
 # Local imports
 from core.views import healthz
 
-
 urlpatterns = [
     path(settings.ADMIN_URL, admin.site.urls, name="admin"),
     path("", include("pages.home.urls")),
