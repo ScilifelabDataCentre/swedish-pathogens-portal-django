@@ -8,7 +8,6 @@
     temporary thing, so no need do try and do it properly yet. After first MVP is
     launched, Dashboards will go thorugh huge changes and this will be cleaned up.
 {% endcomment %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/1.58.4/plotly.min.js"></script>
 
 <p class="mt-6 p-4 bg-pp-pale-grey">
     The data on this page are largely historic, though they may be updated occasionally.
@@ -62,8 +61,9 @@
     Scroll the plot sideways to view all of the data.
 </p>
 
-{% comment %} TODO: cleanup in second phase {% endcomment %}
-{% include "dashboards/plotly_load_json.html" with json="https://blobserver.dc.scilifelab.se/blob/weekly_serology_tests.json" height="550px" %}
+<div id="weekly_serology_plot">
+    {{ weekly_plot|safe }}
+</div>
 
 <p>
     <b>Code used to produce plot:</b> TODO
@@ -81,8 +81,9 @@
     Scroll the plot sideways to view all of the data.
 </p>
 
-{% comment %} TODO: cleanup in second phase {% endcomment %}
-{% include "dashboards/plotly_load_json.html" with json="https://blobserver.dc.scilifelab.se/blob/cumulative_serology_tests.json" height="550px" %}
+<div id="cumulative_serology_plot">
+    {{ cumulative_data|safe }}
+</div>
 
 <p>
     <b>Code used to produce plot:</b> TODO
