@@ -10,3 +10,4 @@ class TopicsConfig(AppConfig):
 
     default_auto_field = "django.db.models.BigAutoField"
     name = "pages.topics"
+    verbose_name = "Topics"
