@@ -57,6 +57,7 @@ LOCAL_APPS = [
     "pages.data_management",
     "pages.home",
     "pages.news",
+    "pages.portal_data",
     "pages.privacy",
     "pages.topics",
 ]
