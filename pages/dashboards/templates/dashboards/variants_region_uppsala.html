@@ -68,12 +68,18 @@
                 view.
             </p>
 
-            <div class="plotly-mobile-alert" role="status">
-                <p class="m-0">Rotating your phone may improve graph layout</p>
-            </div>
+            <p class="lg:hidden p-4 bg-pp-pale-grey">
+                Scroll the plot sideways to view all of the data.
+            </p>
 
-            <div class="plotly-wrapper">
-                {% include "dashboards/plotly/plotly_chart.html" with chart_id="plotly_lineage_six_recent" chart_data=plotly_data.plotly_lineage_six_recent chart_height=800 aria_label="Recent sequences with Pango lineage (six-level granularity)" %}
+            <div class="mb-3 max-w-full overflow-x-auto">
+                <div id="lineage_six_recent">
+                    {% if lineage_six_recent %}
+                        {{ lineage_six_recent|safe }}
+                    {% else %}
+                        {% include "dashboards/partials/plot_loading_error.html" %}
+                    {% endif %}
+                </div>
             </div>
 
             <p>
@@ -82,8 +88,14 @@
                 and data preparation script</a>.
             </p>
 
-            <div class="plotly-wrapper">
-                {% include "dashboards/plotly/plotly_chart.html" with chart_id="plotly_lineage_four_recent" chart_data=plotly_data.plotly_lineage_four_recent chart_height=600 aria_label="Recent sequences with Pango lineage (four-level granularity)" %}
+            <div class="mb-3 max-w-full overflow-x-auto">
+                <div id="lineage_four_recent">
+                    {% if lineage_four_recent %}
+                        {{ lineage_four_recent|safe }}
+                    {% else %}
+                        {% include "dashboards/partials/plot_loading_error.html" %}
+                    {% endif %}
+                </div>
             </div>
 
             <p>
@@ -109,12 +121,18 @@
                 download as a .png file, or reset the axes to the original view.
             </p>
 
-            <div class="plotly-mobile-alert" role="status">
-                <p class="m-0">Rotating your phone may improve graph layout</p>
-            </div>
+            <p class="lg:hidden p-4 bg-pp-pale-grey">
+                Scroll the plot sideways to view all of the data.
+            </p>
 
-            <div class="plotly-wrapper">
-                {% include "dashboards/plotly/plotly_chart.html" with chart_id="plotly_lineage_wholetime" chart_data=plotly_data.plotly_lineage_wholetime chart_height=600 aria_label="All sequences with WHO label/Pango lineage" %}
+            <div class="mb-3 max-w-full overflow-x-auto">
+                <div id="lineage_wholetime">
+                    {% if lineage_wholetime %}
+                        {{ lineage_wholetime|safe }}
+                    {% else %}
+                        {% include "dashboards/partials/plot_loading_error.html" %}
+                    {% endif %}
+                </div>
             </div>
 
             <p>
@@ -185,5 +203,4 @@
         </div>
     </div>
 
-    {% include "dashboards/plotly/plotly_init.html" with plotly_data=plotly_data %}
 {% endblock %}
