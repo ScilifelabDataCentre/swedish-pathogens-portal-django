@@ -15,10 +15,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
+# Third-party imports
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+
+# Local imports
+from core.views import healthz
 
 urlpatterns = [
     path(settings.ADMIN_URL, admin.site.urls, name="admin"),
@@ -28,6 +32,7 @@ urlpatterns = [
     path("citation/", include("pages.citation.urls")),
     path("dashboards/", include("pages.dashboards.urls")),
     path("data-management/", include("pages.data_management.urls")),
+    path("healthz/", healthz, name="healthz"),
     path("news/", include("pages.news.urls")),
     path("privacy/", include("pages.privacy.urls")),
     path("topics/", include("pages.topics.urls")),
