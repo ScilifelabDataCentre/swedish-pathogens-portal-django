@@ -19,14 +19,12 @@ jobs:
       - name: Checkout the repo
         uses: actions/checkout@v4
       
-      - name: Lint check
+      - name: Ruff lint
         uses: astral-sh/ruff-action@v3
         with:
-          version: latest
           args: check
 
-      - name: Format check
+      - name: Ruff format (check only)
         uses: astral-sh/ruff-action@v3
         with: 
-          version: latest
           args: format --check --diff
