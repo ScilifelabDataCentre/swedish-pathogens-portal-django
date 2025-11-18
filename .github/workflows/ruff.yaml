@@ -5,14 +5,15 @@ name: Ruff
 
 on:
   push:
-    # paths:
-    #   - '**.py'
+    paths:
+      - '**.py'
   pull_request:
-    # paths:
-    #   - '**.py'
+    paths:
+      - '**.py'
 
 jobs:
   ruff:
+    name: Lint & Format with Ruff
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repo
