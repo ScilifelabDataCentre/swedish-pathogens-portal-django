@@ -1,0 +1,22 @@
+{% comment %}
+    A common snippet to load compatible version Plotly JS library
+
+    Usage:
+        {% include "dashboards/partials/load_plotyjs.html" %}
+{% endcomment %}
+
+{% if plotlyjs_url and plotlyjs_hash %}
+
+<script charset="utf-8" src={{ plotlyjs_url }} integrity={{ plotlyjs_hash }} crossorigin="anonymous"></script>
+
+{% else %}
+
+{% comment %}
+    This is the latest version available during this implementation (Nov, 2025),
+    this is added as a temporary fallback option in case if not able to fetch
+    CDN programattically.
+{% endcomment %}
+
+<script charset="utf-8" src="https://cdn.plot.ly/plotly-3.1.0.min.js" integrity="sha256-Ei4740bWZhaUTQuD6q9yQlgVCMPBz6CZWhevDYPv93A=" crossorigin="anonymous"></script>
+
+{% endif %}
