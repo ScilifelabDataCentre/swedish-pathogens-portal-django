@@ -116,16 +116,6 @@
    vertical stacking of toolbar buttons.
    ============================================================================ */
 @layer components {
-    /* Plotly chart wrapper - container for chart with spacing and overflow */
-    .plotly-wrapper {
-        @apply mb-3 max-w-full overflow-x-auto;
-    }
-    
-    /* Plotly mobile alert - mobile-only info message for chart pages */
-    .plotly-mobile-alert {
-        @apply md:hidden bg-pp-pale-grey/30 border-l-4 border-pp-mid-blue text-pp-dark-blue p-4;
-    }
-    
     /* Plotly modebar horizontal layout fix
        Targets Plotly's dynamically generated toolbar to prevent vertical stacking */
     .js-plotly-plot .plotly .modebar {
