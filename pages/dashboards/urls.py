@@ -5,5 +5,7 @@ app_name = "dashboards"
 
 urlpatterns = [
     path("", DashboardsIndex.as_view(), name="index"),
-    path("lineage-competition/", LineageCompetition.as_view(), name="lineage_competition"),
+    path(
+        "lineage-competition/", LineageCompetition.as_view(), name="lineage_competition"
+    ),
 ]
