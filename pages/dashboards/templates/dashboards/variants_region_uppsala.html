@@ -1,6 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
+
+{% comment %}
+    TODO: cleanup in second phase
+    fix internal URL reference
+    fix plot generation script URLS
+    fix data update date
+    fix commentary section
+{% endcomment %}
+
     <div id="content-start">
         <div class="prose max-w-none space-y-6 mt-4">
             <h2 id="introduction">Introduction</h2>
@@ -29,9 +38,13 @@
 
             <h2 id="sequence-visualisations">SARS-CoV-2 Sequence Visualisations</h2>
 
+            {% comment%}
+            TODO: will be implemented in next phase
+
             <div class="bg-pp-pale-grey/30 border-l-4 border-pp-mid-blue text-pp-dark-blue p-4" role="status">
                 <p class="m-0"><strong>Last updated:</strong> <span id="last_modified_uuclinmicro">TODO</span></p>
             </div>
+            {% endcomment %}
 
             <p>
                 The sequences are presented according to their
@@ -82,11 +95,15 @@
                 </div>
             </div>
 
+            {% comment%}
+            TODO: will be implemented in next phase
+
             <p>
                 <strong>Code used to produce plots:</strong>
                 <a href="https://github.com/ScilifelabDataCentre/pathogens-portal-visualisations/blob/main/ClinMicro/lineage-plotting-six.py">Graph
                 and data preparation script</a>.
             </p>
+            {% endcomment %}
 
             <div class="mb-3 max-w-full overflow-x-auto">
                 <div id="lineage_four_recent">
@@ -98,11 +115,15 @@
                 </div>
             </div>
 
+            {% comment%}
+            TODO: will be implemented in next phase
+
             <p>
                 <strong>Code used to produce plots:</strong>
                 <a href="https://github.com/ScilifelabDataCentre/pathogens-portal-visualisations/blob/main/ClinMicro/lineage-plotting-four.py">Graph
                 and data preparation script</a>.
             </p>
+            {% endcomment %}
 
             <h3 id="all-sequences">All sequences with WHO label/Pango lineage</h3>
 
@@ -135,11 +156,18 @@
                 </div>
             </div>
 
+            {% comment%}
+            TODO: will be implemented in next phase
+
             <p>
                 <strong>Code used to produce plots:</strong>
                 <a href="https://github.com/ScilifelabDataCentre/pathogens-portal-visualisations/blob/main/ClinMicro/lineage-plotting-one.py">Graph
                 and data preparation script</a>.
             </p>
+            {% endcomment %}
+
+            {% comment%}
+            TODO: will be implemented in next phase
 
             <h2 id="commentary">Commentary from the research group</h2>
 
@@ -147,6 +175,7 @@
                 <p><strong>Date:</strong> <span id="clinmicro_uu_comment_date">TODO</span></p>
                 <p><strong>Commentary:</strong> <span id="clinmicro_uu_comment">TODO</span></p>
             </div>
+            {% endcomment %}
 
             <h2 id="contact">Contact</h2>
 
