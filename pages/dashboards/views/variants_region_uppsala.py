@@ -1,40 +1,46 @@
-from .plotly import PlotlyDashboardView
+from django.shortcuts import render
+from django.views import View
+
+from ..visualisation.utils import fetch_plot_json_blobserver, plot_html_from_json
 
 
-class VariantsRegionUppsala(PlotlyDashboardView):
+class VariantsRegionUppsala(View):
     """SARS-CoV-2 variants detected in Region Uppsala dashboard page.
 
     This dashboard view class renders the template for the Uppsala University Hospital
     whole-genome sequencing surveillance dashboard, which displays SARS-CoV-2 variant
     data from the Uppsala region. It fetches Plotly JSON data from blobserver and
-    passes it to the template for rendering.
+    converts it to HTML for rendering.
 
-    The view fetches Plotly visualization data from external blobserver URLs with
-    5-minute caching to reduce external API calls. Data is passed to the template
-    as a dictionary with underscore-based chart IDs for direct template access.
+    The view uses utility functions from visualisation.utils to fetch and convert
+    Plotly JSON data to HTML strings, which are then passed to the template for
+    direct rendering without client-side JavaScript.
 
     Attributes:
         template_name: Template for rendering the dashboard.
         title: Title displayed in the rendered page's banner section.
         description: Description to be used in the HTML's head.
-        PLOTLY_SOURCES: Dictionary mapping chart IDs to blobserver URLs.
 
     Example:
-        The view automatically fetches and caches Plotly data:
+        The view fetches plot data and generates HTML:
 
         .. code-block:: python
 
-            class VariantsRegionUppsala(PlotlyDashboardView):
+            class VariantsRegionUppsala(View):
                 template_name = "dashboards/variants_region_uppsala.html"
-                PLOTLY_SOURCES = {
-                    "plotly_lineage_six_recent": "https://blobserver.dc.scilifelab.se/blob/lineage_six_recent.json",
-                }
+                title = "SARS-CoV-2 variants detected in Region Uppsala"
 
-        Template context includes:
-        - `plotly_data`: Dictionary of all chart data keyed by chart ID
-        
-        Template access example:
-            plotly_data.plotly_lineage_six_recent
+                def get(self, request):
+                    context = {"title": self.title, "description": self.description}
+                    blob_data = fetch_plot_json_blobserver("lineage_six_recent.json")
+                    if blob_data is not None:
+                        context["lineage_six_recent"] = plot_html_from_json(
+                            blob_data, height="800px", skip_invalid=True
+                        )
+                    return render(request, self.template_name, context)
+
+        Template can access plot HTML via:
+            {{ lineage_six_recent|safe }}
     """
 
     template_name = "dashboards/variants_region_uppsala.html"
@@ -45,10 +51,37 @@ class VariantsRegionUppsala(PlotlyDashboardView):
         "Uppsala University Hospital."
     )
 
-    # Plotly data source URLs mapped to chart container IDs
-    # Using underscores for IDs to enable direct template access
-    PLOTLY_SOURCES = {
-        "plotly_lineage_six_recent": "https://blobserver.dc.scilifelab.se/blob/lineage_six_recent.json",
-        "plotly_lineage_four_recent": "https://blobserver.dc.scilifelab.se/blob/lineage_four_recent.json",
-        "plotly_lineage_wholetime": "https://blobserver.dc.scilifelab.se/blob/lineage_one_wholetime.json",
-    }
+    def get(self, request):
+        """Fetch the compiled plot data (JSON) and generate plot HTML strings.
+
+        Fetches Plotly JSON data from blobserver for each chart, converts it to HTML
+        using plot_html_from_json, and adds it to the context for template rendering.
+
+        Returns:
+            Rendered template with plot HTML strings in context.
+        """
+        context = {
+            "title": self.title,
+            "description": self.description,
+        }
+
+        # Map chart IDs to blobserver blob names
+        plot_sources = {
+            "lineage_six_recent": "lineage_six_recent.json",
+            "lineage_four_recent": "lineage_four_recent.json",
+            "lineage_wholetime": "lineage_one_wholetime.json",
+        }
+
+        # Fetch and convert each plot
+        for chart_id, blob_name in plot_sources.items():
+            blob_data = fetch_plot_json_blobserver(blob_name)
+            if blob_data is not None:
+                # Set height based on chart type
+                height = "800px" if chart_id == "lineage_six_recent" else "600px"
+                context[chart_id] = plot_html_from_json(
+                    blob_data,
+                    height=height,
+                    skip_invalid=True,
+                )
+
+        return render(request, self.template_name, context)
