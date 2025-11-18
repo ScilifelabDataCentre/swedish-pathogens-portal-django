@@ -8,12 +8,14 @@ from urllib.request import urlopen
 
 import plotly.io as pio
 
+from django.core.cache import cache
+
 logger = logging.getLogger(__name__)
 
 
 # TODO: The following function might be removed in the following
 # phases as the blobserver depedancy will be removed
-def fetch_plot_json_blobserver(blob):
+def fetch_plot_json_blobserver(blob: str) -> dict | None:
     """Fetch plot data from blobserver
 
     This is a temporary function to fetch plot related data (compiled
@@ -33,11 +35,19 @@ def fetch_plot_json_blobserver(blob):
         # Returns dict with 'data' and 'layout' keys, or None
     """
 
+    cache_key = f"plotly_data_{blob}"
+    # check and fetch cache if exists
+    cached_data = cache.get(cache_key)
+    if cached_data is not None:
+        return cached_data
+
+    # get data from blobserver if it didn't exist in cache
     url = f"https://blobserver.dc.scilifelab.se/blob/{blob}"
     try:
         with urlopen(url, timeout=10) as response:
             data = json.loads(response.read().decode("utf-8"))
-            return data
+        cache.set(cache_key, data, 300)  # 5 minutes
+        return data
     except URLError as e:
         logger.warning(f"Network error fetching Plotly data from {url}:\n{e}")
     except TimeoutError as e:
@@ -50,8 +60,11 @@ def fetch_plot_json_blobserver(blob):
 
 
 def plot_html_from_json(
-    data, height="100%", include_plotlyjs="cdn", skip_invalid=False
-):
+    data: dict | None,
+    height: str | int = "100%",
+    skip_invalid: bool = False,
+    include_plotlyjs: str | bool = "cdn",
+) -> str | None:
     """Generate graph's HTML string
 
     Using plotly IO, generate figure from JSON plot data and return
@@ -80,15 +93,19 @@ def plot_html_from_json(
             graph_html = plot_html_from_json(data=data, height="500px")
             # Returns a HTML string or None if any exception
     """
-
-    try:
-        jstring = json.dumps(data)
-        fig = pio.from_json(jstring, skip_invalid=skip_invalid)
-        return fig.to_html(
-            full_html=False, include_plotlyjs=include_plotlyjs, default_height=height
-        )
-    except ValueError as e:
-        logger.warning(f"Invalid JSON data, kindly check the data.\nError: {e}")
-    except Exception as e:
-        logger.warning(f"Exception while generating plot HTML from JSON\nError: {e}")
+    if data is not None:
+        try:
+            jstring = json.dumps(data)
+            fig = pio.from_json(jstring, skip_invalid=skip_invalid)
+            return fig.to_html(
+                full_html=False,
+                default_height=height,
+                include_plotlyjs=include_plotlyjs,
+            )
+        except ValueError as e:
+            logger.warning(f"Invalid JSON data, kindly check the data.\nError: {e}")
+        except Exception as e:
+            logger.warning(f"Exception while creating plot HTML from JSON\nError: {e}")
+    else:
+        logger.warning("Provided JSON data should not be 'None'")
     return None

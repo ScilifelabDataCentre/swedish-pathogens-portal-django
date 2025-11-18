@@ -4,16 +4,14 @@
 
 {% comment %}
     TODO: cleanup in second phase
-    Load (old) Plotly JS, this is very ugly way to do it. But since this is only a
-    temporary thing, so no need do try and do it properly yet. After first MVP is
-    launched, Dashboards will go thorugh huge changes and this will be cleaned up.
+    fix internal URL reference
 {% endcomment %}
 
 <p class="mt-6 p-4 bg-pp-pale-grey">
     The data on this page are largely historic, though they may be updated occasionally.
     The Autoimmunity and Serology Profiling unit has now expanded their pandemic
     preparedness efforts to include tests for multiple other viruses. Information about
-    that work can be found on the <a href="/dashboards/multidisease_serology/"
+    that work can be found on the <a href="/dashboards/multidisease-serology/"
     class="text-pp-dark-blue"> multi-disease serology dashboard</a>.
 </p>
 
@@ -62,7 +60,11 @@
 </p>
 
 <div id="weekly_serology_plot">
-    {{ weekly_plot|safe }}
+    {% if weekly_serology_tests %}
+        {{ weekly_serology_tests|safe }}
+    {% else %}
+        {% include "dashboards/partials/plot_loading_error.html" %}
+    {% endif %}
 </div>
 
 <p>
@@ -82,7 +84,11 @@
 </p>
 
 <div id="cumulative_serology_plot">
-    {{ cumulative_data|safe }}
+    {% if cumulative_serology_tests %}
+        {{ cumulative_serology_tests|safe }}
+    {% else %}
+        {% include "dashboards/partials/plot_loading_error.html" %}
+    {% endif %}
 </div>
 
 <p>

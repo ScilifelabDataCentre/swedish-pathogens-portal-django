@@ -1,9 +1,10 @@
-from utils.views import BaseTemplateView
+from django.shortcuts import render
+from django.views import View
 
 from ..visualisation.utils import fetch_plot_json_blobserver, plot_html_from_json
 
 
-class SerologyStatistics(BaseTemplateView):
+class SerologyStatistics(View):
     """SARS-CoV-2 serology tests dashboard page.
 
     WIP: Currently pulling the plots from blobserver, this is temparory way
@@ -22,30 +23,22 @@ class SerologyStatistics(BaseTemplateView):
     )
     description = (
         "A visualisation of the SARS-CoV-2 serology tests completed over "
-        "time at the at SciLifeLab Autoimmunology and Serology Profiling unit."
+        "time at the SciLifeLab Autoimmunology and Serology Profiling unit."
     )
-    plot_height = "550px"
 
-    def get_context_data(self, **kwargs):
-        """Add plot HTML string to the context"""
+    def get(self, request):
+        """Fetch the compiled plot data (JSON) and generate plot html string"""
 
-        context = super().get_context_data(**kwargs)
-        context["plot_height"] = self.plot_height
+        context = dict(title=self.title, description=self.description)
 
-        # TODO: plot data to be fetch from DB
-        weekly_data = fetch_plot_json_blobserver("weekly_serology_tests.json")
-        context["weekly_plot"] = plot_html_from_json(
-            weekly_data,
-            height=self.plot_height,
-            skip_invalid=True,
-        )
-        # TODO: plot data to be fetch from DB
-        cumulative_data = fetch_plot_json_blobserver("cumulative_serology_tests.json")
-        context["cumulative_data"] = plot_html_from_json(
-            cumulative_data,
-            height=self.plot_height,
-            include_plotlyjs=False,
-            skip_invalid=True,
-        )
+        for blob in ["weekly_serology_tests", "cumulative_serology_tests"]:
+            # TODO: plot data to be fetch from DB
+            blob_data = fetch_plot_json_blobserver(f"{blob}.json")
+            if blob_data is not None:
+                context[blob] = plot_html_from_json(
+                    blob_data,
+                    height="550px",
+                    skip_invalid=True,
+                )
 
-        return context
+        return render(request, self.template_name, context)
