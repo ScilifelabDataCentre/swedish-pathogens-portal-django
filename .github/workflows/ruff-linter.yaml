@@ -23,12 +23,10 @@ jobs:
         uses: astral-sh/ruff-action@v3
         with:
           version: latest
-          src: "./"
           args: check
 
       - name: Format check
         uses: astral-sh/ruff-action@v3
         with: 
           version: latest
-          src: "./"
           args: format --check --diff
