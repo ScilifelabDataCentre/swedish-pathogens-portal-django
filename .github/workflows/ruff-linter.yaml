@@ -1,6 +1,7 @@
+# .github/workflows/ruff.yaml
 # GitHub Actions workflow for Ruff linter
 ---
-name: Ruff checks -- Linting and Format
+name: Ruff
 
 on:
   push:
@@ -11,16 +12,23 @@ on:
       - '**.py'
 
 jobs:
-  ruff-linting:
-    name: Ruff linting check
+  ruff:
+    name: Run checks with Ruff
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repo
         uses: actions/checkout@v4
       
-      - name: Run ruff check
+      - name: Lint check
         uses: astral-sh/ruff-action@v3
         with:
           version: latest
           src: "./"
           args: check --config ./pyproject.toml
+
+      - name: Format check
+        uses: astral-sh/ruff-action@v3
+        with: 
+          version: latest
+          src: "./"
+          args: format --check --diff --config ./pyproject.toml
