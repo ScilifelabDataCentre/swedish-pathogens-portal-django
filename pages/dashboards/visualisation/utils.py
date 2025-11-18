@@ -2,6 +2,7 @@
 
 import json
 import logging
+import re
 
 from urllib.error import URLError
 from urllib.request import urlopen
@@ -63,7 +64,7 @@ def plot_html_from_json(
     data: dict | None,
     height: str | int = "100%",
     skip_invalid: bool = False,
-    include_plotlyjs: str | bool = "cdn",
+    include_plotlyjs: str | bool = False,
 ) -> str | None:
     """Generate graph's HTML string
 
@@ -75,9 +76,8 @@ def plot_html_from_json(
         height: Parameter passed to 'to_html' method, the height of the rendered
             plot will be of this value. It can either a int (pixels) or
             str (css notation like '500px' or '100%')
-        include_plotlyjs: Parameter passed to 'to_html' method. Default value 'cdn',
-            this will include <script> tag to load the plotly JS library in the
-            generated HTML. If set to False, it will not be included.
+        include_plotlyjs: Parameter passed to 'to_html' method. Can be set to 'cdn'
+            if Plotly JS is not available on global level.
         skip_invalid: A boolean parameter to be passed to pio's from_json
             method. If set to true, invalid properties in the JSON object
             will be ignored without raising an exception.
@@ -108,3 +108,42 @@ def plot_html_from_json(
     else:
         logger.warning("Provided JSON data should not be 'None'")
     return None
+
+
+def get_plotltjs_cdn_param(param: str) -> str | None:
+    """Get plotly JS load parameter
+
+    A function to get compatible Plotly JS version's url or hash (based on the arg)
+    by creating and parsing a dummy plot html.
+
+    Args:
+        param: A requerid string, which should either "url" or "hash". For any other
+            values, it returns None
+
+    Returns:
+        A string (either a 'url' or 'hash') or None depending on the passed arg.
+
+    Example:
+        .. code-block:: python
+
+        plotlyjs_cdn = get_plotltjs_cdn_param("url")
+        # Returns a 'url' string of Plotly JS
+    """
+
+    expected_args = ["url", "hash"]
+    if param not in expected_args:
+        logger.warning("Param should be either 'url' or 'hash'")
+        return None
+    # generate dummy plot html to pattern search
+    html_string = pio.to_html({}, full_html=False, include_plotlyjs="cdn")
+    m = re.search(
+        r'<script.*?src="([^"]+plotly[^"]+\.js)".*?integrity="(.*?)".*?</script>',
+        html_string,
+    )
+    if m:
+        param_match = m.group(expected_args.index(param) + 1)
+        logger.info(f"Fetched Plotly JS cdn's {param}: {param_match}")
+        return param_match
+    else:
+        logger.warning(f"Could not find matching pattern for '{param}'")
+        return None
