@@ -1,4 +1,6 @@
-name: Ruff Linting check
+# GitHub Actions workflow for Ruff linter
+---
+name: Ruff checks -- Linting and Format
 
 on:
   push:
