@@ -7,7 +7,7 @@ from ..visualisation.utils import fetch_plot_json_blobserver, plot_html_from_jso
 class SerologyStatistics(View):
     """SARS-CoV-2 serology tests dashboard page.
 
-    WIP: Currently pulling the plots from blobserver, this is temparory way
+    WIP: Currently pulling the plots from blobserver, this is temporary way
     for the MVP. In next set of update this view will change
 
     Attributes:

@@ -14,12 +14,12 @@ logger = logging.getLogger(__name__)
 
 
 # TODO: The following function might be removed in the following
-# phases as the blobserver depedancy will be removed
+# phases as the blobserver dependency will be removed
 def fetch_plot_json_blobserver(blob: str) -> dict | None:
     """Fetch plot data from blobserver
 
-    This is a temporary function to fetch plot related data (compiled
-    plot in JSON format)from blobserver.
+    This is a temporary function to fetch plot related data
+    (compiled plot in JSON format) from blobserver.
 
     Args:
         blob: Name of the plot file in blobserver
@@ -68,7 +68,7 @@ def plot_html_from_json(
     """Generate graph's HTML string
 
     Using plotly IO, generate figure from JSON plot data and return
-    a HTML string of the plot.
+    an HTML string of the plot.
 
     Args:
         data: Plotly graph's JSON object i.e. with "data" and "layout"
@@ -78,20 +78,19 @@ def plot_html_from_json(
         include_plotlyjs: Parameter passed to 'to_html' method. Default value 'cdn',
             this will include <script> tag to load the plotly JS library in the
             generated HTML. If set to False, it will not be included.
-        skip_invalid: A boolean paramater to be passed to pio's from_json
-            method. If set to true, invaild properties in the JSON object
+        skip_invalid: A boolean parameter to be passed to pio's from_json
+            method. If set to true, invalid properties in the JSON object
             will be ignored without raising an exception.
 
     Returns:
-        A HTML string that can be embedded in the templates directly.
-        if 'raise_exception' is set to 'True', then it returns 'None'
-        when there is an exception.
+        An HTML string that can be embedded in the templates directly.
+        Return None if the plot html generation failed.
 
     Example:
         .. code-block:: python
 
             graph_html = plot_html_from_json(data=data, height="500px")
-            # Returns a HTML string or None if any exception
+            # Returns an HTML string or None if any exception
     """
     if data is not None:
         try:
