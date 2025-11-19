@@ -240,6 +240,365 @@
                target="_blank" rel="noopener noreferrer" class="text-pp-mid-blue">Script to produce plot</a>.
         </p>
         {% endcomment %}
+
+        <h3 id="geographic-distribution">Geographic distribution of diagnosed cases relative to population size</h3>
+
+        <p>
+            The maps below show the number of people that received the diagnoses of interest
+            in each county as a percentage of the total population of that county. The total
+            population of the county and the number of people who received the diagnosis can be
+            seen by hovering the mouse above a particular county.
+        </p>
+
+        <h4 id="geographic-u099">Diagnosis U09.9</h4>
+
+        <p class="lg:hidden p-4 bg-pp-pale-grey">
+            Scroll the plot sideways to view all of the data.
+        </p>
+
+        <div class="mb-3 max-w-full overflow-x-auto">
+            <div id="geographic_u099">
+                {% if geographic_u099 %}
+                    {{ geographic_u099|safe }}
+                {% else %}
+                    {% include "dashboards/partials/plot_loading_error.html" %}
+                {% endif %}
+            </div>
+        </div>
+
+        {% comment %}
+        TODO: will be implemented in next phase
+        <p>
+            <strong>Code used to produce plot:</strong>
+            <a href="https://github.com/ScilifelabDataCentre/pathogens-portal-visualisations/blob/main/postCOVID/postcovid_dataprep.py"
+               target="_blank" rel="noopener noreferrer" class="text-pp-mid-blue">Data preparation script</a>,
+            <a href="https://github.com/ScilifelabDataCentre/pathogens-portal-visualisations/blob/main/postCOVID/postcovid_mapfig_population_U099.py"
+               target="_blank" rel="noopener noreferrer" class="text-pp-mid-blue">Script to produce map</a>.
+        </p>
+        {% endcomment %}
+
+        <h4 id="geographic-u089">Diagnosis Z86.1A/U08.9</h4>
+
+        <p class="lg:hidden p-4 bg-pp-pale-grey">
+            Scroll the plot sideways to view all of the data.
+        </p>
+
+        <div class="mb-3 max-w-full overflow-x-auto">
+            <div id="geographic_u089">
+                {% if geographic_u089 %}
+                    {{ geographic_u089|safe }}
+                {% else %}
+                    {% include "dashboards/partials/plot_loading_error.html" %}
+                {% endif %}
+            </div>
+        </div>
+
+        {% comment %}
+        TODO: will be implemented in next phase
+        <p>
+            <strong>Code used to produce plot:</strong>
+            <a href="https://github.com/ScilifelabDataCentre/pathogens-portal-visualisations/blob/main/postCOVID/postcovid_dataprep.py"
+               target="_blank" rel="noopener noreferrer" class="text-pp-mid-blue">Data preparation script</a>,
+            <a href="https://github.com/ScilifelabDataCentre/pathogens-portal-visualisations/blob/main/postCOVID/postcovid_mapfig_population_U089.py"
+               target="_blank" rel="noopener noreferrer" class="text-pp-mid-blue">Script to produce map</a>.
+        </p>
+        {% endcomment %}
+
+        <h3 id="accompanying-diagnoses">Most common accompanying diagnoses</h3>
+
+        <h4 id="accomp-u099">Diagnosis U09.9</h4>
+
+        <p>
+            The below table displays the most common types of diagnosis (diagnosis groups) that
+            have been reported together with the <em>U09.9 (ICD-10-SE) - Postinfectious state
+            associated with COVID-19, unspecified</em> diagnosis. In particular, the values in
+            the table represent the amount of individuals that received the <em>U09.9</em> diagnosis
+            alongside one of the diagnoses below. The data was recorded between 16th October 2020
+            and the most recent data update (see above).
+        </p>
+
+        <div class="mb-3 max-w-full overflow-x-auto">
+            <div id="accomp_diag_table">
+                {% if accomp_diag_table %}
+                    {{ accomp_diag_table|safe }}
+                {% else %}
+                    {% include "dashboards/partials/plot_loading_error.html" %}
+                {% endif %}
+            </div>
+        </div>
+
+        <p class="text-pp-dark-grey italic">
+            <em>Note that an individual may have more than one of the accompanying diagnoses.
+            However, if an individual has the same issue on multiple doctor visits/healthcare
+            contacts, the diagnosis will only be counted once</em>
+        </p>
+
+        {% comment %}
+        TODO: will be implemented in next phase
+        <p>
+            <strong>Code used to produce table:</strong>
+            <a href="https://github.com/ScilifelabDataCentre/pathogens-portal-visualisations/blob/main/postCOVID/create_accomp_diagnoses.py"
+               target="_blank" rel="noopener noreferrer" class="text-pp-mid-blue">Script to produce table (English)</a>,
+            <a href="https://github.com/ScilifelabDataCentre/pathogens-portal-visualisations/blob/main/postCOVID/create_accomp_diagnoses_swe.py"
+               target="_blank" rel="noopener noreferrer" class="text-pp-mid-blue">Script to produce table (Swedish)</a>.
+        </p>
+        {% endcomment %}
+
+        <h3 id="healthcare-contacts">Contacts with healthcare</h3>
+
+        <p>
+            The below plot shows the number of times that patients given the diagnoses of interest
+            have sought healthcare. Note that while the weekly data below starts from week 21 of
+            2020, some diagnosis codes (<em>U08.9</em> and <em>U09.9</em>) were not used until after
+            this date (see information above). It is important to note that the data is not complete,
+            given that data from some healthcare providers (e.g. general practitioners) are not
+            reported to the Patient Registry due to privacy concerns. Where data is reported to
+            registers, data from the most recent weeks should be considered preliminary, as the
+            registers are not instantaneously updated. A delay in reporting data to registers may be
+            particularly evident during traditional holiday periods, including over the summer months.
+        </p>
+
+        <p class="lg:hidden p-4 bg-pp-pale-grey">
+            Rotating your phone may improve graph layout
+        </p>
+
+        <div class="mb-3 max-w-full overflow-x-auto">
+            <div id="healthcare_contacts">
+                {% if healthcare_contacts %}
+                    {{ healthcare_contacts|safe }}
+                {% else %}
+                    {% include "dashboards/partials/plot_loading_error.html" %}
+                {% endif %}
+            </div>
+        </div>
+
+        {% comment %}
+        TODO: will be implemented in next phase
+        <p>
+            <strong>Code used to produce plot:</strong>
+            <a href="https://github.com/ScilifelabDataCentre/pathogens-portal-visualisations/blob/main/postCOVID/weeklycontacts_healthcare.py"
+               target="_blank" rel="noopener noreferrer" class="text-pp-mid-blue">Script to produce plot</a>.
+        </p>
+        {% endcomment %}
+
+        <h3 id="healthcare-divsex">Contacts with healthcare, divided by patient sex</h3>
+
+        <p>
+            The below plots show the number of times that patients given one of the diagnoses of
+            interest have sought healthcare. The weekly number of healthcare visits is shown,
+            divided by patient sex. As in the above section, it is important to note that the data
+            is not complete, given that data from some healthcare providers (e.g. general
+            practitioners) are not reported to the Patient Registry due to privacy concerns.
+            Where data is reported to registers, data from the most recent weeks should be
+            considered preliminary, as the registers are not instantaneously updated. A delay in
+            reporting data to registers may be particularly evident during traditional holiday
+            periods, including over the summer months.
+        </p>
+
+        <h4 id="healthcare-divsex-u099">Diagnosis U09.9</h4>
+
+        <p class="lg:hidden p-4 bg-pp-pale-grey">
+            Rotating your phone may improve graph layout
+        </p>
+
+        <div class="mb-3 max-w-full overflow-x-auto">
+            <div id="healthcare_divsex_u099">
+                {% if healthcare_divsex_u099 %}
+                    {{ healthcare_divsex_u099|safe }}
+                {% else %}
+                    {% include "dashboards/partials/plot_loading_error.html" %}
+                {% endif %}
+            </div>
+        </div>
+
+        {% comment %}
+        TODO: will be implemented in next phase
+        <p>
+            <strong>Code used to produce plot:</strong>
+            <a href="https://github.com/ScilifelabDataCentre/pathogens-portal-visualisations/blob/main/postCOVID/weeklycontacts_healthcare_divsex.py"
+               target="_blank" rel="noopener noreferrer" class="text-pp-mid-blue">Script to produce plot</a>.
+        </p>
+        {% endcomment %}
+
+        <h4 id="healthcare-divsex-u089">Diagnosis Z86.1A/U08.9</h4>
+
+        <p class="lg:hidden p-4 bg-pp-pale-grey">
+            Rotating your phone may improve graph layout
+        </p>
+
+        <div class="mb-3 max-w-full overflow-x-auto">
+            <div id="healthcare_divsex_u089">
+                {% if healthcare_divsex_u089 %}
+                    {{ healthcare_divsex_u089|safe }}
+                {% else %}
+                    {% include "dashboards/partials/plot_loading_error.html" %}
+                {% endif %}
+            </div>
+        </div>
+
+        {% comment %}
+        TODO: will be implemented in next phase
+        <p>
+            <strong>Code used to produce plot:</strong>
+            <a href="https://github.com/ScilifelabDataCentre/pathogens-portal-visualisations/blob/main/postCOVID/weeklycontacts_healthcare_divsex.py"
+               target="_blank" rel="noopener noreferrer" class="text-pp-mid-blue">Script to produce plot</a>.
+        </p>
+        {% endcomment %}
+
+        <a id="background"></a>
+
+        <h2 id="background-information">Background Information</h2>
+
+        <h3 id="post-covid-condition">Post COVID-19 condition</h3>
+
+        <p>
+            Individuals with <em>Post COVID-19 condition</em> exhibit symptoms lasting at least
+            two months after the acute phase of COVID-19 infection
+            (<a href="https://doi.org/10.1038/s41591-020-01202-8" target="_blank"
+                rel="noopener noreferrer" class="text-pp-mid-blue">Brodin, 2021</a>). The
+            particular symptoms exhibited vary between patients, as does the duration and severity
+            of symptoms. In general though, symptoms are usually debilitating and may include
+            persistent fatigue, myalgia (muscle aches and pains), and autonomic dysregulation,
+            among others. Some individuals with <em>Post COVID-19 condition</em> exhibit the same
+            symptoms as they did during the acute infection stage of COVID-19, while others with
+            <em>Post COVID-19 condition</em> exhibit new symptoms following the acute infection
+            phase
+            (<a href="https://www.nature.com/articles/s41591-020-01202-8" target="_blank"
+                rel="noopener noreferrer" class="text-pp-mid-blue">Brodin 2021</a>,
+            <a href="http://dx.doi.org/10.1136/bmjopen-2020-048391" target="_blank"
+                rel="noopener noreferrer" class="text-pp-mid-blue">Dennis <em>et al.</em>, 2021</a>,
+            <a href="https://doi.org/10.1016/j.cmi.2020.07.028" target="_blank"
+                rel="noopener noreferrer" class="text-pp-mid-blue">Davido <em>et al.</em>, 2020</a>).
+        </p>
+
+        <h3 id="no-consensus">No consensus on definition</h3>
+
+        <p>
+            In September 2020, WHO established the
+            <a href="https://www.who.int/standards/classifications/classification-of-diseases/emergency-use-icd-codes-for-covid-19-disease-outbreak"
+               target="_blank" rel="noopener noreferrer" class="text-pp-mid-blue">ICD10</a>
+            code for <em>Post COVID-19 condition</em> <em>U09.9 - Post COVID-19 condition,
+            unspecified</em>. A
+            <a href="https://www.who.int/publications/i/item/9789240025035" target="_blank"
+                rel="noopener noreferrer" class="text-pp-mid-blue">WHO report from April 2021</a>
+            stated that there is a real need to characterise and formally define <em>Post COVID-19
+            condition</em> in order to increase understanding about the condition and facilitate
+            diagnosis. However, to date, <em>Post COVID-19 condition</em> still lacks a universal
+            definition with regard to the symptoms and disease duration necessary for diagnosis.
+            Consequently, governmental agencies and research institutes in different countries use
+            their own definitions and terms. Related diagnoses established by WHO are <em>U08.9 -
+            Personal history of COVID-19, unspecified</em> and <em>U10.9 - Multisystem
+            inflammatory syndrome associated with COVID-19, unspecified</em>. The <em>U08.9</em>
+            diagnosis is used to describe an earlier episode of COVID-19 (either confirmed or
+            probable) that influenced the individual's health status, though they no longer have
+            COVID-19. The code <em>U10.9</em> is used to describe a temporal association with
+            COVID-19: cytokine storm, Kawasaki-like syndrome, multisystem inflammatory syndrome
+            in children (MIS-C), and paediatric inflammatory multisystem syndrome (PIMS).
+        </p>
+
+        <p>
+            In England, the
+            <a href="https://www.nice.org.uk" target="_blank" rel="noopener noreferrer"
+               class="text-pp-mid-blue">National Institute for Health and Care Excellence (NICE)</a>
+            has
+            <a href="https://www.nice.org.uk/guidance/ng188" target="_blank"
+                rel="noopener noreferrer" class="text-pp-mid-blue">defined</a>
+            <em>Post-COVID-19 syndrome</em> as "...signs and symptoms that develop during or after
+            an infection consistent with COVID‑19, continue for more than 12 weeks, and are not
+            explained by an alternative diagnosis. It usually presents with clusters of symptoms,
+            often overlapping, which can fluctuate and change over time and can affect any system
+            in the body...". NICE states that <em>Post‑COVID‑19 syndrome</em> can be considered as
+            a diagnosis during the first three months after the acute infection phase of COVID-19
+            while healthcare assessments are completed to determine whether the symptoms could be
+            explained by an alternative disease. Further, NICE
+            <a href="https://www.nice.org.uk/guidance/ng188" target="_blank"
+                rel="noopener noreferrer" class="text-pp-mid-blue">defines</a>
+            the term <em>Long COVID</em> as "...signs and symptoms that continue or develop after
+            acute COVID‑19. It includes both ongoing symptomatic COVID‑19 (from 4 to 12 weeks) and
+            post‑COVID‑19 syndrome (12 weeks or more)...". In December 2020, NICE, in partnership
+            with the Scottish Intercollegiate Guidelines Network and the Royal College of General
+            Practitioners, published a
+            <a href="https://www.nice.org.uk/guidance/NG188" target="_blank"
+                rel="noopener noreferrer" class="text-pp-mid-blue">guideline for health and care
+                practitioners</a> (NG188) on identifying, assessing, and managing the long-term
+            effects of COVID-19.
+        </p>
+
+        <p>
+            In the USA, The
+            <a href="https://www.cdc.gov" target="_blank" rel="noopener noreferrer"
+               class="text-pp-mid-blue">Centers for Disease Control and Prevention (CDC)</a>
+            defines <em>Post-COVID conditions</em> as "...a wide range of new, returning, or
+            ongoing health problems people can experience more than four weeks after first being
+            infected with the virus that causes COVID-19...". The CDC distinguishes between
+            <em>Long COVID</em>, <em>Multiorgan Effects of COVID-19</em>, and <em>Effects of
+            COVID-19 Treatment or Hospitalisation</em>. For example, they define <em>Long COVID</em>
+            as "a range of symptoms that can last weeks or months after first being infected with
+            the virus that causes COVID-19 or can appear weeks after infection.". For information
+            on <em>Post-COVID conditions</em> from the CDC,
+            <a href="https://www.cdc.gov/covid/long-term-effects/" target="_blank"
+                rel="noopener noreferrer" class="text-pp-mid-blue">see this page</a>. The
+            <a href="https://www.nih.gov" target="_blank" rel="noopener noreferrer"
+               class="text-pp-mid-blue">National Institutes of Health (NIH)</a>
+            in the USA uses the term <em>Post-Acute Sequelae of SARS-CoV-2 infection</em> (PASC)
+            to refer to the effects of COVID-19 after the initial stages of infection. In February
+            2021, The NIH launched a research initiative to identify the causes of PASC and,
+            ultimately, to find methods for prevention and treatments for individuals that don't
+            recover fully over a period of a few weeks following the acute infection phase of
+            COVID-19.
+        </p>
+
+        <p>
+            The
+            <a href="https://www.socialstyrelsen.se/" target="_blank"
+                rel="noopener noreferrer" class="text-pp-mid-blue">Swedish Board of Health and
+                Welfare (Socialstyrelsen)</a>
+            describes patients with <em>Postcovid</em> as individuals exhibiting prolonged symptoms,
+            or experiencing new relevant symptoms after the acute phase of COVID-19 infection.
+            While the severity of symptoms will diminish over time for most individuals (such
+            individuals do not need assistance from healthcare during the recovery), some individuals
+            experience symptoms that are debilitating and need treatment, rehabilitation, and other
+            follow-up medical care. In April 2021, Socialstyrelsen
+            <a href="https://www.socialstyrelsen.se/globalassets/sharepoint-dokument/artikelkatalog/ovrigt/2021-4-7351.pdf"
+               target="_blank" rel="noopener noreferrer" class="text-pp-mid-blue">published a report
+                dedicated to Postcovid</a>
+            that defines the condition and provides recommendations.
+        </p>
+
+        <h3 id="research-efforts">Research efforts</h3>
+
+        <p>
+            A large number of research articles, case reports, and reviews focused on <em>Post
+            COVID-19 condition</em> have been published over the last year (e.g.
+            <a href="https://doi.org/10.7861/clinmed.2020-0896" target="_blank"
+                rel="noopener noreferrer" class="text-pp-mid-blue">Dani <em>et al.</em> (2020)</a>,
+            <a href="https://doi.org/10.1136/bmj.m3489" target="_blank"
+                rel="noopener noreferrer" class="text-pp-mid-blue">Nabavi (2020)</a>,
+            <a href="https://doi.org/10.1038/s41591-021-01292-y" target="_blank"
+                rel="noopener noreferrer" class="text-pp-mid-blue">Sudre <em>et al.</em> (2021)</a>,
+            <a href="https://doi.org/10.1136/bcr-2020-241485" target="_blank"
+                rel="noopener noreferrer" class="text-pp-mid-blue">Tarybagil <em>et al.</em> (2020)</a>,
+            <a href="https://doi.org/10.1016/j.cmi.2020.12.001" target="_blank"
+                rel="noopener noreferrer" class="text-pp-mid-blue">Yelin <em>et al.</em> (2020)</a>).
+            The primary aims of these studies are to identify factors that could be used to predict
+            when <em>Post COVID-19 condition</em> is more likely to develop, the underlying causes
+            of the condition, and potential treatments. A recently published study by
+            <a href="https://doi.org/10.1038/s41591-021-01292-y" target="_blank"
+                rel="noopener noreferrer" class="text-pp-mid-blue">Sudre and colleagues</a>
+            proposed a prediction model to identify individuals at risk of <em>Post COVID-19
+            condition</em> using data from the
+            <a href="/data_types/health_data/symptom_study_sweden/" class="text-pp-mid-blue">COVID
+                Symptom Study</a>,
+            where participants self-reported their symptoms in an app on their mobile devices. The
+            results indicated that individuals experiencing more than five symptoms during the first
+            week of illness were more likely to develop <em>Post COVID-19 condition</em> (odds ratio
+            = 3.53 (2.76–4.50)). In addition, the study showed that the development of <em>Post
+            COVID-19 condition</em> was more likely in females, and that the risk also rose with
+            increasing age and body mass index. The researchers behind the study propose that their
+            model could be used to identify individuals at risk of developing <em>Post COVID-19
+            condition</em>. This could inform trials of preventative or treatment methods, and aid
+            in the planning of education and rehabilitation services.
+        </p>
     </div>
 </div>
 
