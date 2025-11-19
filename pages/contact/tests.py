@@ -8,10 +8,12 @@ from __future__ import annotations
 
 import re
 import time
-from django.test import TestCase, Client, override_settings
+from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 from django.core import mail
 from unittest.mock import patch
+
+from .forms import MIN_SUBMIT_SECONDS
 
 
 @override_settings(
@@ -41,6 +43,24 @@ class ContactFormTests(TestCase):
         ts = ts_match.group(1) if ts_match else None
         return ts, dsc
 
+    def _wait_min_submit_delay(self) -> None:
+        """Pause long enough to satisfy the minimum submit duration."""
+        time.sleep(MIN_SUBMIT_SECONDS)
+
+    def _build_post_data(self, ts, dsc, **overrides):
+        """Return a baseline valid payload merged with overrides."""
+        data = {
+            "name": "Alice",
+            "email": "alice@example.org",
+            "message": "This is a valid message body that is long enough.",
+            "category": ["suggestion"],
+            "website": "",
+            "contact_ts": ts,
+            "contact_dsc": dsc,
+        }
+        data.update(overrides)
+        return data
+
     def test_get_renders_form_and_sets_cookie(self):
         """GET should render the form and set the double-submit cookie."""
         url = reverse("contact:contact")
@@ -66,17 +86,8 @@ class ContactFormTests(TestCase):
         url = reverse("contact:contact")
         resp = self.client.get(url)
         ts, dsc = self._get_tokens_from_response(resp)
-        # Wait a bit to pass min timing of 2s
-        time.sleep(2)
-        post = {
-            "name": "Alice",
-            "email": "alice@example.org",
-            "message": "This is a valid message with minimal content.",
-            "suggestion": "on",
-            "website": "",
-            "contact_ts": ts,
-            "contact_dsc": dsc,
-        }
+        self._wait_min_submit_delay()
+        post = self._build_post_data(ts, dsc)
         resp2 = self.client.post(url, data=post, follow=True)
         self.assertEqual(resp2.status_code, 200)
         self.assertEqual(len(mail.outbox), 1)
@@ -91,14 +102,7 @@ class ContactFormTests(TestCase):
         url = reverse("contact:contact")
         resp = self.client.get(url)
         ts, dsc = self._get_tokens_from_response(resp)
-        post = {
-            "name": "Alice",
-            "email": "alice@example.org",
-            "message": "Valid message body that is long enough.",
-            "website": "spam",
-            "contact_ts": ts,
-            "contact_dsc": dsc,
-        }
+        post = self._build_post_data(ts, dsc, website="spam")
         resp2 = self.client.post(url, data=post)
         self.assertEqual(resp2.status_code, 200)
         self.assertEqual(len(mail.outbox), 0)
@@ -108,15 +112,7 @@ class ContactFormTests(TestCase):
         url = reverse("contact:contact")
         resp = self.client.get(url)
         ts, dsc = self._get_tokens_from_response(resp)
-        post = {
-            "name": "Alice",
-            "email": "alice@example.org",
-            "message": "Valid message body that is long enough.",
-            "suggestion": "on",
-            "website": "",
-            "contact_ts": ts,
-            "contact_dsc": dsc,
-        }
+        post = self._build_post_data(ts, dsc)
         resp2 = self.client.post(url, data=post)
         self.assertEqual(resp2.status_code, 200)
         self.assertEqual(len(mail.outbox), 0)
@@ -127,16 +123,8 @@ class ContactFormTests(TestCase):
         url = reverse("contact:contact")
         resp = self.client.get(url)
         ts, dsc = self._get_tokens_from_response(resp)
-        time.sleep(2)
-        post = {
-            "name": "Alice",
-            "email": "alice@example.org",
-            "message": "Valid message body that is long enough.",
-            "suggestion": "on",
-            "website": "",
-            "contact_ts": ts,
-            "contact_dsc": dsc,
-        }
+        self._wait_min_submit_delay()
+        post = self._build_post_data(ts, dsc)
         resp2 = self.client.post(url, data=post)
         self.assertEqual(resp2.status_code, 200)
         self.assertEqual(len(mail.outbox), 0)
@@ -147,15 +135,7 @@ class ContactFormTests(TestCase):
         resp = self.client.get(url)
         ts, _dsc = self._get_tokens_from_response(resp)
         # Intentionally wrong token
-        post = {
-            "name": "Alice",
-            "email": "alice@example.org",
-            "message": "Valid message body that is long enough.",
-            "suggestion": "on",
-            "website": "",
-            "contact_ts": ts,
-            "contact_dsc": "wrong",
-        }
+        post = self._build_post_data(ts, "wrong")
         resp2 = self.client.post(url, data=post)
         self.assertEqual(resp2.status_code, 200)
         self.assertEqual(len(mail.outbox), 0)
@@ -167,17 +147,9 @@ class ContactFormTests(TestCase):
         url = reverse("contact:contact")
         resp = self.client.get(url)
         ts, dsc = self._get_tokens_from_response(resp)
-        time.sleep(2)
+        self._wait_min_submit_delay()
         # HTML rejected
-        post_html = {
-            "name": "Alice",
-            "email": "alice@example.org",
-            "message": "<b>no html</b>",
-            "suggestion": "on",
-            "website": "",
-            "contact_ts": ts,
-            "contact_dsc": dsc,
-        }
+        post_html = self._build_post_data(ts, dsc, message="<b>no html</b>")
         resp_html = self.client.post(url, data=post_html)
         self.assertEqual(resp_html.status_code, 200)
         self.assertEqual(len(mail.outbox), 0)
@@ -191,15 +163,7 @@ class ContactFormTests(TestCase):
                 "https://d.example",
             ]
         )
-        post_urls = {
-            "name": "Alice",
-            "email": "alice@example.org",
-            "message": content_many_urls,
-            "suggestion": "on",
-            "website": "",
-            "contact_ts": ts,
-            "contact_dsc": dsc,
-        }
+        post_urls = self._build_post_data(ts, dsc, message=content_many_urls)
         resp_urls = self.client.post(url, data=post_urls)
         self.assertEqual(resp_urls.status_code, 200)
         self.assertEqual(len(mail.outbox), 0)
@@ -209,16 +173,12 @@ class ContactFormTests(TestCase):
         url = reverse("contact:contact")
         resp = self.client.get(url)
         ts, dsc = self._get_tokens_from_response(resp)
-        time.sleep(2)
-        post = {
-            "name": "Alice",
-            "email": "evil@example.org\nBcc: attacker@example.org",
-            "message": "Valid message body that is long enough.",
-            "suggestion": "on",
-            "website": "",
-            "contact_ts": ts,
-            "contact_dsc": dsc,
-        }
+        self._wait_min_submit_delay()
+        post = self._build_post_data(
+            ts,
+            dsc,
+            email="evil@example.org\nBcc: attacker@example.org",
+        )
         resp2 = self.client.post(url, data=post)
         self.assertEqual(resp2.status_code, 200)
         self.assertEqual(len(mail.outbox), 0)
@@ -228,16 +188,9 @@ class ContactFormTests(TestCase):
         url = reverse("contact:contact")
         resp = self.client.get(url)
         ts, dsc = self._get_tokens_from_response(resp)
-        time.sleep(2)
-        post = {
-            "name": "Alice",
-            "email": "alice@example.org",
-            "message": "Valid message body that is long enough.",
-            # No category checked
-            "website": "",
-            "contact_ts": ts,
-            "contact_dsc": dsc,
-        }
+        self._wait_min_submit_delay()
+        post = self._build_post_data(ts, dsc)
+        post.pop("category")
         resp2 = self.client.post(url, data=post)
         self.assertEqual(resp2.status_code, 200)
         self.assertEqual(len(mail.outbox), 0)
@@ -252,15 +205,7 @@ class ContactFormTests(TestCase):
         resp = self.client.get(url)
         ts1, dsc1 = self._get_tokens_from_response(resp)
         # Trigger a validation error (e.g., message too short)
-        post_invalid = {
-            "name": "Alice",
-            "email": "alice@example.org",
-            "message": "short",
-            "suggestion": "on",
-            "website": "",
-            "contact_ts": ts1,
-            "contact_dsc": dsc1,
-        }
+        post_invalid = self._build_post_data(ts1, dsc1, message="short")
         resp_invalid = self.client.post(url, data=post_invalid)
         self.assertEqual(resp_invalid.status_code, 200)
         # Extract refreshed tokens from the error page
@@ -269,17 +214,9 @@ class ContactFormTests(TestCase):
         cookie_dsc = self.client.cookies.get("contact_dsc").value
         self.assertEqual(dsc2, cookie_dsc)
         # Wait to satisfy min timing before retry
-        time.sleep(2)
+        self._wait_min_submit_delay()
         # Retry with corrected message and refreshed tokens
-        post_valid = {
-            "name": "Alice",
-            "email": "alice@example.org",
-            "message": "This is a valid message body that is long enough.",
-            "suggestion": "on",
-            "website": "",
-            "contact_ts": ts2,
-            "contact_dsc": dsc2,
-        }
+        post_valid = self._build_post_data(ts2, dsc2)
         resp_valid = self.client.post(url, data=post_valid, follow=True)
         self.assertEqual(resp_valid.status_code, 200)
         self.assertEqual(len(mail.outbox), 1)
