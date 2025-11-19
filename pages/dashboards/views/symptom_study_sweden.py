@@ -37,7 +37,7 @@ class SymptomStudySweden(View):
         Returns:
             Rendered template with plot HTML strings in context.
         """
-        
+
         context = dict(title=self.title, description=self.description)
 
         # Fetch prevalence map visualization
