@@ -1,0 +1,62 @@
+from django.shortcuts import render
+from django.views import View
+
+from ..visualisation.utils import fetch_plot_json_blobserver, plot_html_from_json
+
+
+class PostCovid(View):
+    """Post COVID-19 condition dashboard page.
+
+    Displays statistics, visualizations, and information about Post COVID-19
+    condition in Sweden, including data from The Swedish Board of Health and
+    Welfare (Socialstyrelsen).
+
+    Attributes:
+        template_name: Template for rendering the dashboard.
+        title: Title displayed in the rendered page's banner section.
+        description: Description to be used in the HTML's head.
+    """
+
+    template_name = "dashboards/post_covid.html"
+    title = "Post COVID-19 condition in Sweden: statistics and available data"
+    description = (
+        "The Swedish Board of Health and Welfare (Socialstyrelsen) shares data "
+        "on Post COVID-19 condition. Here, we show visualisations of data on "
+        "symptoms, healthcare contacts, and geographic distribution, among other things."
+    )
+
+    def get(self, request):
+        """Fetch the compiled plot data (JSON) and generate plot HTML strings.
+
+        Fetches Plotly JSON data from blobserver for each chart, converts it to HTML
+        using plot_html_from_json, and adds it to the context for template rendering.
+
+        Returns:
+            Rendered template with plot HTML strings in context.
+        """
+        context = {
+            "title": self.title,
+            "description": self.description,
+        }
+
+        # Map chart IDs to blobserver blob names
+        plot_sources = {
+            "age_sex_u099": "postcovid_age_sex_u099.json",
+            "age_sex_u089": "postcovid_age_sex_u089.json",
+            "healthcare_contacts": "postcovid_healthcare_contacts.json",
+            "geographic_distribution": "postcovid_geographic.json",
+        }
+
+        # Fetch and convert each plot
+        for chart_id, blob_name in plot_sources.items():
+            blob_data = fetch_plot_json_blobserver(blob_name)
+            if blob_data is not None:
+                # Set height based on chart type
+                height = "600px"
+                context[chart_id] = plot_html_from_json(
+                    blob_data,
+                    height=height,
+                    skip_invalid=True,
+                )
+
+        return render(request, self.template_name, context)
