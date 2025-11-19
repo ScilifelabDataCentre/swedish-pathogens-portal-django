@@ -68,31 +68,19 @@
         <legend class="block text-sm font-medium text-gray-900">What kind of a question or suggestion do you have?
           <span class="text-red-600">*</span></legend>
         <div class="mt-2 space-y-1">
+          {% for checkbox in form.category %}
           <div>
             <label class="inline-flex items-center gap-2 text-gray-900 cursor-pointer rounded-md px-2 py-1 hover:bg-teal-50 hover:shadow-md focus-within:ring-2 focus-within:ring-teal-500">
-              <input type="checkbox" name="suggestion" id="id_suggestion" class="h-4 w-4 rounded border-gray-300 text-teal-600 cursor-pointer">
-              <span>Suggestion for the Portal</span>
+              {{ checkbox.tag }}
+              <span>{{ checkbox.choice_label }}</span>
             </label>
           </div>
-          <div>
-            <label class="inline-flex items-center gap-2 text-gray-900 cursor-pointer rounded-md px-2 py-1 hover:bg-teal-50 hover:shadow-md focus-within:ring-2 focus-within:ring-teal-500">
-              <input type="checkbox" name="dm_support" id="id_dm_support" class="h-4 w-4 rounded border-gray-300 text-teal-600 cursor-pointer">
-              <span>Request for help with data management or data sharing questions</span>
-            </label>
-          </div>
-          <div>
-            <label class="inline-flex items-center gap-2 text-gray-900 cursor-pointer rounded-md px-2 py-1 hover:bg-teal-50 hover:shadow-md focus-within:ring-2 focus-within:ring-teal-500">
-              <input type="checkbox" name="other" id="id_other" class="h-4 w-4 rounded border-gray-300 text-teal-600 cursor-pointer">
-              <span>Other</span>
-            </label>
-          </div>
+          {% endfor %}
         </div>
       </fieldset>
-      {% for err in form.non_field_errors %}
-        {% if "Please select at least one option." in err %}
-          <p class="mt-1 text-sm text-red-600">Please select at least one alternative.</p>
-        {% endif %}
-      {% endfor %}
+      {% if form.category.errors %}
+        <p class="mt-1 text-sm text-red-600">{{ form.category.errors.0 }}</p>
+      {% endif %}
       <p class="mt-1 text-sm text-gray-500">You can ask a question or suggest one or more items using this form.</p>
     </div>
 
@@ -111,7 +99,7 @@
     </div>
 
     <div>
-      <button type="submit" class="inline-flex items-center rounded-md bg-teal-600 px-4 py-2 text-white hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 cursor-pointer">Send message</button>
+      <button type="submit" class="inline-flex items-center rounded-md bg-pp-teal px-4 py-2 text-white hover:bg-pp-dark-blue focus:outline-none focus:ring-2 focus:ring-teal-500 cursor-pointer">Send message</button>
     </div>
   </form>
 

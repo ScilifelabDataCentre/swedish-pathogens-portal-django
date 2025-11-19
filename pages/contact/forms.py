@@ -34,8 +34,7 @@ class ContactForm(forms.Form):
         name: Optional full name of the sender (2–100 chars when provided).
         email: Optional reply address, validated when provided.
         message: Main text body, 20–5000 chars, with URL and HTML limits.
-        suggestion, dm_support, other: Category checkboxes, at least one must
-            be selected.
+        category: Multi-select checkbox list, at least one option required.
         website: Honeypot field, must remain empty.
         contact_ts: Signed timestamp token to check submission timing.
         contact_dsc: Token that must match the cookie for double-submit check.
@@ -49,11 +48,21 @@ class ContactForm(forms.Form):
     name = forms.CharField(min_length=2, max_length=100, required=False)
     email = forms.EmailField(required=False)
     message = forms.CharField(min_length=20, max_length=5000, widget=forms.Textarea)
-    suggestion = forms.BooleanField(required=False)
-    dm_support = forms.BooleanField(required=False, label="Request for data management/sharing support")  # fmt: skip
-    other = forms.BooleanField(required=False)
-
-    # Anti-spam fields
+    category = forms.MultipleChoiceField(
+        required=True,
+        choices={
+            "suggestion": "Suggestion for the Portal",
+            "dm_support": "Request for help with data management or data sharing questions",
+            "other": "Other",
+        },
+        widget=forms.CheckboxSelectMultiple(
+            attrs={
+                "class": "h-4 w-4 rounded border-gray-300 text-teal-600 cursor-pointer focus:ring-2 focus:ring-teal-500"
+            }
+        ),
+        error_messages={"required": "Please select at least one alternative."},
+    )
+    # Anti-spam fields (Honeypot, TimestampSigner token, Double-submit cookie)
     website = forms.CharField(required=False, widget=forms.HiddenInput)
     contact_ts = forms.CharField(widget=forms.HiddenInput, strip=False)
     contact_dsc = forms.CharField(widget=forms.HiddenInput, strip=False)
@@ -116,14 +125,6 @@ class ContactForm(forms.Form):
             ValidationError: On any anti-spam or category selection failure.
         """
         cleaned = super().clean()
-
-        # At least one category must be selected
-        if not (
-            cleaned.get("suggestion")
-            or cleaned.get("dm_support")
-            or cleaned.get("other")
-        ):
-            raise ValidationError("Please select at least one option.")
 
         # Honeypot
         if cleaned.get("website"):

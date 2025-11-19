@@ -107,14 +107,10 @@ class ContactFormView(FormView):
         user_email = form.cleaned_data.get("email", "")
         message = form.cleaned_data["message"]
 
-        # Build category summary mirroring old portal
-        categories = []
-        if form.cleaned_data.get("suggestion"):
-            categories.append("Suggestion for the Portal")
-        if form.cleaned_data.get("dm_support"):
-            categories.append("Request for data management or data sharing support")
-        if form.cleaned_data.get("other"):
-            categories.append("Other")
+        # Build category summary from selected options
+        selected_categories = form.cleaned_data.get("category", [])
+        choice_map = dict(form.fields["category"].choices)
+        categories = [choice_map.get(key, key) for key in selected_categories]
         origin_url = self.request.build_absolute_uri(self.request.path)
 
         body = (
