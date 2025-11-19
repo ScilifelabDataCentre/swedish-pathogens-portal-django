@@ -41,10 +41,10 @@ class PostCovid(View):
 
         # Map chart IDs to blobserver blob names
         plot_sources = {
-            "age_sex_u099": "postcovid_age_sex_u099.json",
-            "age_sex_u089": "postcovid_age_sex_u089.json",
-            "healthcare_contacts": "postcovid_healthcare_contacts.json",
-            "geographic_distribution": "postcovid_geographic.json",
+            "age_sex_u099": "U099_agesex_casedist.json",
+            "age_sex_u089": "U089_agesex_casedist.json",
+            "healthcare_contacts": "weeklycontacts_healthcare.json",
+            "geographic_distribution": "map_postcovid_percent_of_population_U099.json",
         }
 
         # Fetch and convert each plot
