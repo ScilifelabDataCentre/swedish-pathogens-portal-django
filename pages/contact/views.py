@@ -24,7 +24,7 @@ from django.contrib import messages
 from .forms import ContactForm
 
 
-class Contact(FormView):
+class ContactFormView(FormView):
     template_name = "contact/contact_form.html"
     form_class = ContactForm
     success_url = reverse_lazy("contact:contact")
