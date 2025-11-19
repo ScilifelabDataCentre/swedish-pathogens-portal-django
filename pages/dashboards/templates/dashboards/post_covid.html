@@ -182,6 +182,64 @@
                target="_blank" rel="noopener noreferrer" class="text-pp-mid-blue">this webpage</a>
             from The Swedish Board of Health and Welfare.
         </p>
+
+        <h3 id="age-sex-distribution">Age and sex distribution of diagnosed cases</h3>
+
+        <p>
+            These plots display the number of times that patients were assigned the diagnoses
+            of interest in Sweden since the introduction of the relevant codes, divided by
+            patient age and sex.
+        </p>
+
+        <h4 id="diagnosis-u099">Diagnosis U09.9</h4>
+
+        <p class="lg:hidden p-4 bg-pp-pale-grey">
+            Scroll the plot sideways to view all of the data.
+        </p>
+
+        <div class="mb-3 max-w-full overflow-x-auto">
+            <div id="age_sex_u099">
+                {% if age_sex_u099 %}
+                    {{ age_sex_u099|safe }}
+                {% else %}
+                    {% include "dashboards/partials/plot_loading_error.html" %}
+                {% endif %}
+            </div>
+        </div>
+
+        {% comment %}
+        TODO: will be implemented in next phase
+        <p>
+            <strong>Code used to produce plot:</strong>
+            <a href="https://github.com/ScilifelabDataCentre/pathogens-portal-visualisations/blob/main/postCOVID/create_agesex_distcases.py"
+               target="_blank" rel="noopener noreferrer" class="text-pp-mid-blue">Script to produce plot</a>.
+        </p>
+        {% endcomment %}
+
+        <h4 id="diagnosis-u089">Diagnosis Z86.1A/U08.9</h4>
+
+        <p class="lg:hidden p-4 bg-pp-pale-grey">
+            Scroll the plot sideways to view all of the data.
+        </p>
+
+        <div class="mb-3 max-w-full overflow-x-auto">
+            <div id="age_sex_u089">
+                {% if age_sex_u089 %}
+                    {{ age_sex_u089|safe }}
+                {% else %}
+                    {% include "dashboards/partials/plot_loading_error.html" %}
+                {% endif %}
+            </div>
+        </div>
+
+        {% comment %}
+        TODO: will be implemented in next phase
+        <p>
+            <strong>Code used to produce plot:</strong>
+            <a href="https://github.com/ScilifelabDataCentre/pathogens-portal-visualisations/blob/main/postCOVID/create_agesex_distcases.py"
+               target="_blank" rel="noopener noreferrer" class="text-pp-mid-blue">Script to produce plot</a>.
+        </p>
+        {% endcomment %}
     </div>
 </div>
 
