@@ -1,5 +1,6 @@
 from django.urls import path
 from .views import (
+    CrushCovid,
     DashboardsIndex,
     LineageCompetition,
     NpcStatistics,
@@ -16,6 +17,11 @@ urlpatterns = [
     # Dashboard index URL
     path("", DashboardsIndex.as_view(), name="index"),
     # Individual dashboards URLs
+    path(
+        "crush-covid/",
+        CrushCovid.as_view(),
+        name="crush_covid",
+    ),
     path(
         "lineage-competition/",
         LineageCompetition.as_view(),
