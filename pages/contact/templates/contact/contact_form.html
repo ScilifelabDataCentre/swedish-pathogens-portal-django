@@ -3,17 +3,18 @@
 {% block content %}
 <div class="py-8">
   <div>
-    We welcome questions and suggestions regarding the <i>Swedish Pathogens Portal</i> and we can help with your data
-    management or data sharing question (or at least point you to where your question can be answered). You can fill
-    out the form below and the <a href="/about/">the team behind the Portal</a> will be happy to help you find a good
-    solution. Alternatively, you can send us an email: <a href="mailto:pathogens@scilifelab.se">pathogens@scilifelab.se</a>.
+    We welcome questions and suggestions regarding the <i>Swedish Pathogens Portal</i> and we can help
+    with your data management or data sharing question (or at least point you to where your question
+    can be answered). You can fill out the form below and the <a href="/about/">the team behind the Portal</a>
+    will be happy to help you find a good solution. Alternatively, you can send us an email:
+    <a href="mailto:pathogens@scilifelab.se">pathogens@scilifelab.se</a>.
   </div>
 
   <h3 class="mt-6">Contact and suggestions form</h3>
   <div class="mt-2">
-    Please fill out this form to make suggestions for the <i>Swedish Pathogens Portal</i> or to ask a data management or
-    data sharing question. Please provide your contact information if you would like to receive a response. The data
-    portal team will send you a response within the next couple of days.
+    Please fill out this form to make suggestions for the <i>Swedish Pathogens Portal</i> or to ask a
+    data management or data sharing question. Please provide your contact information if you would like
+    to receive a response. The data portal team will send you a response within the next couple of days.
   </div>
 
   {# Error summary #}
@@ -49,7 +50,8 @@
       {% if form.name.errors %}
         <p id="id_name_error" class="mt-1 text-sm text-red-600">{{ form.name.errors.0 }}</p>
       {% endif %}
-      <p class="mt-1 text-sm text-gray-500">Please provide your name in case you would like to receive a response from us. In other cases, name is not required.</p>
+      <p class="mt-1 text-sm text-gray-500">Please provide your name in case you would like to receive
+        a response from us. In other cases, name is not required.</p>
     </div>
 
     <div>
@@ -60,7 +62,8 @@
       {% if form.email.errors %}
         <p id="id_email_error" class="mt-1 text-sm text-red-600">{{ form.email.errors.0 }}</p>
       {% endif %}
-      <p class="mt-1 text-sm text-gray-500">Please provide your email address in case you would like to receive a response from us. In other cases, the email address is not required.</p>
+      <p class="mt-1 text-sm text-gray-500">Please provide your email address in case you would like
+        to receive a response from us. In other cases, the email address is not required.</p>
     </div>
 
     <div>
