@@ -21,7 +21,7 @@ from django.urls import reverse_lazy
 from django.views.generic.edit import FormView
 from django.contrib import messages
 
-from .forms import ContactForm
+from .forms import CONTACT_TS_SIGNER, ContactForm
 
 
 class ContactFormView(FormView):
@@ -40,18 +40,6 @@ class ContactFormView(FormView):
         kwargs = super().get_form_kwargs()
         kwargs["request"] = self.request
         return kwargs
-
-    def _generate_tokens(self) -> tuple[str, str]:
-        """Create a signed timestamp token and a double-submit cookie value.
-
-        Returns:
-            A tuple ``(signed_ts, dsc_token)`` where ``signed_ts`` is produced
-            by `TimestampSigner` and ``dsc_token`` is a random string.
-        """
-        signer = signing.TimestampSigner(salt="contact-ts")
-        signed_ts = signer.sign(str(int(time.time())))
-        dsc_token = secrets.token_urlsafe(16)
-        return signed_ts, dsc_token
 
     def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
         """Render the form and set anti-spam tokens/cookie.
@@ -140,6 +128,9 @@ class ContactFormView(FormView):
                 self.request,
                 "Thanks! Your message was sent, we’ll get back to you soon.",
             )
+            # Redirect to clear POST and show success state
+            return super().form_valid(form)
+
         except Exception:  # noqa: BLE001
             duration_ms = int((time.time() - start) * 1000)
             self.logger.error(
@@ -153,9 +144,6 @@ class ContactFormView(FormView):
                 None, "We couldn't submit the form. Please try again in a moment."
             )
             return self.form_invalid(form)
-
-        # Redirect to clear POST and show success state
-        return super().form_valid(form)
 
     def form_invalid(self, form: ContactForm) -> HttpResponse:
         """Log a reason code without personal information and re-render the form."""
@@ -180,6 +168,17 @@ class ContactFormView(FormView):
             if hasattr(self.request, "is_secure")
             else getattr(settings, "SESSION_COOKIE_SECURE", False)
         )
+    def _generate_tokens(self) -> tuple[str, str]:
+        """Create a signed timestamp token and a double-submit cookie value.
+
+        Returns:
+            A tuple ``(signed_ts, dsc_token)`` where ``signed_ts`` is produced
+            by `TimestampSigner` and ``dsc_token`` is a random string.
+        """
+        signed_ts = CONTACT_TS_SIGNER.sign(str(int(time.time())))
+        dsc_token = secrets.token_urlsafe(16)
+        return signed_ts, dsc_token
+
         response.set_cookie(
             key="contact_dsc",
             value=dsc_token,
