@@ -2,8 +2,9 @@ from django.urls import path
 from .views import (
     DashboardsIndex,
     LineageCompetition,
-    SerologyStatistics,
     PostCovid,
+    SerologyStatistics,
+    SymptomStudySweden,
     Vaccines,
     VariantsRegionUppsala,
 )
@@ -38,5 +39,10 @@ urlpatterns = [
         "variants-region-uppsala/",
         VariantsRegionUppsala.as_view(),
         name="variants_region_uppsala",
+    ),
+    path(
+        "symptom-study-sweden/",
+        SymptomStudySweden.as_view(),
+        name="symptom_study_sweden",
     ),
 ]
