@@ -14,7 +14,6 @@ import time
 from typing import Any
 
 from django.conf import settings
-from django.core import signing
 from django.core.mail import EmailMessage
 from django.http import HttpRequest, HttpResponse
 from django.urls import reverse_lazy
@@ -57,21 +56,7 @@ class ContactFormView(FormView):
         )
 
         response = self.render_to_response(self.get_context_data(form=form))
-        # HttpOnly cookie, secure flag will be added by Django when using HTTPS in prod
-        secure_flag = (
-            self.request.is_secure()
-            if hasattr(self.request, "is_secure")
-            else getattr(settings, "SESSION_COOKIE_SECURE", False)
-        )
-
-        response.set_cookie(
-            key="contact_dsc",
-            value=dsc_token,
-            max_age=30 * 60,
-            httponly=True,
-            secure=secure_flag,
-            samesite=getattr(settings, "SESSION_COOKIE_SAMESITE", "Lax"),
-        )
+        self._set_dsc_cookie(response, dsc_token)
         return response
 
     def form_valid(self, form: ContactForm) -> HttpResponse:
@@ -163,11 +148,9 @@ class ContactFormView(FormView):
             # If form.data is not a QueryDict (unlikely), continue with initial values only
             pass
         response = super().form_invalid(form)
-        secure_flag = (
-            self.request.is_secure()
-            if hasattr(self.request, "is_secure")
-            else getattr(settings, "SESSION_COOKIE_SECURE", False)
-        )
+        self._set_dsc_cookie(response, dsc_token)
+        return response
+
     def _generate_tokens(self) -> tuple[str, str]:
         """Create a signed timestamp token and a double-submit cookie value.
 
@@ -179,12 +162,20 @@ class ContactFormView(FormView):
         dsc_token = secrets.token_urlsafe(16)
         return signed_ts, dsc_token
 
+    def _cookie_secure_flag(self) -> bool:
+        """Determine whether cookies should be marked secure."""
+        request = getattr(self, "request", None)
+        if request and hasattr(request, "is_secure"):
+            return request.is_secure()
+        return getattr(settings, "SESSION_COOKIE_SECURE", False)
+
+    def _set_dsc_cookie(self, response: HttpResponse, token: str) -> None:
+        """Attach the double-submit cookie to the response."""
         response.set_cookie(
             key="contact_dsc",
-            value=dsc_token,
+            value=token,
             max_age=30 * 60,
             httponly=True,
-            secure=secure_flag,
+            secure=self._cookie_secure_flag(),
             samesite=getattr(settings, "SESSION_COOKIE_SAMESITE", "Lax"),
         )
-        return response

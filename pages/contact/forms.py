@@ -25,6 +25,7 @@ URL_REGEX = re.compile(r"(https?://|www\.)", re.IGNORECASE)
 MIN_SUBMIT_SECONDS = 2
 MAX_URLS_ALLOWED = 10  # TODO discuss this limit
 MAX_TOKEN_AGE_SECONDS = 3600 * 4  # TODO discuss this limit
+CONTACT_TS_SIGNER = signing.TimestampSigner(salt="contact-ts")
 
 
 class ContactForm(forms.Form):
@@ -136,14 +137,8 @@ class ContactForm(forms.Form):
         # Timing token
         ts_token = cleaned.get("contact_ts") or ""
         try:
-            # Accept TimestampSigner style token or JSON payload signed via dumps
-            try:
-                signer = signing.TimestampSigner(salt="contact-ts")
-                ts_str = signer.unsign(ts_token, max_age=MAX_TOKEN_AGE_SECONDS)
-                ts = int(ts_str)
-            except signing.BadSignature:
-                payload = signing.loads(ts_token, salt="contact-ts")
-                ts = int(payload.get("ts", 0))
+            ts_str = CONTACT_TS_SIGNER.unsign(ts_token, max_age=MAX_TOKEN_AGE_SECONDS)
+            ts = int(ts_str)
         except signing.BadSignature:
             self._blocked_reason = "TOKEN_BAD_SIGNATURE"
             raise ValidationError(
