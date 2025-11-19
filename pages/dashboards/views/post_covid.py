@@ -43,8 +43,12 @@ class PostCovid(View):
         plot_sources = {
             "age_sex_u099": "U099_agesex_casedist.json",
             "age_sex_u089": "U089_agesex_casedist.json",
+            "geographic_u099": "map_postcovid_percent_of_population_U099.json",
+            "geographic_u089": "map_postcovid_percent_of_population_U089.json",
+            "accomp_diag_table": "accompdiag_table.json",
             "healthcare_contacts": "weeklycontacts_healthcare.json",
-            "geographic_distribution": "map_postcovid_percent_of_population_U099.json",
+            "healthcare_divsex_u099": "U099_healthcare_divsex.json",
+            "healthcare_divsex_u089": "U089_healthcare_divsex.json",
         }
 
         # Fetch and convert each plot
@@ -52,7 +56,10 @@ class PostCovid(View):
             blob_data = fetch_plot_json_blobserver(blob_name)
             if blob_data is not None:
                 # Set height based on chart type
-                height = "600px"
+                if chart_id == "accomp_diag_table":
+                    height = "527px"
+                else:
+                    height = "500px"
                 context[chart_id] = plot_html_from_json(
                     blob_data,
                     height=height,
