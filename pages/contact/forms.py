@@ -23,7 +23,8 @@ URL_REGEX = re.compile(r"(https?://|www\.)", re.IGNORECASE)
 
 # Validation and anti-spam constants
 MIN_SUBMIT_SECONDS = 2
-MAX_URLS_ALLOWED = 3
+MAX_URLS_ALLOWED = 10  # TODO discuss this limit
+MAX_TOKEN_AGE_SECONDS = 3600 * 4  # TODO discuss this limit
 
 
 class ContactForm(forms.Form):
@@ -49,9 +50,7 @@ class ContactForm(forms.Form):
     email = forms.EmailField(required=False)
     message = forms.CharField(min_length=20, max_length=5000, widget=forms.Textarea)
     suggestion = forms.BooleanField(required=False)
-    dm_support = forms.BooleanField(
-        required=False, label="Request for data management/sharing support"
-    )
+    dm_support = forms.BooleanField(required=False, label="Request for data management/sharing support")  # fmt: skip
     other = forms.BooleanField(required=False)
 
     # Anti-spam fields
@@ -139,7 +138,7 @@ class ContactForm(forms.Form):
             # Accept TimestampSigner style token or JSON payload signed via dumps
             try:
                 signer = signing.TimestampSigner(salt="contact-ts")
-                ts_str = signer.unsign(ts_token)
+                ts_str = signer.unsign(ts_token, max_age=MAX_TOKEN_AGE_SECONDS)
                 ts = int(ts_str)
             except signing.BadSignature:
                 payload = signing.loads(ts_token, salt="contact-ts")
