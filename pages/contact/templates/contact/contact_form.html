@@ -17,7 +17,7 @@
   </div>
 
   {# Error summary #}
-  {% if form.non_field_errors %}
+  {% if form.errors %}
     <div role="alert" aria-live="assertive" class="mt-4 rounded-md border border-red-200 bg-red-50 p-4 text-red-800">
       <p class="font-medium">We couldn't submit the form. Please check the fields below.</p>
     </div>
