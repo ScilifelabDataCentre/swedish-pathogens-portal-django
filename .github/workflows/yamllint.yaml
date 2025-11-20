@@ -7,10 +7,15 @@
 # - indentation
 ---
 name: Yamllint
-on: [push, pull_request]
-  paths:
-    - '**.yml'
-    - '**.yaml'
+on: 
+  push:
+    paths:
+      - '**/*.yml'
+      - '**/*.yaml'
+  pull_request:
+    paths:
+      - '**/*.yml'
+      - '**/*.yaml'
 jobs:
   yamllint:
     runs-on: ubuntu-latest
