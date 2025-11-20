@@ -1,4 +1,3 @@
-# yamllint disable rule:truthy
 # Yamtllint: Lint Yaml files.
 # A linter for YAML files. Checks for (among other things):
 # - syntax validity
