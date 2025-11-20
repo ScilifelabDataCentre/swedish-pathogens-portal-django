@@ -52,7 +52,7 @@ services:
     init: true
     pull_policy: never
     entrypoint: >
-      tailwindcss 
+      tailwindcss
         --input core/static/css/base.css
         --output core/static/css/portal.css
         --watch=always
