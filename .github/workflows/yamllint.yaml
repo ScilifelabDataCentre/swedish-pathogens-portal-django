@@ -8,7 +8,7 @@
 # - indentation
 ---
 name: Yamllint
-on: 
+on:
   push:
     paths:
       - '**/*.yml'
