@@ -1,5 +1,5 @@
 # .github/workflows/ruff.yaml
-# GitHub Actions workflow for Ruff linter
+# GitHub Actions workflow for Ruff linting and formatting
 ---
 name: Ruff
 
