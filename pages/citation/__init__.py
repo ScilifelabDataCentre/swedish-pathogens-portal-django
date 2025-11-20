@@ -1,3 +1,1 @@
 """Citation app package."""
-
-

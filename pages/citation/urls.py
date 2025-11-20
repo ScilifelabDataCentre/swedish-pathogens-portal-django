@@ -6,5 +6,3 @@ app_name = "citation"
 urlpatterns = [
     path("", Citation.as_view(), name="index"),
 ]
-
-

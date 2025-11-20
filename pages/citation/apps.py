@@ -10,4 +10,3 @@ class CitationConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
     name = "pages.citation"
     verbose_name = "Citation"
-
