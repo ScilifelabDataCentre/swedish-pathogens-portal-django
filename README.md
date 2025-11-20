@@ -20,7 +20,7 @@ WIP repository for Swedish Pathogens Portal 2.0
 
 ## Contributing
 
-You should have `git` and `docker` installed before running the folowwing steps.
+You should have `git` and `docker` installed before running the following steps.
 
 #### Clone the repository
 
