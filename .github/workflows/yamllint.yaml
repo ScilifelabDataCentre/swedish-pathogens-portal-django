@@ -1,10 +1,10 @@
 # Yamtllint: Lint Yaml files.
 # A linter for YAML files. Checks for (among other things):
 # - syntax validity
-# - key repetition and cosmetic problems such as:
-#   - line length
-#   - trailing spaces
-#   - indentation
+# - key repetition
+# - line length
+# - trailing spaces
+# - indentation
 ---
 name: Yamllint
 on: [push]
