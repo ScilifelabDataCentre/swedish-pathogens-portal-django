@@ -2,6 +2,7 @@ from django.urls import path
 from .views import (
     DashboardsIndex,
     LineageCompetition,
+    NpcStatistics,
     PostCovid,
     SerologyStatistics,
     SymptomStudySweden,
@@ -19,6 +20,11 @@ urlpatterns = [
         "lineage-competition/",
         LineageCompetition.as_view(),
         name="lineage_competition",
+    ),
+    path(
+        "npc-statistics/",
+        NpcStatistics.as_view(),
+        name="npc_statistics",
     ),
     path(
         "post-covid/",
