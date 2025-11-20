@@ -17,6 +17,7 @@ class ArticleListView(BaseListView):
         title: Page title displayed in template.
         ordering: Field to sort articles by (newest first).
     """
+
     model = Article
     template_name = "articles/index.html"
     context_object_name = "articles"
@@ -36,24 +37,25 @@ class ArticleDetailView(BaseDetailView):
         template_name: Template for rendering the detail view.
         context_object_name: Name for article in template context.
     """
+
     model = Article
     template_name = "articles/article_detail.html"
     context_object_name = "article"
-    
+
     def get_context_data(self, **kwargs):
         """Add related articles to the context.
-        
+
         Retrieves articles with similar tags using Jaccard similarity
         algorithm and adds them to the template context for display.
-        
+
         Returns:
             dict: Context data with related_articles added
         """
         context = super().get_context_data(**kwargs)
         article = self.get_object()
-        
+
         # Get related articles using Jaccard similarity algorithm
         related_articles = article.get_related_articles(limit=4, threshold=0.02)
-        
-        context['related_articles'] = related_articles
+
+        context["related_articles"] = related_articles
         return context
