@@ -7,7 +7,7 @@
 # - indentation
 ---
 name: Yamllint
-on: [push]
+on: [push, pull_request]
   paths:
     - '**.yml'
     - '**.yaml'
