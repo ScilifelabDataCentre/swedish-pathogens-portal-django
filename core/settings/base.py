@@ -119,6 +119,9 @@ DATABASES = {
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+# DATASETS ROOT variable used for portal data storage
+DATASETS_ROOT = Path(os.environ.get("DATASETS_ROOT", "/datasets"))
+
 
 # PASSWORDS (https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators)
 # ------------------------------------------------------------------------------
