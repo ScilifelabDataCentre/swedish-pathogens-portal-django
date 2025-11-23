@@ -110,24 +110,45 @@ def plot_html_from_json(
     return None
 
 
-def get_plotltjs_cdn_param(param: str) -> str | None:
-    """Get plotly JS load parameter
+def get_plotlyjs_cdn_param(param: str) -> str | None:
+    """Get Plotly JS CDN URL or integrity hash for the current Plotly version.
 
-    A function to get compatible Plotly JS version's url or hash (based on the arg)
-    by creating and parsing a dummy plot html.
+    This function extracts the Plotly.js CDN URL and integrity hash by generating
+    a dummy Plotly HTML output and parsing the script tag. This ensures the
+    template uses the Plotly.js version that is compatible with the installed Plotly
+    Python library.
 
     Args:
-        param: A requerid string, which should either "url" or "hash". For any other
-            values, it returns None
+        param: Required string parameter. Must be either "url" to get the CDN URL,
+            or "hash" to get the integrity hash. For any other values, returns None.
 
     Returns:
-        A string (either a 'url' or 'hash') or None depending on the passed arg.
+        If param is "url": Returns the CDN URL string or None if extraction fails.
+        If param is "hash": Returns the integrity hash string or None if
+            extraction fails.
+        Returns None if param is not "url" or "hash", or if the regex pattern
+            doesn't match the generated HTML.
 
     Example:
+        Get the CDN URL:
         .. code-block:: python
 
-        plotlyjs_cdn = get_plotltjs_cdn_param("url")
-        # Returns a 'url' string of Plotly JS
+            plotlyjs_url = get_plotlyjs_cdn_param("url")
+            # Returns: "https://cdn.plot.ly/plotly-3.2.0.min.js"
+            # Value may vary depending upon plotly python version
+
+        Get the integrity hash:
+        .. code-block:: python
+
+            plotlyjs_hash = get_plotlyjs_cdn_param("hash")
+            # Returns: "sha256-iZ2u/oU2wf/vDbl/ChcX93WgbBRSBvUO6N413hDz7xM="
+            # Value may vary depending upon plotly python version
+
+        Invalid parameter:
+        .. code-block:: python
+
+            result = get_plotlyjs_cdn_param("invalid")
+            # Returns: None
     """
 
     expected_args = ["url", "hash"]
