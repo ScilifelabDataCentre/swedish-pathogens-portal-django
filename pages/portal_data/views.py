@@ -17,7 +17,7 @@ SUPPORTED_TYPES = {
 }
 
 # Root on the PVC where MetaboLights studies live
-DATA_ROOT: Path = getattr(settings, "PORTAL_DATA_ROOT", Path("/datasets/"))
+DATA_ROOT: Path = getattr(settings, "PORTAL_DATA_ROOT", Path("/datasets"))
 
 
 def homepage_jump(request):
