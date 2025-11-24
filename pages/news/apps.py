@@ -4,7 +4,7 @@ from django.apps import AppConfig
 class NewsConfig(AppConfig):
     """Configuration for the news app.
 
-    TODO: Add short description of news app here.
+    This app handles and displays news, updates and announcements for the portal.
     """
 
     default_auto_field = "django.db.models.BigAutoField"
