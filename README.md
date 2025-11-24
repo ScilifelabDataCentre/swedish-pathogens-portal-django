@@ -2,6 +2,8 @@
 
 ***WIP repository for Swedish Pathogens Portal 2.0***
 
+The Swedish Pathogens Portal is being rebuilt as a Django-based web application. This repository contains early work for version 2.0.
+
 At this time, the source code for the Swedish Pathogens Portal and more information about it can be found in the [pathogens-portal repository](https://github.com/ScilifelabDataCentre/pathogens-portal).
 
 ## Technology Stack
@@ -91,7 +93,7 @@ If you are running the project locally without Docker:
 uv run python manage.py test
 ```
 
-### Clearing old container/images
+### Clearing old containers/images
 
 If you need to reset your Docker environment and start fresh, you can remove the containers and images:
 
@@ -101,7 +103,7 @@ docker compose down --rmi
 
 ### Run migrations
 
-To test pages that pull data from the database, Django migrations need to be run:
+To apply database changes, run Django migrations:
 
 ```bash
 docker compose exec web python manage.py migrate
