@@ -18,7 +18,7 @@ At this time, the source code for the Swedish Pathogens Portal and more informat
 
 - Docker and Docker Compose
 - Python 3.13+ (for local development)
-- uv (for local development) |
+- uv (for local development)
 
 ## Project structure
 
@@ -93,7 +93,7 @@ uv run python manage.py test
 
 ### To clear old container/images
 
-Sometimes we may have remove the containers, images and start a fresh.
+If you need to reset your Docker environment and start fresh, you can remove the containers and images:
 
 ```bash
 docker compose down --rmi
@@ -101,7 +101,7 @@ docker compose down --rmi
 
 ### Run migrations
 
-To check and test pages which pull data from the DB, django `migrate` should be run
+To test pages that pull data from the database, Django migrations need to be run:
 
 ```bash
 docker compose exec web python manage.py migrate
@@ -109,7 +109,7 @@ docker compose exec web python manage.py migrate
 
 ### Make migrations
 
-For new apps and models, one might have to make the migrations files first
+For new apps and models, you may need to create migration files first.
 
 ```bash
 docker compose exec web python manage.py makemigrations
@@ -117,36 +117,36 @@ docker compose exec web python manage.py makemigrations
 
 ### Creating new app
 
-To create new app (section), first create a directory with the desired app/section name.
+To create a new app (section), first create a directory with the desired app/section name.
 
 ```bash
 docker compose exec web mkdir pages/<app_name>
 ```
 
-Then use django's utility command to create a app and required files
+Then use Django's utility command to create an app and the required files
 
 ```bash
 docker compose exec web python manage.py startapp <app_name> pages/<app_name>
 ```
 
-After creating the app, following steps should be done
+After creating the app, the following steps should be completed
 
 - Add `pages.<app_name>` to `core/settings/base.py` *installed_apps* list
 - Rename app name to `pages.<app_name>` in `pages/<app_name>/app.py`
 - Create `pages/<app_name>/urls.py` file for the app's urls
-- Then include the apps url in `core/urls.py` (like other apps)
+- Then include the app's URLs in `core/urls.py` (like other apps)
 - If needed, create `templates/<app_name>` directory within the app directory for templates
 - If needed, create `static/<app_name>` directory within the app directory for static files
 
-### Modifying dependenices with UV
+### Modifying dependencies with UV
 
-While developing, to add or remove dependency run
+While developing, you can add or remove a dependency by running:
 
 ```bash
 docker compose exec web uv <add/remove> <package_name>
 ```
 
-to add/remove dependency for development
+To add or remove a development dependency:
 
 ```bash
 docker compose exec web uv <add/remove> --group dev <package_name>
