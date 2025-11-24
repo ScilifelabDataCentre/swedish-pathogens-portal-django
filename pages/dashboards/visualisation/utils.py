@@ -4,6 +4,7 @@ import json
 import logging
 import re
 
+from functools import lru_cache
 from urllib.error import URLError
 from urllib.request import urlopen
 
@@ -110,6 +111,9 @@ def plot_html_from_json(
     return None
 
 
+# Provided the value of output doesn't change after the app starts, we can cache
+# the function call. This will drastically reduce re-run of the function
+@lru_cache
 def get_plotlyjs_cdn_param(param: str) -> str | None:
     """Get Plotly JS CDN URL or integrity hash for the current Plotly version.
 

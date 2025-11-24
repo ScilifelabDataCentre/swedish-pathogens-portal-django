@@ -14,8 +14,6 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 import environ
 
-from pages.dashboards.visualisation.utils import get_plotlyjs_cdn_param
-
 
 # ENVIRONMENT
 # ------------------------------------------------------------------------------
@@ -143,6 +141,3 @@ STATIC_URL = "static/"
 STATICFILES_DIRS = [
     BASE_DIR / "core" / "static",
 ]
-
-PLOTLYJS_URL = get_plotlyjs_cdn_param("url")
-PLOTLYJS_HASH = get_plotlyjs_cdn_param("hash")
