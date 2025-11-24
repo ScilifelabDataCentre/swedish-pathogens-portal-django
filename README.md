@@ -4,7 +4,7 @@
 
 The Swedish Pathogens Portal is being rebuilt as a Django-based web application. This repository contains early work for version 2.0.
 
-At this time, the source code for the Swedish Pathogens Portal and more information about it can be found in the [pathogens-portal repository](https://github.com/ScilifelabDataCentre/pathogens-portal).
+The source code for the current Swedish Pathogens Portal can be found in the [pathogens-portal repository](https://github.com/ScilifelabDataCentre/pathogens-portal).
 
 ## Technology Stack
 
@@ -21,29 +21,6 @@ At this time, the source code for the Swedish Pathogens Portal and more informat
 - Docker and Docker Compose
 - Python 3.13+ (for local development)
 - uv (for local development)
-
-## Project structure
-
-```text
-swedish-pathogens-portal/
-├── core/                     # Django project configuration (settings, root URLs, WSGI/ASGI, etc.)
-├── pages/                    # Django apps that implement the site’s public-facing pages
-├── utils/                    # Shared helper code used across the project
-├── doc/
-│   └── architecture/
-│       └── decisions/        # Architecture Decision Records (ADRs)
-├── .github/                  # GitHub workflows and repository configuration
-├── .adr-dir                  # ADR tool configuration/metadata
-├── Dockerfile                # Instructions (for docker) on how the Docker image should be built
-├── compose.yaml              # Definition of Docker Compose services for local development
-├── manage.py                 # Django command-line entry point (runserver, migrate, etc.)
-├── pyproject.toml            # Project configuration and dependency declarations (used by uv)
-├── uv.lock                   # Locked, exact dependency versions for reproducible installs
-├── .env.example              # Example environment variables for local development
-├── .python-version           # Python version hint for uv / pyenv / other version managers
-├── prod-entrypoint.sh        # Script run when the app starts in production (migrations, start server)
-└── README.md                 # This file, project documentation
-```
 
 ## Contributing
 
@@ -125,7 +102,7 @@ To create a new app (section), first create a directory with the desired app/sec
 docker compose exec web mkdir pages/<app_name>
 ```
 
-Then use Django's utility command to create an app and the required files
+Then use Django's utility command to create an app and the required files.
 
 ```bash
 docker compose exec web python manage.py startapp <app_name> pages/<app_name>
@@ -134,8 +111,8 @@ docker compose exec web python manage.py startapp <app_name> pages/<app_name>
 After creating the app, complete the following steps:
 
 - Add `pages.<app_name>` to `core/settings/base.py` *installed_apps* list
-- Rename app name to `pages.<app_name>` in `pages/<app_name>/app.py`
-- Create `pages/<app_name>/urls.py` file for the app's URLs
+- Rename the app name to `pages.<app_name>` in `pages/<app_name>/app.py`
+- Create a `pages/<app_name>/urls.py` file for the app's URLs
 - Then include the app's URLs in `core/urls.py` (like other apps)
 - If needed, create `templates/<app_name>` directory within the app directory for templates
 - If needed, create `static/<app_name>` directory within the app directory for static files
@@ -152,6 +129,29 @@ To add or remove a development dependency:
 
 ```bash
 docker compose exec web uv <add/remove> --group dev <package_name>
+```
+
+## Project structure
+
+```text
+swedish-pathogens-portal/
+├── core/                     # Django project configuration (settings, root URLs, WSGI/ASGI, etc.)
+├── pages/                    # Django apps that implement the site’s public-facing pages
+├── utils/                    # Shared helper code used across the project
+├── doc/
+│   └── architecture/
+│       └── decisions/        # Architecture Decision Records (ADRs)
+├── .github/                  # GitHub workflows and repository configuration
+├── .adr-dir                  # ADR tool configuration/metadata
+├── Dockerfile                # Instructions (for docker) on how the Docker image should be built
+├── compose.yaml              # Definition of Docker Compose services for local development
+├── manage.py                 # Django command-line entry point (runserver, migrate, etc.)
+├── pyproject.toml            # Project configuration and dependency declarations (used by uv)
+├── uv.lock                   # Locked, exact dependency versions for reproducible installs
+├── .env.example              # Example environment variables for local development
+├── .python-version           # Python version hint for uv / pyenv / other version managers
+├── prod-entrypoint.sh        # Script run when the app starts in production (migrations, start server)
+└── README.md                 # This file, project documentation
 ```
 
 ## License
