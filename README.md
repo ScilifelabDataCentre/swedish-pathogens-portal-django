@@ -70,14 +70,6 @@ If you are running the project locally without Docker:
 uv run python manage.py test
 ```
 
-### Clearing old containers/images
-
-If you need to reset your Docker environment and start fresh, you can remove the containers and images:
-
-```bash
-docker compose down --rmi
-```
-
 ### Run migrations
 
 To apply database changes, run Django migrations:
@@ -92,6 +84,20 @@ For new apps and models, you may need to create migration files first.
 
 ```bash
 docker compose exec web python manage.py makemigrations
+```
+
+### Modifying dependencies with UV
+
+While developing, you can add or remove a dependency by running:
+
+```bash
+docker compose exec web uv <add/remove> <package_name>
+```
+
+To add or remove a development dependency:
+
+```bash
+docker compose exec web uv <add/remove> --group dev <package_name>
 ```
 
 ### Creating new app
@@ -117,18 +123,12 @@ After creating the app, complete the following steps:
 - If needed, create `templates/<app_name>` directory within the app directory for templates
 - If needed, create `static/<app_name>` directory within the app directory for static files
 
-### Modifying dependencies with UV
+### Clearing old containers/images
 
-While developing, you can add or remove a dependency by running:
-
-```bash
-docker compose exec web uv <add/remove> <package_name>
-```
-
-To add or remove a development dependency:
+If you need to reset your Docker environment and start fresh, you can remove the containers and images:
 
 ```bash
-docker compose exec web uv <add/remove> --group dev <package_name>
+docker compose down --rmi
 ```
 
 ## Project structure
