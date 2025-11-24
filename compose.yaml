@@ -1,3 +1,5 @@
+# docker-compose.yaml
+# Docker Compose configuration for Swedish Pathogens Portal (SPP)
 ---
 name: SPP
 services:
