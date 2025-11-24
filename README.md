@@ -119,7 +119,7 @@ After creating the app, complete the following steps:
 - Add `pages.<app_name>` to `core/settings/base.py` *installed_apps* list
 - Rename the app name to `pages.<app_name>` in `pages/<app_name>/app.py`
 - Create a `pages/<app_name>/urls.py` file for the app's URLs
-- Then include the app's URLs in `core/urls.py` (like other apps)
+- Include the app's URLs in `core/urls.py` (like other apps)
 - If needed, create `templates/<app_name>` directory within the app directory for templates
 - If needed, create `static/<app_name>` directory within the app directory for static files
 
@@ -143,7 +143,7 @@ swedish-pathogens-portal/
 │       └── decisions/        # Architecture Decision Records (ADRs)
 ├── .github/                  # GitHub workflows and repository configuration
 ├── .adr-dir                  # ADR tool configuration/metadata
-├── Dockerfile                # Instructions (for docker) on how the Docker image should be built
+├── Dockerfile                # Instructions for how the Docker image is built
 ├── compose.yaml              # Definition of Docker Compose services for local development
 ├── manage.py                 # Django command-line entry point (runserver, migrate, etc.)
 ├── pyproject.toml            # Project configuration and dependency declarations (used by uv)
