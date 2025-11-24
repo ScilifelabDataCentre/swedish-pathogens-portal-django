@@ -17,7 +17,7 @@ SUPPORTED_TYPES = {
 }
 
 # Root on the PVC where MetaboLights studies live
-DATA_ROOT: Path = getattr(settings, "PORTAL_DATA_ROOT", Path("/datasets/")
+DATA_ROOT: Path = getattr(settings, "PORTAL_DATA_ROOT", Path("/datasets/"))
 
 
 def homepage_jump(request):
@@ -34,7 +34,7 @@ def _load_all_items(datatype: str) -> list[dict]:
         return []
 
     # Prefer /datasets/MTBLS_data if it exists, otherwise /datasets
-    root = BASE_DATA_ROOT
+    root = DATA_ROOT
     mtbls_data = root / "MTBLS_data"
     if mtbls_data.is_dir():
         root = mtbls_data
