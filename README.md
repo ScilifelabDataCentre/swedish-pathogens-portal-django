@@ -73,6 +73,22 @@ docker compose up
 
 If the command ran successfully, open a browser and visit `http://localhost:8000`.
 
+### Running tests
+
+***WIP, this is a placeholder and may need to be edited as tests are added.***
+
+Run the test suite with:
+
+```bash
+docker compose exec web python manage.py test
+```
+
+If you are running the project locally without Docker:
+
+```bash
+uv run python manage.py test
+```
+
 ### To clear old container/images
 
 Sometimes we may have remove the containers, images and start a fresh.
