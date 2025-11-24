@@ -1,6 +1,6 @@
 # Swedish Pathogens Portal
 
-WIP repository for Swedish Pathogens Portal 2.0
+***WIP repository for Swedish Pathogens Portal 2.0***
 
 ## Technology Stack
 
