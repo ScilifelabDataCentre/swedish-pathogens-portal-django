@@ -2,6 +2,8 @@
 
 ***WIP repository for Swedish Pathogens Portal 2.0***
 
+At this time, the source code for the Swedish Pathogens Portal and more information about it can be found in the [pathogens-portal repository](https://github.com/ScilifelabDataCentre/pathogens-portal).
+
 ## Project structure
 
 ```text
