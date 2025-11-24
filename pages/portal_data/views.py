@@ -17,7 +17,7 @@ SUPPORTED_TYPES = {
 }
 
 # Root on the PVC where MetaboLights studies live
-DATA_ROOT: Path = getattr(settings, "PORTAL_DATA_ROOT", Path("/datasets/MTBLS_data"))
+DATA_ROOT: Path = getattr(settings, "PORTAL_DATA_ROOT", Path("/datasets/")
 
 
 def homepage_jump(request):
@@ -29,22 +29,16 @@ def homepage_jump(request):
 # Helpers to read real data from the PVC
 # -------------------------------------------------------------------
 
-
 def _load_all_items(datatype: str) -> list[dict]:
-    """
-    Scan the PVC and return a list of study dicts compatible with the template.
-
-    For now we assume a directory structure like:
-        /datasets/MTBLS_data/MTBLS2017/...
-        /datasets/MTBLS_data/MTBLS2060/...
-
-    You can later enrich this by parsing ISA-Tab metadata in each study dir.
-    """
     if datatype != "metabolomics":
-        # Only metabolomics is wired up at the moment
         return []
 
-    root = DATA_ROOT
+    # Prefer /datasets/MTBLS_data if it exists, otherwise /datasets
+    root = BASE_DATA_ROOT
+    mtbls_data = root / "MTBLS_data"
+    if mtbls_data.is_dir():
+        root = mtbls_data
+
     if not root.exists():
         return []
 
@@ -55,10 +49,11 @@ def _load_all_items(datatype: str) -> list[dict]:
             continue
 
         acc = study_dir.name  # e.g. "MTBLS2017"
-        if not acc.startswith("MTBLS"):
+
+        # Only accept IDs like MTBLS1234
+        if not (acc.startswith("MTBLS") and acc[5:].isdigit()):
             continue
 
-        # TODO: parse real metadata to fill these fields
         title = acc
         pathogen = ""
         matrix = ""
@@ -79,12 +74,12 @@ def _load_all_items(datatype: str) -> list[dict]:
                 "year": year,
                 "repository": "MetaboLights",
                 "repo_url": repo_url,
-                # Optional, not used by template but handy:
                 "local_path": study_dir,
             }
         )
 
     return items
+
 
 
 def _apply_search_and_filters(
