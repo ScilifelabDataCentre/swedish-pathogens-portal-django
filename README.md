@@ -32,7 +32,7 @@ git clone git@github.com:ScilifelabDataCentre/swedish-pathogens-portal.git
 
 **NOTE:** The following instructions assume you are in the project's root
 
-### Create env file
+### Create `.env` file
 
 We need a `.env` file for the application, for local development we can just make a copy of `.env.example`
 
@@ -90,12 +90,12 @@ docker compose exec web python manage.py startapp <app_name> pages/<app_name>
 
 After creating the app, following steps should be done
 
-- add `pages.<app_name>` to `core/settings/base.py` *installed_apps* list
-- rename app name to `pages.<app_name>` in `pages/<app_name>/app.py`
-- create `pages/<app_name>/urls.py` file for the app's urls
-- then include the apps url in `core/urls.py` (like other apps)
-- if needed, create `templates/<app_name>` directory within the app directory for templates
-- if needed, create `static/<app_name>` directory within the app directory for static files
+- Add `pages.<app_name>` to `core/settings/base.py` *installed_apps* list
+- Rename app name to `pages.<app_name>` in `pages/<app_name>/app.py`
+- Create `pages/<app_name>/urls.py` file for the app's urls
+- Then include the apps url in `core/urls.py` (like other apps)
+- If needed, create `templates/<app_name>` directory within the app directory for templates
+- If needed, create `static/<app_name>` directory within the app directory for static files
 
 ### Modifying dependenices with UV
 
