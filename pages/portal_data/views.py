@@ -1,6 +1,8 @@
-from pathlib import Path
+from __future__ import annotations
 
-from django.conf import settings
+from pathlib import Path
+from typing import List, Dict
+
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import redirect
 from django.views.generic import TemplateView
@@ -13,15 +15,13 @@ SUPPORTED_TYPES = {
         "label": "Metabolomics",
         "default_facets": ["pathogen", "matrix", "instrument", "country", "year"],
     },
-    # Future: "proteomics": {...}, etc.
 }
 
-# Root on the PVC where MetaboLights studies live
-DATA_ROOT: Path = getattr(settings, "PORTAL_DATA_ROOT", Path("/datasets"))
+# Root where the PVC is mounted in the web container
+PVC_ROOT = Path("/datasets")
 
 
 def homepage_jump(request):
-    # For now redirect to metabolomics; later this route can show a hub
     return redirect("pages_portal_data:data_type_list", datatype="metabolomics")
 
 
@@ -29,31 +29,45 @@ def homepage_jump(request):
 # Helpers to read real data from the PVC
 # -------------------------------------------------------------------
 
-def _load_all_items(datatype: str) -> list[dict]:
+
+def _iter_study_dirs(datatype: str) -> List[Path]:
+    """
+    Yield directories that look like MetaboLights studies.
+
+    With your current layout this will hit:
+        /datasets/MTBLS1051
+        /datasets/MTBLS1464
+        ...
+    """
     if datatype != "metabolomics":
         return []
 
-    # Prefer /datasets/MTBLS_data if it exists, otherwise /datasets
-    root = DATA_ROOT
-    mtbls_data = root / "MTBLS_data"
-    if mtbls_data.is_dir():
-        root = mtbls_data
-
-    if not root.exists():
+    if not PVC_ROOT.exists():
         return []
 
-    items: list[dict] = []
-
-    for study_dir in sorted(root.iterdir()):
-        if not study_dir.is_dir():
+    candidates: Dict[str, Path] = {}
+    for p in PVC_ROOT.iterdir():
+        if not p.is_dir():
             continue
+        name = p.name
+        if not name.startswith("MTBLS"):
+            continue
+        # Only accept IDs like MTBLS1234, MTBLS690, etc.
+        suffix = name[5:]
+        if not suffix.isdigit():
+            continue
+        candidates[name] = p
 
+    return [candidates[name] for name in sorted(candidates)]
+
+
+def _load_all_items(datatype: str) -> List[dict]:
+    items: List[dict] = []
+
+    for study_dir in _iter_study_dirs(datatype):
         acc = study_dir.name  # e.g. "MTBLS2017"
 
-        # Only accept IDs like MTBLS1234
-        if not (acc.startswith("MTBLS") and acc[5:].isdigit()):
-            continue
-
+        # TODO: later parse real ISA-Tab metadata here
         title = acc
         pathogen = ""
         matrix = ""
@@ -81,12 +95,11 @@ def _load_all_items(datatype: str) -> list[dict]:
     return items
 
 
-
 def _apply_search_and_filters(
-    items: list[dict],
+    items: List[dict],
     query: str,
-    filters: dict[str, list[str]],
-) -> list[dict]:
+    filters: Dict[str, List[str]],
+) -> List[dict]:
     # Text search
     if query:
         q = query.lower()
@@ -111,19 +124,12 @@ def _apply_search_and_filters(
     return items
 
 
-def _build_facets(items: list[dict], facet_names: list[str]) -> dict[str, list[dict]]:
-    """
-    Build facet buckets like:
-        {
-          "country": [{"value": "Sweden", "count": 5}, ...],
-          "year": [{"value": "2023", "count": 3}, ...],
-        }
-    """
-    facets: dict[str, list[dict]] = {}
+def _build_facets(items: List[dict], facet_names: List[str]) -> Dict[str, List[dict]]:
+    facets: Dict[str, List[dict]] = {}
     items = list(items)
 
     for facet in facet_names:
-        counts: dict[str, int] = {}
+        counts: Dict[str, int] = {}
         for it in items:
             value = it.get(facet)
             if value in (None, "", [], {}):
@@ -163,20 +169,19 @@ class DataTypeListView(TemplateView):
             or SUPPORTED_TYPES[datatype]["default_facets"]
         )
 
-        # Same filter fields as before
         filter_fields = ["pathogen", "matrix", "instrument", "country", "year", "repository"]
         filters = {f: self.request.GET.getlist(f) for f in filter_fields if self.request.GET.get(f)}
 
-        # 1) Load all items from PVC
+        # Load from PVC
         all_items = _load_all_items(datatype)
 
-        # 2) Build facets from the full set
+        # Build facets from full set
         facets = _build_facets(all_items, facet_names)
 
-        # 3) Apply text search & facet filters
+        # Apply filters + search
         filtered_items = _apply_search_and_filters(all_items, q, filters)
 
-        # Optional paging (simple slice, since we have everything in memory)
+        # Simple paging
         start = (page - 1) * size
         end = start + size
         page_items = filtered_items[start:end]
@@ -207,7 +212,6 @@ def export_selected(request, datatype):
     if not ids:
         return HttpResponseBadRequest("No IDs selected")
 
-    # Load all items and keep only the selected IDs
     all_items = _load_all_items(datatype)
     items = [it for it in all_items if it["id"] in ids]
 
