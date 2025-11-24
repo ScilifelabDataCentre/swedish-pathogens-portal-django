@@ -4,6 +4,22 @@
 
 At this time, the source code for the Swedish Pathogens Portal and more information about it can be found in the [pathogens-portal repository](https://github.com/ScilifelabDataCentre/pathogens-portal).
 
+## Technology Stack
+
+- **Backend**: Django
+- **Database**: PostgreSQL
+- **Template Engine**: Django templates
+- **CSS Framework**: TailwindCSS
+- **JavaScript**: htmx
+- **Package Manager**: uv
+- **Containerization**: Docker & Docker Compose
+
+## Prerequisites
+
+- Docker and Docker Compose
+- Python 3.13+ (for local development)
+- uv (for local development) |
+
 ## Project structure
 
 ```text
@@ -26,22 +42,6 @@ swedish-pathogens-portal/
 ├── prod-entrypoint.sh        # Script run when the app starts in production (migrations, start server)
 └── README.md                 # This file, project documentation
 ```
-
-## Technology Stack
-
-- **Backend**: Django
-- **Database**: PostgreSQL
-- **Template Engine**: Django templates
-- **CSS Framework**: TailwindCSS
-- **JavaScript**: htmx
-- **Package Manager**: uv
-- **Containerization**: Docker & Docker Compose
-
-## Prerequisites
-
-- Docker and Docker Compose
-- Python 3.13+ (for local development)
-- uv (for local development) |
 
 ## Contributing
 
