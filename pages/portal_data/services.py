@@ -1,81 +1,87 @@
-import csv, io, json
+from __future__ import annotations
 
-def query_data_backend(datatype, query="", page=1, size=25, filters=None, facets=None, topic=None, ids=None):
+import csv
+import io
+import json
+from typing import Iterable, Mapping, Tuple, List
+
+# Fields we include in exports:
+# - key in the item dict
+# - human-readable column header
+EXPORT_FIELDS: List[tuple[str, str]] = [
+    ("id", "Accession"),
+    ("title", "Title"),
+    ("pathogen", "Pathogen"),
+    ("matrix", "Matrix"),
+    ("instrument", "Instrument"),
+    ("country", "Country"),
+    ("year", "Year"),
+    ("repository", "Repository"),
+    ("repo_url", "Repository URL"),
+]
+
+
+def _normalize_items(items: Iterable[Mapping[str, object]]) -> list[dict]:
     """
-    Returns:
-      {
-        "items": [
-          {id, title, pathogen, matrix, instrument, country, year, repository, repo_url, files:[{name,url}]},
-          ...
-        ],
-        "total": int,
-        "facets": { "pathogen": [{"value": "...", "count": n}, ...], ... }
-      }
+    Take whatever dicts the view passes in and return a list of clean dicts
+    containing only the fields we want to export, with None -> "".
     """
-    filters = filters or {}
-    facets  = facets or []
+    normalized: list[dict] = []
 
-    # TODO: Replace mock data with real upstream API calls (Pathogens Portal / EMBL).
-    mock_items = [
-        {
-          "id": "MTBLS1234",
-          "title": "Serum metabolomics of Orthoflavivirus denguei infection",
-          "pathogen": "Orthoflavivirus denguei",
-          "matrix": "serum",
-          "instrument": "Orbitrap",
-          "country": "Sweden",
-          "year": 2024,
-          "repository": "MetaboLights",
-          "repo_url": "https://www.ebi.ac.uk/metabolights/MTBLS1234",
-          "files": [{"name": "metadata.tsv", "url": "https://..."}, {"name": "peak_table.tsv", "url": "https://..."}],
-        },
-        # ...more from API...
-    ]
-
-    if ids:
-        idset = set(ids)
-        mock_items = [x for x in mock_items if x["id"] in idset]
-
-    def include(x):
-        if query and (query.lower() not in json.dumps(x).lower()):
-            return False
-        for k, vals in (filters or {}).items():
-            if vals and str(x.get(k)) not in set(map(str, vals)):
-                return False
-        if topic and topic.lower() not in json.dumps(x).lower():
-            return False
-        return True
-
-    filtered = [x for x in mock_items if include(x)]
-    total = len(filtered)
-
-    start = (page - 1) * size
-    end   = start + size
-    items = filtered[start:end]
-
-    facet_data = {}
-    for f in facets:
-        buckets = {}
-        for it in filtered:
-            key = it.get(f) or "Unknown"
-            buckets[key] = buckets.get(key, 0) + 1
-        facet_data[f] = sorted(
-            [{"value": k, "count": v} for k, v in buckets.items()],
-            key=lambda x: (-x["count"], str(x["value"]))
-        )
-
-    return {"items": items, "total": total, "facets": facet_data}
-
-def build_export_tsv(items, filename):
-    buf = io.StringIO()
-    writer = csv.DictWriter(buf, fieldnames=[
-        "id","title","pathogen","matrix","instrument","country","year","repository","repo_url"
-    ], extrasaction="ignore", delimiter="\t")
-    writer.writeheader()
     for it in items:
-        writer.writerow(it)
-    return buf.getvalue(), filename, "text/tab-separated-values"
+        row: dict[str, object] = {}
+        for key, _ in EXPORT_FIELDS:
+            value = it.get(key, "")
+            if value is None:
+                value = ""
+            row[key] = value
+        normalized.append(row)
 
-def build_export_json(items, filename):
-    return json.dumps(items, ensure_ascii=False, indent=2), filename, "application/json"
+    return normalized
+
+
+def build_export_tsv(
+    items: Iterable[Mapping[str, object]],
+    default_filename: str = "export.tsv",
+) -> Tuple[str, str, str]:
+    """
+    Build a TSV export from a sequence of item dicts.
+
+    Returns: (content_str, filename, content_type)
+    """
+    rows = _normalize_items(items)
+
+    buf = io.StringIO()
+    writer = csv.writer(buf, delimiter="\t")
+
+    # Header row
+    writer.writerow([label for _, label in EXPORT_FIELDS])
+
+    # Data rows
+    for row in rows:
+        writer.writerow([row.get(key, "") for key, _ in EXPORT_FIELDS])
+
+    content = buf.getvalue()
+    buf.close()
+
+    filename = default_filename or "export.tsv"
+    content_type = "text/tab-separated-values; charset=utf-8"
+    return content, filename, content_type
+
+
+def build_export_json(
+    items: Iterable[Mapping[str, object]],
+    default_filename: str = "export.json",
+) -> Tuple[str, str, str]:
+    """
+    Build a JSON export from a sequence of item dicts.
+
+    Returns: (content_str, filename, content_type)
+    """
+    rows = _normalize_items(items)
+    content = json.dumps(rows, indent=2, ensure_ascii=False)
+
+    filename = default_filename or "export.json"
+    content_type = "application/json; charset=utf-8"
+    return content, filename, content_type
 
