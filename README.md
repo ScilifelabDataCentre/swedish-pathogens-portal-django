@@ -2,6 +2,29 @@
 
 ***WIP repository for Swedish Pathogens Portal 2.0***
 
+## Project structure
+
+```text
+swedish-pathogens-portal/
+├── core/                     # Django project configuration (settings, root URLs, WSGI/ASGI, etc.)
+├── pages/                    # Django apps that implement the site’s public-facing pages
+├── utils/                    # Shared helper code used across the project
+├── doc/
+│   └── architecture/
+│       └── decisions/        # Architecture Decision Records (ADRs)
+├── .github/                  # GitHub workflows and repository configuration
+├── .adr-dir                  # ADR tool configuration/metadata
+├── Dockerfile                # Instructions (for docker) on how the Docker image should be built
+├── compose.yaml              # Definition of Docker Compose services for local development
+├── manage.py                 # Django command-line entry point (runserver, migrate, etc.)
+├── pyproject.toml            # Project configuration and dependency declarations (used by uv)
+├── uv.lock                   # Locked, exact dependency versions for reproducible installs
+├── .env.example              # Example environment variables for local development
+├── .python-version           # Python version hint for uv / pyenv / other version managers
+├── prod-entrypoint.sh        # Script run when the app starts in production (migrations, start server)
+└── README.md                 # This file, project documentation
+```
+
 ## Technology Stack
 
 - **Backend**: Django
