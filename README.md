@@ -59,7 +59,7 @@ git clone git@github.com:ScilifelabDataCentre/swedish-pathogens-portal.git
 
 ### Create `.env` file
 
-We need a `.env` file for the application, for local development we can just make a copy of `.env.example`
+We need a `.env` file for the application. For local development, you can copy `.env.example`
 
 ```bash
 cp .env.example .env
@@ -67,17 +67,17 @@ cp .env.example .env
 
 ### Start the application
 
-To start the application, run the below command.
+To start the application, run the command below.
 
 ```bash
 docker compose up
 ```
 
-If the command ran successfully, open a browser and visit `http://localhost:8000`.
+After the application starts, open a browser and visit `http://localhost:8000`.
 
-### Running tests
+### Running tests (WIP)
 
-***WIP, this is a placeholder and may need to be edited as tests are added.***
+***This is a placeholder and may need to be edited as tests are added.***
 
 Run the test suite with:
 
@@ -91,7 +91,7 @@ If you are running the project locally without Docker:
 uv run python manage.py test
 ```
 
-### To clear old container/images
+### Clearing old container/images
 
 If you need to reset your Docker environment and start fresh, you can remove the containers and images:
 
@@ -129,11 +129,11 @@ Then use Django's utility command to create an app and the required files
 docker compose exec web python manage.py startapp <app_name> pages/<app_name>
 ```
 
-After creating the app, the following steps should be completed
+After creating the app, complete the following steps:
 
 - Add `pages.<app_name>` to `core/settings/base.py` *installed_apps* list
 - Rename app name to `pages.<app_name>` in `pages/<app_name>/app.py`
-- Create `pages/<app_name>/urls.py` file for the app's urls
+- Create `pages/<app_name>/urls.py` file for the app's URLs
 - Then include the app's URLs in `core/urls.py` (like other apps)
 - If needed, create `templates/<app_name>` directory within the app directory for templates
 - If needed, create `static/<app_name>` directory within the app directory for static files
