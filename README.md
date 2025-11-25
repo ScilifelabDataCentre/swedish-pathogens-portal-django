@@ -21,6 +21,7 @@ The source code for the current (live) Swedish Pathogens Portal can be found in 
 - Docker and Docker Compose
 - Python 3.13+ (for local development)
 - uv (for local development)
+- git
 
 ## Setup
 
