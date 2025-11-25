@@ -51,7 +51,7 @@ docker compose up
 
 After the application starts, open `http://localhost:8000` in your browser.
 
-## Development tasks
+## Development / Contributing
 
 ### Running tests (WIP)
 
