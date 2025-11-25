@@ -2,7 +2,9 @@
 
 import json
 import logging
+import re
 
+from functools import lru_cache
 from urllib.error import URLError
 from urllib.request import urlopen
 
@@ -63,7 +65,7 @@ def plot_html_from_json(
     data: dict | None,
     height: str | int = "100%",
     skip_invalid: bool = False,
-    include_plotlyjs: str | bool = "cdn",
+    include_plotlyjs: str | bool = False,
 ) -> str | None:
     """Generate graph's HTML string
 
@@ -75,9 +77,8 @@ def plot_html_from_json(
         height: Parameter passed to 'to_html' method, the height of the rendered
             plot will be of this value. It can either a int (pixels) or
             str (css notation like '500px' or '100%')
-        include_plotlyjs: Parameter passed to 'to_html' method. Default value 'cdn',
-            this will include <script> tag to load the plotly JS library in the
-            generated HTML. If set to False, it will not be included.
+        include_plotlyjs: Parameter passed to 'to_html' method. Can be set to 'cdn'
+            if Plotly JS is not available on global level.
         skip_invalid: A boolean parameter to be passed to pio's from_json
             method. If set to true, invalid properties in the JSON object
             will be ignored without raising an exception.
@@ -108,3 +109,66 @@ def plot_html_from_json(
     else:
         logger.warning("Provided JSON data should not be 'None'")
     return None
+
+
+# Provided the value of output doesn't change after the app starts, we can cache
+# the function call. This will drastically reduce re-run of the function
+@lru_cache
+def get_plotlyjs_cdn_param(param: str) -> str | None:
+    """Get Plotly JS CDN URL or integrity hash for the current Plotly version.
+
+    This function extracts the Plotly.js CDN URL and integrity hash by generating
+    a dummy Plotly HTML output and parsing the script tag. This ensures the
+    template uses the Plotly.js version that is compatible with the installed Plotly
+    Python library.
+
+    Args:
+        param: Required string parameter. Must be either "url" to get the CDN URL,
+            or "hash" to get the integrity hash. For any other values, returns None.
+
+    Returns:
+        If param is "url": Returns the CDN URL string or None if extraction fails.
+        If param is "hash": Returns the integrity hash string or None if
+            extraction fails.
+        Returns None if param is not "url" or "hash", or if the regex pattern
+            doesn't match the generated HTML.
+
+    Example:
+        Get the CDN URL:
+        .. code-block:: python
+
+            plotlyjs_url = get_plotlyjs_cdn_param("url")
+            # Returns: "https://cdn.plot.ly/plotly-3.2.0.min.js"
+            # Value may vary depending upon plotly python version
+
+        Get the integrity hash:
+        .. code-block:: python
+
+            plotlyjs_hash = get_plotlyjs_cdn_param("hash")
+            # Returns: "sha256-iZ2u/oU2wf/vDbl/ChcX93WgbBRSBvUO6N413hDz7xM="
+            # Value may vary depending upon plotly python version
+
+        Invalid parameter:
+        .. code-block:: python
+
+            result = get_plotlyjs_cdn_param("invalid")
+            # Returns: None
+    """
+
+    expected_args = ["url", "hash"]
+    if param not in expected_args:
+        logger.warning("Param should be either 'url' or 'hash'")
+        return None
+    # generate dummy plot html to pattern search
+    html_string = pio.to_html({}, full_html=False, include_plotlyjs="cdn")
+    m = re.search(
+        r'<script.*?src="([^"]+plotly[^"]+\.js)".*?integrity="(.*?)".*?</script>',
+        html_string,
+    )
+    if m:
+        param_match = m.group(expected_args.index(param) + 1)
+        logger.info(f"Fetched Plotly JS cdn's {param}: {param_match}")
+        return param_match
+    else:
+        logger.warning(f"Could not find matching pattern for '{param}'")
+        return None
