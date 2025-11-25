@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import DashboardsIndex, LineageCompetition, SerologyStatistics
+from .views import DashboardsIndex, LineageCompetition, SerologyStatistics, VariantsRegionUppsala
 
 app_name = "dashboards"
 
@@ -11,4 +11,5 @@ urlpatterns = [
     path(
         "serology-statistics/", SerologyStatistics.as_view(), name="serology_statistics"
     ),
+    path("variants-region-uppsala/", VariantsRegionUppsala.as_view(), name="variants_region_uppsala"),
 ]
