@@ -22,11 +22,9 @@ The source code for the current (live) Swedish Pathogens Portal can be found in 
 - Python 3.13+ (for local development)
 - uv (for local development)
 
-## Contributing
+## Setup
 
-You should have `git` and `docker` installed before running the following steps.
-
-### Clone the repository
+### 1. Clone the repository
 
 Open a terminal window, go to the directory where you want to clone the repository and run
 
@@ -34,31 +32,29 @@ Open a terminal window, go to the directory where you want to clone the reposito
 git clone git@github.com:ScilifelabDataCentre/swedish-pathogens-portal.git
 ```
 
-**NOTE:** The following instructions assume you are in the project's root
+**NOTE:** The sections below assume you are in the project's root
 
-### Create `.env` file
+### 2. Create a `.env` file
 
-We need a `.env` file for the application. For local development, you can copy `.env.example`
+For local development, you can copy `.env.example`
 
 ```bash
 cp .env.example .env
 ```
 
-### Start the application
-
-To start the application, run the command below.
+### 3. Start the application
 
 ```bash
 docker compose up
 ```
 
-After the application starts, open a browser and visit `http://localhost:8000`.
+After the application starts, open `http://localhost:8000` in your browser.
+
+## Development tasks
 
 ### Running tests (WIP)
 
-***This is a placeholder and may need to be edited as tests are added.***
-
-Run the test suite with:
+*This section will be updated as tests are added*
 
 ```bash
 docker compose exec web python manage.py test
@@ -70,7 +66,7 @@ If you are running the project locally without Docker:
 uv run python manage.py test
 ```
 
-### Run migrations
+### Running migrations
 
 To apply database changes, run Django migrations:
 
@@ -78,7 +74,7 @@ To apply database changes, run Django migrations:
 docker compose exec web python manage.py migrate
 ```
 
-### Make migrations
+### Making migrations
 
 For new apps and models, you may need to create migration files first.
 
@@ -86,7 +82,7 @@ For new apps and models, you may need to create migration files first.
 docker compose exec web python manage.py makemigrations
 ```
 
-### Modifying dependencies with UV
+### Modifying dependencies (uv)
 
 While developing, you can add or remove a dependency by running:
 
@@ -100,7 +96,7 @@ To add or remove a development dependency:
 docker compose exec web uv <add/remove> --group dev <package_name>
 ```
 
-### Creating new app
+### Creating a new app
 
 To create a new app (section), first create a directory with the desired app/section name.
 
