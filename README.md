@@ -2,9 +2,9 @@
 
 ***WIP repository for Swedish Pathogens Portal 2.0***
 
-The Swedish Pathogens Portal is being rebuilt as a Django-based web application. This repository contains early work for version 2.0.
+The Swedish Pathogens Portal is being rebuilt as a Django-based web application.
 
-The source code for the current Swedish Pathogens Portal can be found in the [pathogens-portal repository](https://github.com/ScilifelabDataCentre/pathogens-portal).
+The source code for the current (live) Swedish Pathogens Portal can be found in the [pathogens-portal repository](https://github.com/ScilifelabDataCentre/pathogens-portal).
 
 ## Technology Stack
 
