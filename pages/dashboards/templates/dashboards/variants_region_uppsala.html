@@ -1,0 +1,235 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% comment %}
+    TODO: cleanup in second phase
+    fix internal URL reference
+    fix plot generation script URLS
+    fix data update date
+    fix commentary section
+{% endcomment %}
+
+    <div id="content-start">
+        <div class="prose max-w-none space-y-6 mt-4">
+            <h2 id="introduction">Introduction</h2>
+
+            <p>
+                Surveillance of a viral pathogen is essential for minimising the impacts of that pathogen on society.
+                Without surveillance, it is difficult to understand whether a given pathogen occurs in the area,
+                whether new strains have appeared, or if an outbreak may be likely.
+            </p>
+
+            <p>
+                Throughout the pandemic and until present day, the section for
+                <a href="https://www.akademiska.se/en/departments/departments/klinisk-mikrobiologi-och-vardhygien/">Clinical
+                Microbiology and Hospital Hygiene at Uppsala University Hospital</a> have conducted surveillance for
+                SARS-CoV-2 in Uppsala. To do this, they performed whole genome sequencing on samples from SARS-CoV-2
+                positive patients in the Uppsala region. Throughout the COVID-19 pandemic, they sequenced over 12,000
+                samples from Uppsala.
+            </p>
+
+            <p>
+                This dashboard includes two visualisations of the data from the section for Clinical Microbiology and
+                Hospital Hygiene at Uppsala University Hospital. It also contains contact information for those behind
+                the work, information about the code used to generate the graphs, and relevant publications. The data on
+                this dashboard will be updated <strong>approximately monthly</strong>.
+            </p>
+
+            <h2 id="sequence-visualisations">SARS-CoV-2 Sequence Visualisations</h2>
+
+            {% comment %}
+            TODO: will be implemented in next phase
+
+            <div class="bg-pp-pale-grey/30 border-l-4 border-pp-mid-blue text-pp-dark-blue p-4" role="status">
+                <p class="m-0"><strong>Last updated:</strong> <span id="last_modified_uuclinmicro">TODO</span></p>
+            </div>
+            {% endcomment %}
+
+            <p>
+                The sequences are presented according to their
+                <a href="https://www.who.int/activities/tracking-SARS-CoV-2-variants">World Health Organisation (WHO)
+                label</a> (a greek letter) and/or their Pango lineage. The Pango lineage is determined using
+                <a href="https://cov-lineages.org/resources/pangolin.html">Pangolin</a>,
+                <a href="https://clades.nextstrain.org/">Nextclade</a>, and an in-house annotation-based mutation
+                analysis workflow.
+            </p>
+
+            <h3 id="recent-sequences">Recent sequences with Pango lineage</h3>
+
+            <p>
+                In this subsection, there are two plots each showing the percentage of sequences that belonged to a
+                given lineage in each week. Each plot represents a different level of granularity in the classification
+                of lineages. The first shows the most granular level, and data is available from October 2023. The
+                second has a slightly lower level of granularity and shows data from January 2023.
+            </p>
+
+            <p>
+                In both graphs, the date is allocated as the Monday of that week. The plots include multiple dynamic
+                features that can be used to focus on certain subsets of the data.
+            </p>
+
+            <p>
+                Use the buttons on the top left of each plot to focus either on data from the <strong>Last 16 weeks</strong>
+                or the whole time period (either <strong>Since October or January 2023</strong>). Use the
+                <strong>'Deselect all lineages' button</strong> on the right hand sides to clear data from all lineages
+                from the graphs. It is possible to then view only certain lineages by clicking on them in the legend.
+                You can then use the <strong>'Select all lineages' button</strong> to return to the view showing data
+                from all lineages. The graphs also have many other interactive features. For example, it is possible to
+                click and drag to focus on a certain part of the data. When you hover over the graph, further options
+                will appear in the top right to e.g. zoom, download as a .png file, or reset the axes to the original
+                view.
+            </p>
+
+            <p class="lg:hidden p-4 bg-pp-pale-grey">
+                Scroll the plot sideways to view all of the data.
+            </p>
+
+            <div class="mb-3 max-w-full overflow-x-auto">
+                <div id="lineage_six_recent">
+                    {% if lineage_six_recent %}
+                        {{ lineage_six_recent|safe }}
+                    {% else %}
+                        {% include "dashboards/partials/plot_loading_error.html" %}
+                    {% endif %}
+                </div>
+            </div>
+
+            {% comment %}
+            TODO: will be implemented in next phase
+
+            <p>
+                <strong>Code used to produce plots:</strong>
+                <a href="https://github.com/ScilifelabDataCentre/pathogens-portal-visualisations/blob/main/ClinMicro/lineage-plotting-six.py">Graph
+                and data preparation script</a>.
+            </p>
+            {% endcomment %}
+
+            <div class="mb-3 max-w-full overflow-x-auto">
+                <div id="lineage_four_recent">
+                    {% if lineage_four_recent %}
+                        {{ lineage_four_recent|safe }}
+                    {% else %}
+                        {% include "dashboards/partials/plot_loading_error.html" %}
+                    {% endif %}
+                </div>
+            </div>
+
+            {% comment %}
+            TODO: will be implemented in next phase
+
+            <p>
+                <strong>Code used to produce plots:</strong>
+                <a href="https://github.com/ScilifelabDataCentre/pathogens-portal-visualisations/blob/main/ClinMicro/lineage-plotting-four.py">Graph
+                and data preparation script</a>.
+            </p>
+            {% endcomment %}
+
+            <h3 id="all-sequences">All sequences with WHO label/Pango lineage</h3>
+
+            <p>
+                The below plot shows the percentage of sequences from each week belonged to a given lineage. The date is
+                allocated as the Monday of the week that the samples were collected. The plot shows all of the data
+                collected since 2021.
+            </p>
+
+            <p>
+                Use the <strong>'Deselect all lineages' button</strong> to clear data from all lineages from the graph.
+                It is possible to then view only certain lineages by clicking on them in the legend. You can use the
+                <strong>'Select all lineages' button</strong> to show data from all lineages. The graph also has many
+                other interactive features. For example, it is possible to click and drag to focus on a certain part
+                of the graph. When you hover over the graph, options will appear in the top right to e.g. zoom,
+                download as a .png file, or reset the axes to the original view.
+            </p>
+
+            <p class="lg:hidden p-4 bg-pp-pale-grey">
+                Scroll the plot sideways to view all of the data.
+            </p>
+
+            <div class="mb-3 max-w-full overflow-x-auto">
+                <div id="lineage_wholetime">
+                    {% if lineage_wholetime %}
+                        {{ lineage_wholetime|safe }}
+                    {% else %}
+                        {% include "dashboards/partials/plot_loading_error.html" %}
+                    {% endif %}
+                </div>
+            </div>
+
+            {% comment %}
+            TODO: will be implemented in next phase
+
+            <p>
+                <strong>Code used to produce plots:</strong>
+                <a href="https://github.com/ScilifelabDataCentre/pathogens-portal-visualisations/blob/main/ClinMicro/lineage-plotting-one.py">Graph
+                and data preparation script</a>.
+            </p>
+            {% endcomment %}
+
+            {% comment %}
+            TODO: will be implemented in next phase
+
+            <h2 id="commentary">Commentary from the research group</h2>
+
+            <div>
+                <p><strong>Date:</strong> <span id="clinmicro_uu_comment_date">TODO</span></p>
+                <p><strong>Commentary:</strong> <span id="clinmicro_uu_comment">TODO</span></p>
+            </div>
+            {% endcomment %}
+
+            <h2 id="contact">Contact</h2>
+
+            <p>
+                <strong>Jonathan Haars</strong>, laboratory technician and PhD student at Uppsala University Hospital
+                and Uppsala University.
+                (<a href="mailto:jonathan.haars@akademiska.se">jonathan.haars@akademiska.se</a>)
+            </p>
+
+            <p>
+                <strong>René Kaden</strong>, microbiologist and researcher at Uppsala University Hospital and Uppsala
+                University.
+                (<a href="mailto:rene.kaden@akademiska.se">rene.kaden@akademiska.se</a>)
+            </p>
+
+            <h2 id="publications">Publications</h2>
+
+            <ul>
+                <li class="mb-4">
+                    Haars, J., Wallin, F., Elfving, K., Jonsson, A. K., Ellström, P., Mölling, P., Lindh, J., Yin, H.,
+                    Sundqvist, M., Kaden, R., Palanisamy, N., Lennerstrand, J. (2025). Dynamics of SARS-CoV-2
+                    variants and mutations in Central Sweden between 2023 and 2024 and their potential implications on
+                    monoclonal antibodies pemivibart and sipavibart as PrEP in the region. <em>Infectious Diseases</em>,
+                    <strong>1–10</strong>. DOI:
+                    <a href="https://doi.org/10.1080/23744235.2025.2509011">10.1080/23744235.2025.2509011</a>
+                </li>
+                <li class="mb-4">
+                    Cumlin, T., Karlsson, I., Haars, J., Rosengren, M., Lennerstrand, J., Pimushyna, M., Feuk, L.,
+                    Ladenvall, C., Kaden, R. (2024). SARS-CoV-2 to Global Preparedness: A Graphical Interface for
+                    Standardised High-Throughput Bioinformatics Analysis in Pandemic Scenarios and Surveillance of Drug
+                    Resistance. <em>Int. J. Mol. Sci.</em>, <strong>25</strong>, 6645. DOI:
+                    <a href="https://doi.org/10.3390/ijms25126645">10.3390/ijms25126645</a>.
+                </li>
+                <li class="mb-4">
+                    Haars, J., Palanisamy, N., Wallin, F., Mölling, P., Lindh, J., Sundqvist, M., Ellström, P., Kaden,
+                    R., Lennerstrand, J. (2023). Prevalence of SARS-CoV-2 Omicron Sublineages and Spike Protein
+                    Mutations Conferring Resistance against Monoclonal Antibodies in a Swedish Cohort during 2022–2023.
+                    <em>Microorganisms</em>, <strong>11</strong>, 2417. DOI:
+                    <a href="https://doi.org/10.3390/microorganisms11102417">10.3390/microorganisms11102417</a>.
+                </li>
+                <li class="mb-4">
+                    Mannsverk, S., Bergholm, J., Palanisamy, N., Ellström, P., Kaden, R., Lindh, J., Lennerstrand, J.
+                    (2022). SARS-CoV-2 variants of concern and spike protein mutational dynamics in a Swedish cohort
+                    during 2021, studied by Nanopore sequencing. <em>Virology Journal</em>, <strong>19</strong>, 164.
+                    DOI: <a href="https://doi.org/10.1186/s12985-022-01896-x">10.1186/s12985-022-01896-x</a>.
+                </li>
+                <li class="mb-4">
+                    Martinell, M., Andersson, T., Mannsverk, S., Bergholm, J., Ellström, P., Hill, A., Lindh, J., Kaden,
+                    R. (2022). In-Flight Transmission of a SARS-CoV-2 Lineage B.1.617.2 Harbouring the Rare S:E484Q
+                    Immune Escape Mutation. <em>Viruses</em>, <strong>14</strong>, 504. DOI:
+                    <a href="https://doi.org/10.3390/v14030504">10.3390/v14030504</a>.
+                </li>
+            </ul>
+        </div>
+    </div>
+
+{% endblock %}
