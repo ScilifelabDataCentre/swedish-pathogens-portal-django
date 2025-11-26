@@ -54,11 +54,11 @@ class ContactForm(forms.Form):
     message = forms.CharField(min_length=20, max_length=5000, widget=forms.Textarea)
     category = forms.MultipleChoiceField(
         required=True,
-        choices={
-            "suggestion": "Suggestion for the Portal",
-            "dm_support": "Request for help with data management or data sharing questions",
-            "other": "Other",
-        },
+        choices=[
+            ("suggestion", "Suggestion for the Portal"),
+            ("dm_support", "Request for help with data management or data sharing questions"),
+            ("other", "Other"),
+        ],
         widget=forms.CheckboxSelectMultiple(
             attrs={
                 "class": "h-4 w-4 rounded border-gray-300 text-teal-600 cursor-pointer focus:ring-2 focus:ring-teal-500"
