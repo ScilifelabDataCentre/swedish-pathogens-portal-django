@@ -3,6 +3,7 @@ from .views import (
     DashboardsIndex,
     LineageCompetition,
     SerologyStatistics,
+    PostCovid,
     Vaccines,
     VariantsRegionUppsala,
 )
@@ -17,6 +18,11 @@ urlpatterns = [
         "lineage-competition/",
         LineageCompetition.as_view(),
         name="lineage_competition",
+    ),
+    path(
+        "post-covid/",
+        PostCovid.as_view(),
+        name="post_covid",
     ),
     path(
         "serology-statistics/",
