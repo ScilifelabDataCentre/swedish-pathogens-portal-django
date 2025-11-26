@@ -1,26 +1,61 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
-    <!-- WIP - This template will change -->
-    <span class="bg-red-300 p-4 text-center block mt-6">
-        Temp layout, will be worked on when all or most of the dashboard URLs are sorted
-    </span>
-    
-    <h4>Available dashboards</h4>
+
     {% comment %}
-    For now, maually add a hyperlink to your dashboard in the list if you need a quick reference
-    For example: <a href="{% url 'dashboards:url-name' %}">Dashboard name</a>
+    TODO: re-evaluate and optimise as needed in second phase.
+    - Add "updated on" date and "topics".
+    - Update layout as needed
+    - When 'partials' available in stable release, make use of it 
     {% endcomment %}
 
-    <ul class="list-disc pl-6 mt-2">
-        <li>
-            <a href="{% url 'dashboards:lineage_competition' %}">SARS-CoV-2 Variant Competition</a>
-        </li>
-        <li>
-            <a href="{% url 'dashboards:serology_statistics' %}">SARS-CoV-2 Serology Statistics</a>
-        </li>
-        <li>
-            <a href="{% url 'dashboards:variants_region_uppsala' %}">SARS-CoV-2 variants detected in Region Uppsala</a>
-        </li>
-    </ul>
+    <h4>Active dashboards</h4>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+        {% for dashboard in active_dashboards %}
+        <div class="border border-pp-dark-blue hover:shadow-md">
+            <div>
+                <a href="{{ dashboard.url }}">
+                    <img src="{% static dashboard.image %}"
+                    alt="Thumbnail for {{ dashboard.name }}"
+                    loading="lazy"
+                    >
+                </a>
+            </div>
+            <div class="px-4 py-3 font-medium text-lg *:text-white bg-pp-dark-blue">
+                <a href="{{ dashboard.url }}">
+                    {{ dashboard.name }}
+                </a>
+            </div>
+            <div class="p-4">
+                {{ dashboard.description }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <h4>Historic dashboards</h4>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+        {% for dashboard in historic_dashboards %}
+        <div class="border border-pp-dark-blue hover:shadow-md">
+            <div>
+                <a href="{{ dashboard.url }}">
+                    <img src="{% static dashboard.image %}"
+                    alt="Thumbnail for {{ dashboard.name }}"
+                    loading="lazy"
+                    >
+                </a>
+            </div>
+            <div class="px-4 py-3 font-medium text-lg *:text-white bg-pp-dark-blue">
+                <a href="{{ dashboard.url }}">
+                    {{ dashboard.name }}
+                </a>
+            </div>
+            <div class="p-4">
+                {{ dashboard.description }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
 {% endblock %}
