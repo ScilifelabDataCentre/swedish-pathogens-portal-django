@@ -19,7 +19,11 @@ urlpatterns = [
         LineageCompetition.as_view(),
         name="lineage_competition",
     ),
-    path("post-covid/", PostCovid.as_view(), name="post_covid"),
+    path(
+        "post-covid/",
+        PostCovid.as_view(),
+        name="post_covid",
+    ),
     path(
         "serology-statistics/",
         SerologyStatistics.as_view(),
