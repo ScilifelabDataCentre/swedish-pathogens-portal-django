@@ -19,7 +19,10 @@ from django.core import signing
 from django.core.exceptions import ValidationError
 
 
-URL_REGEX = re.compile(r"(https?://|www\.)", re.IGNORECASE)
+# Rough URL detector used only for counting links in free-text messages.
+# It intentionally ignores bare markers like "www." at the end of a sentence
+# by requiring at least one word character after the marker.
+URL_REGEX = re.compile(r"(https?://[^\s]+|www\.[^\s]+\.[^\s]+)", re.IGNORECASE)
 
 # Validation and anti-spam constants
 MIN_SUBMIT_SECONDS = 2
