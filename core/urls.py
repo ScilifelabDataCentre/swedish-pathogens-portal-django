@@ -17,7 +17,6 @@ Including another URLconf
 
 # Third-party imports
 from django.contrib import admin
-from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
@@ -44,7 +43,5 @@ if settings.DEBUG:
     urlpatterns += [
         path("__reload__/", include("django_browser_reload.urls")),
     ]
-    # Serve static files in development
-    urlpatterns += staticfiles_urlpatterns()
     # Serve media files in development
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
