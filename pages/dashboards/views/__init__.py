@@ -4,6 +4,7 @@ Re-exports view classes to provide a stable import surface for
 URL configs and other modules.
 """
 
+from .crush_covid import CrushCovid
 from .index import DashboardsIndex
 from .lineage_competition import LineageCompetition
 from .npc_statistics import NpcStatistics
@@ -14,6 +15,7 @@ from .vaccines import Vaccines
 from .variants_region_uppsala import VariantsRegionUppsala
 
 __all__ = [
+    "CrushCovid",
     "DashboardsIndex",
     "LineageCompetition",
     "NpcStatistics",

@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+{% comment %}
+    TODO: cleanup in second phase
+    fix internal URL reference
+    fix data update date
+{% endcomment %}
+
+<div id="content-start">
+    <div class="prose max-w-none space-y-6 mt-4">
+        <div class="bg-pp-pale-grey/30 border-l-4 border-pp-mid-blue text-pp-dark-blue p-4" role="status">
+            <p class="m-0">
+                <span class="font-semibold">The data presented here is no longer updated but is kept for historical reference.</span>
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 mt-4">
+            <div class="lg:col-span-3">
+                <h2 id="introduction">Introduction</h2>
+
+                <p>
+                    CRUSH Covid Uppsala is a research project in which <b>Region Uppsala</b>
+                    collaborates with researchers from five different research departments at
+                    <b>Uppsala University</b>. The purpose of the project is to map outbreaks
+                    of COVID-19 in Uppsala County and to try to mitigate the impact of
+                    outbreaks by informing the public.
+                </p>
+
+                <p>
+                    CRUSH Covid is led by <b>Mats Martinell</b> (senior lecturer at the
+                    Department of Public Health and Caring Sciences, General Medicine and
+                    Preventive Medicine, Uppsala University) and <b>Tove Fall</b> (professor
+                    of Molecular Epidemiology at the Department of Medical Sciences, Molecular
+                    Epidemiology, Uppsala University). Sewage analysis is supported by
+                    SciLifeLab and Uppsala Vatten. Modelling work is supported by Vinnova.
+                </p>
+
+                <p>
+                    For questions and feedback, please contact <b>Georgios Varotsis</b>
+                    (<a href="mailto:georgios.varotsis@medsci.uu.se" class="text-pp-mid-blue">georgios.varotsis@medsci.uu.se</a>).
+                </p>
+
+                <p>
+                    CRUSH Covid has received ethical approval from the Swedish Ethical Review
+                    Authority (ref. no. 2020-04210, 2020-06315 and 2020-06501).
+                </p>
+
+                <p>
+                    The CRUSH Covid team has released data and information about the project
+                    in two places. The primary source of data and information was their
+                    <a href="https://crush-covid.shinyapps.io/crush_covid/"
+                       target="_blank" rel="noopener noreferrer"
+                       class="text-pp-mid-blue">custom shiny app,
+                       named the CRUSH Covid dashboard</a>, which contained data visualisations
+                    as well as reports. As of September 2022, updates to the app ceased. The
+                    Portal's dashboard (i.e. this webpage) is the secondary source of data
+                    and information for this project. The data generated from CRUSH Covid
+                    between 2020-2022 can be downloaded directly below.
+                </p>
+            </div>
+            <div class="lg:col-span-1 flex flex-col items-center space-y-6">
+                <div class="flex justify-center">
+                    <img src="{% static 'dashboards/images/crush_covid_logo.png' %}" alt="CRUSH Covid" class="h-8 w-auto object-contain">
+                </div>
+                <div class="flex justify-center">
+                    <img src="{% static 'dashboards/images/uu_logo.png' %}" alt="Uppsala University" class="h-24 w-auto object-contain">
+                </div>
+                <div class="flex justify-center">
+                    <img src="{% static 'dashboards/images/regionuppsala_logo.png' %}" alt="Region Uppsala" class="h-10 w-auto object-contain">
+                </div>
+            </div>
+        </div>
+
+        <h2 id="download-data">Download CRUSH Covid data</h2>
+
+        {% comment %}
+        TODO: will be implemented in next phase
+        <div class="bg-pp-pale-grey/30 border-l-4 border-pp-mid-blue text-pp-dark-blue p-4" role="status">
+            <p class="m-0">Last updated: 2022-09-15 (no longer updating)</p>
+        </div>
+        {% endcomment %}
+
+        <ul class="list-disc pl-6 mt-4">
+            <li>
+                <a href="https://blobserver.dc.scilifelab.se/blob/CRUSH_Covid_data.csv"
+                   target="_blank" rel="noopener noreferrer"
+                   class="text-pp-mid-blue">
+                    Number of tests and % positivity by postal code in Uppsala County, .csv file
+                </a>.
+                For each postal code which is found within the Uppsala län, the dataset contains
+                weekly data on cases per capita, tests per capita and % positivity. The estimates
+                are calculated based on the adult population of each postal code (individuals 15
+                years of age and older). For reference, both the total population and the adult
+                population are included.
+            </li>
+        </ul>
+
+        <h2 id="interactive-dashboard">Interactive dashboard and reports</h2>
+
+        <p>
+            <a href="https://crush-covid.shinyapps.io/crush_covid/"
+               target="_blank" rel="noopener noreferrer"
+               class="text-pp-mid-blue">
+                Click here
+            </a>
+            to see the dashboard in a new tab/window. NB: The CRUSH Covid dashboard is only
+            available in Swedish.
+        </p>
+    </div>
+</div>
+
+{% endblock %}
