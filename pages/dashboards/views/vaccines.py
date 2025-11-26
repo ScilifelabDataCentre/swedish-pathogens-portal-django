@@ -6,10 +6,10 @@ from ..visualisation.utils import fetch_plot_json_blobserver, plot_html_from_jso
 
 
 class Vaccines(View):
-    """Covid-19 vaccine adminstration dashboard page.
+    """Covid-19 vaccine administration dashboard page.
 
     This view class renders the template of (historic) dashboard of Covid-19
-    vaccine adminisatration in Sweden.
+    vaccine administration in Sweden.
 
     Attributes:
         template_name: Template for rendering the dashboard.

@@ -12,14 +12,14 @@
     <div class="mt-6 p-4 bg-pp-pale-grey">
         The data on this page is no longer updated at the data source. We are currently
         assessing the use of other data sources for vaccine data. Please see our
-        <a class="dark-blue" href="/dashboards/recovac/">RECOVAC dashboard</a> for
+        <a class="text-pp-dark-blue" href="/dashboards/recovac/">RECOVAC dashboard</a> for
         information on vaccine effectiveness and safety.
     </div>
 
     <h4>General information on COVID-19 vaccines</h4>
     <p>
         Over the last two years, the COVID-19 pandemic has challenged societies and
-        healthcare systems worldwide. In response, vaccines and therapeautic treatments
+        healthcare systems worldwide. In response, vaccines and therapeutic treatments
         have been rapidly developed. To date (October 2022), the <a target="_blank"
         rel="noopener noreferrer" href="https://www.ema.europa.eu/en">European Medicines
         Agency (EMA)</a> has approved six vaccines against COVID-19:
@@ -97,7 +97,7 @@
         RECOVAC</a> .
     </p>
 
-    <h4>COVID-19 vaccination in Sweden</h4>
+    <h4>Visualisations related to vaccination coverage</h4>
     <div class="mt-6 p-4 bg-pp-pale-grey">
         The visualisations on this page were last updated:
         <span id="visualisations_date_modified">
@@ -149,7 +149,7 @@
     </p>
     <p>
         Please note, because not everyone is eligible for all doses, it would not be appropriate
-        to compare values between the different dose levels for the purposes of asssessing
+        to compare values between the different dose levels for the purposes of assessing
         e.g. vaccine coverage or uptake.
     </p>
     <p>
@@ -214,7 +214,7 @@
         previous week), or 0% of the whole population (a change of -0.01% compared to the previous
         week). To date, 27.27% of the whole population has received a fourth dose, and 34.46% of
         those eligible. In the last week, 0.01% of the whole population were vaccinated with a
-        fourth dose, a change in rate of -0.01% compared to the previous week. By contast, 0.02%
+        fourth dose, a change in rate of -0.01% compared to the previous week. By contrast, 0.02%
         of the eligible population were vaccinated with a fourth dose, a relative change in rate
         of -0.01% compared to the previous week. A fifth dose was added in September 2022, 13.57%
         of the Swedish population have received that dose to date, which amounts to 66.5% of those
@@ -264,7 +264,7 @@
         only included if it was registered after 1st September 2021 and at least 8 weeks after the
         individual received their second dose. Similarly, data on the fourth dose is only included if
         it was registered after 21st January 2022 and at least 8 weeks after the individual received
-        their third dose. Lastly, data on dose 5 is only included if the dose was registerd after 15th
+        their third dose. Lastly, data on dose 5 is only included if the dose was registered after 15th
         August 2022 and was received at least 80 days after the individual received dose 4.
     </p>
     <p>
@@ -403,6 +403,13 @@
     {% endcomment %}
 
     <h5>Received at least five vaccine doses</h5>
+    <p>
+        Please note the differences between the two below maps. Coverage appears to be very
+        low when considering the whole population (left). However, coverage is higher when
+        considering only the population eligible to receive the fifth dose (right). This
+        difference occurs because, whilst a relatively small portion of the entire population
+        is eligible to receive this dose, most of those eligible have received it.
+    </p>
     <div id="fivedoses" class="grid grid-cols-2">
         <div>
             {% if fivedoses_pop_map %}
