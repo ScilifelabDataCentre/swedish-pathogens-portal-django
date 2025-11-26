@@ -61,7 +61,7 @@ DEFAULT_FROM_EMAIL = env(
 )
 CONTACT_RECIPIENT_EMAIL = env(
     "CONTACT_RECIPIENT_EMAIL",
-    default="dev-null@example.org",
+    default="pathogens@scilifelab.se",
 )
 EMAIL_HOST = env("EMAIL_HOST", default="")
 EMAIL_PORT = env.int("EMAIL_PORT", default=587)

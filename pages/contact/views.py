@@ -73,7 +73,7 @@ class ContactFormView(FormView):
         recipient = getattr(
             settings,
             "CONTACT_RECIPIENT_EMAIL",
-            os.environ.get("CONTACT_RECIPIENT_EMAIL", "dev-null@example.org"),
+            os.environ.get("CONTACT_RECIPIENT_EMAIL", "pathogens@scilifelab.se"),
         )
 
         name = form.cleaned_data.get("name", "")
