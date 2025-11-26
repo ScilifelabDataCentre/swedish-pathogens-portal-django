@@ -13,7 +13,7 @@
     <h4>Active dashboards</h4>
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
         {% for dashboard in active_dashboards %}
-        <div class="border border-pp-dark-blue">
+        <div class="border border-pp-dark-blue hover:shadow-md">
             <div>
                 <a href="{{ dashboard.url }}">
                     <img src="{% static dashboard.image %}"
@@ -35,7 +35,7 @@
     <h4>Historic dashboards</h4>
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
         {% for dashboard in historic_dashboards %}
-        <div class="border border-pp-dark-blue">
+        <div class="border border-pp-dark-blue hover:shadow-md">
             <div>
                 <a href="{{ dashboard.url }}">
                     <img src="{% static dashboard.image %}"
