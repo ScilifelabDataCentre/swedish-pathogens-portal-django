@@ -1,9 +1,14 @@
 from __future__ import annotations
+import re
+import os
+import shutil
+import tempfile
 
 from pathlib import Path
 from typing import List, Dict
 
-from django.http import HttpResponse, HttpResponseBadRequest
+from django.conf import settings
+from django.http import Http404, FileResponse, HttpResponse, HttpResponseBadRequest
 from django.shortcuts import redirect
 from django.views.generic import TemplateView
 
@@ -18,7 +23,12 @@ SUPPORTED_TYPES = {
 }
 
 # Root where the PVC is mounted in the web container
-PVC_ROOT = Path("/datasets")
+DATA_ROOT: Path = Path(
+    getattr(settings, "PORTAL_DATA_ROOT", "/datasets")
+).resolve()
+
+ACCESSION_RE = re.compile(r"^MTBLS\d+$")
+
 
 
 def homepage_jump(request):
@@ -42,11 +52,11 @@ def _iter_study_dirs(datatype: str) -> List[Path]:
     if datatype != "metabolomics":
         return []
 
-    if not PVC_ROOT.exists():
+    if not DATA_ROOT.exists():
         return []
 
     candidates: Dict[str, Path] = {}
-    for p in PVC_ROOT.iterdir():
+    for p in DATA_ROOT.iterdir():
         if not p.is_dir():
             continue
         name = p.name
@@ -61,38 +71,76 @@ def _iter_study_dirs(datatype: str) -> List[Path]:
     return [candidates[name] for name in sorted(candidates)]
 
 
-def _load_all_items(datatype: str) -> List[dict]:
-    items: List[dict] = []
+def _load_all_items(datatype: str) -> list[dict]:
+    """
+    Load all public metabolomics datasets from the PVC.
 
-    for study_dir in _iter_study_dirs(datatype):
-        acc = study_dir.name  # e.g. "MTBLS2017"
+    Each item dict keeps the old keys (id, repository, repo_url, etc.)
+    so facets/export keep working, but now also has richer metadata.
+    """
+    if datatype != "metabolomics":
+        return []
 
-        # TODO: later parse real ISA-Tab metadata here
-        title = acc
-        pathogen = ""
-        matrix = ""
-        instrument = ""
-        country = ""
+    if not DATA_ROOT.is_dir():
+        return []
+
+    items: list[dict] = []
+
+    for study_dir in sorted(DATA_ROOT.iterdir(), key=lambda p: p.name):
+        if not study_dir.is_dir():
+            continue
+
+        accession = study_dir.name
+        if not ACCESSION_RE.match(accession):
+            # Skip helper dirs like MTBLS_data, fetch_metabolights.sh, targets.txt
+            continue
+
+        inv_path = _find_investigation_file(study_dir)
+        meta = _parse_investigation_file(inv_path)
+
+        title = meta.get("study_title") or accession
+        description = meta.get("study_description") or ""
+        public_release = meta.get("study_public_release_date")
         year = None
+        if isinstance(public_release, str) and len(public_release) >= 4:
+            year = public_release[:4]
 
-        repo_url = f"https://www.ebi.ac.uk/metabolights/{acc}"
+        item = {
+            # IDs used by bulk selection / export
+            "id": accession,
+            "accession": accession,
 
-        items.append(
-            {
-                "id": acc,
-                "title": title,
-                "pathogen": pathogen,
-                "matrix": matrix,
-                "instrument": instrument,
-                "country": country,
-                "year": year,
-                "repository": "MetaboLights",
-                "repo_url": repo_url,
-                "local_path": study_dir,
-            }
-        )
+            # Old fields the template already uses
+            "title": title,
+            "pathogen": "",        # not available in ISA; left empty for now
+            "matrix": "",
+            "instrument": "",
+            "country": "",
+            "year": year,
+            "repository": "MetaboLights",
+            "repo_accession": accession,
+            "repo_url": f"https://www.ebi.ac.uk/metabolights/{accession}",
+
+            # New metadata from i_Investigation.txt
+            "description": description,
+            "public_release_date": public_release,
+            "submission_date": meta.get("study_submission_date"),
+            "license": meta.get("license"),
+            "factors": meta.get("factors", []),
+            "design_types": meta.get("design_types", []),
+            "platforms": meta.get("platforms", []),
+            "publication_title": meta.get("publication_title"),
+            "publication_doi": meta.get("publication_doi"),
+            "publication_authors": meta.get("publication_authors"),
+
+            # Local PVC location (useful for debugging or later features)
+            "local_path": str(study_dir),
+        }
+
+        items.append(item)
 
     return items
+
 
 
 def _apply_search_and_filters(
@@ -202,6 +250,63 @@ class DataTypeListView(TemplateView):
         return ctx
 
 
+def download_study(request, datatype: str, accession: str):
+    """
+    Stream a zip of the local MetaboLights study directory from the PVC.
+    """
+    if datatype not in SUPPORTED_TYPES:
+        raise Http404("Unknown data type")
+
+    if not ACCESSION_RE.match(accession):
+        raise Http404("Invalid accession")
+
+    study_dir = DATA_ROOT / accession
+    if not study_dir.is_dir():
+        raise Http404("Study not found on this node")
+
+    # Create the archive inside the PVC so we don't touch the read‑only root FS
+    tmpdir = tempfile.mkdtemp(dir=str(DATA_ROOT))
+    archive_base = os.path.join(tmpdir, accession)
+    archive_path = shutil.make_archive(
+        base_name=archive_base,
+        format="zip",
+        root_dir=str(study_dir),
+    )
+
+    f = open(archive_path, "rb")
+    response = FileResponse(
+        f,
+        as_attachment=True,
+        filename=f"{accession}.zip",
+    )
+
+    # Clean up the temp archive when the response is closed
+    original_close = response.close
+
+    def cleanup_close(*args, **kwargs):
+        try:
+            original_close(*args, **kwargs)
+        finally:
+            try:
+                f.close()
+            except Exception:
+                pass
+            try:
+                os.remove(archive_path)
+            except OSError:
+                pass
+            try:
+                os.rmdir(tmpdir)
+            except OSError:
+                # Directory may not be empty or already gone; ignore
+                pass
+
+    response.close = cleanup_close
+    return response
+
+
+
+
 def export_selected(request, datatype):
     if datatype not in SUPPORTED_TYPES:
         return HttpResponseBadRequest("Unknown data type")
@@ -223,4 +328,78 @@ def export_selected(request, datatype):
     resp = HttpResponse(content, content_type=ctype)
     resp["Content-Disposition"] = f'attachment; filename="{filename}"'
     return resp
+
+
+
+def _find_investigation_file(study_dir: Path) -> Path | None:
+    """
+    Prefer the latest file under METADATA_REVISIONS, fall back to top-level.
+    """
+    rev_root = study_dir / "METADATA_REVISIONS"
+    if rev_root.is_dir():
+        rev_dirs = sorted(
+            [p for p in rev_root.iterdir() if p.is_dir()],
+            key=lambda p: p.name,
+        )
+        for rev_dir in reversed(rev_dirs):
+            candidate = rev_dir / "i_Investigation.txt"
+            if candidate.is_file():
+                return candidate
+
+    candidate = study_dir / "i_Investigation.txt"
+    if candidate.is_file():
+        return candidate
+
+    return None
+
+
+def _parse_investigation_file(path: Path) -> dict:
+    """
+    Very simple ISA-tab parser focusing on the STUDY rows we care about.
+    """
+    meta: dict[str, object] = {}
+
+    if path is None or not path.is_file():
+        return meta
+
+    try:
+        with path.open(encoding="utf-8") as f:
+            for raw in f:
+                line = raw.rstrip("\n")
+                if not line or "\t" not in line:
+                    continue
+
+                cols = [c.strip() for c in line.split("\t")]
+                key = cols[0]
+                values = [c for c in cols[1:] if c]
+
+                if not values:
+                    continue
+
+                if key == "Study Title":
+                    meta["study_title"] = values[0]
+                elif key == "Study Description":
+                    meta["study_description"] = values[0]
+                elif key == "Study Submission Date":
+                    meta["study_submission_date"] = values[0]
+                elif key == "Study Public Release Date":
+                    meta["study_public_release_date"] = values[0]
+                elif key == "Comment[License]":
+                    meta["license"] = values[0]
+                elif key == "Study Publication Title":
+                    meta["publication_title"] = values[0]
+                elif key == "Study Publication DOI":
+                    meta["publication_doi"] = values[0]
+                elif key == "Study Publication Author List":
+                    meta["publication_authors"] = values[0]
+                elif key == "Study Factor Name":
+                    meta["factors"] = values
+                elif key == "Study Design Type":
+                    meta["design_types"] = values
+                elif key == "Study Assay Technology Platform":
+                    meta["platforms"] = values
+    except FileNotFoundError:
+        pass
+
+    return meta
 
