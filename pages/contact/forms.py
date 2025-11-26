@@ -142,7 +142,7 @@ class ContactForm(forms.Form):
         try:
             ts_str = CONTACT_TS_SIGNER.unsign(ts_token, max_age=MAX_TOKEN_AGE_SECONDS)
             ts = int(ts_str)
-        except signing.BadSignature:
+        except (signing.BadSignature, ValueError):
             self._blocked_reason = "TOKEN_BAD_SIGNATURE"
             raise ValidationError(
                 "We couldn't submit the form. Please try again in a moment."

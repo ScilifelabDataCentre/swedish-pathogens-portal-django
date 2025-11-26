@@ -136,9 +136,10 @@ class ContactFormView(FormView):
         self.logger.warning("event=contact_submit outcome=blocked reason=%s", reason)
         # Re-issue tokens and cookie so user can retry without reload
         signed_ts, dsc_token = self._generate_tokens()
-        # Update both initial and bound data so rendered hidden inputs match the new cookie
-        form.fields["contact_ts"].initial = signed_ts
-        form.fields["contact_dsc"].initial = dsc_token
+        # Update both instance-level initial and bound data so rendered hidden inputs
+        # match the new cookie without mutating class-level field definitions
+        form.initial["contact_ts"] = signed_ts
+        form.initial["contact_dsc"] = dsc_token
         try:
             data = form.data.copy()
             data["contact_ts"] = signed_ts
