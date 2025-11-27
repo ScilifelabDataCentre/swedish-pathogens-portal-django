@@ -1,0 +1,16 @@
+# .pre-commit-config.yaml
+# Pre-commit hooks to ensure code quality before commits
+# Calls .git/hooks/pre-commit automatically on git commit
+# Uses the repo's Ruff configuration
+# If hooks fail during commit, run `pre-commit run --all-files` to fix issues.
+---
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.6.2   # Fixed version required
+    hooks:
+      # 1. Format with Ruff
+      - id: ruff-format
+
+      # 2. Lint with Ruff + auto-fix if possible
+      - id: ruff
+        args: ["--fix"]
