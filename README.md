@@ -128,7 +128,7 @@ If you need to reset your Docker environment and start fresh, you can remove the
 docker compose down --rmi
 ```
 
-## Project structure
+## Project Structure
 
 ```text
 swedish-pathogens-portal/
