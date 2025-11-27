@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import (
     CrushCovid,
+    CovidQuantificationKth,
     DashboardsIndex,
     LineageCompetition,
     NpcStatistics,
@@ -21,6 +22,11 @@ urlpatterns = [
         "crush-covid/",
         CrushCovid.as_view(),
         name="crush_covid",
+    ),
+    path(
+        "covid-quantification-kth/",
+        CovidQuantificationKth.as_view(),
+        name="covid_quantification_kth",
     ),
     path(
         "lineage-competition/",
