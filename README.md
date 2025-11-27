@@ -55,17 +55,7 @@ After the application starts, open `http://localhost:8000` in your browser.
 
 ### Running tests (WIP)
 
-***This section will be updated as tests are added***
-
-```bash
-docker compose exec web python manage.py test
-```
-
-If you are running the project locally without Docker:
-
-```bash
-uv run python manage.py test
-```
+***WIP***
 
 ### Running migrations
 
