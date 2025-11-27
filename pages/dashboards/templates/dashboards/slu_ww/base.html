@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% comment %}
+    Common base file for all SLU wastewater pages.
+    It has code for disclaimer and navigation tabs.
+{% endcomment %}
+
+{% block content %}
+
+<!-- Disclaimer from SLU -->
+<div class="bg-gray-200 text-center my-5 p-2">Disclaimer: some information from SLU. Read more here!</div>
+
+<!-- Navigation header for small device -->
+<span class="block lg:hidden text-lg font-medium">
+    Page Navigation
+</span>
+
+<!-- Tabs to be in all the pages -->
+<div class="flex max-lg:flex-col justify-center font-medium my-5 border-b max-lg:pb-4
+           lg:border-b-pp-dark-blue lg:*:mx-4 *:pt-2 *:pb-1 *:px-5
+           *:text-pp-dark-blue *:rounded-t-lg *:no-underline">
+
+    {% for tab in tabs %}
+        {% if tab == active %}
+            <span class="lg:font-normal border max-lg:rounded-lg lg:border-b-0 lg:shadow-[0_4px_white]">
+                {{ tab }}
+            </span>
+        {% else %}
+            <a class="hover:bg-gray-200"
+            {% with tab_slug=tab|slugify %}
+            href="{% url "dashboards:slu_"|add:tab_slug %}"
+            {% endwith %}
+            >
+                {{ tab }}
+            </a>
+        {% endif %}
+    {% endfor %}
+
+</div>
+
+<!-- Main content that will be defined in the child pages -->
+{% block slu_content %}{% endblock slu_content %}
+
+{% endblock content %}
