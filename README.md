@@ -49,6 +49,8 @@ cp .env.example .env
 docker compose up
 ```
 
+> ℹ️ Alternative to Docker: Devbox config files are available upon request.
+
 After the application starts, open `http://localhost:8000` in your browser.
 
 ## Development / Contributing
