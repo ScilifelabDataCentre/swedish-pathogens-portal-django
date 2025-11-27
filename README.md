@@ -53,7 +53,7 @@ Install `pre-commit`:
 pip install pre-commit
 ```
 
-Enable the Git hook (run once):
+Enable the Git hook:
 
 ```bash
 pre-commit install
@@ -64,6 +64,8 @@ pre-commit install
 ```bash
 pre-commit run --all-files
 ```
+
+> ℹ️ Pre-commit only needs to be installed and enabled once per developer.
 
 ### 4. Start the application
 
