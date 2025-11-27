@@ -65,7 +65,7 @@ class ContactForm(forms.Form):
             }
         ),
         error_messages={"required": "Please select at least one alternative."},
-    )
+    )  # fmt: skip
     # Anti-spam fields (Honeypot, TimestampSigner token, Double-submit cookie)
     website = forms.CharField(required=False, widget=forms.HiddenInput)
     contact_ts = forms.CharField(required=False, widget=forms.HiddenInput, strip=False)

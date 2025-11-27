@@ -59,7 +59,7 @@ class ContactFormTests(TestCase):
         if ts is None or dsc is None:
             self.fail("Contact form did not render anti-spam tokens.")
         return ts, dsc
-    
+
     def _age_timestamp_token(self, _ts_token: str) -> str:
         """Return a timestamp token old enough to satisfy the minimum delay.
 
@@ -315,7 +315,7 @@ class ContactFormTests(TestCase):
         "pages.contact.forms.CONTACT_TS_SIGNER.unsign",
         side_effect=signing.SignatureExpired("expired"),
     )
-    def test_expired_timestamp_token_blocks_with_bad_signature_reason(self, _mock_unsign):
+    def test_expired_timestamp_token_blocks_with_bad_signature_reason(self, _mock_unsign):  # fmt: skip
         """An expired timestamp token should be treated as a bad signature."""
         ts, dsc = self._get_fresh_tokens()
         post = self._build_post_data(ts, dsc)
