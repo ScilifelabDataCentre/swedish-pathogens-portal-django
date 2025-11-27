@@ -199,6 +199,55 @@
         </p>
         {% endcomment %}
 
+        <h2 id="historic-data">Historic data (April 2020 - August 2021)</h2>
+
+        <p>
+            This page displays data on the amount of SARS-CoV-2 in the wastewater in Stockholm between April 2020 and August 2021. The amount of SARS-CoV-2 in wastewater was calculated as the number of gene copies per week (raw wastewater) with bovine + PMMoV factor. From September 2021 onwards, the method was changed. Please <a href="/dashboards/covid_quantification/covid_quant_kth/" class="text-pp-mid-blue">see this page for the most recent data</a>.
+        </p>
+
+        <p>
+            This project was led by associate professor Zeynep Cetecioglu Gurol and colleagues (KTH Royal Institute of Technology: <a href="mailto:zeynepcg@kth.se" class="text-pp-mid-blue">zeynepcg@kth.se</a>). The project was a collaboration between the <a href="https://www.scilifelab.se/covid-19" target="_blank" rel="noopener noreferrer" class="text-pp-mid-blue">SciLifeLab COVID-19 National Research Program</a>, the <a href="https://www.kth.se/en/seed" target="_blank" rel="noopener noreferrer" class="text-pp-mid-blue">Sustainable Development, Environmental Science and Engineering (SEED)</a> and <a href="https://www.kth.se/ket/chemical-engineering-1.784196" target="_blank" rel="noopener noreferrer" class="text-pp-mid-blue">Chemical Engineering</a> departments at the KTH Royal Institute of Technology (KTH), as well as Stockholm Vatten och Avfall and the Käppala Association. The sampling of wastewater began in mid-April 2020, from the Bromma, Henriksdal, and Käppala wastewater treatment plants (WWTP). These treatment plants receive wastewater from a population of approximately 360,000, 860,000, and 500,000 people, respectively. Please see the catchment maps for <a href="{% static 'dashboards/wastewater/map_Kappala.pdf' %}" target="_blank" rel="noopener noreferrer" class="text-pp-mid-blue">Käppala</a> and <a href="{% static 'dashboards/wastewater/map_Bromma_Henriksdal.pdf' %}" target="_blank" rel="noopener noreferrer" class="text-pp-mid-blue">Bromma and Henriksdal</a> to understand where the wastewater originated from in each case.
+        </p>
+
+        <p>
+            After concentration, filtering, and preparation, the samples are analysed using qPCR to test for SARS-CoV-2 RNA. Primers of the nucleocapsid (N) gene (previously used and verified by <a href="https://doi.org/10.1016/j.scitotenv.2020.142939" target="_blank" rel="noopener noreferrer" class="text-pp-mid-blue">Medema <em>et al.</em> (2020)</a>) were used to detect SARS-COV-2. In some cases, samples of raw wastewater were frozen at –20<sup>o</sup>C, and concentrated wastewater or purified RNA were stored at -80<sup>o</sup>C before the next analysis step was carried out. The concentration method used by prof. Gurol and colleagues was based on their published study (<a href="https://doi.org/10.1016/j.scitotenv.2020.142939" target="_blank" rel="noopener noreferrer" class="text-pp-mid-blue">Jafferali <em>et al.</em>, 2021</a>), in which they compared four different concentration methods. The study concluded that the double ultrafiltration method adapted by KTH was significantly more efficient than single filtration and adsorption methods. Please see <a href="https://doi.org/10.1016/j.scitotenv.2020.142939" target="_blank" rel="noopener noreferrer" class="text-pp-mid-blue">Jafferali <em>et al.</em> (2021)</a> for more information on the methods. More information about <a href="https://www.kth.se/water/research/covid-1.979048" target="_blank" rel="noopener noreferrer" class="text-pp-mid-blue">data summaries and preliminary conclusions are also available</a>.
+        </p>
+
+        <p>
+            <strong>Download the data:</strong> <a href="https://blobserver.dc.scilifelab.se/blob/wastewater_data_Stockholm.xlsx" target="_blank" rel="noopener noreferrer" class="text-pp-mid-blue">Gene copy number/week (raw wastewater) with bovine + PMMoV factor; Excel file.</a> The numbers for Stockholm overall, and for the Henriksdal, Sickla, Hässelby, Järva, Riksby, and Käppala inlets are provided. At least partial data are available between week 16 of 2020 and week 34 of 2021.
+        </p>
+
+        <p>
+            <strong>How to cite:</strong><br>
+            Cetecioglu, Z. G., Williams, C., Khatami, K., Atasoy, M., Nandy, P., Jafferali, M. H., Birgersson, M. (2021). SARS-CoV-2 Wastewater Data from Stockholm, Sweden. <a href="https://doi.org/10.17044/scilifelab.14315483" target="_blank" rel="noopener noreferrer" class="text-pp-mid-blue">https://doi.org/10.17044/scilifelab.14315483</a>.
+        </p>
+
+        <p class="lg:hidden p-4 bg-pp-pale-grey">
+            Rotating your phone may improve graph layout
+        </p>
+
+        <div class="mb-3 max-w-full overflow-x-auto">
+            <div id="historic_stockholm">
+                {% if historic_stockholm %}
+                    {{ historic_stockholm|safe }}
+                {% else %}
+                    {% include "dashboards/partials/plot_loading_error.html" %}
+                {% endif %}
+            </div>
+        </div>
+
+        <p class="text-sm text-pp-dark-grey">
+            All samples up until week 21 of 2020 were received by the lab in week 21. Between weeks 21 and 33 of 2020, samples were analysed biweekly. After week 33 of 2020, samples were typically analysed weekly, although measurements were taken fortnightly, rather than weekly, between weeks 24 and 32 of 2021.
+        </p>
+
+        {% comment %}
+        TODO: will be implemented in next phase
+        <p>
+            <strong>Code used to produce plot:</strong>
+            <a href="https://github.com/ScilifelabDataCentre/pathogens-portal-visualisations/blob/main/wastewater/archive/historic_stockholm_data.py">Script to produce plot</a>.
+        </p>
+        {% endcomment %}
+
         {% comment %}
         TODO: will be implemented in next phase
         <h2 id="commentary">Commentary from the research group</h2>
