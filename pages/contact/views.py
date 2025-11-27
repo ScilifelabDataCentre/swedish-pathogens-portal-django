@@ -23,12 +23,15 @@ from django.contrib import messages
 from .forms import CONTACT_TS_SIGNER, ContactForm
 
 
+logger = logging.getLogger("pages.contact.views")
+
+
 class ContactFormView(FormView):
     template_name = "contact/contact_form.html"
     form_class = ContactForm
     success_url = reverse_lazy("contact:contact")
     title = "Contact and suggestions form"
-    logger = logging.getLogger(__name__)
+    logger = logger
 
     def get_form_kwargs(self) -> dict[str, Any]:
         """Inject request into the form for cookie access.
