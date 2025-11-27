@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+{% include "dashboards/partials/load_plotlyjs.html" %}
+
+{% comment %}
+    TODO: cleanup in second phase
+    fix internal URL reference
+    fix plot generation script URLs
+    fix data update dates
+    fix commentary section (dynamic content)
+    verify blob names
+{% endcomment %}
+
+<div id="content-start">
+    <div class="prose max-w-none space-y-6 mt-4">
+        <div class="bg-pp-pale-grey/30 border-l-4 border-pp-mid-blue text-pp-dark-blue p-4" role="status">
+            <p class="m-0">
+                <span class="font-semibold">As of June 2023, the SARS-CoV-2 data will no longer be updated by SEEC-KTH.</span>
+                <span class="ml-2">Data from after June 2023 is <a class="text-pp-mid-blue" href="/dashboards/covid_quantification/">available from other research groups.</a></span>
+            </p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
