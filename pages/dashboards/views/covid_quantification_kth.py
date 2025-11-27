@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.views import View
 
+from ..visualisation.utils import fetch_plot_json_blobserver, plot_html_from_json
+
 
 class CovidQuantificationKth(View):
     """COVID Quantification KTH dashboard page.
@@ -26,11 +28,32 @@ class CovidQuantificationKth(View):
     )
 
     def get(self, request):
-        """Render the COVID Quantification KTH dashboard page.
+        """Fetch the compiled plot data (JSON) and generate plot HTML strings.
+
+        Fetches Plotly JSON data from blobserver for each chart, converts it to HTML
+        using plot_html_from_json, and adds it to the context for template rendering.
 
         Returns:
-            Rendered template with context.
+            Rendered template with plot HTML strings in context.
         """
         context = dict(title=self.title, description=self.description)
+
+        # Map chart IDs to blobserver blob names
+        plot_sources = {
+            "historic_stockholm": "wastewater_data_stockholm.json",
+            "stockholm_recent": "wastewater_combined_stockholm.json",
+            "malmo": "wastewater_kthmalmo.json",
+        }
+
+        # Fetch and convert each plot
+        for chart_id, blob_name in plot_sources.items():
+            blob_data = fetch_plot_json_blobserver(blob_name)
+            if blob_data is not None:
+                height = "550px"  # Standard height for these plots
+                context[chart_id] = plot_html_from_json(
+                    blob_data,
+                    height=height,
+                    skip_invalid=True,
+                )
 
         return render(request, self.template_name, context)
