@@ -16,6 +16,7 @@ from .npc_statistics import NpcStatistics
 from .post_covid import PostCovid
 from .recovac import Recovac
 from .serology_statistics import SerologyStatistics
+from .slu_ww import SLUsync
 from .symptom_study_sweden import SymptomStudySweden
 from .vaccines import Vaccines
 from .variants_region_uppsala import VariantsRegionUppsala
@@ -33,6 +34,7 @@ __all__ = [
     "PostCovid",
     "Recovac",
     "SerologyStatistics",
+    "SLUsync",
     "SymptomStudySweden",
     "Vaccines",
     "VariantsRegionUppsala",

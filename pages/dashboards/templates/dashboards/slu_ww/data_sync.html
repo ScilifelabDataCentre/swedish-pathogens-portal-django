@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% comment %}
+    A minimal template file to handle the temparory data sync for SLU wastewater.
+    It serves a button for logged in users, clicking the button will read raw
+    data from blob server and save the compiled data in the django's database.
+{% endcomment %}
+
+{% block content %}
+<h4>Wastewater Data sync page (temp)</h4>
+<p>
+    This is a temporary page to sync SLU data from <a href="{{ data_url }}/info"
+    target="_blank" rel="noopener noreferrer">blobserver</a> to Portal's DB. Click
+    the button below to sync.
+</p>
+
+<form
+hx-post="{% url 'dashboards:slu_data_sync' %}"
+hx-target="#sync-status"
+hx-swap="innerHTML"
+hx-disabled-elt="find button"
+hx-on::before-request="setButtonStatus('syncing')"
+hx-on::after-request="setButtonStatus('to-sync')"
+>
+    {% csrf_token %}
+    <button type="submit"
+    class="rounded px-2 py-1 text-white bg-pp-dark-blue
+    shadow-xl hover:bg-pp-mid-blue hover:cursor-pointer
+    disabled:bg-gray-400 disabled:cursor-wait min-w-30"
+    >
+        <span id="to-sync">Sync SLU data</span>
+        <span id="syncing" class="hidden">Syncing data</span>
+    </button>
+</form>
+
+<div id="sync-status" class="mt-2 *:font-medium *:text-lg *:text-green-800"></div>
+
+<!-- Load htmx -->
+<script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.7/dist/htmx.min.js"></script>
+
+<!-- Helper function -->
+ <script>
+    function setButtonStatus(id) {
+        document.getElementById("to-sync").style.display = id == "to-sync" ? "block" : "None";
+        document.getElementById("syncing").style.display = id == "syncing" ? "block" : "None";
+    }
+ </script>
+{% endblock content %}

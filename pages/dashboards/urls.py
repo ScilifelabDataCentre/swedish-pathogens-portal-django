@@ -15,6 +15,7 @@ from .views import (
     PostCovid,
     Recovac,
     SerologyStatistics,
+    SLUsync,
     SymptomStudySweden,
     Vaccines,
     VariantsRegionUppsala,
@@ -95,3 +96,12 @@ urlpatterns = [
         name="vaccines",
     ),
 ]
+
+# temp workaround, it should be removed when researcher data upload page is ready
+urlpatterns.append(
+    path(
+        "slu-wastewater/data-sync",
+        SLUsync.as_view(),
+        name="slu_data_sync",
+    )
+)
