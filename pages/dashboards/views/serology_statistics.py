@@ -18,10 +18,7 @@ class SerologyStatistics(View):
     """
 
     template_name = "dashboards/serology_statistics.html"
-    title = (
-        "SARS-CoV-2 serology tests by the SciLifeLab Autoimmunity and "
-        "Serology Profiling unit"
-    )
+    title = "SARS-CoV-2 serology tests by the SciLifeLab Autoimmunity and Serology Profiling unit"
     description = (
         "A visualisation of the SARS-CoV-2 serology tests completed over "
         "time at the SciLifeLab Autoimmunology and Serology Profiling unit."

@@ -46,9 +46,7 @@ class Topic(models.Model):
         unique=True,
         help_text="URL-friendly version of the name (auto-generated from name)",
     )
-    description = models.TextField(
-        help_text="Description of the topic to display in the card"
-    )
+    description = models.TextField(help_text="Description of the topic to display in the card")
     content = models.TextField(
         help_text="Rich text content in markdown format (displayed on topic detail page)"
     )
@@ -90,6 +88,4 @@ class Topic(models.Model):
     @property
     def rendered_content(self):
         """Return content rendered as HTML from markdown."""
-        return mark_safe(
-            markdown.markdown(self.content, extensions=["extra", "codehilite"])
-        )
+        return mark_safe(markdown.markdown(self.content, extensions=["extra", "codehilite"]))
