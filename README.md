@@ -45,27 +45,34 @@ cp .env.example .env
 
 ### 3. Enable pre-commit hooks
 
-This project uses **pre-commit** to run some linting and formatting before each commit.
+This project uses **pre-commit** to run Ruff linting and formatting before each commit.
 
-Install `pre-commit`:
+Install development dependencies (including `pre-commit` and `ruff`):
 
 ```bash
-pip install pre-commit
+uv sync --group dev
 ```
 
 Enable the Git hook:
 
 ```bash
-pre-commit install
+uv run pre-commit install
 ```
 
 (Optional) Run all checks manually:
 
 ```bash
-pre-commit run --all-files
+uv run pre-commit run --all-files
 ```
 
 > ℹ️ Pre-commit only needs to be installed and enabled once per developer.
+> 💡 Alternative (pip instead of uv):
+>
+> ```bash
+> pip install pre-commit      # Install
+> pre-commit install          # Enable 
+> pre-commit run --all-files  # Run checks
+> ```
 
 ### 4. Start the application
 
