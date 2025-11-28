@@ -111,9 +111,7 @@ class ContactFormTests(TestCase):
         resp2 = self.client.post(self.url, data=post, follow=True)
         self.assertEqual(resp2.status_code, 200)
         self.assertEqual(len(mail.outbox), 1)
-        self.assertEqual(
-            "[Contact] Contact and suggestions form", mail.outbox[0].subject
-        )
+        self.assertEqual("[Contact] Contact and suggestions form", mail.outbox[0].subject)
         # Success message present after redirect
         self.assertIn(b"Thanks! Your message was sent", resp2.content)
 
@@ -201,9 +199,7 @@ class ContactFormTests(TestCase):
         self.assertEqual(len(mail.outbox), 0)
 
         # URL cap
-        content_many_urls = " ".join(
-            [f"https://{i}.example" for i in range(MAX_URLS_ALLOWED + 1)]
-        )
+        content_many_urls = " ".join([f"https://{i}.example" for i in range(MAX_URLS_ALLOWED + 1)])
         post_urls = self._build_post_data(ts, dsc, message=content_many_urls)
         resp_urls = self.client.post(self.url, data=post_urls)
         self.assertEqual(resp_urls.status_code, 200)

@@ -133,9 +133,7 @@ class ContactForm(forms.Form):
         # Honeypot
         if cleaned.get("website"):
             self._blocked_reason = "HONEYPOT_HIT"
-            raise ValidationError(
-                "We couldn't submit the form. Please try again in a moment."
-            )
+            raise ValidationError("We couldn't submit the form. Please try again in a moment.")
 
         # Timing token: verify signature and age, but defer "too fast" check
         # until after the double-submit cookie check so cookie mismatches are
@@ -146,9 +144,7 @@ class ContactForm(forms.Form):
             ts = float(ts_str)
         except (signing.BadSignature, ValueError):
             self._blocked_reason = "TOKEN_BAD_SIGNATURE"
-            raise ValidationError(
-                "We couldn't submit the form. Please try again in a moment."
-            )
+            raise ValidationError("We couldn't submit the form. Please try again in a moment.")
 
         # Double-submit cookie check
         posted_token = cleaned.get("contact_dsc") or ""
@@ -158,17 +154,13 @@ class ContactForm(forms.Form):
 
         if not cookie_token or cookie_token != posted_token:
             self._blocked_reason = "TOKEN_MISMATCH"
-            raise ValidationError(
-                "We couldn't submit the form. Please try again in a moment."
-            )
+            raise ValidationError("We couldn't submit the form. Please try again in a moment.")
 
         # Minimum submit duration check — only evaluated once the cookie
         # matches, so cookie-related failures are not masked by timing.
         now = time.time()
         if now - ts < MIN_SUBMIT_SECONDS:
             self._blocked_reason = "TOO_FAST"
-            raise ValidationError(
-                "We couldn't submit the form. Please try again in a moment."
-            )
+            raise ValidationError("We couldn't submit the form. Please try again in a moment.")
 
         return cleaned

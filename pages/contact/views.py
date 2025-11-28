@@ -109,9 +109,7 @@ class ContactFormView(FormView):
             )
             email.send(fail_silently=False)
             duration_ms = int((time.time() - start) * 1000)
-            self.logger.info(
-                "event=contact_submit outcome=success duration_ms=%s", duration_ms
-            )
+            self.logger.info("event=contact_submit outcome=success duration_ms=%s", duration_ms)
             messages.success(
                 self.request,
                 "Thanks! Your message was sent, we’ll get back to you soon.",
@@ -128,9 +126,7 @@ class ContactFormView(FormView):
             )
             # Re-render the form with a generic error
             form._blocked_reason = "EMAIL_SEND_ERROR"
-            form.add_error(
-                None, "We couldn't submit the form. Please try again in a moment."
-            )
+            form.add_error(None, "We couldn't submit the form. Please try again in a moment.")
             return self.form_invalid(form)
 
     def form_invalid(self, form: ContactForm) -> HttpResponse:
