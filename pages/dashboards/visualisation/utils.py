@@ -62,7 +62,7 @@ def fetch_plot_json_blobserver(blob: str) -> dict | None:
 
 
 def plot_html_from_json(
-    data: dict | None,
+    data: dict | str | None,
     height: str | int = "100%",
     skip_invalid: bool = False,
     include_plotlyjs: str | bool = False,
@@ -73,7 +73,7 @@ def plot_html_from_json(
     an HTML string of the plot.
 
     Args:
-        data: Plotly graph's JSON object i.e. with "data" and "layout"
+        data: Plotly graph's JSON object or string i.e. with "data" and "layout"
         height: Parameter passed to 'to_html' method, the height of the rendered
             plot will be of this value. It can either a int (pixels) or
             str (css notation like '500px' or '100%')
@@ -95,7 +95,10 @@ def plot_html_from_json(
     """
     if data is not None:
         try:
-            jstring = json.dumps(data)
+            if isinstance(data, str):
+                jstring = data
+            else:
+                jstring = json.dumps(data)
             fig = pio.from_json(jstring, skip_invalid=skip_invalid)
             return fig.to_html(
                 full_html=False,
