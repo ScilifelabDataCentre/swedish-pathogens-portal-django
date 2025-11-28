@@ -65,7 +65,7 @@ indent-width = 4
 # Line length
 line-length = 88
 
-[too.ruff.lint]
+[tool.ruff.lint]
 
 # Select rules to check for
 select = [
