@@ -129,9 +129,9 @@
     {% if it.description %}
       <p class="mt-2 text-sm text-pp-dark-grey leading-relaxed">
         {% with it.description|wordcount as desc_words %}
-          {% if desc_words > 500 %}
+          {% if desc_words > 100 %}
             <span id="desc-short-{{ it.id }}">
-              {{ it.description|truncatewords:500 }}
+              {{ it.description|truncatewords:100 }}
             </span>
             <span id="desc-full-{{ it.id }}" class="hidden">
               {{ it.description }}
