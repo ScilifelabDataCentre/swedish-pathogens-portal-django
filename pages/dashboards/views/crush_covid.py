@@ -8,10 +8,12 @@ class CrushCovid(View):
     Displays information about the CRUSH Covid research project in Uppsala County,
     including data visualizations, download links, and partner information.
 
-    Attributes:
+    Attributes
+    ----------
         template_name: Template for rendering the dashboard.
         title: Title displayed in the rendered page's banner section.
         description: Description to be used in the HTML's head.
+
     """
 
     template_name = "dashboards/crush_covid.html"
@@ -25,8 +27,10 @@ class CrushCovid(View):
     def get(self, request):
         """Render the CRUSH Covid dashboard page.
 
-        Returns:
+        Returns
+        -------
             Rendered template with context.
+
         """
         context = dict(title=self.title, description=self.description)
 

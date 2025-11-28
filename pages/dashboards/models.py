@@ -10,12 +10,14 @@ class DashboardData(models.Model):
     for the plot data for the dashboards, which will be saved in
     this table.
 
-    Attributes:
+    Attributes
+    ----------
         dashboard (str): Name of the dashboard the data relevant to.
         data_source (str): An optional URL string for the source data.
         data (json): Data needed for the corresponding dashboard (JSON format).
         created_at (datetime): When dashboard data was created.
         updated_at (datetime): When dashboard data was last updated.
+
     """
 
     dashboard = models.CharField(

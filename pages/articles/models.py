@@ -1,9 +1,8 @@
+import markdown
 from django.db import models
 from django.utils import timezone
-from django.utils.text import slugify
 from django.utils.safestring import mark_safe
-from typing import List
-import markdown
+from django.utils.text import slugify
 
 
 class Article(models.Model):
@@ -16,6 +15,7 @@ class Article(models.Model):
     organisation and discovery.
 
     Attributes:
+    ----------
         type (str): Content type - either "Editorial" or "Data Highlight".
         title (str): Display title of the article (max 255 chars, unique).
         slug (str): URL-friendly version of title (auto-generated from title).
@@ -32,6 +32,7 @@ class Article(models.Model):
         updated_at (datetime): Timestamp when article was last modified.
 
     Example:
+    -------
         Create a new article:
 
         .. code-block:: python
@@ -44,6 +45,7 @@ class Article(models.Model):
                 featured_image="pathogen_discovery.jpg"
             )
             # slug automatically generated as "novel-pathogen-discovery-in-swedish-waters"
+
     """
 
     # Content type choices
@@ -156,7 +158,7 @@ class Article(models.Model):
 
     def get_related_articles(
         self, limit: int = 4, threshold: float = 0.1
-    ) -> List["Article"]:
+    ) -> list["Article"]:
         """Get related articles based on tag similarity.
 
         Finds articles with similar tags using Jaccard similarity algorithm.
@@ -165,13 +167,16 @@ class Article(models.Model):
         Results are ordered by similarity score (highest first).
 
         Args:
+        ----
             limit: Maximum number of related articles to return (default: 4)
             threshold: Minimum similarity threshold between 0.0 and 1.0 (default: 0.1)
 
         Returns:
+        -------
             List of related articles ordered by similarity score
 
         Example:
+        -------
             Get top 3 related articles with at least 20% similarity:
 
             .. code-block:: python
@@ -179,6 +184,7 @@ class Article(models.Model):
                 related = article.get_related_articles(limit=3, threshold=0.2)
                 for related_article in related:
                     print(related_article.title)
+
         """
         if not self.tag_list:
             return Article.objects.none()

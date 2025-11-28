@@ -1,4 +1,5 @@
-from utils.views import BaseListView, BaseDetailView
+from utils.views import BaseDetailView, BaseListView
+
 from .models import News
 
 
@@ -7,11 +8,13 @@ class NewsIndex(BaseListView):
 
     List all active news, sorted by creation date.
 
-    Attributes:
+    Attributes
+    ----------
         model: News model to display.
         template_name: Template for rendering the list.
         context_object_name: Name for news in template context.
         title: Page title displayed in template.
+
     """
 
     model = News
@@ -25,10 +28,12 @@ class NewsDetail(BaseDetailView):
 
     Shows the full news content, uses slug-based URL lookup.
 
-    Attributes:
+    Attributes
+    ----------
         model: News model to display.
         template_name: Template for rendering the detail view.
         context_object_name: Name for news in template context.
+
     """
 
     model = News

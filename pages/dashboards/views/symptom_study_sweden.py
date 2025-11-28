@@ -12,10 +12,12 @@ class SymptomStudySweden(View):
     collects data on COVID-19 prevalence, symptoms, and vaccinations through a
     smartphone app with over 200,000 users in Sweden.
 
-    Attributes:
+    Attributes
+    ----------
         template_name: Template for rendering the dashboard.
         title: Title displayed in the rendered page's banner section.
         description: Description to be used in the HTML's head.
+
     """
 
     template_name = "dashboards/symptom_study_sweden.html"
@@ -34,10 +36,11 @@ class SymptomStudySweden(View):
         converts it to HTML using plot_html_from_json, and adds it to the
         context for template rendering.
 
-        Returns:
+        Returns
+        -------
             Rendered template with plot HTML strings in context.
-        """
 
+        """
         context = dict(title=self.title, description=self.description)
 
         # Fetch prevalence map visualization

@@ -9,11 +9,13 @@ class BaseTemplateView(TemplateView):
     can be set in child classes to be added to the context.
 
     Attributes:
+    ----------
         title (str): Page title to add to context. Optional.
         description (str): Meta description to add to context. Optional.
         extra_context (dict): Additional context data. Optional.
 
     Example:
+    -------
         For a static about page:
 
         .. code-block:: python
@@ -23,6 +25,7 @@ class BaseTemplateView(TemplateView):
                 title = "About Us"
                 description = "Learn about our organization"
                 extra_context = {"show_contact": True}
+
     """
 
     title = ""

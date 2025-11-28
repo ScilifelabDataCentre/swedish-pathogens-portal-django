@@ -1,5 +1,6 @@
 from django.urls import path
-from .views import NewsIndex, NewsDetail
+
+from .views import NewsDetail, NewsIndex
 
 app_name = "news"
 

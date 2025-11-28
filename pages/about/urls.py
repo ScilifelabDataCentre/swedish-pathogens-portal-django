@@ -1,5 +1,6 @@
 from django.urls import path
-from .views import About, Partners, Funders, NationalNodes
+
+from .views import About, Funders, NationalNodes, Partners
 
 app_name = "about"
 

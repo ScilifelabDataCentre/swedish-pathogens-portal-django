@@ -1,7 +1,7 @@
-from django.db import models
-from django.utils.text import slugify
-from django.utils.safestring import mark_safe
 import markdown
+from django.db import models
+from django.utils.safestring import mark_safe
+from django.utils.text import slugify
 
 
 class Topic(models.Model):
@@ -12,6 +12,7 @@ class Topic(models.Model):
     description, content, and thumbnail image.
 
     Attributes:
+    ----------
         name (str): Display name of the topic (max 100 chars, unique).
         slug (str): URL-friendly version of name (auto-generated).
         description (str): Brief description for topic cards.
@@ -23,6 +24,7 @@ class Topic(models.Model):
         updated_at (datetime): When topic was last updated.
 
     Example:
+    -------
         Create a new topic:
 
         .. code-block:: python
@@ -34,6 +36,7 @@ class Topic(models.Model):
                 thumbnail_image="covid19.jpg"
             )
             # slug automatically generated as "covid-19-research"
+
     """
 
     name = models.CharField(

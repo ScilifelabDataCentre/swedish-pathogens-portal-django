@@ -11,10 +11,12 @@ class SerologyStatistics(View):
     WIP: Currently pulling the plots from blobserver, this is temporary way
     for the MVP. In next set of update this view will change
 
-    Attributes:
+    Attributes
+    ----------
         template_name: Template for rendering the dashboard.
         title: Title displayed in the rendered page's banner section.
         description: Description to be used in the HTML's head.
+
     """
 
     template_name = "dashboards/serology_statistics.html"
@@ -29,7 +31,6 @@ class SerologyStatistics(View):
 
     def get(self, request: HttpRequest) -> HttpResponse:
         """Fetch the compiled plot data (JSON) and generate plot html string"""
-
         context = dict(title=self.title, description=self.description)
 
         for blob in ["weekly_serology_tests", "cumulative_serology_tests"]:

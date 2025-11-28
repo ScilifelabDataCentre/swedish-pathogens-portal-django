@@ -11,10 +11,12 @@ class Vaccines(View):
     This view class renders the template of (historic) dashboard of Covid-19
     vaccine administration in Sweden.
 
-    Attributes:
+    Attributes
+    ----------
         template_name: Template for rendering the dashboard.
         title: Title displayed in the rendered page's banner section.
         description: Description to be used in the HTML's head.
+
     """
 
     template_name = "dashboards/vaccines.html"
@@ -27,7 +29,6 @@ class Vaccines(View):
 
     def get(self, request: HttpRequest) -> HttpResponse:
         """Fetch the compiled plot data (JSON) and generate plot html string"""
-
         context = dict(title=self.title, description=self.description)
 
         vaccine_related_blobs = [

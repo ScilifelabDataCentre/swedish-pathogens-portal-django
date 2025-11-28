@@ -1,5 +1,6 @@
 from django.urls import path
-from .views import TopicListView, TopicDetailView
+
+from .views import TopicDetailView, TopicListView
 
 app_name = "topics"
 

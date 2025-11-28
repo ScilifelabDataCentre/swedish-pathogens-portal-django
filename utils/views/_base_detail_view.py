@@ -9,6 +9,7 @@ class BaseDetailView(DetailView):
     custom filters applied. Used by apps with collections like topics, data-highlights, dashboards, etc.
 
     Attributes:
+    ----------
         title (str): Page title. If empty, uses object's string representation.
         slug_field (str): Model field for URL lookups. Defaults to "slug".
         slug_url_kwarg (str): URL keyword argument name. Defaults to "slug".
@@ -17,6 +18,7 @@ class BaseDetailView(DetailView):
             'filter_' will be used as a filter condition.
 
     Example:
+    -------
         For a Topic model:
 
         .. code-block:: python
@@ -44,9 +46,11 @@ class BaseDetailView(DetailView):
         - Merges extra_context into context
 
     Note:
+    ----
         Model must have `is_active` boolean field and implement `__str__` method.
         All queries will filter by is_active=True and can have additional custom
         filters applied via filter_* attributes.
+
     """
 
     # Explicit default values for clarity and consistency

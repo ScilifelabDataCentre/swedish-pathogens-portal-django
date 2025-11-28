@@ -3,13 +3,11 @@
 import json
 import logging
 import re
-
 from functools import lru_cache
 from urllib.error import URLError
 from urllib.request import urlopen
 
 import plotly.io as pio
-
 from django.core.cache import cache
 
 logger = logging.getLogger(__name__)
@@ -24,19 +22,22 @@ def fetch_plot_json_blobserver(blob: str) -> dict | None:
     (compiled plot in JSON format) from blobserver.
 
     Args:
+    ----
         blob: Name of the plot file in blobserver
 
     Returns:
+    -------
         Parsed JSON data as dict, or None if fetch fails. Returns None on
         network errors, timeouts, or invalid JSON responses.
 
     Example:
+    -------
         .. code-block:: python
 
         data = fetch_plot_json_blobserver("some_plot.json")
         # Returns dict with 'data' and 'layout' keys, or None
-    """
 
+    """
     cache_key = f"plotly_data_{blob}"
     # check and fetch cache if exists
     cached_data = cache.get(cache_key)
@@ -73,6 +74,7 @@ def plot_html_from_json(
     an HTML string of the plot.
 
     Args:
+    ----
         data: Plotly graph's JSON object i.e. with "data" and "layout"
         height: Parameter passed to 'to_html' method, the height of the rendered
             plot will be of this value. It can either a int (pixels) or
@@ -84,14 +86,17 @@ def plot_html_from_json(
             will be ignored without raising an exception.
 
     Returns:
+    -------
         An HTML string that can be embedded in the templates directly.
         Return None if the plot html generation failed.
 
     Example:
+    -------
         .. code-block:: python
 
             graph_html = plot_html_from_json(data=data, height="500px")
             # Returns an HTML string or None if any exception
+
     """
     if data is not None:
         try:
@@ -123,10 +128,12 @@ def get_plotlyjs_cdn_param(param: str) -> str | None:
     Python library.
 
     Args:
+    ----
         param: Required string parameter. Must be either "url" to get the CDN URL,
             or "hash" to get the integrity hash. For any other values, returns None.
 
     Returns:
+    -------
         If param is "url": Returns the CDN URL string or None if extraction fails.
         If param is "hash": Returns the integrity hash string or None if
             extraction fails.
@@ -134,6 +141,7 @@ def get_plotlyjs_cdn_param(param: str) -> str | None:
             doesn't match the generated HTML.
 
     Example:
+    -------
         Get the CDN URL:
         .. code-block:: python
 
@@ -153,8 +161,8 @@ def get_plotlyjs_cdn_param(param: str) -> str | None:
 
             result = get_plotlyjs_cdn_param("invalid")
             # Returns: None
-    """
 
+    """
     expected_args = ["url", "hash"]
     if param not in expected_args:
         logger.warning("Param should be either 'url' or 'hash'")

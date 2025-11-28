@@ -1,4 +1,5 @@
-from utils.views import BaseListView, BaseDetailView
+from utils.views import BaseDetailView, BaseListView
+
 from .models import Article
 
 
@@ -10,12 +11,14 @@ class ArticleListView(BaseListView):
     Articles are sorted by creation date (newest first) and filtered to show
     only active content.
 
-    Attributes:
+    Attributes
+    ----------
         model: Article model to display.
         template_name: Template for rendering the list.
         context_object_name: Name for articles in template context.
         title: Page title displayed in template.
         ordering: Field to sort articles by (newest first).
+
     """
 
     model = Article
@@ -32,10 +35,12 @@ class ArticleDetailView(BaseDetailView):
     and publication details. Uses slug-based URL lookup and includes related
     articles based on tag similarity.
 
-    Attributes:
+    Attributes
+    ----------
         model: Article model to display.
         template_name: Template for rendering the detail view.
         context_object_name: Name for article in template context.
+
     """
 
     model = Article
@@ -48,8 +53,10 @@ class ArticleDetailView(BaseDetailView):
         Retrieves articles with similar tags using Jaccard similarity
         algorithm and adds them to the template context for display.
 
-        Returns:
+        Returns
+        -------
             dict: Context data with related_articles added
+
         """
         context = super().get_context_data(**kwargs)
         article = self.get_object()

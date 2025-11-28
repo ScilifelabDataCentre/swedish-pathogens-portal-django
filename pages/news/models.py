@@ -1,8 +1,8 @@
+import markdown
 from django.db import models
 from django.utils import timezone
-from django.utils.text import slugify
 from django.utils.safestring import mark_safe
-import markdown
+from django.utils.text import slugify
 
 
 class News(models.Model):
@@ -12,6 +12,7 @@ class News(models.Model):
     Each news can contain the following information
 
     Attributes:
+    ----------
         title (str): Display name of the News (max 200 chars, unique).
         slug (str): URL-friendly version of title (auto-generated).
         summary (str): Brief summary to be displayed in news index page.
@@ -22,6 +23,7 @@ class News(models.Model):
         updated_at (datetime): When news was last updated.
 
     Example:
+    -------
         Create a new News:
 
         .. code-block:: python
@@ -33,6 +35,7 @@ class News(models.Model):
                 image="some_image.png"
             )
             # slug automatically generated as "new-highlight-added"
+
     """
 
     title = models.CharField(

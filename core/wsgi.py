@@ -1,5 +1,4 @@
-"""
-WSGI config for Pathogens Portal project.
+"""WSGI config for Pathogens Portal project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
