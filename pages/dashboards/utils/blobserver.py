@@ -72,7 +72,11 @@ def get_with_retries(
                 response.raise_for_status()
                 logger.debug(
                     "http_get_success",
-                    extra={"url": url, "status_code": response.status_code, "content_length": len(response.content)},
+                    extra={
+                        "url": url,
+                        "status_code": response.status_code,
+                        "content_length": len(response.content),
+                    },
                 )
                 return response
         except Exception as exc:
@@ -82,10 +86,11 @@ def get_with_retries(
                 extra={"url": url, "attempt": attempt, "retries": retries},
                 exc_info=True,
             )
-    logger.error("http_get_failed", extra={"url": url, "retries": retries, "error_type": type(last_error).__name__})
-    raise RuntimeError(
-        f"Failed to fetch URL after {retries} attempts: {url!r}"
-    ) from last_error
+    logger.error(
+        "http_get_failed",
+        extra={"url": url, "retries": retries, "error_type": type(last_error).__name__},
+    )
+    raise RuntimeError(f"Failed to fetch URL after {retries} attempts: {url!r}") from last_error
 
 
 def fetch_excel_first_sheet_as_records(
@@ -113,9 +118,7 @@ def fetch_excel_first_sheet_as_records(
     """
     logger.debug("excel_fetch_start", extra={"url": url})
     response = get_with_retries(url, retries=retries, headers=headers, user_agent=user_agent)
-    workbook = load_workbook(
-        io.BytesIO(response.content), read_only=True, data_only=True
-    )
+    workbook = load_workbook(io.BytesIO(response.content), read_only=True, data_only=True)
     first_sheet_name = workbook.sheetnames[0]
     worksheet = workbook[first_sheet_name]
 
