@@ -59,9 +59,7 @@ class Article(models.Model):
         default="data_highlight",
         help_text="Type of content: Data Highlight or Editorial",
     )
-    title = models.CharField(
-        max_length=255, unique=True, help_text="Title of the article"
-    )
+    title = models.CharField(max_length=255, unique=True, help_text="Title of the article")
     slug = models.SlugField(
         max_length=255,
         unique=True,
@@ -69,12 +67,8 @@ class Article(models.Model):
     )
 
     # Content fields
-    summary = models.TextField(
-        help_text="Brief summary of the article for display in cards"
-    )
-    content = models.TextField(
-        help_text="Full content in markdown format displayed on detail page"
-    )
+    summary = models.TextField(help_text="Brief summary of the article for display in cards")
+    content = models.TextField(help_text="Full content in markdown format displayed on detail page")
     announcement = models.TextField(
         blank=True,
         help_text="Optional announcement message in markdown format displayed at the top of the article",
@@ -134,9 +128,7 @@ class Article(models.Model):
     @property
     def rendered_content(self):
         """Return content rendered as HTML from markdown."""
-        return mark_safe(
-            markdown.markdown(self.content, extensions=["extra", "codehilite"])
-        )
+        return mark_safe(markdown.markdown(self.content, extensions=["extra", "codehilite"]))
 
     @property
     def rendered_announcement(self):
@@ -154,9 +146,7 @@ class Article(models.Model):
             return []
         return [tag.strip().lower() for tag in self.tags.split(",") if tag.strip()]
 
-    def get_related_articles(
-        self, limit: int = 4, threshold: float = 0.1
-    ) -> List["Article"]:
+    def get_related_articles(self, limit: int = 4, threshold: float = 0.1) -> List["Article"]:
         """Get related articles based on tag similarity.
 
         Finds articles with similar tags using Jaccard similarity algorithm.
