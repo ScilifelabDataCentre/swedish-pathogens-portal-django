@@ -84,6 +84,11 @@ select = [
     "UP",   # pyupgrade
     "W",    # pycodestyle warnings
 ]
+extend-ignore = [
+    "ANN101",
+    "ANN002",
+    "ANN003",
+]
 
 [tool.ruff.format]
 

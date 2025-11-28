@@ -123,7 +123,7 @@ class Article(models.Model):
         verbose_name = "Article"
         verbose_name_plural = "Articles"
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Return the article title for string representation."""
         return self.title
 

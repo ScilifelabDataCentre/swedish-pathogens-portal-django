@@ -36,6 +36,6 @@ class DashboardData(models.Model):
         verbose_name = "Dashboards Data"
         verbose_name_plural = "Dashboards Data"
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Return the dashboard name for string representation."""
         return self.dashboard

@@ -75,7 +75,7 @@ class Topic(models.Model):
         verbose_name = "Topic"
         verbose_name_plural = "Topics"
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Return the topic name for string representation."""
         return self.name
 

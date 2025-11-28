@@ -75,7 +75,7 @@ class BaseListView(ListView):
         return queryset
 
     def get_context_data(self, **kwargs):
-        """Add title and extra_context to context"""
+        """Add title and extra_context to context."""
         context = super().get_context_data(**kwargs)
         if self.title:
             context["title"] = self.title

@@ -1,3 +1,4 @@
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.views import View
 
@@ -24,7 +25,7 @@ class CrushCovid(View):
         "Data for each postal code is available for download and reuse."
     )
 
-    def get(self, request):
+    def get(self, request: HttpRequest) -> HttpResponse:
         """Render the CRUSH Covid dashboard page.
 
         Returns

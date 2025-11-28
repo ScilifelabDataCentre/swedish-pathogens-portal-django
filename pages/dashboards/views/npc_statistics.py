@@ -1,3 +1,4 @@
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.views import View
 
@@ -28,7 +29,7 @@ class NpcStatistics(View):
         "no longer updated."
     )
 
-    def get(self, request):
+    def get(self, request: HttpRequest) -> HttpResponse:
         """Fetch the compiled plot data (JSON) and generate plot HTML strings.
 
         Fetches Plotly JSON data from blobserver for each chart, converts it to HTML
