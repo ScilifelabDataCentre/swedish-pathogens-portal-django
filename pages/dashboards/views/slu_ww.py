@@ -32,7 +32,7 @@ class SluWasterWater(View):
     """
 
     dashboard = "slu_wastewater"
-    pages = ["Overview"]
+    pages = ["Overview", "Methodology"]
     active_page = "Overview"
 
     def get(self, request: HttpRequest) -> HttpResponse:
@@ -72,6 +72,11 @@ class SluWasterWater(View):
             )
 
             return render(request, "dashboards/slu_ww/overview.html", context)
+
+        # handling methods page
+        if self.active_page == "Methodology":
+            context["site_info"] = dashboard_data.get("sites_info")
+            return render(request, "dashboards/slu_ww/methods.html", context)
 
 
 # TODO: The following is a temp workaround, it should be removed
