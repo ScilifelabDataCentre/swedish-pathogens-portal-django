@@ -1,6 +1,7 @@
 """URL configurations for dashboards page."""
 
 from django.urls import path
+from django.utils.text import slugify
 
 from .views import (
     CovidQuantificationKth,
@@ -16,6 +17,7 @@ from .views import (
     Recovac,
     SerologyStatistics,
     SLUsync,
+    SluWasterWater,
     SymptomStudySweden,
     Vaccines,
     VariantsRegionUppsala,
@@ -96,6 +98,16 @@ urlpatterns = [
         name="vaccines",
     ),
 ]
+
+# SLU wastewater URLs
+for page in SluWasterWater.pages:
+    urlpatterns.append(
+        path(
+            "slu-wastewater/" + ("" if page == "Overview" else f"{slugify(page)}/"),
+            SluWasterWater.as_view(active_page=page),
+            name=f"slu_{slugify(page)}",
+        )
+    )
 
 # temp workaround, it should be removed when researcher data upload page is ready
 urlpatterns.append(
