@@ -1,9 +1,15 @@
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
+from django.utils.text import slugify
 from django.views import View
 
 from ..models import DashboardData
-from ..visualisation.slu_ww import get_compiled_data, get_quant_overview_plot
+from ..visualisation.slu_ww import (
+    get_all_sites_plot,
+    get_compiled_data,
+    get_quant_overview_plot,
+    get_single_site_plot,
+)
 from ..visualisation.utils import plot_html_from_json
 
 
@@ -32,7 +38,8 @@ class SluWasterWater(View):
     """
 
     dashboard = "slu_wastewater"
-    pages = ["Overview", "Methodology"]
+    virus_pages = ["Influenza A virus", "Influenza B virus", "RSV", "SARS CoV-2"]
+    pages = ["Overview", "Methodology"] + virus_pages
     active_page = "Overview"
 
     def get(self, request: HttpRequest) -> HttpResponse:
@@ -77,6 +84,33 @@ class SluWasterWater(View):
         if self.active_page == "Methodology":
             context["site_info"] = dashboard_data.get("sites_info")
             return render(request, "dashboards/slu_ww/methods.html", context)
+
+        # handling individual virus pages
+        if self.active_page in self.virus_pages:
+            virus = self.active_page
+            # to handle HTMX request for plot updates
+            if request.headers.get("Hx-Request") and request.GET.get("update_plot"):
+                request_params = dict(request.GET)
+                # call appropriate function depending upon the plot type
+                if request.GET.get("plot-toggle") == "all":
+                    quant_plot_html = get_all_sites_plot(
+                        data=raw_data, virus=virus, **request_params
+                    )
+                else:
+                    quant_plot_html = get_single_site_plot(
+                        data=raw_data, virus=virus, **request_params
+                    )
+                return HttpResponse(quant_plot_html)
+
+            # get filter input context
+            context.update(**dashboard_data.get("filter_input_context"))
+            # get plots data
+            context["quant_plot_html"] = get_all_sites_plot(data=raw_data, virus=virus)
+            context["qual_plot_html"] = plot_html_from_json(
+                dashboard_data.get(f"qual_plot_{slugify(virus)}")
+            )
+
+            return render(request, "dashboards/slu_ww/analysis.html", context)
 
 
 # TODO: The following is a temp workaround, it should be removed
