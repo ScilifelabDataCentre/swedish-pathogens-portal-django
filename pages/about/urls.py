@@ -1,3 +1,5 @@
+"""URL configuration for the About app."""
+
 from django.urls import path
 
 from .views import About, Funders, NationalNodes, Partners
