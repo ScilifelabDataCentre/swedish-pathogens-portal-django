@@ -1,3 +1,5 @@
+"""Models for Topic page."""
+
 import markdown
 from django.db import models
 from django.utils.safestring import mark_safe
@@ -5,7 +7,7 @@ from django.utils.text import slugify
 
 
 class Topic(models.Model):
-    """Topic model for categorizing portal content.
+    r"""Topic model for categorizing portal content.
 
     Represents topics that can be associated with dashboards,
     data highlights, and other portal content. Each topic has a name,
@@ -57,7 +59,7 @@ class Topic(models.Model):
         upload_to="topics/images/",
         help_text="Thumbnail image for the topic card display",
     )
-    alert_message = models.TextField(
+    alert_message = models.TextField(  # noqa: DJ001 # NOTE: ruff linting recommends removing null=True
         blank=True,
         null=True,
         help_text="Optional alert message to display prominently on the topic page",
@@ -69,6 +71,8 @@ class Topic(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
+        """Metadata for Topic model."""
+
         ordering = ["name"]
         verbose_name = "Topic"
         verbose_name_plural = "Topics"
@@ -77,18 +81,18 @@ class Topic(models.Model):
         """Return the topic name for string representation."""
         return self.name
 
-    def save(self, *args, **kwargs):
+    def save(self, *args, **kwargs) -> None:
         """Save the topic, auto-generating slug if not provided."""
         if not self.slug:
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
 
     @property
-    def display_image(self):
+    def display_image(self) -> str:
         """Return the URL of the thumbnail image."""
         return self.thumbnail_image.url
 
     @property
-    def rendered_content(self):
+    def rendered_content(self) -> str:
         """Return content rendered as HTML from markdown."""
         return mark_safe(markdown.markdown(self.content, extensions=["extra", "codehilite"]))
