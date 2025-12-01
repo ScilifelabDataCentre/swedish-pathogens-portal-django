@@ -1,3 +1,5 @@
+"""Views for SARS-CoV-2 variants detected in Region Uppsala dashboard page."""
+
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.views import View
