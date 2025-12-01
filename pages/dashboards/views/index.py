@@ -55,8 +55,8 @@ class DashboardsIndex(BaseTemplateView):
                 "url": reverse_lazy("dashboards:multidisease_serology"),
                 "description": (
                     "A summary of the progress in developing a multi-disease serology "
-                    "assay, a key component of pandemic preparedness. Information about "
-                    "externally produced antigens is also provided."
+                    "assay, a key component of pandemic preparedness. Information "
+                    "about externally produced antigens is also provided. "
                 ),
             },
         ],
