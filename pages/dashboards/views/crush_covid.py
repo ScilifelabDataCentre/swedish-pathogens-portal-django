@@ -1,3 +1,5 @@
+"""Views for the CRUSH Covid dashboard page."""
+
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.views import View
@@ -33,6 +35,6 @@ class CrushCovid(View):
             Rendered template with context.
 
         """
-        context = dict(title=self.title, description=self.description)
+        context = {"title": self.title, "description": self.description}
 
         return render(request, self.template_name, context)
