@@ -1,3 +1,5 @@
+"""Views for post covid dashboard page."""
+
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.views import View
@@ -39,7 +41,7 @@ class PostCovid(View):
             Rendered template with plot HTML strings in context.
 
         """
-        context = dict(title=self.title, description=self.description)
+        context = {"title": self.title, "description": self.description}
 
         # Map chart IDs to blobserver blob names
         plot_sources = {
@@ -58,10 +60,7 @@ class PostCovid(View):
             blob_data = fetch_plot_json_blobserver(blob_name)
             if blob_data is not None:
                 # Set height based on chart type
-                if chart_id == "accomp_diag_table":
-                    height = "527px"
-                else:
-                    height = "500px"
+                height = "527px" if chart_id == "accomp_diag_table" else "500px"
                 context[chart_id] = plot_html_from_json(
                     blob_data,
                     height=height,
