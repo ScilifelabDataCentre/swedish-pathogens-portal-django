@@ -1,3 +1,5 @@
+"""URLs for the home page."""
+
 from django.urls import path
 
 from .views import Home
