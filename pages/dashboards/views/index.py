@@ -95,6 +95,15 @@ class DashboardsIndex(BaseTemplateView):
                 ),
             },
             {
+                "name": "Historic influenza virus in wastewater (SLU)",
+                "image": "dashboards/thumbnails/historic_influenza.jpg",
+                "url": reverse_lazy("dashboards:historic_influenza"),
+                "description": (
+                    "Historic data of Influenza A and B virus levels in wastewater "
+                    "across Sweden from SLU-SEEC."
+                ),
+            },
+            {
                 "name": "Post COVID-19 condition",
                 "image": "dashboards/thumbnails/post_covid.jpg",
                 "url": reverse_lazy("dashboards:post_covid"),
