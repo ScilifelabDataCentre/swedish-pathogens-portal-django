@@ -21,7 +21,6 @@ from .views import (
 
 app_name = "dashboards"
 
-# fmt: off
 urlpatterns = [
     # Dashboard index
     path("", DashboardsIndex.as_view(), name="index"),
@@ -78,4 +77,3 @@ urlpatterns = [
         name="vaccines",
     ),
 ]
-# fmt: on
