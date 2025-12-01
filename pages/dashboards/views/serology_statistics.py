@@ -1,3 +1,5 @@
+"""Views for serology statistics dashboard page."""
+
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.views import View
@@ -27,8 +29,8 @@ class SerologyStatistics(View):
     )
 
     def get(self, request: HttpRequest) -> HttpResponse:
-        """Fetch the compiled plot data (JSON) and generate plot html string"""
-        context = dict(title=self.title, description=self.description)
+        """Fetch the compiled plot data (JSON) and generate plot html string."""
+        context = {"title": self.title, "description": self.description}
 
         for blob in ["weekly_serology_tests", "cumulative_serology_tests"]:
             # TODO: plot data to be fetch from DB
