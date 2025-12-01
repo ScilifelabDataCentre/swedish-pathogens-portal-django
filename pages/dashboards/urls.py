@@ -3,20 +3,21 @@
 from django.urls import path
 
 from .views import (
+    # Dashboard index
+    DashboardsIndex,
+    # Active dashboards
+    LineageCompetition,
+    MultiDiseaseSerology,
+    SerologyStatistics,
+    VariantsRegionUppsala,
     # Historic dashboards
     CovidQuantificationKth,
     CrushCovid,
-    # Dashboard index
-    DashboardsIndex,
     HistoricSarsCov2Wastewater,
-    # Active dashboards
-    LineageCompetition,
     NpcStatistics,
     PostCovid,
-    SerologyStatistics,
     SymptomStudySweden,
     Vaccines,
-    VariantsRegionUppsala,
 )
 
 app_name = "dashboards"
@@ -39,6 +40,11 @@ urlpatterns = [
         "variants-region-uppsala/",
         VariantsRegionUppsala.as_view(),
         name="variants_region_uppsala",
+    ),
+    path(
+        "multidisease-serology/",
+        MultiDiseaseSerology.as_view(),
+        name="multidisease_serology",
     ),
     # Historic dashboards
     path(
@@ -65,11 +71,6 @@ urlpatterns = [
         "post-covid/",
         PostCovid.as_view(),
         name="post_covid",
-    ),
-    path(
-        "symptom-study-sweden/",
-        SymptomStudySweden.as_view(),
-        name="symptom_study_sweden",
     ),
     path(
         "symptom-study-sweden/",
