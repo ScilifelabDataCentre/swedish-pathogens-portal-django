@@ -1,3 +1,5 @@
+"""URL configurations for the topics page."""
+
 from django.urls import path
 
 from .views import TopicDetailView, TopicListView
