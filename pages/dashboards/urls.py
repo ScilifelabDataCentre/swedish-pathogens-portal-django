@@ -72,6 +72,11 @@ urlpatterns = [
         name="symptom_study_sweden",
     ),
     path(
+        "symptom-study-sweden/",
+        SymptomStudySweden.as_view(),
+        name="symptom_study_sweden",
+    ),
+    path(
         "vaccines/",
         Vaccines.as_view(),
         name="vaccines",
