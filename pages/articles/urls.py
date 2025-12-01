@@ -1,3 +1,5 @@
+"""URL configuration for the articles page."""
+
 from django.urls import path
 
 from .views import ArticleDetailView, ArticleListView
