@@ -1,3 +1,5 @@
+"""URL configurations for News page."""
+
 from django.urls import path
 
 from .views import NewsDetail, NewsIndex
