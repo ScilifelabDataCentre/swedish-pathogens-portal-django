@@ -1,3 +1,5 @@
+"""Views for the COVID Symptom Study Sweden dashboard page."""
+
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.views import View
@@ -42,7 +44,7 @@ class SymptomStudySweden(View):
             Rendered template with plot HTML strings in context.
 
         """
-        context = dict(title=self.title, description=self.description)
+        context = {"title": self.title, "description": self.description}
 
         # Fetch prevalence map visualization
         blob_data = fetch_plot_json_blobserver("symptoms_map_english.json")
