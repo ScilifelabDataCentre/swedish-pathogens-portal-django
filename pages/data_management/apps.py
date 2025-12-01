@@ -1,3 +1,5 @@
+"""Configuration for the data management app."""
+
 from django.apps import AppConfig
 
 
