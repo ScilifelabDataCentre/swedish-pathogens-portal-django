@@ -1,3 +1,5 @@
+"""Views for NPC Statistics dashboard page."""
+
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.views import View
@@ -40,7 +42,7 @@ class NpcStatistics(View):
             Rendered template with plot HTML strings in context.
 
         """
-        context = dict(title=self.title, description=self.description)
+        context = {"title": self.title, "description": self.description}
 
         # Map chart IDs to blobserver blob names
         plot_sources = {
