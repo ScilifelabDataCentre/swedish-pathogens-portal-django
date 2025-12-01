@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+{% include "dashboards/partials/load_plotlyjs.html" %}
+
+<p class="mt-6 p-4 bg-pp-pale-grey text-center">
+    Historic dashboard not updated since 2024-09-30, for reference only.
+</p>
+
+<h4>Introduction</h4>
+<p>
+    The data presented on this page was generated in the SLU (Swedish University of Agricultural
+    Sciences) laboratories of SEEC (Swedish Environmental Epidemiology Center). The project was
+    part of SciLifeLab’s Pandemic Laboratory Preparedness (PLP) Program, led by Anna J. Székely
+    (Dep. of Aquatic Sciences and Assessment, SLU). Wastewater analyses were overseen by
+    Anna J. Székely, Javier Vargas, and Maja Malmberg (Virology unit of Department of Biomedical
+    Science and Veterinary Public Health, SLU). This page pertains to the historic quantification
+    of the levels of influenza A and B viruses in multiple cities across Sweden. The project had
+    the broadest geographic coverage across Sweden, generating data for 43% of the Swedish population.
+</p>
+<p>
+    Please note that the data and visualizations on this page are no longer updated. The scores in
+    the dataset and depicted in the plots are final, though minor corrections may have been applied
+    retrospectively. This dashboard serves as a record of the project's results during the active
+    monitoring period.
+</p>
+
+<h4>Wastewater collection sites</h4>
+<p>
+    SLU-SEEC collects and analyses samples for influenza A and B viruses from multiple areas.
+    The below table shows details about each of these sites. The table lists the towns/cities
+    monitored, wastewater treatment plants (WWTP) that samples were collected from, the number
+    of people in the catchment area (Number of people), and the dates that monitoring by SLU-SEEC
+    started and ended monitoring (Start and End date, respectively). Please note that 'Start date'
+    refers to the first date of monitoring for influenza A, but that the start date for influenza B
+    is always later. A value of ’null’ for the end date indicates that collection is ongoing.
+    An asterisk (\*) next to the number of people indicates that the value is a BOD-7 value
+    (an estimate of the people connected), rather than the number of people physically connected
+    to each WWTP. Two asterisks (\*\*) next to the Town/City indicates that data is only available
+    for influenza A, not influenza B. The information in the below table is
+    <a href="https://blobserver.dc.scilifelab.se/blob/SLU_INF_collection_sites.xlsx">
+    available for download as an excel file</a>.
+</p>
+
+<div id="wastewater_sluINFsites">
+    {% if wastewater_sluINFsites %}
+        {{ wastewater_sluINFsites|safe }}
+    {% else %}
+        {% include "dashboards/partials/plot_loading_error.html" %}
+    {% endif %}
+</div>
+
+<h4>Visualizations</h4>
+<p class="mt-6 p-4 bg-pp-pale-grey">
+    Last updated date: 2024-09-30 (no longer updated)
+</p>
+
+<p>
+    <b>Important note:</b> Please note that although the same methods are used for all cities shown
+    on this tab, differences in the wastewater collection systems and populations of different
+    cities might bias direct comparisons between cities.
+</p>
+
+<h5>Influenza A</h5>
+
+<p class="md:hidden mt-6 p-4 bg-pp-pale-grey">
+    Rotating your phone may improve graph layout
+</p>
+
+<div id="historic_wastewater_slu_infA">
+    {% if historic_wastewater_slu_infA %}
+        {{ historic_wastewater_slu_infA|safe }}
+    {% else %}
+        {% include "dashboards/partials/plot_loading_error.html" %}
+    {% endif %}
+</div>
+
+{% comment%}
+TODO: will be implemented in next phase
+
+<p>
+    <b>Code used to produce plot:</b>
+</p>
+{% endcomment %}
+
+<h5>Influenza B</h5>
+
+<p class="md:hidden mt-6 p-4 bg-pp-pale-grey">
+    Rotating your phone may improve graph layout
+</p>
+
+<div id="historic_wastewater_slu_infB">
+    {% if historic_wastewater_slu_infB %}
+        {{ historic_wastewater_slu_infB|safe }}
+    {% else %}
+        {% include "dashboards/partials/plot_loading_error.html" %}
+    {% endif %}
+</div>
+
+{% comment%}
+TODO: will be implemented in next phase
+
+<p>
+    <b>Code used to produce plot:</b>
+</p>
+{% endcomment %}
+
+<h4>Dataset</h4>
+<p>
+    <b>Contact:</b> <a href="mailto:anna.szekely@slu.se">anna.szekely@slu.se</a> and
+    <a href="mailto:javier.vargas@slu.se">javier.vargas@slu.se</a>
+</p>
+<p>
+    <b>Download the data:</b> <a href="{% static "dashboards/data/historic_SLU_wastewater_data.csv" %}">
+    Respiratory virus gene copy numbers normalised per PMMoV gene copy number.CSV file</a>. Data are
+    available for Influenza A from week 42 of 2022 and for Influenza B from week 12 of 2023; updated weekly.
+</p>
+<p>
+    <b>How to cite the dataset:</b><br>
+    Székely, A. J., Malmberg, M., Vargas, J., Mohamed, N., Dafalla, I., Petrini, F., Davies, L. (2023).
+    Dataset of SARS-CoV-2, influenza A and influenza B virus content in wastewater samples from wastewater
+    treatment plants in Sweden. <a href="https://doi.org/10.17044/scilifelab.14256317" target="_blank"
+    rel="noopener noreferrer" >https://doi.org/10.17044/scilifelab.14256317</a>.
+</p>
+
+<h4>Methods</h4>
+<p>
+    For most cities represented on this page, raw, untreated wastewater samples that are representative of a
+    single day are collected by flow compensated samplers at the wastewater treatment plants (WWTP). Uppsala
+    is the exception, where samples are collected daily, and then combined flow-proportionally into one
+    composite weekly sample for the purpose of analyses.
+</p>
+<p>
+    The viral genomic material from the freshly collected samples is extracted by the direct capture method,
+    using the Maxwell RSC Enviro TNA kit (Promega).
+</p>
+<p>
+    Absolute quantification of the copy numbers of the genome of influenza A and B viruses is performed by
+    One-Step RT-qPCR using the Flu SC2 Multiplex Assay from the Centers for Disease Control and Prevention (CDC).
+    To correct for variations in population size and wastewater flow, pepper mild mottle virus (PMMoV) is
+    quantified using a modified version of the assay of <a target="_blank" rel="noopener noreferrer"
+    href="https://doi.org/10.1371/journal.pbio.0040003">Zhang et al. (2006)</a>. PMMoV is an abundant RNA
+    virus in human faeces and serves as an estimator of human faecal content (<a target="_blank"
+    rel="noopener noreferrer" href="https://doi.org/10.1371/journal.ppat.1007639">Symonds et al., 2019</a>).
+</p>
+<p>
+    The data in the graphs and datafile represent the ratio of the copy numbers measured by the Flu SC2
+    Multiplex Assay and PMMoV-assays, multiplied by 1000. As the Flu SC2 Multiplex Assay provides proxies
+    for both influenza A and B viruses content in the wastewater and PMMoV is a proxy of the faecal content
+    (which is related to the contributing population), their ratio can be considered as a proxy for the
+    prevalence of influenza A and influenza B infections in the population of the wastewater catchment area.
+</p>
+
+{% endblock content %}
