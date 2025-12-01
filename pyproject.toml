@@ -85,7 +85,6 @@ select = [
     "W",    # pycodestyle warnings
 ]
 extend-ignore = [
-    "ANN101",
     "ANN002",
     "ANN003",
     "S308", # Assuming all content comes from admin / trusted sources
