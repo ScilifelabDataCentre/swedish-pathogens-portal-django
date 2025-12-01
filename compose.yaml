@@ -1,3 +1,6 @@
+# docker-compose.yaml
+# Docker Compose configuration for Swedish Pathogens Portal (SPP)
+---
 name: SPP
 services:
   # Portal website
@@ -51,7 +54,7 @@ services:
     init: true
     pull_policy: never
     entrypoint: >
-      tailwindcss 
+      tailwindcss
         --input core/static/css/base.css
         --output core/static/css/portal.css
         --watch=always
