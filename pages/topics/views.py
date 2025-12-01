@@ -1,3 +1,5 @@
+"""Views for topics page."""
+
 from utils.views import BaseDetailView, BaseListView
 
 from .models import Topic
