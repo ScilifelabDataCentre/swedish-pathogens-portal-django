@@ -1,1 +1,1 @@
-"""Citation app package."""
+"""Citation page."""
