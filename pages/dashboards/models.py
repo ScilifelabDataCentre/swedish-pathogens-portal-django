@@ -1,8 +1,10 @@
+"""Models for dashboards page."""
+
 from django.db import models
 
 
 class DashboardData(models.Model):
-    """Dashboards model for visualisation data
+    """Dashboards model for visualisation data.
 
     WIP - this is initial placehoder table for development,
     will be modified and finalised later based on the neccessity.
@@ -33,6 +35,8 @@ class DashboardData(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
+        """Metadata for DashboardData model."""
+
         verbose_name = "Dashboards Data"
         verbose_name_plural = "Dashboards Data"
 
