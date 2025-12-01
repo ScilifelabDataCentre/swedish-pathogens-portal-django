@@ -1,3 +1,5 @@
+"""Views for the SARS-CoV-2 Variant Competition dashboard page."""
+
 from utils.views import BaseTemplateView
 
 
