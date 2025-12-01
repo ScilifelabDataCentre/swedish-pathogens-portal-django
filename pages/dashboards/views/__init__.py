@@ -6,6 +6,7 @@ URL configs and other modules.
 
 from .covid_quantification_kth import CovidQuantificationKth
 from .crush_covid import CrushCovid
+from .historic_influenza import HistoricInfluenza
 from .historic_sarscov2_wastewater import HistoricSarsCov2Wastewater
 from .index import DashboardsIndex
 from .lineage_competition import LineageCompetition
@@ -23,6 +24,7 @@ __all__ = [
     "CrushCovid",
     "DashboardsIndex",
     "HistoricSarsCov2Wastewater",
+    "HistoricInfluenza",
     "LineageCompetition",
     "MultiDiseaseSerology",
     "NpcStatistics",
