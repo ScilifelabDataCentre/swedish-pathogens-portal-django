@@ -1,4 +1,4 @@
-"""Common utility functions that can help with visualisation"""
+"""Common utility functions that can help with visualisation."""
 
 import json
 import logging
@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 # TODO: The following function might be removed in the following
 # phases as the blobserver dependency will be removed
 def fetch_plot_json_blobserver(blob: str) -> dict | None:
-    """Fetch plot data from blobserver
+    """Fetch plot data from blobserver.
 
     This is a temporary function to fetch plot related data
     (compiled plot in JSON format) from blobserver.
@@ -47,7 +47,7 @@ def fetch_plot_json_blobserver(blob: str) -> dict | None:
     # get data from blobserver if it didn't exist in cache
     url = f"https://blobserver.dc.scilifelab.se/blob/{blob}"
     try:
-        with urlopen(url, timeout=10) as response:
+        with urlopen(url, timeout=10) as response:  # noqa: S310
             data = json.loads(response.read().decode("utf-8"))
         cache.set(cache_key, data, 300)  # 5 minutes
         return data
@@ -68,12 +68,13 @@ def plot_html_from_json(
     skip_invalid: bool = False,
     include_plotlyjs: str | bool = False,
 ) -> str | None:
-    """Generate graph's HTML string
+    """Generate graph's HTML string.
 
     Using plotly IO, generate figure from JSON plot data and return
     an HTML string of the plot.
 
     Args:
+    ----
         data: Plotly graph's JSON object or string i.e. with "data" and "layout"
         height: Parameter passed to 'to_html' method, the height of the rendered
             plot will be of this value. It can either a int (pixels) or
@@ -99,10 +100,7 @@ def plot_html_from_json(
     """
     if data is not None:
         try:
-            if isinstance(data, str):
-                jstring = data
-            else:
-                jstring = json.dumps(data)
+            jstring = data if isinstance(data, str) else json.dumps(data)
             fig = pio.from_json(jstring, skip_invalid=skip_invalid)
             return fig.to_html(
                 full_html=False,
