@@ -9,12 +9,18 @@ from __future__ import annotations
 
 from typing import Any, Dict, List
 import logging
+from io import BytesIO
+from urllib.request import Request, urlopen
+
+import polars as pl
 
 from utils.views import BaseTemplateView
 
 
 KTH_XLSX_URL = "https://blobserver.dc.scilifelab.se/blob/KTH-produced-antigens.xlsx"
 EXTERNAL_XLSX_URL = "https://blobserver.dc.scilifelab.se/blob/External-PLP-proteinlist.xlsx"
+REQUEST_TIMEOUT_SECONDS = 10
+USER_AGENT = "pathogens-portal/multidisease-serology"
 
 # Explicit column orders for deterministic display
 KTH_HEADERS: List[str] = ["Virus type", "Variant", "Protein", "Details", "Host"]
@@ -24,38 +30,58 @@ logger = logging.getLogger(__name__)
 
 
 class MultiDiseaseSerology(BaseTemplateView):
-    """
-    Interim dashboard page:
-    - Fetch two Excel sheets from blobserver on each request.
-    - Parse into records server-side.
-    - Normalise into row lists aligned to headers to keep the template simple.
-    - No 'last updated' yet (will come from DB later).
+    """Render the multidisease serology dashboard.
+
+    The view performs three lightweight steps on every request: download the two
+    XLSX blobs, parse the first worksheet of each with Polars, and normalise the
+    tables into ordered rows so the template can render simple loops.
+
+    Attributes:
+        template_name: Template that renders the descriptive copy and tables.
+        title: Page title that appears in the shared layout.
     """
 
     template_name = "dashboards/multidisease_serology.html"
     title = "Multi-disease serology"
 
-    def _normalise_records_to_rows(
-        self, records: List[Dict[str, Any]], headers: List[str]
-    ) -> List[List[Any]]:
-        """Normalise dict records into deterministic row lists.
+    def _read_excel_frame(self, url: str) -> pl.DataFrame:
+        """Fetch an Excel sheet using urllib and parse it with Polars."""
+        request = Request(url, headers={"User-Agent": USER_AGENT})
+        with urlopen(request, timeout=REQUEST_TIMEOUT_SECONDS) as response:
+            payload = BytesIO(response.read())
+        payload.seek(0)
+        # Polars read_excel uses Rust calamine engine which requires fastexcel for performance.
+        # This dependency is not installed by default, so it was added manually.
+        # TODO: Remove it once we have a proper data pipeline.
+        frame = pl.read_excel(source=payload, sheet_id=0)
+        # Polars returns a dict when the backend loads multiple worksheets; grab the first sheet.
+        return next(iter(frame.values())) if isinstance(frame, dict) else frame
 
-        Args:
-            records: List of dictionary records parsed from Excel.
-            headers: Column headers that define the order of values in each row.
+    def _frame_to_rows(self, frame: pl.DataFrame, headers: List[str]) -> List[List[Any]]:
+        """Project a Polars frame onto expected columns and normalise values."""
+        if frame.is_empty():
+            return []
 
-        Returns:
-            List[List[Any]]: Rows where each row is ordered according to
-            ``headers``. Missing keys are represented as empty strings to keep
-            the rendering safe and consistent.
-        """
-        normalised_rows: List[List[Any]] = []
-        for record in records:
-            row: List[Any] = []
-            for header in headers:
-                row.append(record.get(header, ""))
-            normalised_rows.append(row)
-        return normalised_rows
+        projected = frame.select(
+            [
+                (pl.col(header).cast(pl.String, strict=False).fill_null("").alias(header))
+                if header in frame.columns
+                else pl.lit("").alias(header)
+                for header in headers
+            ]
+        )
+        return [list(row) for row in projected.rows()]
+
+    def _load_rows(self, url: str, headers: List[str], source: str) -> List[List[Any]]:
+        """Helper to fetch, parse, and normalise table data."""
+        try:
+            logger.info("serology_fetch_start", extra={"source": source, "url": url})
+            frame = self._read_excel_frame(url)
+            logger.info("serology_fetch_success", extra={"source": source, "records": frame.height})
+        except Exception:
+            logger.exception("serology_fetch_failed", extra={"source": source, "url": url})
+            return []
+        return self._frame_to_rows(frame, headers)
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         """Build template context with normalised serology tables.
@@ -69,6 +95,8 @@ class MultiDiseaseSerology(BaseTemplateView):
         """
         context = super().get_context_data(**kwargs)
 
+        kth_rows_aligned = self._load_rows(KTH_XLSX_URL, KTH_HEADERS, "kth")
+        external_rows_aligned = self._load_rows(EXTERNAL_XLSX_URL, EXTERNAL_HEADERS, "external")
 
         logger.debug(
             "serology_context_built",
