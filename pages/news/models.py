@@ -1,3 +1,5 @@
+"""Models for News page."""
+
 import markdown
 from django.db import models
 from django.utils import timezone
@@ -61,20 +63,23 @@ class News(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
+        """Metadata for News model."""
+
         ordering = ["-created_at"]
         verbose_name = "News"
         verbose_name_plural = "News"
 
     def __str__(self) -> str:
+        """Return the string representation of News."""
         return self.title
 
-    def save(self, *args, **kwargs):
+    def save(self, *args, **kwargs) -> None:
         """Save the news, auto-generating slug if not provided."""
         if not self.slug:
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
 
     @property
-    def rendered_content(self):
+    def rendered_content(self) -> str:
         """Return content rendered as HTML from markdown."""
         return mark_safe(markdown.markdown(self.content, extensions=["extra", "codehilite"]))
