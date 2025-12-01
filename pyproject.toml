@@ -85,9 +85,9 @@ select = [
     "W",    # pycodestyle warnings
 ]
 extend-ignore = [
-    "ANN002",
-    "ANN003",
-    "S308", # Assuming all content comes from admin / trusted sources
+    "ANN002", # Missing type annotation for *args
+    "ANN003", # Missing type annotation for **kwargs
+    "S308", # Use of mark_safe -- ignored assuming all content comes from admin / trusted sources
 ]
 
 [tool.ruff.format]
