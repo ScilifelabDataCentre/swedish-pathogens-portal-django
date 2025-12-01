@@ -25,3 +25,5 @@ jobs:
 
       - name: Run yamllint
         uses: ibiqlik/action-yamllint@v3
+        with:
+          config_file: .github/.yamllint.yaml
