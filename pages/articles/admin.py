@@ -1,4 +1,8 @@
+"""Admin configuration for Article app."""
+
 from django.contrib import admin, messages
+from django.db.models import QuerySet
+from django.http import HttpRequest
 
 from .models import Article
 
@@ -46,7 +50,7 @@ class ArticleAdmin(admin.ModelAdmin):
         ),
     )
 
-    def activate_articles(self, request, queryset):
+    def activate_articles(self, request: HttpRequest, queryset: QuerySet) -> None:
         """Activate selected articles."""
         updated = queryset.update(is_active=True)
         self.message_user(
@@ -55,7 +59,7 @@ class ArticleAdmin(admin.ModelAdmin):
 
     activate_articles.short_description = "Activate selected articles"
 
-    def deactivate_articles(self, request, queryset):
+    def deactivate_articles(self, request: HttpRequest, queryset: QuerySet) -> None:
         """Deactivate selected articles."""
         updated = queryset.update(is_active=False)
         self.message_user(

@@ -1,4 +1,4 @@
-"""Views for the About app."""
+"""Views for the About section."""
 
 from utils.views import BaseTemplateView
 

@@ -1,5 +1,7 @@
-from django.views.generic import TemplateView
 from typing import Any
+
+from django.views.generic import TemplateView
+
 
 class BaseTemplateView(TemplateView):
     """Base template view for static pages.
