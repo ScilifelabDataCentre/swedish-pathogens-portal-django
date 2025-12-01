@@ -20,6 +20,16 @@ class DashboardsIndex(BaseTemplateView):
         # a list of ACTIVE dashboards
         "active_dashboards": [
             {
+                "name": "SLU-SEEC Wastewater Surveillance",
+                "image": "dashboards/thumbnails/slu_wastewater.jpg",
+                "url": reverse_lazy("dashboards:slu_overview"),
+                "description": (
+                    "Explore pathogens levels in wastewater across Sweden. Weekly data from "
+                    "SLU-SEEC tracks pathogens trends, covering a significanFt portion of the "
+                    "population, and assists in predicting potential outbreaks."
+                ),
+            },
+            {
                 "name": "Register-based vaccination (RECOVAC)",
                 "image": "dashboards/thumbnails/recovac.png",
                 "url": reverse_lazy("dashboards:recovac"),
