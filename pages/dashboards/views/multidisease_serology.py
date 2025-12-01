@@ -11,7 +11,6 @@ from typing import Any, Dict, List
 import logging
 
 from utils.views import BaseTemplateView
-from pages.dashboards.utils.blobserver import fetch_excel_first_sheet_as_records
 
 
 KTH_XLSX_URL = "https://blobserver.dc.scilifelab.se/blob/KTH-produced-antigens.xlsx"
@@ -70,40 +69,6 @@ class MultiDiseaseSerology(BaseTemplateView):
         """
         context = super().get_context_data(**kwargs)
 
-        # KTH-produced antigens (server-side parsed)
-        try:
-            logger.info("serology_fetch_start", extra={"source": "kth", "url": KTH_XLSX_URL})
-            kth_records = fetch_excel_first_sheet_as_records(
-                KTH_XLSX_URL,
-                user_agent="pathogens-portal/multidisease-serology",
-            )
-            logger.info(
-                "serology_fetch_success", extra={"source": "kth", "records": len(kth_records)}
-            )
-        except Exception:
-            logger.exception("serology_fetch_failed", extra={"source": "kth", "url": KTH_XLSX_URL})
-            kth_records = []
-        kth_rows_aligned = self._normalise_records_to_rows(kth_records, KTH_HEADERS)
-
-        # Externally produced antigens (server-side parsed)
-        try:
-            logger.info(
-                "serology_fetch_start", extra={"source": "external", "url": EXTERNAL_XLSX_URL}
-            )
-            external_records = fetch_excel_first_sheet_as_records(
-                EXTERNAL_XLSX_URL,
-                user_agent="pathogens-portal/multidisease-serology",
-            )
-            logger.info(
-                "serology_fetch_success",
-                extra={"source": "external", "records": len(external_records)},
-            )
-        except Exception:
-            logger.exception(
-                "serology_fetch_failed", extra={"source": "external", "url": EXTERNAL_XLSX_URL}
-            )
-            external_records = []
-        external_rows_aligned = self._normalise_records_to_rows(external_records, EXTERNAL_HEADERS)
 
         logger.debug(
             "serology_context_built",
