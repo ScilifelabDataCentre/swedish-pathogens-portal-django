@@ -1,4 +1,4 @@
-"""URL configuration for the About section."""
+"""URL configuration for the About page."""
 
 from django.urls import path
 

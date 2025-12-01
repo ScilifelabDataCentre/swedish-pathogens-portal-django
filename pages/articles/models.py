@@ -1,3 +1,5 @@
+"""Models for the Article app."""
+
 import markdown
 from django.db import models
 from django.utils import timezone
@@ -6,7 +8,7 @@ from django.utils.text import slugify
 
 
 class Article(models.Model):
-    """Article model for showcasing research findings and editorial content.
+    r"""Article model for showcasing research findings and editorial content.
 
     Represents articles (data highlights and editorials) that showcase important
     scientific findings, data insights, and editorial content for the Swedish
@@ -73,7 +75,9 @@ class Article(models.Model):
     content = models.TextField(help_text="Full content in markdown format displayed on detail page")
     announcement = models.TextField(
         blank=True,
-        help_text="Optional announcement message in markdown format displayed at the top of the article",
+        help_text=(
+            "Optional announcement message in markdown format displayed at the top of the article"
+        ),
     )
     tags = models.TextField(
         blank=True,
@@ -113,6 +117,8 @@ class Article(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
+        """Metadata for Article model."""
+
         ordering = ["-created_at"]
         verbose_name = "Article"
         verbose_name_plural = "Articles"
@@ -121,19 +127,19 @@ class Article(models.Model):
         """Return the article title for string representation."""
         return self.title
 
-    def save(self, *args, **kwargs):
+    def save(self, *args, **kwargs) -> None:
         """Save the article, auto-generating slug if not provided."""
         if not self.slug:
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
 
     @property
-    def rendered_content(self):
+    def rendered_content(self) -> str:
         """Return content rendered as HTML from markdown."""
         return mark_safe(markdown.markdown(self.content, extensions=["extra", "codehilite"]))
 
     @property
-    def rendered_announcement(self):
+    def rendered_announcement(self) -> str:
         """Return announcement rendered as HTML from markdown."""
         if self.announcement:
             return mark_safe(
@@ -142,13 +148,13 @@ class Article(models.Model):
         return ""
 
     @property
-    def tag_list(self):
+    def tag_list(self) -> list[str]:
         """Return tags as a list of cleaned strings."""
         if not self.tags:
             return []
         return [tag.strip().lower() for tag in self.tags.split(",") if tag.strip()]
 
-    def get_related_articles(self, limit: int = 4, threshold: float = 0.1) -> List["Article"]:
+    def get_related_articles(self, limit: int = 4, threshold: float = 0.1) -> list["Article"]:
         """Get related articles based on tag similarity.
 
         Finds articles with similar tags using Jaccard similarity algorithm.

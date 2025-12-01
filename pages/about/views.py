@@ -1,4 +1,4 @@
-"""Views for the About section."""
+"""Views for the About page."""
 
 from utils.views import BaseTemplateView
 

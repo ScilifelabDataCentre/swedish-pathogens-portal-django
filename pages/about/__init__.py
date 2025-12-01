@@ -1,1 +1,1 @@
-"""About page package."""
+"""About page."""

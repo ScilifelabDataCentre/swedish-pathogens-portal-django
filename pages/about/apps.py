@@ -1,4 +1,4 @@
-"""App configuration for the About section."""
+"""App configuration for the About page."""
 
 from django.apps import AppConfig
 
