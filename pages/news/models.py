@@ -38,9 +38,7 @@ class News(models.Model):
 
     """
 
-    title = models.CharField(
-        max_length=200, unique=True, help_text="Title of news item"
-    )
+    title = models.CharField(max_length=200, unique=True, help_text="Title of news item")
     slug = models.SlugField(
         max_length=200,
         unique=True,
@@ -79,6 +77,4 @@ class News(models.Model):
     @property
     def rendered_content(self):
         """Return content rendered as HTML from markdown."""
-        return mark_safe(
-            markdown.markdown(self.content, extensions=["extra", "codehilite"])
-        )
+        return mark_safe(markdown.markdown(self.content, extensions=["extra", "codehilite"]))
