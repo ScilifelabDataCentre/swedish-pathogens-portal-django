@@ -103,16 +103,22 @@
     </label>
   </div>
 
-  {#Description with truncation #}
+  {#Description with truncation and HTML rendering #}
     {% if it.description %}
       <p class="mt-2 text-sm text-pp-dark-grey leading-relaxed">
-        {% with it.description|wordcount as desc_words %}
+        {% comment %}
+          We want to render HTML in descriptions. To avoid counting HTML tags as words
+          when deciding whether to truncate, strip tags for the wordcount check.
+          For the truncated snippet we use truncatewords_html so HTML tags are preserved,
+          then mark output as safe. The full description is also output with |safe.
+        {% endcomment %}
+        {% with it.description|striptags|wordcount as desc_words %}
           {% if desc_words > 100 %}
             <span id="desc-short-{{ it.id }}">
-              {{ it.description|truncatewords:50 }}
+              {{ it.description|truncatewords_html:50|safe }}
             </span>
             <span id="desc-full-{{ it.id }}" class="hidden">
-              {{ it.description }}
+              {{ it.description|safe }}
             </span>
             <button type="button"
                     class="ml-1 text-xs font-medium text-pp-mid-blue underline toggle-description"
@@ -120,12 +126,11 @@
               Show more
             </button>
           {% else %}
-            {{ it.description }}
+            {{ it.description|safe }}
           {% endif %}
         {% endwith %}
       </p>
     {% endif %}
-
 
 
 
