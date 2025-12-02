@@ -110,7 +110,7 @@
           </div>
 
           <!-- Cards -->
-          <ul class="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <ul class="grid grid-cols-1 gap-4 md:grid-cols-1">
             {% for it in items %}
             <li class="rounded border border-pp-pale-grey bg-white p-4 shadow-sm transition hover:shadow-md md:p-5">
   <div class="flex items-start justify-between gap-3">
@@ -131,7 +131,7 @@
         {% with it.description|wordcount as desc_words %}
           {% if desc_words > 100 %}
             <span id="desc-short-{{ it.id }}">
-              {{ it.description|truncatewords:100 }}
+              {{ it.description|truncatewords:50 }}
             </span>
             <span id="desc-full-{{ it.id }}" class="hidden">
               {{ it.description }}
