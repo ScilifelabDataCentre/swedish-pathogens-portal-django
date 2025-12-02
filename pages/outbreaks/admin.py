@@ -39,12 +39,12 @@ class OutbreakAdmin(admin.ModelAdmin):
     ]
     search_fields = [
         "name",
-        "pathogen",
-        "location",
-        "brief_history"
+        "description",
+        "content",
+        "location"
     ]
     prepopulated_fields = {"slug": ("name",)}
-    readonly_fields = ["updated_at"]
+    readonly_fields = ["created_at", "updated_at"]
     actions = ["activate_outbreaks", "deactivate_outbreaks"]
 
     fieldsets = (
@@ -61,23 +61,11 @@ class OutbreakAdmin(admin.ModelAdmin):
             }
         ),
         (
-            "Background Information",
-            {
-                "fields": (
-                    "pathogen",
-                    "transmission",
-                    "sources_and_risk_factors",
-                    "seasonality"
-                )
-            }
-        ),
-        (
             "Content",
             {
                 "fields": (
-                    "brief_history",
-                    "timeline_data",
-                    "data_visualization_links"
+                    "description",
+                    "content"
                 )
             }
         ),
