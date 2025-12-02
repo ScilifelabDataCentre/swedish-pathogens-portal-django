@@ -30,7 +30,6 @@ DATA_ROOT: Path = Path(
 ACCESSION_RE = re.compile(r"^MTBLS\d+$")
 
 
-
 def homepage_jump(request):
     return redirect("pages_portal_data:data_type_list", datatype="metabolomics")
 
@@ -140,7 +139,6 @@ def _load_all_items(datatype: str) -> list[dict]:
         items.append(item)
 
     return items
-
 
 
 def _apply_search_and_filters(
@@ -305,8 +303,6 @@ def download_study(request, datatype: str, accession: str):
     return response
 
 
-
-
 def export_selected(request, datatype):
     if datatype not in SUPPORTED_TYPES:
         return HttpResponseBadRequest("Unknown data type")
@@ -328,7 +324,6 @@ def export_selected(request, datatype):
     resp = HttpResponse(content, content_type=ctype)
     resp["Content-Disposition"] = f'attachment; filename="{filename}"'
     return resp
-
 
 
 def _find_investigation_file(study_dir: Path) -> Path | None:
