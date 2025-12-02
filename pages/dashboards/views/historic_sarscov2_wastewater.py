@@ -6,10 +6,15 @@ from ..visualisation.utils import fetch_plot_json_blobserver, plot_html_from_jso
 
 
 class HistoricSarsCov2Wastewater(View):
-    """Historic SEEC-SLU wastewater dashboard.
+    """Historic SEEC-SLU wastewater dashboard for SARS-CoV-2.
 
     Combines the legacy SLU national wastewater time series with the
     Örebro and Umeå historic visualisations.
+
+    Attributes:
+        template_name: Template for rendering the dashboard.
+        title: Title displayed in the rendered page's banner section.
+        description: Description to be used in the HTML's head.
     """
 
     template_name = "dashboards/historic_sarscov2_wastewater.html"
@@ -22,10 +27,7 @@ class HistoricSarsCov2Wastewater(View):
 
     plot_blobs: dict[str, tuple[str, str]] = {
         "slu_sites_table": ("wastewater_sluCOVIDsites.json", "840px"),
-        "slu_combined_timeseries": (
-            "historic_wastewater_combined_slu_regular.json",
-            "800px",
-        ),
+        "slu_combined_timeseries": ("historic_wastewater_combined_slu_regular.json", "800px"),
         "umea_timeseries": ("wastewater_graph_Umea.json", "550px"),
         "orebro_timeseries": ("wastewater_graph_Orebro.json", "550px"),
     }

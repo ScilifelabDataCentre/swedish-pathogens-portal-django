@@ -122,8 +122,8 @@ class DashboardsIndex(BaseTemplateView):
                 "image": "dashboards/thumbnails/historic_sarscov2_wastewater.png",
                 "url": reverse_lazy("dashboards:historic_sarscov2_wastewater"),
                 "description": (
-                    "Combined historic SARS-CoV-2 wastewater data from SEEC-SLU, "
-                    "including nationwide sites plus legacy Umeå and Örebro visualisations."
+                    "Historic SARS-CoV-2 wastewater data from SEEC-SLU, including "
+                    "nationwide sites plus Umeå and Örebro visualisations."
                 ),
             },
         ],
