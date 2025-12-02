@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<!-- Main Content -->
+<div class="py-8" id="content">
+    <!-- Outbreak Content -->
+    {% if outbreak.content %}
+        <div class="mb-8">
+            <style>
+                .outbreak-content-wrapper ul {
+                    list-style-type: disc !important;
+                    margin-left: 1.5rem !important;
+                    padding-left: 0 !important;
+                }
+                .outbreak-content-wrapper ol {
+                    list-style-type: decimal !important;
+                    margin-left: 1.5rem !important;
+                    padding-left: 0 !important;
+                }
+                .outbreak-content-wrapper li {
+                    margin-top: 0.25rem !important;
+                    margin-bottom: 0.25rem !important;
+                    padding-left: 0.5rem !important;
+                }
+                .outbreak-content-wrapper table td {
+                    padding: 5px 20px !important;
+                }
+                .outbreak-content-wrapper table th {
+                    padding: 5px 10px !important;
+                }
+                .outbreak-content-wrapper table td:nth-child(2) {
+                    white-space: nowrap !important;
+                }
+            </style>
+            <div class="text-pp-dark-grey leading-relaxed prose prose-sm max-w-none overflow-x-auto outbreak-content-wrapper">
+                {{ outbreak.rendered_content|safe }}
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
