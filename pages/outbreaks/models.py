@@ -50,25 +50,25 @@ class Outbreak(models.Model):
     name = models.CharField(
         max_length=255,
         unique=True,
-        help_text="Name of the outbreak (e.g., 'Hepatitis A (September 2025)')"
+        help_text="Name of the outbreak (e.g., 'Hepatitis A (September 2025)')",
     )
     slug = models.SlugField(
         max_length=255,
         unique=True,
         blank=True,
-        help_text="URL-friendly version of the name (auto-generated from name)"
+        help_text="URL-friendly version of the name (auto-generated from name)",
     )
     status = models.CharField(
         max_length=20,
         choices=STATUS_CHOICES,
         default="current",
-        help_text="Whether this is a current or historical outbreak"
+        help_text="Whether this is a current or historical outbreak",
     )
     thumbnail_image = models.ImageField(
         upload_to="outbreaks/images/",
         blank=True,
         null=True,
-        help_text="Thumbnail image for the outbreak card display (optional)"
+        help_text="Thumbnail image for the outbreak card display (optional)",
     )
 
     description = models.TextField(
@@ -81,27 +81,21 @@ class Outbreak(models.Model):
     location = models.CharField(
         max_length=255,
         blank=True,
-        help_text="Geographic location (e.g., 'Sweden', 'International')"
+        help_text="Geographic location (e.g., 'Sweden', 'International')",
     )
     start_date = models.DateField(
-        null=True,
-        blank=True,
-        help_text="When the outbreak started (optional)"
+        null=True, blank=True, help_text="When the outbreak started (optional)"
     )
     end_date = models.DateField(
-        null=True,
-        blank=True,
-        help_text="When the outbreak ended (null for current outbreaks)"
+        null=True, blank=True, help_text="When the outbreak ended (null for current outbreaks)"
     )
 
     is_active = models.BooleanField(
-        default=True,
-        help_text="Whether this outbreak is active and visible"
+        default=True, help_text="Whether this outbreak is active and visible"
     )
 
     created_at = models.DateTimeField(
-        default=timezone.now,
-        help_text="Creation date (defaults to current date if not provided)"
+        default=timezone.now, help_text="Creation date (defaults to current date if not provided)"
     )
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -131,8 +125,5 @@ class Outbreak(models.Model):
     def rendered_content(self):
         """Return content rendered as HTML from markdown."""
         return mark_safe(
-            markdown.markdown(
-                self.content,
-                extensions=["extra", "codehilite", "tables", "nl2br"]
-            )
+            markdown.markdown(self.content, extensions=["extra", "codehilite", "tables", "nl2br"])
         )
