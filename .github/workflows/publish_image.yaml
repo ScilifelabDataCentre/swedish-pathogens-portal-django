@@ -1,3 +1,6 @@
+# publish_image.yaml
+# Publish Docker image to GitHub Container Registry
+---
 name: Publish Docker image
 
 on:
