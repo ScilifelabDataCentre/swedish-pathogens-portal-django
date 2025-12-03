@@ -28,7 +28,8 @@ jobs:
     steps:
       - name: Run Trivy vulnerability scanner
         env:
-          TRIVY_DB_REPOSITORY: 'ghcr.io/aquasecurity/trivy-db,public.ecr.aws/aquasecurity/trivy-db'
+          TRIVY_DB_REPOSITORY: >-
+            ghcr.io/aquasecurity/trivy-db,public.ecr.aws/aquasecurity/trivy-db
         uses: aquasecurity/trivy-action@0.28.0
         with:
           image-ref: ghcr.io/scilifelabdatacentre/swedish-pathogens-portal:main
