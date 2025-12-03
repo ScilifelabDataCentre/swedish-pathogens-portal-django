@@ -1,3 +1,4 @@
+# trivy-scheduled.yaml
 # Trivy: Scan of current branch
 # Trivy is a comprehensive and versatile security scanner.
 # Trivy has scanners that look for security issues, and targets where it can find those issues.
@@ -32,7 +33,7 @@ jobs:
           TRIVY_DB_REPOSITORY: 'ghcr.io/aquasecurity/trivy-db,public.ecr.aws/aquasecurity/trivy-db'
         uses: aquasecurity/trivy-action@0.28.0
         with:
-          image-ref: 'ghcr.io/${{ env.REPOSITORY_OWNER }}/swedish-pathogens-portal:main'
+          image-ref: 'ghcr.io/${{ env.REPOSITORY_OWNER }}/swedish-pathogens-portal:latest'
           format: 'sarif'
           output: 'trivy-results.sarif'
           severity: 'CRITICAL,HIGH'

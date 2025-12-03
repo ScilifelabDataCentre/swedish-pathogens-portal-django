@@ -1,3 +1,4 @@
+# trivy-branch.yaml
 # Trivy: Scan of current branch
 # Trivy is a comprehensive and versatile security scanner.
 # Trivy has scanners that look for security issues, and targets where it can find those issues.
