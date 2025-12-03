@@ -1,7 +1,8 @@
 # trivy-branch.yaml
 # Trivy: Scan of current branch
 # Trivy is a comprehensive and versatile security scanner.
-# Trivy has scanners that look for security issues, and targets where it can find those issues.
+# Trivy has scanners that look for security issues, 
+# and targets where it can find those issues.
 # https://github.com/aquasecurity/trivy
 ---
 name: Trivy - branch scan
@@ -28,7 +29,8 @@ jobs:
 
       - name: Run Trivy vulnerability scanner
         env:
-          TRIVY_DB_REPOSITORY: 'ghcr.io/aquasecurity/trivy-db,public.ecr.aws/aquasecurity/trivy-db'
+          TRIVY_DB_REPOSITORY: >-
+            ghcr.io/aquasecurity/trivy-db,public.ecr.aws/aquasecurity/trivy-db
         uses: aquasecurity/trivy-action@0.28.0
         with:
           scan-type: "fs"
