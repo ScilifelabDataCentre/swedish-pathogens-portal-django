@@ -26,15 +26,12 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      - name: Ensure lowercase name
-        run: echo REPOSITORY_OWNER=$(echo ${{ github.repository_owner }} | tr '[:upper:]' '[:lower:]') >> $GITHUB_ENV
-
       - name: Run Trivy vulnerability scanner
         env:
           TRIVY_DB_REPOSITORY: 'ghcr.io/aquasecurity/trivy-db,public.ecr.aws/aquasecurity/trivy-db'
         uses: aquasecurity/trivy-action@0.28.0
         with:
-          image-ref: 'ghcr.io/${{ env.REPOSITORY_OWNER }}/pathogens-portal:main'
+          image-ref: ghcr.io/scilifelabdatacentre/swedish-pathogens-portal:main
           format: 'sarif'
           output: 'trivy-results.sarif'
           severity: 'CRITICAL,HIGH'
