@@ -45,103 +45,91 @@ class Article(models.Model):
             )
             # slug automatically generated as "novel-pathogen-discovery-in-swedish-waters"
     """
+
     # Content type choices
     CONTENT_TYPE_CHOICES = [
         ("data_highlight", "Data Highlight"),
         ("editorial", "Editorial"),
     ]
-    
+
     # Required fields
     type = models.CharField(
         max_length=50,
         choices=CONTENT_TYPE_CHOICES,
         default="data_highlight",
-        help_text="Type of content: Data Highlight or Editorial"
+        help_text="Type of content: Data Highlight or Editorial",
     )
-    title = models.CharField(
-        max_length=255,
-        unique=True,
-        help_text="Title of the article"
-    )
+    title = models.CharField(max_length=255, unique=True, help_text="Title of the article")
     slug = models.SlugField(
         max_length=255,
         unique=True,
-        help_text="URL-friendly version of the title (auto-generated from title)"
+        help_text="URL-friendly version of the title (auto-generated from title)",
     )
-    
+
     # Content fields
-    summary = models.TextField(
-        help_text="Brief summary of the article for display in cards"
-    )
-    content = models.TextField(
-        help_text="Full content in markdown format displayed on detail page"
-    )
+    summary = models.TextField(help_text="Brief summary of the article for display in cards")
+    content = models.TextField(help_text="Full content in markdown format displayed on detail page")
     announcement = models.TextField(
         blank=True,
-        help_text="Optional announcement message in markdown format displayed at the top of the article"
+        help_text="Optional announcement message in markdown format displayed at the top of the article",
     )
     tags = models.TextField(
         blank=True,
-        help_text="Comma-separated tags for related content matching and search"
+        help_text="Comma-separated tags for related content matching and search",
     )
     author = models.CharField(
         max_length=255,
         blank=True,
-        help_text="Author name or names for the article (optional)"
+        help_text="Author name or names for the article (optional)",
     )
-    
+
     # Media fields
     featured_image = models.ImageField(
-        upload_to="articles/images/",
-        help_text="Featured image for the article"
+        upload_to="articles/images/", help_text="Featured image for the article"
     )
     figure_caption = models.TextField(
-        blank=True,
-        help_text="Caption for the featured image (optional)"
+        blank=True, help_text="Caption for the featured image (optional)"
     )
-    
+
     # Relationships
     topics = models.ManyToManyField(
         "topics.Topic",
         blank=True,
-        help_text="Research topics associated with this article (optional)"
+        help_text="Research topics associated with this article (optional)",
     )
-    
+
     # Status field
     is_active = models.BooleanField(
-        default=True,
-        help_text="Whether this highlight is active and visible"
+        default=True, help_text="Whether this highlight is active and visible"
     )
-    
+
     # Timestamps
     created_at = models.DateTimeField(
         default=timezone.now,
-        help_text="Creation date (defaults to current date if not provided)"
+        help_text="Creation date (defaults to current date if not provided)",
     )
     updated_at = models.DateTimeField(auto_now=True)
-    
+
     class Meta:
         ordering = ["-created_at"]
         verbose_name = "Article"
         verbose_name_plural = "Articles"
-    
+
     def __str__(self):
         """Return the article title for string representation."""
         return self.title
-    
+
     def save(self, *args, **kwargs):
         """Save the article, auto-generating slug if not provided."""
         if not self.slug:
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
-    
+
     @property
     def rendered_content(self):
         """Return content rendered as HTML from markdown."""
-        return mark_safe(
-            markdown.markdown(self.content, extensions=["extra", "codehilite"])
-        )
-    
+        return mark_safe(markdown.markdown(self.content, extensions=["extra", "codehilite"]))
+
     @property
     def rendered_announcement(self):
         """Return announcement rendered as HTML from markdown."""
@@ -150,80 +138,78 @@ class Article(models.Model):
                 markdown.markdown(self.announcement, extensions=["extra", "codehilite"])
             )
         return ""
-    
+
     @property
     def tag_list(self):
         """Return tags as a list of cleaned strings."""
         if not self.tags:
             return []
-        return [tag.strip().lower() for tag in self.tags.split(',') if tag.strip()]
-    
-    def get_related_articles(self, limit: int = 4, threshold: float = 0.1) -> List['Article']:
+        return [tag.strip().lower() for tag in self.tags.split(",") if tag.strip()]
+
+    def get_related_articles(self, limit: int = 4, threshold: float = 0.1) -> List["Article"]:
         """Get related articles based on tag similarity.
-        
+
         Finds articles with similar tags using Jaccard similarity algorithm.
         Only considers articles of the same type (Data Highlight or Editorial).
         Considers all related articles regardless of creation date (past and future).
         Results are ordered by similarity score (highest first).
-        
+
         Args:
             limit: Maximum number of related articles to return (default: 4)
             threshold: Minimum similarity threshold between 0.0 and 1.0 (default: 0.1)
-            
+
         Returns:
             List of related articles ordered by similarity score
-            
+
         Example:
             Get top 3 related articles with at least 20% similarity:
-            
+
             .. code-block:: python
-                
+
                 related = article.get_related_articles(limit=3, threshold=0.2)
                 for related_article in related:
                     print(related_article.title)
         """
         if not self.tag_list:
             return Article.objects.none()
-        
+
         # Get all active articles of the same type, excluding current article
-        candidate_articles = Article.objects.filter(
-            is_active=True,
-            type=self.type
-        ).exclude(id=self.id).order_by('-created_at')
-        
+        candidate_articles = (
+            Article.objects.filter(is_active=True, type=self.type)
+            .exclude(id=self.id)
+            .order_by("-created_at")
+        )
+
         if not candidate_articles.exists():
             return Article.objects.none()
-        
+
         # Calculate similarity scores efficiently
         related_articles = []
         current_tags = set(self.tag_list)
-        
+
         # Process articles in batches to avoid memory issues
         for article in candidate_articles.iterator(chunk_size=50):
             if not article.tags:  # Skip articles without tags
                 continue
-                
+
             article_tags = set(article.tag_list)
-            
+
             # Calculate Jaccard similarity (intersection over union)
             intersection = len(current_tags.intersection(article_tags))
             union = len(current_tags.union(article_tags))
-            
+
             if union == 0:
                 continue
-                
+
             similarity = intersection / union
-            
+
             if similarity >= threshold:
                 related_articles.append((article, similarity))
-                
+
                 # Early termination if we have enough high-similarity results
                 if len(related_articles) >= limit * 2:
                     break
-        
+
         # Sort by similarity (highest first) and return limited results
         related_articles.sort(key=lambda x: x[1], reverse=True)
         return [article for article, _ in related_articles[:limit]]
-    
-
-

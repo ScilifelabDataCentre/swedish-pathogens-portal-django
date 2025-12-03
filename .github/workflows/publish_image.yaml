@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     concurrency:
       group: ${{ github.ref }}-docker-build
-      cancel-in-progress: true 
+      cancel-in-progress: true
     permissions:
       contents: read
       packages: write

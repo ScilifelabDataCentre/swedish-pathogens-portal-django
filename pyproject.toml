@@ -62,7 +62,7 @@ exclude = [
 indent-width = 4
 
 # Line length
-line-length = 88
+line-length = 100
 
 [too.ruff.lint]
 

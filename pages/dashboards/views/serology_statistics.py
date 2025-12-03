@@ -1,3 +1,4 @@
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.views import View
 
@@ -17,16 +18,13 @@ class SerologyStatistics(View):
     """
 
     template_name = "dashboards/serology_statistics.html"
-    title = (
-        "SARS-CoV-2 serology tests by the SciLifeLab Autoimmunity and "
-        "Serology Profiling unit"
-    )
+    title = "SARS-CoV-2 serology tests by the SciLifeLab Autoimmunity and Serology Profiling unit"
     description = (
         "A visualisation of the SARS-CoV-2 serology tests completed over "
         "time at the SciLifeLab Autoimmunology and Serology Profiling unit."
     )
 
-    def get(self, request):
+    def get(self, request: HttpRequest) -> HttpResponse:
         """Fetch the compiled plot data (JSON) and generate plot html string"""
 
         context = dict(title=self.title, description=self.description)
