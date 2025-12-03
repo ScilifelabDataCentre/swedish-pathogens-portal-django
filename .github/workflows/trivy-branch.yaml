@@ -43,7 +43,7 @@ jobs:
           # exit-code: "1"  # Fail workflow if vulnerabilities found
 
       - name: Upload Trivy scan results to GitHub Security tab
-        # if: always()  # Always publish results to security tab even if scan fails
+        # if: always()  # Publish results to security tab even if scan fails
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: 'trivy-results.sarif'
