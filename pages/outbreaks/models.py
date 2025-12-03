@@ -20,8 +20,6 @@ class Outbreak(models.Model):
         description (str): Brief description for card display.
         content (str): Rich text content in markdown format (displayed on detail page).
         location (str, optional): Geographic location.
-        start_date (date, optional): When outbreak started.
-        end_date (date, optional): When outbreak ended.
         is_active (bool): Whether outbreak is visible (default: True).
         created_at (datetime): When outbreak was created.
         updated_at (datetime): When outbreak was last updated.
@@ -36,8 +34,7 @@ class Outbreak(models.Model):
                 status="current",
                 description="Brief description for card display",
                 content="## Background\n\nFull markdown content...",
-                location="Sweden",
-                start_date="2025-09-01"
+                location="Sweden"
             )
             # slug automatically generated as "hepatitis-a-september-2025"
     """
@@ -83,12 +80,6 @@ class Outbreak(models.Model):
         blank=True,
         help_text="Geographic location (e.g., 'Sweden', 'International')",
     )
-    start_date = models.DateField(
-        null=True, blank=True, help_text="When the outbreak started (optional)"
-    )
-    end_date = models.DateField(
-        null=True, blank=True, help_text="When the outbreak ended (null for current outbreaks)"
-    )
 
     is_active = models.BooleanField(
         default=True, help_text="Whether this outbreak is active and visible"
@@ -100,7 +91,7 @@ class Outbreak(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ["-start_date", "-created_at"]
+        ordering = ["-created_at"]
         verbose_name = "Outbreak"
         verbose_name_plural = "Outbreaks"
 

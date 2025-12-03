@@ -7,7 +7,7 @@ class OutbreakListView(BaseListView):
 
     Shows all active outbreaks organized by status (current vs historical)
     in a grid layout with thumbnails, names, descriptions, and status badges.
-    Outbreaks are sorted by start date (newest first) and filtered to show
+    Outbreaks are sorted by creation date (newest first) and filtered to show
     only active content.
 
     Attributes:
@@ -15,14 +15,14 @@ class OutbreakListView(BaseListView):
         template_name: Template for rendering the list.
         context_object_name: Name for outbreaks in template context.
         title: Page title displayed in template.
-        ordering: Field to sort outbreaks by (newest first by start_date).
+        ordering: Field to sort outbreaks by (newest first by created_at).
     """
 
     model = Outbreak
     template_name = "outbreaks/index.html"
     context_object_name = "outbreaks"
     title = "Outbreaks"
-    ordering = "-start_date"
+    ordering = "-created_at"
 
     def get_context_data(self, **kwargs):
         """Add current and historical outbreaks to context.

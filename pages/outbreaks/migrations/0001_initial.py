@@ -80,22 +80,6 @@ class Migration(migrations.Migration):
                     ),
                 ),
                 (
-                    "start_date",
-                    models.DateField(
-                        blank=True,
-                        help_text="When the outbreak started (optional)",
-                        null=True,
-                    ),
-                ),
-                (
-                    "end_date",
-                    models.DateField(
-                        blank=True,
-                        help_text="When the outbreak ended (null for current outbreaks)",
-                        null=True,
-                    ),
-                ),
-                (
                     "is_active",
                     models.BooleanField(
                         default=True,
@@ -114,7 +98,7 @@ class Migration(migrations.Migration):
             options={
                 "verbose_name": "Outbreak",
                 "verbose_name_plural": "Outbreaks",
-                "ordering": ["-start_date", "-created_at"],
+                "ordering": ["-created_at"],
             },
         ),
     ]

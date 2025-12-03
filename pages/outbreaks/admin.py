@@ -11,9 +11,9 @@ class OutbreakAdmin(admin.ModelAdmin):
     with organized fieldsets, search functionality, filtering, and bulk actions.
 
     Features:
-        - List display with name, status, location, dates, and timestamps
-        - Filtering by status, active status, location, and dates
-        - Search by name, pathogen, location, and brief_history
+        - List display with name, status, location, and timestamps
+        - Filtering by status, active status, and location
+        - Search by name, description, content, and location
         - Auto-populated slug field from name
         - Bulk actions for activating/deactivating outbreaks
         - Organized fieldsets for better UX
@@ -23,13 +23,11 @@ class OutbreakAdmin(admin.ModelAdmin):
         "name",
         "status",
         "location",
-        "start_date",
-        "end_date",
         "is_active",
         "created_at",
         "updated_at",
     ]
-    list_filter = ["status", "is_active", "location", "start_date", "created_at", "updated_at"]
+    list_filter = ["status", "is_active", "location", "created_at", "updated_at"]
     search_fields = ["name", "description", "content", "location"]
     prepopulated_fields = {"slug": ("name",)}
     readonly_fields = ["created_at", "updated_at"]
@@ -41,7 +39,6 @@ class OutbreakAdmin(admin.ModelAdmin):
             {"fields": ("name", "slug", "status", "thumbnail_image", "location")},
         ),
         ("Content", {"fields": ("description", "content")}),
-        ("Dates", {"fields": ("start_date", "end_date")}),
         ("Status", {"fields": ("is_active",)}),
         ("Timestamps", {"fields": ("created_at", "updated_at"), "classes": ("collapse",)}),
     )
