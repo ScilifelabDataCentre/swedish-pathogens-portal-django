@@ -5,10 +5,15 @@
 # https://github.com/aquasecurity/trivy
 ---
 name: Trivy - branch scan
+
 on:
   pull_request:
   push:
     branches: [main]
+
+concurrency:
+  group: trivy-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   scan:
