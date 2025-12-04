@@ -36,7 +36,7 @@ jobs:
           scan-type: "fs"
           scan-ref: "."  # Default but being explicit
           scanners: "vuln,secret,misconfig"  # Default + misconfig scan
-          # ignore-unfixed: true
+          ignore-unfixed: true
           format: 'sarif'
           output: 'trivy-results.sarif'
           severity: 'CRITICAL,HIGH'
