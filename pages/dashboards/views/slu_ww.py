@@ -1,3 +1,5 @@
+"""Views for SLU wastewater dashboards pages."""
+
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.utils.text import slugify
@@ -13,11 +15,11 @@ from ..visualisation.slu_ww import (
 from ..visualisation.utils import plot_html_from_json
 
 
-class SluWasterWater(View):
-    """View to handle SLU dashboard pages
+class SluWasteWater(View):
+    """View to handle SLU dashboard pages.
 
-    This class handles all the SLU wasterwater dashboard pages i.e. all the URLs
-    '/dashboards/wasterwater-slu/<pages>'. The valid/available pages are defined
+    This class handles all the SLU wastewater dashboard pages i.e. all the URLs
+    '/dashboards/wastewater-slu/<pages>'. The valid/available pages are defined
     in the 'pages' attribute. The defined 'get' method caters different page
     based on the 'active_page' attribute which is set appropriately to each page
     in the app's 'urls.py'.
@@ -35,6 +37,7 @@ class SluWasterWater(View):
             appropriate content for that page. Default 'Overview'
         dashboard_data (DashboardData): A DashboardData model object, if there is
             no entry for this dashboard, it is set to None.
+
     """
 
     dashboard = "slu_wastewater"
@@ -43,8 +46,7 @@ class SluWasterWater(View):
     active_page = "Overview"
 
     def get(self, request: HttpRequest) -> HttpResponse:
-        """Handles the get request and returns the content based on 'active_page'"""
-
+        """To handle the get request and returns the content based on 'active_page'."""
         try:
             dashboard_data = DashboardData.objects.get(dashboard=self.dashboard)
         except DashboardData.DoesNotExist:
@@ -116,12 +118,12 @@ class SluWasterWater(View):
 # TODO: The following is a temp workaround, it should be removed
 # and the data sync lagic will be couple with researcher data
 # upload page and related views
+from core.settings.base import env  # noqa: E402, F401, I001
 from django.contrib.auth.mixins import LoginRequiredMixin  # noqa: E402, F401
-from core.settings.base import env  # noqa: E402, F401
 
 
 class SLUsync(LoginRequiredMixin, View):
-    """To handle dashboard data update
+    """To handle dashboard data update.
 
     DEV - Initial approach, will be removed or updated when data upload
     page is done for the researchers
@@ -135,14 +137,14 @@ class SLUsync(LoginRequiredMixin, View):
     data_url = env("DASHBOARD_SLU_DATA", default="")
 
     def get(self, request: HttpRequest) -> HttpResponse:
-        """To serve the temp data sync frontend page"""
+        """To serve the temp data sync frontend page."""
         context = {
             "data_url": self.data_url,
         }
         return render(request, "dashboards/slu_ww/data_sync.html", context)
 
     def post(self, request: HttpRequest) -> HttpResponse:
-        """To serve the temp data sync in the backend"""
+        """To serve the temp data sync in the backend."""
         try:
             dashboard_data = DashboardData.objects.get(dashboard=self.dashboard)
         except DashboardData.DoesNotExist:

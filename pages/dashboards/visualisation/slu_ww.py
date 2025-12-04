@@ -1,12 +1,14 @@
+"""Utility functions and common settings for SLU Wastewater dashboard."""
+
+from datetime import datetime, timedelta
+from typing import Any
+
 import numpy as np
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
-
 from django.utils.text import slugify
-from datetime import datetime, timedelta
 from plotly.subplots import make_subplots
-from typing import Any
 
 # Color settings
 
@@ -47,9 +49,11 @@ linecolor = "#d6d6d6"
 
 # Common dicts and lists used by multiple function
 
-plotly_to_html_settings = dict(
-    include_plotlyjs=False, full_html=False, config=dict(displayModeBar=False)
-)
+plotly_to_html_settings = {
+    "include_plotlyjs": False,
+    "full_html": False,
+    "config": {"displayModeBar": False},
+}
 
 norm_methods_map = {
     "pmmov_normalised": "PMMoV",
@@ -64,38 +68,44 @@ timeseries_map = {
     4: "Rolling average, 4 weeks",
 }
 
-common_axes_settings = dict(
-    title="",
-    linewidth=0.8,
-    linecolor=linecolor,
-    mirror=True,
-    zerolinecolor=bgcolor,
-    fixedrange=True,
-)
+common_axes_settings = {
+    "title": "",
+    "linewidth": 0.8,
+    "linecolor": linecolor,
+    "mirror": True,
+    "zerolinecolor": bgcolor,
+    "fixedrange": True,
+}
 
-scatter_axes_settings = dict(
-    matches=None,
-    showgrid=True,
-    gridcolor=gridcolor,
-    gridwidth=0.8,
+scatter_axes_settings = {
+    "matches": None,
+    "showgrid": True,
+    "gridcolor": gridcolor,
+    "gridwidth": 0.8,
     **common_axes_settings,
-)
+}
 
-base_legend = dict(
-    title="",
-    itemsizing="constant",
-    borderwidth=0.8,
-    bordercolor=linecolor,
-)
+base_legend = {
+    "title": "",
+    "itemsizing": "constant",
+    "borderwidth": 0.8,
+    "bordercolor": linecolor,
+}
 
-horizontal_legend = dict(orientation="h", x=0.5, xanchor="center", yanchor="bottom", **base_legend)
+horizontal_legend = {
+    "orientation": "h",
+    "x": 0.5,
+    "xanchor": "center",
+    "yanchor": "bottom",
+    **base_legend,
+}
 
-zero_margin = dict(
-    t=0,
-    r=10,
-    b=0,
-    l=0,
-)
+zero_margin = {
+    "t": 0,
+    "r": 10,
+    "b": 0,
+    "l": 0,
+}
 
 
 def get_compiled_data(data_url: str) -> dict:
@@ -106,6 +116,7 @@ def get_compiled_data(data_url: str) -> dict:
 
     Returns:
         A dictionary with precomputed artifacts.
+
     """
     compiled_data = {}
     data = read_data(data_url)
@@ -142,6 +153,7 @@ def read_data(data_url: str) -> pd.DataFrame:
 
     Returns:
         DataFrame containing the read CSV content.
+
     """
     return pd.read_csv(data_url, sep=",")
 
@@ -156,8 +168,8 @@ def get_range_date(all_dates: pd.Series, year: int | str, format: str = "%Y-%m-%
 
     Returns:
         Two-element list with min and max dates as strings in `format`.
-    """
 
+    """
     all_dates = all_dates[all_dates.str.contains(year)]
     min_date = datetime.strptime(all_dates.min(), format) - timedelta(days=3)
     max_date = datetime.strptime(all_dates.max(), format) + timedelta(days=3)
@@ -184,48 +196,49 @@ def get_timeline_annotation_updatemenus(
 
     Returns:
         A tuple (annotations, updatemenus) where each element is a list for Plotly layout.
+
     """
     annotations = [
-        dict(
-            text="Select Timeline:",
-            showarrow=False,
-            borderpad=5,
-            x=x,
-            y=y + 0.02,
-            xshift=-135,
-            xanchor="center",
-            yanchor="bottom",
-            xref="paper",
-            yref="paper",
-            font=dict(size=12),
-        )
+        {
+            "text": "Select Timeline:",
+            "showarrow": False,
+            "borderpad": 5,
+            "x": x,
+            "y": y + 0.02,
+            "xshift": -135,
+            "xanchor": "center",
+            "yanchor": "bottom",
+            "xref": "paper",
+            "yref": "paper",
+            "font": {"size": 12},
+        }
     ]
 
     updatemenus = [
-        dict(
-            type="buttons",
-            direction="left",
-            active=len(years),
-            x=x,
-            xanchor="center",
-            y=y,
-            yanchor="bottom",
-            pad=dict(b=5),
-            buttons=[
-                dict(label="All", method="relayout", args=[{"xaxis.autorange": True}]),
+        {
+            "type": "buttons",
+            "direction": "left",
+            "active": len(years),
+            "x": x,
+            "xanchor": "center",
+            "y": y,
+            "yanchor": "bottom",
+            "pad": {"b": 5},
+            "buttons": [
+                {"label": "All", "method": "relayout", "args": [{"xaxis.autorange": True}]}
             ],
-        )
+        }
     ]
 
     if resize_yaxis:
         updatemenus[0]["buttons"][0]["args"][0]["yaxis.autorange"] = True
 
     for y in years:
-        button = dict(
-            label=y,
-            method="relayout",
-            args=[{"xaxis.range": get_range_date(timeline, str(y))}],
-        )
+        button = {
+            "label": y,
+            "method": "relayout",
+            "args": [{"xaxis.range": get_range_date(timeline, str(y))}],
+        }
         if resize_yaxis and ydata is not None:
             ymax = max(ydata[timeline.str.contains(str(y))])
             button["args"][0]["yaxis.range"] = [round(ymax * -0.07, 2), ymax * 1.2]
@@ -242,6 +255,7 @@ def get_sites_info(data: pd.DataFrame) -> list:
 
     Returns:
         A list-of-lists where the first row is a header and subsequent rows contain site info.
+
     """
     data = data[["city", "inhabitants"]].drop_duplicates().sort_values("city")
     city_info = [["Site", "Num. of residents"]]
@@ -257,6 +271,7 @@ def get_filter_input_context(data: pd.DataFrame) -> dict:
 
     Returns:
         Dictionary mapping input names to values/options.
+
     """
     data_sampling_date = pd.to_datetime(data.sampling_date)
     return {
@@ -278,6 +293,7 @@ def get_recent_data_info(data: pd.DataFrame) -> dict:
 
     Returns:
         Dictionary with relevant recent data summary.
+
     """
     sampling_date = max(data.sampling_date)
     recent_data = data[data.sampling_date == sampling_date]
@@ -327,6 +343,7 @@ def get_quant_overview_plot(data: pd.DataFrame | dict, as_json: bool = False, **
 
     Returns:
         str: Serialized Plotly figure as HTML (default) or JSON (when as_json is True).
+
     """
     # check if data is a dict, if so conver it to dataframe
     if isinstance(data, dict):
@@ -384,7 +401,7 @@ def get_quant_overview_plot(data: pd.DataFrame | dict, as_json: bool = False, **
         y="y_val",
         color="year",
         trendline="rolling",
-        trendline_options=dict(function="mean", window=f_roll, min_periods=1),
+        trendline_options={"function": "mean", "window": f_roll, "min_periods": 1},
         facet_col="target",
         facet_col_wrap=2,
         facet_col_spacing=0.05,
@@ -398,16 +415,16 @@ def get_quant_overview_plot(data: pd.DataFrame | dict, as_json: bool = False, **
     fig.update_layout(
         plot_bgcolor=bgcolor,
         hovermode=False,
-        title=dict(
-            text="Week",
-            x=0.51,
-            y=0.1,
-            xanchor="center",
-            yanchor="bottom",
-            font=dict(size=16),
-        ),
-        legend=dict(y=-0.25, **horizontal_legend),
-        margin=dict(t=18, r=20, b=0, l=0),
+        title={
+            "text": "Week",
+            "x": 0.51,
+            "y": 0.1,
+            "xanchor": "center",
+            "yanchor": "bottom",
+            "font": {"size": 16},
+        },
+        legend={"y": -0.25, **horizontal_legend},
+        margin={"t": 18, "r": 20, "b": 0, "l": 0},
     )
     fig.for_each_annotation(
         lambda a: a.update(text=a.text.split("=")[-1], yshift=3, font={"size": 14})
@@ -434,6 +451,7 @@ def get_qual_overview_plot(data: pd.DataFrame, as_json: bool = False) -> str:
 
     Returns:
         str: Plotly figure serialized to HTML or JSON depending on `as_json`.
+
     """
     cols_togroup = ["sampling_date", "target", "category"]
     cols_todrop = [
@@ -473,9 +491,9 @@ def get_qual_overview_plot(data: pd.DataFrame, as_json: bool = False) -> str:
         hovermode=False,
         barmode="stack",
         bargap=0,
-        legend=dict(y=-0.2, **horizontal_legend),
-        hoverlabel=dict(bgcolor=bgcolor),
-        margin=dict(t=20, r=20, b=0, l=0),
+        legend={"y": -0.2, **horizontal_legend},
+        hoverlabel={"bgcolor": bgcolor},
+        margin={"t": 20, "r": 20, "b": 0, "l": 0},
     )
     fig.for_each_annotation(
         lambda a: a.update(text=a.text.split("=")[-1], yshift=3, font={"size": 14})
@@ -508,6 +526,7 @@ def get_all_sites_plot(
 
     Returns:
         str: Serialized Plotly figure as HTML or JSON depending on `as_json`.
+
     """
     # check if data is a dict, if so conver it to dataframe
     if isinstance(data, dict):
@@ -535,8 +554,8 @@ def get_all_sites_plot(
                 x=group.sampling_date,
                 y=group[f_method].rolling(f_roll, min_periods=1).mean(),
                 mode="lines+markers",
-                marker=dict(color=cities_graph_info[city]["colour"]),
-                line=dict(color=cities_graph_info[city]["colour"]),
+                marker={"color": cities_graph_info[city]["colour"]},
+                line={"color": cities_graph_info[city]["colour"]},
             )
         )
 
@@ -565,7 +584,7 @@ def get_all_sites_plot(
         hoverdistance=1,
         annotations=annotations,
         updatemenus=updatemenus,
-        legend=dict(font=dict(size=10)),
+        legend={"font": {"size": 10}},
         margin=zero_margin,
     )
 
@@ -596,6 +615,7 @@ def get_single_site_plot(
 
     Returns:
         str: Plotly figure serialized to HTML or JSON depending on `as_json`.
+
     """
     # check if data is a dict, if so conver it to dataframe
     if isinstance(data, dict):
@@ -632,15 +652,15 @@ def get_single_site_plot(
     data = data[data.city == f_site].drop_duplicates().reset_index(drop=True)
 
     plot_traces = []
-    for i, vcol in enumerate(methods_map.keys()):
+    for vcol in methods_map:
         plot_traces.append(
             go.Scatter(
                 name=methods_map[vcol]["name"],
                 x=data.sampling_date,
                 y=data[vcol] * methods_map[vcol]["scale"],
                 mode="lines+markers",
-                marker=dict(color=methods_map[vcol]["colour"]),
-                line=dict(color=methods_map[vcol]["colour"]),
+                marker={"color": methods_map[vcol]["colour"]},
+                line={"color": methods_map[vcol]["colour"]},
             )
         )
 
@@ -661,7 +681,7 @@ def get_single_site_plot(
         annotations=annotations,
         updatemenus=updatemenus,
         hovermode=False,
-        legend=dict(y=-0.22, **horizontal_legend),
+        legend={**horizontal_legend, "y": -0.22},
         margin=zero_margin,
     )
 
@@ -688,6 +708,7 @@ def get_qual_plots(data: pd.DataFrame | dict, virus: str, as_json: bool = False)
 
     Returns:
         str: Plotly figure serialized to HTML or JSON depending on `as_json`.
+
     """
     cols_todrop = [
         "sample",
@@ -768,8 +789,8 @@ def get_qual_plots(data: pd.DataFrame | dict, virus: str, as_json: bool = False)
         bargap=0,
         annotations=annotations,
         updatemenus=updatemenus,
-        legend=dict(**base_legend),
-        hoverlabel=dict(bgcolor=bgcolor),
+        legend=base_legend,
+        hoverlabel={"bgcolor": bgcolor},
         margin=zero_margin,
     )
 

@@ -17,7 +17,7 @@ from .views import (
     Recovac,
     SerologyStatistics,
     SLUsync,
-    SluWasterWater,
+    SluWasteWater,
     SymptomStudySweden,
     Vaccines,
     VariantsRegionUppsala,
@@ -100,11 +100,11 @@ urlpatterns = [
 ]
 
 # SLU wastewater URLs
-for page in SluWasterWater.pages:
+for page in SluWasteWater.pages:
     urlpatterns.append(
         path(
             "slu-wastewater/" + ("" if page == "Overview" else f"{slugify(page)}/"),
-            SluWasterWater.as_view(active_page=page),
+            SluWasteWater.as_view(active_page=page),
             name=f"slu_{slugify(page)}",
         )
     )
