@@ -1,5 +1,8 @@
+"""URL configuration for the outbreaks app."""
+
 from django.urls import path
-from .views import OutbreakListView, OutbreakDetailView
+
+from .views import OutbreakDetailView, OutbreakListView
 
 app_name = "outbreaks"
 

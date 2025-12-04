@@ -1,5 +1,9 @@
-from django.contrib import admin
-from django.contrib import messages
+"""Admin configuration for the outbreaks app."""
+
+from django.contrib import admin, messages
+from django.db.models import QuerySet
+from django.http import HttpRequest
+
 from .models import Outbreak
 
 
@@ -43,7 +47,7 @@ class OutbreakAdmin(admin.ModelAdmin):
         ("Timestamps", {"fields": ("created_at", "updated_at"), "classes": ("collapse",)}),
     )
 
-    def activate_outbreaks(self, request, queryset):
+    def activate_outbreaks(self, request: HttpRequest, queryset: QuerySet[Outbreak]) -> None:
         """Activate selected outbreaks."""
         updated = queryset.update(is_active=True)
         self.message_user(
@@ -52,7 +56,7 @@ class OutbreakAdmin(admin.ModelAdmin):
 
     activate_outbreaks.short_description = "Activate selected outbreaks"
 
-    def deactivate_outbreaks(self, request, queryset):
+    def deactivate_outbreaks(self, request: HttpRequest, queryset: QuerySet[Outbreak]) -> None:
         """Deactivate selected outbreaks."""
         updated = queryset.update(is_active=False)
         self.message_user(

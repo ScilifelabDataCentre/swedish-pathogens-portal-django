@@ -1,12 +1,14 @@
+"""Models for the outbreaks app."""
+
+import markdown
 from django.db import models
 from django.utils import timezone
-from django.utils.text import slugify
 from django.utils.safestring import mark_safe
-import markdown
+from django.utils.text import slugify
 
 
 class Outbreak(models.Model):
-    """Outbreak model for tracking disease outbreaks affecting Sweden.
+    r"""Outbreak model for tracking disease outbreaks affecting Sweden.
 
     Represents both current and historical disease outbreaks with comprehensive
     information. Each outbreak can be marked as current or historical and includes
@@ -37,6 +39,7 @@ class Outbreak(models.Model):
                 location="Sweden"
             )
             # slug automatically generated as "hepatitis-a-september-2025"
+
     """
 
     STATUS_CHOICES = [
@@ -91,6 +94,8 @@ class Outbreak(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
+        """Meta options for the Outbreak model."""
+
         ordering = ["-created_at"]
         verbose_name = "Outbreak"
         verbose_name_plural = "Outbreaks"
@@ -99,7 +104,7 @@ class Outbreak(models.Model):
         """Return the outbreak name for string representation."""
         return self.name
 
-    def save(self, *args, **kwargs):
+    def save(self, *args: tuple, **kwargs: dict) -> None:
         """Save the outbreak, auto-generating slug if not provided."""
         if not self.slug:
             self.slug = slugify(self.name)
@@ -113,8 +118,8 @@ class Outbreak(models.Model):
         return "/static/images/outbreak-placeholder.svg"
 
     @property
-    def rendered_content(self):
+    def rendered_content(self) -> str:
         """Return content rendered as HTML from markdown."""
-        return mark_safe(
+        return mark_safe(  # noqa: S308
             markdown.markdown(self.content, extensions=["extra", "codehilite", "tables", "nl2br"])
         )

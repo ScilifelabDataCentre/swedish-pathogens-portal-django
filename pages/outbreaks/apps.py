@@ -1,3 +1,5 @@
+"""App configuration for the outbreaks app."""
+
 from django.apps import AppConfig
 
 

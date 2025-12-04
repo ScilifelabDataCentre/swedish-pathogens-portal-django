@@ -1,4 +1,9 @@
-from utils.views import BaseListView, BaseDetailView
+"""Views for the outbreaks app."""
+
+from typing import Any
+
+from utils.views import BaseDetailView, BaseListView
+
 from .models import Outbreak
 
 
@@ -16,6 +21,7 @@ class OutbreakListView(BaseListView):
         context_object_name: Name for outbreaks in template context.
         title: Page title displayed in template.
         ordering: Field to sort outbreaks by (newest first by created_at).
+
     """
 
     model = Outbreak
@@ -24,7 +30,7 @@ class OutbreakListView(BaseListView):
     title = "Outbreaks"
     ordering = "-created_at"
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> dict[str, Any]:  # noqa: ANN003
         """Add current and historical outbreaks to context.
 
         Separates outbreaks into current and historical categories
@@ -32,6 +38,7 @@ class OutbreakListView(BaseListView):
 
         Returns:
             dict: Context data with current_outbreaks and historical_outbreaks
+
         """
         context = super().get_context_data(**kwargs)
         queryset = self.get_queryset()
@@ -54,6 +61,7 @@ class OutbreakDetailView(BaseDetailView):
         model: Outbreak model to display.
         template_name: Template for rendering the detail view.
         context_object_name: Name for outbreak in template context.
+
     """
 
     model = Outbreak
