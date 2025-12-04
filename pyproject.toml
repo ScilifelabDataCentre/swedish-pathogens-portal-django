@@ -86,6 +86,8 @@ select = [
 extend-ignore = [
     "ANN002", # Missing type annotation for *args
     "ANN003", # Missing type annotation for **kwargs
+    "D203", # Contradicts D211 and gives warning
+    "D213", # Contradicts D212 and gives warning  
     "S308", # Use of mark_safe -- ignored assuming all content comes from admin / trusted sources
 ]
 
