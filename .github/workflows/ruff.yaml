@@ -5,8 +5,8 @@ name: Ruff
 
 on:
   pull_request:
-    # paths:
-    #   - '*/**.py'
+    paths:
+      - '*/**.py'
   push:
     branches: [main]
     paths:
