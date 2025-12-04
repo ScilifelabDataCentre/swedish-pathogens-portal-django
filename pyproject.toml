@@ -16,6 +16,7 @@ dependencies = [
 dev = [
     "django-browser-reload>=1.18.0",
     "django-extensions>=4.1",
+    "pre-commit>=4.0.1",
     "psycopg[binary]>=3.2.9",
     "ruff>=0.13.0",
     "watchdog>=6.0.0",
