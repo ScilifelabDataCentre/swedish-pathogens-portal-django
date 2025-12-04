@@ -26,5 +26,5 @@ jobs:
 
       - name: Ruff format (check only)
         uses: astral-sh/ruff-action@v3
-        with: 
+        with:
           args: format --check --diff
