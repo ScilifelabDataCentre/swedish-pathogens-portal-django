@@ -1,0 +1,11 @@
+# .pre-commit-config.yaml
+# Pre-commit hooks to ensure code quality before commits
+# Calls .git/hooks/pre-commit automatically on git commit
+---
+repos:
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.35.1
+    hooks:
+      - id: yamllint
+        types: [yaml]
+        args: ["-c", ".github/.yamllint.yaml"]
