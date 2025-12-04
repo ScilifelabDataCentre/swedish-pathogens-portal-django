@@ -5,6 +5,12 @@
 
 {% include "dashboards/partials/load_plotlyjs.html" %}
 
+{% comment %}
+    TODO: cleanup in second phase
+    fix plot generation script URLS
+    Remove all blobserver references
+{% endcomment %}
+
 <p class="mt-6 p-4 bg-pp-pale-grey text-center">
     Historic dashboard not updated since 2024-09-30, for reference only.
 </p>
@@ -113,7 +119,7 @@ TODO: will be implemented in next phase
     <a href="mailto:javier.vargas@slu.se">javier.vargas@slu.se</a>
 </p>
 <p>
-    <b>Download the data:</b> <a href="{% static "dashboards/data/historic_SLU_wastewater_data.csv" %}">
+    <b>Download the data:</b> <a href="https://blobserver.dc.scilifelab.se/blob/historic_SLU_wastewater_data.csv">
     Respiratory virus gene copy numbers normalised per PMMoV gene copy number.CSV file</a>. Data are
     available for Influenza A from week 42 of 2022 and for Influenza B from week 12 of 2023; updated weekly.
 </p>
