@@ -1,3 +1,6 @@
+"""View for COVID Quantification KTH dashboard page."""
+
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.views import View
 
@@ -16,6 +19,7 @@ class CovidQuantificationKth(View):
         template_name: Template for rendering the dashboard.
         title: Title displayed in the rendered page's banner section.
         description: Description to be used in the HTML's head.
+
     """
 
     template_name = "dashboards/covid_quantification_kth.html"
@@ -27,7 +31,7 @@ class CovidQuantificationKth(View):
         "and Malmö, including both historic and recent data."
     )
 
-    def get(self, request):
+    def get(self, request: HttpRequest) -> HttpResponse:
         """Fetch the compiled plot data (JSON) and generate plot HTML strings.
 
         Fetches Plotly JSON data from blobserver for each chart, converts it to HTML
@@ -35,8 +39,9 @@ class CovidQuantificationKth(View):
 
         Returns:
             Rendered template with plot HTML strings in context.
+
         """
-        context = dict(title=self.title, description=self.description)
+        context = {"title": self.title, "description": self.description}
 
         # Map chart IDs to blobserver blob names
         plot_sources = {
