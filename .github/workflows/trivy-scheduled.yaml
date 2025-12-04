@@ -34,6 +34,7 @@ jobs:
         uses: aquasecurity/trivy-action@0.28.0
         with:
           image-ref: ghcr.io/scilifelabdatacentre/swedish-pathogens-portal:main
+          scanners: "vuln,secret,misconfig"  # Default + misconfig scan
           format: 'sarif'
           output: 'trivy-results.sarif'
           severity: 'CRITICAL,HIGH'
