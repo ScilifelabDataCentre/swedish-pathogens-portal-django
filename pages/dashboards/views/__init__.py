@@ -5,6 +5,7 @@ URL configs and other modules.
 """
 
 from .crush_covid import CrushCovid
+from .covid_quantification_kth import CovidQuantificationKth
 from .index import DashboardsIndex
 from .lineage_competition import LineageCompetition
 from .npc_statistics import NpcStatistics
@@ -16,6 +17,7 @@ from .variants_region_uppsala import VariantsRegionUppsala
 
 __all__ = [
     "CrushCovid",
+    "CovidQuantificationKth",
     "DashboardsIndex",
     "LineageCompetition",
     "NpcStatistics",

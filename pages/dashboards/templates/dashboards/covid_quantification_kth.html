@@ -1,0 +1,351 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+{% include "dashboards/partials/load_plotlyjs.html" %}
+
+{% comment %}
+    TODO: cleanup in second phase
+    fix internal URL reference
+    fix plot generation script URLs
+    fix data update dates
+    fix commentary section (dynamic content)
+    verify blob names
+{% endcomment %}
+
+<div id="content-start">
+    <div class="prose max-w-none space-y-6 mt-4">
+        <div class="bg-pp-pale-grey/30 border-l-4 border-pp-mid-blue text-pp-dark-blue p-4" role="status">
+            <p class="m-0">
+                <span class="font-semibold">As of June 2023, the SARS-CoV-2 data will no longer be updated by SEEC-KTH.</span>
+                <span class="ml-2">Data from after June 2023 is <a class="text-pp-mid-blue" href="/dashboards/covid_quantification/">available from other research groups.</a></span>
+            </p>
+        </div>
+
+        <h2 id="introduction">Introduction</h2>
+
+        <p>
+            This project is led by associate professor Zeynep Cetecioglu Gurol and supported
+            by Mariel Perez-Zabaleta and Isaac Owusu-Agyeman at KTH Royal Institute of
+            Technology (KTH). Bioinformatics analyses of wastewater samples are held by
+            assistant professor Luisa Hugerth (Uppsala University). This group of researchers
+            are known as SEEC-KTH. The project was established as a collaboration between the
+            <a href="https://www.scilifelab.se/covid-19" target="_blank" rel="noopener noreferrer"
+               class="text-pp-mid-blue">SciLifeLab COVID-19 National Research Program</a>,
+            and the
+            <a href="https://www.kth.se/en/seed" target="_blank" rel="noopener noreferrer"
+               class="text-pp-mid-blue">SEED</a>
+            and
+            <a href="https://www.kth.se/ket/chemical-engineering-1.784196" target="_blank"
+               rel="noopener noreferrer" class="text-pp-mid-blue">Chemical Engineering</a>
+            departments at KTH. The project is now funded as part of the SciLifeLab Pandemic
+            Laboratory Preparedness (PLP) Program. More information about the PLP program can
+            be found in our <a href="/resources/" class="text-pp-mid-blue">resources section</a>.
+            SEEC-KTH is now part of the
+            <a href="https://www.kth.se/dib/department-of-industrial-biotechnology-1.783103"
+               target="_blank" rel="noopener noreferrer" class="text-pp-mid-blue">Department
+               of Industrial Biotechnology</a> at KTH.
+        </p>
+
+        <p>
+            The data and visualisations on this page are <strong>no longer being updated</strong>
+            as of June 2023. This dashboard combines data from two periods:
+        </p>
+
+        <ul class="list-disc pl-6">
+            <li>
+                <strong>Recent period (September 2021 - June 2023):</strong> Data collected using
+                the Promega kit for concentration, starting from week 35 of 2021.
+            </li>
+            <li>
+                <strong>Historic period (April 2020 - August 2021):</strong> Data collected using
+                the initial concentration method based on earlier studies.
+            </li>
+        </ul>
+
+        <h2 id="collection-sites">Wastewater collection sites</h2>
+
+        <p>
+            The analysis of wastewater samples from Stockholm by SEEC-KTH is done in close
+            collaboration with Stockholm Vatten och Avfall, and the Käppala Association.
+            SEEC-KTH began to sample wastewater in mid-April 2020, and samples were collected
+            from the Bromma, Henriksdal, and Käppala wastewater treatment plants. These plants
+            receive wastewater from a population of approximately 360,000, 860,000, and
+            500,000 people, respectively. Please consult
+            <a href="{% static 'dashboards/wastewater/map_Kappala.pdf' %}" target="_blank"
+               rel="noopener noreferrer" class="text-pp-mid-blue">this map</a>
+            for the exact catchment area of the wastewater collection channels in Käppala and
+            <a href="{% static 'dashboards/wastewater/map_Bromma_Henriksdal.pdf' %}" target="_blank"
+               rel="noopener noreferrer" class="text-pp-mid-blue">this map</a>
+            for the exact catchment area of the wastewater collection channels in Bromma and
+            Henriksdal.
+        </p>
+
+        <p>
+            SEEC-KTH began to collect wastewater samples from the Sjölunda wastewater
+            treatment plant in Malmö in week 39 of 2021. This wastewater plant services the
+            majority of Malmö, as well as the Burlöv municipality and parts of the municipalities
+            of Lomma, Staffanstorp, and Svedala. Around 300,000 people live in the catchment
+            area of this wastewater treatment plant. More information about the catchment area,
+            including a map, can be
+            <a href="{% static 'dashboards/wastewater/sjolunda.pdf' %}" target="_blank"
+               rel="noopener noreferrer" class="text-pp-mid-blue">downloaded directly</a>.
+        </p>
+
+        <p>
+            Overall, SEEC-KTH analyse wastewater from around 20% of the population of Sweden.
+        </p>
+
+        <h2 id="recent-data">Recent data (September 2021 - June 2023)</h2>
+
+        <p>
+            This section displays data from September 2021 onwards, when the method was
+            changed to use the Promega kit for concentration. Data collection ceased in
+            June 2023.
+        </p>
+
+        <h3 id="recent-methods">Recent methods</h3>
+
+        <p>
+            Starting from week 35 of 2021, the group began to use
+            <a href="https://se.promega.com/applications/virus-detection-assay-coronavirus-detection-covid-19-sars-cov-2/wastewater-based-epidemiology-covid19/"
+               target="_blank" rel="noopener noreferrer" class="text-pp-mid-blue">
+                the Promega kit
+            </a>
+            for the concentration step. To correct for variations in population size and
+            wastewater flow, the group quantifies the pepper mild mottle virus (PMMoV) using
+            a modified version of the assay of
+            <a href="https://doi.org/10.1371/journal.pbio.0040003" target="_blank"
+               rel="noopener noreferrer" class="text-pp-mid-blue">Zhang <em>et al.</em> (2006)</a>.
+            PMMoV is an abundant RNA virus in human faeces and serves as an estimator of human
+            faecal content
+            (<a href="https://doi.org/10.1371/journal.ppat.1007639" target="_blank"
+                rel="noopener noreferrer" class="text-pp-mid-blue">Symonds <em>et al.</em>, 2019</a>).
+            SARS-like virus specific N3-primers
+            (<a href="https://doi.org/10.3201/eid2608.201246" target="_blank"
+                rel="noopener noreferrer" class="text-pp-mid-blue">Lu <em>et al.</em>, 2020</a>)
+            with SYBR Green chemistry
+            (<a href="https://doi.org/10.1016/j.scitotenv.2022.160023" target="_blank"
+                rel="noopener noreferrer" class="text-pp-mid-blue">Perez-Zabaleta <em>et al.</em>, 2023</a>)
+            are used to quantify SARS-CoV-2.
+        </p>
+
+        <h3 id="recent-visualisations">Visualisations</h3>
+
+        <p>
+            Please note that the visualisations below show data for the most recent 16 weeks
+            for which data are available by default. It is possible to see all of the data by
+            clicking the 'Whole timeline' button.
+        </p>
+
+        <p>
+            Please also note that although the same methods are used for all cities shown on
+            this tab, differences in the wastewater collection systems and populations of
+            different cities might bias direct comparisons between cities.
+        </p>
+
+        <h4 id="stockholm-recent">Stockholm</h4>
+
+        <div class="bg-pp-pale-grey/30 border-l-4 border-pp-mid-blue text-pp-dark-blue p-4 mb-4" role="status">
+            <p class="m-0">Last updated: <span id="last_modified_stockholm">June 2023</span> (no longer updating)</p>
+        </div>
+
+        <button type="button" class="px-3 py-1.5 text-sm font-medium text-pp-dark-blue bg-white border border-pp-pale-grey rounded hover:bg-pp-pale-grey focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pp-mid-blue mb-2" onclick="document.getElementById('interactiveFeaturesModal').classList.remove('hidden')">
+            How to use the interactive features of the plot
+        </button>
+
+        <div id="interactiveFeaturesModal" class="hidden fixed inset-0 z-50 overflow-y-auto" tabindex="-1" aria-labelledby="interactiveFeaturesModalLabel" aria-hidden="true">
+            <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity" onclick="document.getElementById('interactiveFeaturesModal').classList.add('hidden')"></div>
+            <div class="flex min-h-full items-center justify-center p-4">
+                <div class="relative bg-white rounded-lg shadow-xl w-full max-w-4xl transform transition-all" onclick="event.stopPropagation()">
+                    <div class="flex items-center justify-between p-4 border-b border-pp-pale-grey">
+                        <h5 class="text-lg font-medium text-pp-almost-black" id="interactiveFeaturesModalLabel">Information on how to use the interactive features of the plot</h5>
+                        <button type="button" class="text-pp-dark-grey hover:text-pp-almost-black bg-transparent border-0 text-2xl leading-none opacity-50 hover:opacity-75 focus:outline-none" onclick="document.getElementById('interactiveFeaturesModal').classList.add('hidden')" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="p-4">
+                        <p>The line plots on this page have multiple interactive features. You can use the features to view the data in them in different ways. For example, you can choose to view data only within a certain time period, or from a given collection site. Below, we explain how to use different interactive features to meet your needs.</p>
+                        <h6 class="font-semibold text-pp-almost-black mt-4 mb-2">View data from particular sites</h6>
+                        <p>To view only data from a single site, double click on the name on that site in the legend to the right. To toggle data from a site on/off, single click on the name in the legend. If the data is 'deselected', the name will appear 'greyed out' in the legend, and it will not be displayed on the graph. Initially, all data will be 'selected'. To 'deselect' all data, use the 'Deselect all areas' button. You can use the 'Reselect all areas' button to 'select' data from every site (i.e. return to the default view).</p>
+                        <h6 class="font-semibold text-pp-almost-black mt-4 mb-2">View only certain y- and/or x-axes ranges</h6>
+                        <p>In the below plots, the y-axis represents the copy number of SARS-CoV-2 relative to PMMoV while the x-axis represents the date. If you would like to view values within a given range of the values on the axes, you can do this by clicking and dragging with your mouse. For example, to view all data within a given timeframe, you can click near the start date on the x-axis and drag to create a rectangle that encompasses the whole y-axis and the range of dates on the x-axis that you want to view. The plot will then zoom into the range that you selected.</p>
+                        <h6 class="font-semibold text-pp-almost-black mt-4 mb-2">Accurately read data values</h6>
+                        <p>It is difficult to accurately read the exact values of data from a graph. In order to view the exact data values, hover over the data point of interest. A box will appear that shows the y-axis values for all sites on that date (i.e. that x-axis value).</p>
+                        <h6 class="font-semibold text-pp-almost-black mt-4 mb-2">Other features</h6>
+                        <p>If you hover your cursor over the plot, you will see some additional options as grey icons in the top right. You can use these features to zoom in/out of the plot (using the + and - icons), and scale the axes so that the data from the 'selected' sites are shown on the most appropriate axes (this can be done using the autoscale or reset axes icons, which look like a box containing arrows and a house, respectively).</p>
+                    </div>
+                    <div class="flex items-center justify-end p-4 border-t border-pp-pale-grey">
+                        <button type="button" class="px-4 py-2 text-sm font-medium text-white bg-pp-dark-grey rounded hover:bg-pp-almost-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pp-mid-blue" onclick="document.getElementById('interactiveFeaturesModal').classList.add('hidden')">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <p class="lg:hidden p-4 bg-pp-pale-grey">
+            Rotating your phone may improve graph layout
+        </p>
+
+        <div class="mb-3 max-w-full overflow-x-auto">
+            <div id="stockholm_recent">
+                {% if stockholm_recent %}
+                    {{ stockholm_recent|safe }}
+                {% else %}
+                    {% include "dashboards/partials/plot_loading_error.html" %}
+                {% endif %}
+            </div>
+        </div>
+
+        {% comment %}
+        TODO: will be implemented in next phase
+        <p>
+            <strong>Code used to produce plot:</strong>
+            <a href="https://github.com/ScilifelabDataCentre/pathogens-portal-visualisations/blob/main/wastewater/archive/combined_stockholm_regular.py">Script to produce plot</a>.
+        </p>
+        {% endcomment %}
+
+        <h4 id="malmo-recent">Malmö</h4>
+
+        <div class="bg-pp-pale-grey/30 border-l-4 border-pp-mid-blue text-pp-dark-blue p-4 mb-4" role="status">
+            <p class="m-0">Last updated: <span id="last_modified_malmo">June 2023</span> (no longer updating)</p>
+        </div>
+
+        <p class="lg:hidden p-4 bg-pp-pale-grey">
+            Rotating your phone may improve graph layout
+        </p>
+
+        <div class="mb-3 max-w-full overflow-x-auto">
+            <div id="malmo">
+                {% if malmo %}
+                    {{ malmo|safe }}
+                {% else %}
+                    {% include "dashboards/partials/plot_loading_error.html" %}
+                {% endif %}
+            </div>
+        </div>
+
+        {% comment %}
+        TODO: will be implemented in next phase
+        <p>
+            <strong>Code used to produce plot:</strong>
+            <a href="https://github.com/ScilifelabDataCentre/pathogens-portal-visualisations/blob/main/wastewater/archive/quant_malmo_kthplot.py">Script to produce plot</a>.
+        </p>
+        {% endcomment %}
+
+        <h3 id="recent-dataset">Recent dataset</h3>
+
+        <p>
+            <strong>Download the data:</strong> <a href="https://blobserver.dc.scilifelab.se/blob/stockholm_wastewater_method_Sep_2021.xlsx" target="_blank" rel="noopener noreferrer" class="text-pp-mid-blue">N3-gene copy number per PMMoV gene copy number; Excel file</a>. Results are available (partially) starting from week 16 of 2020 for Stockholm and starting from week 39 of 2021 for Malmö; updated weekly.<br>
+            <strong>Contact:</strong> <a href="mailto:zeynepcg@kth.se" class="text-pp-mid-blue">zeynepcg@kth.se</a>
+        </p>
+
+        <p>
+            <strong>How to cite dataset:</strong><br>
+            Cetecioglu, Z. G., Williams, C., Khatami, K., Atasoy, M., Nandy, P., Jafferali, M. H., Birgersson, M. (2021). SARS-CoV-2 Wastewater Data from Stockholm, Sweden. <a href="https://doi.org/10.17044/scilifelab.14315483" target="_blank" rel="noopener noreferrer" class="text-pp-mid-blue">https://doi.org/10.17044/scilifelab.14315483</a>.
+        </p>
+
+        <h2 id="historic-data">Historic data (April 2020 - August 2021)</h2>
+
+        <p>
+            This section displays data on the amount of SARS-CoV-2 in the wastewater in Stockholm between April 2020 and August 2021. The amount of SARS-CoV-2 in wastewater was calculated as the number of gene copies per week (raw wastewater) with bovine + PMMoV factor. From September 2021 onwards, the method was changed. Please see the <a href="#recent-data" class="text-pp-mid-blue">Recent data section</a> above for data from September 2021 onwards.
+        </p>
+
+        <h3 id="historic-methods">Historic methods</h3>
+
+        <p>
+            After concentration, filtering, and preparation, the samples are analysed using qPCR to test for SARS-CoV-2 RNA. Primers of the nucleocapsid (N) gene (previously used and verified by <a href="https://doi.org/10.1021/acs.estlett.0c00357" target="_blank" rel="noopener noreferrer" class="text-pp-mid-blue">Medema <em>et al.</em> (2020)</a>) were used to detect SARS-COV-2. In some cases, samples of raw wastewater were frozen at –20<sup>o</sup>C, and concentrated wastewater or purified RNA were stored at -80<sup>o</sup>C before the next analysis step was carried out. The concentration method used by prof. Gurol and colleagues was based on their published study (<a href="https://doi.org/10.1016/j.scitotenv.2020.142939" target="_blank" rel="noopener noreferrer" class="text-pp-mid-blue">Jafferali <em>et al.</em>, 2021</a>), in which they compared four different concentration methods. The study concluded that the double ultrafiltration method adapted by KTH was significantly more efficient than single filtration and adsorption methods. Please see <a href="https://doi.org/10.1016/j.scitotenv.2020.142939" target="_blank" rel="noopener noreferrer" class="text-pp-mid-blue">Jafferali <em>et al.</em> (2021)</a> for more information on the methods. More information about <a href="https://www.kth.se/water/research/covid-1.979048" target="_blank" rel="noopener noreferrer" class="text-pp-mid-blue">data summaries and preliminary conclusions are also available</a>.
+        </p>
+
+        <h3 id="historic-visualisation">Historic visualisation - Stockholm</h3>
+
+        <p class="lg:hidden p-4 bg-pp-pale-grey">
+            Rotating your phone may improve graph layout
+        </p>
+
+        <div class="mb-3 max-w-full overflow-x-auto">
+            <div id="historic_stockholm">
+                {% if historic_stockholm %}
+                    {{ historic_stockholm|safe }}
+                {% else %}
+                    {% include "dashboards/partials/plot_loading_error.html" %}
+                {% endif %}
+            </div>
+        </div>
+
+        <p class="text-sm text-pp-dark-grey">
+            All samples up until week 21 of 2020 were received by the lab in week 21. Between weeks 21 and 33 of 2020, samples were analysed biweekly. After week 33 of 2020, samples were typically analysed weekly, although measurements were taken fortnightly, rather than weekly, between weeks 24 and 32 of 2021.
+        </p>
+
+        {% comment %}
+        TODO: will be implemented in next phase
+        <p>
+            <strong>Code used to produce plot:</strong>
+            <a href="https://github.com/ScilifelabDataCentre/pathogens-portal-visualisations/blob/main/wastewater/archive/historic_stockholm_data.py">Script to produce plot</a>.
+        </p>
+        {% endcomment %}
+
+        <h3 id="historic-dataset">Historic dataset</h3>
+
+        <p>
+            <strong>Download the data:</strong> <a href="https://blobserver.dc.scilifelab.se/blob/wastewater_data_Stockholm.xlsx" target="_blank" rel="noopener noreferrer" class="text-pp-mid-blue">Gene copy number/week (raw wastewater) with bovine + PMMoV factor; Excel file.</a> The numbers for Stockholm overall, and for the Henriksdal, Sickla, Hässelby, Järva, Riksby, and Käppala inlets are provided. At least partial data are available between week 16 of 2020 and week 34 of 2021.
+        </p>
+
+        <p>
+            <strong>How to cite:</strong><br>
+            Cetecioglu, Z. G., Williams, C., Khatami, K., Atasoy, M., Nandy, P., Jafferali, M. H., Birgersson, M. (2021). SARS-CoV-2 Wastewater Data from Stockholm, Sweden. <a href="https://doi.org/10.17044/scilifelab.14315483" target="_blank" rel="noopener noreferrer" class="text-pp-mid-blue">https://doi.org/10.17044/scilifelab.14315483</a>.
+        </p>
+
+        {% comment %}
+        TODO: will be implemented in next phase
+        <h2 id="commentary">Commentary from the research group</h2>
+        {% endcomment %}
+
+        <h2 id="methods">Methods</h2>
+
+        <p>
+            This dashboard combines data from two periods with different methodologies.
+            The method changed in September 2021 (week 35 of 2021) when the group began
+            using the Promega kit for concentration. Below, we explain both methods.
+        </p>
+
+        <h3 id="recent-methods-overview">Recent methods (September 2021 - June 2023)</h3>
+
+        <p>
+            To correct for variations in population size and wastewater flow, the group quantifies the pepper mild mottle virus (PMMoV) using a modified version of the assay of <a href="https://doi.org/10.1371/journal.pbio.0040003" target="_blank" rel="noopener noreferrer" class="text-pp-mid-blue">Zhang <em>et al.</em> (2006)</a>. PMMoV is an abundant RNA virus in human faeces and serves as an estimator of human faecal content (<a href="https://doi.org/10.1371/journal.ppat.1007639" target="_blank" rel="noopener noreferrer" class="text-pp-mid-blue">Symonds <em>et al.</em>, 2019</a>). SARS-like virus specific N3-primers (<a href="https://doi.org/10.3201/eid2608.201246" target="_blank" rel="noopener noreferrer" class="text-pp-mid-blue">Lu <em>et al.</em>, 2020</a>) with SYBR Green chemistry (<a href="https://doi.org/10.1016/j.scitotenv.2022.160023" target="_blank" rel="noopener noreferrer" class="text-pp-mid-blue">Perez-Zabaleta <em>et al.</em>, 2023</a>) are used to quantify SARS-CoV-2.
+        </p>
+
+        <p>
+            Starting from week 35 of 2021, the group began to use
+            <a href="https://se.promega.com/applications/virus-detection-assay-coronavirus-detection-covid-19-sars-cov-2/wastewater-based-epidemiology-covid19/"
+               target="_blank" rel="noopener noreferrer" class="text-pp-mid-blue">
+                the Promega kit
+            </a>
+            for the concentration step. After concentration, filtering, and preparation, the samples are analysed using the qPCR technique for SARS CoV-2 RNA. Primers of the nucleocapsid (N) gene were used to detect the SARS-COV-2 gene (previously used and verified by <a href="https://doi.org/10.1021/acs.estlett.0c00357" target="_blank" rel="noopener noreferrer" class="text-pp-mid-blue">Medema <em>et al.</em> (2020)</a>). In some cases, raw wastewater samples were frozen at -20℃, and concentrated wastewater or purified RNA samples were sometimes stored at -80℃ before the next analysis step was carried out.
+        </p>
+
+        <h3 id="historic-methods-overview">Historic methods (April 2020 - August 2021)</h3>
+
+        <p>
+            After concentration, filtering, and preparation, the samples are analysed using qPCR to test for SARS-CoV-2 RNA. Primers of the nucleocapsid (N) gene (previously used and verified by <a href="https://doi.org/10.1021/acs.estlett.0c00357" target="_blank" rel="noopener noreferrer" class="text-pp-mid-blue">Medema <em>et al.</em> (2020)</a>) were used to detect SARS-COV-2. In some cases, samples of raw wastewater were frozen at –20<sup>o</sup>C, and concentrated wastewater or purified RNA were stored at -80<sup>o</sup>C before the next analysis step was carried out. The concentration method used by prof. Gurol and colleagues was based on their published study (<a href="https://doi.org/10.1016/j.scitotenv.2020.142939" target="_blank" rel="noopener noreferrer" class="text-pp-mid-blue">Jafferali <em>et al.</em>, 2021</a>), in which they compared four different concentration methods. The study concluded that the double ultrafiltration method adapted by KTH was significantly more efficient than single filtration and adsorption methods. Please see <a href="https://doi.org/10.1016/j.scitotenv.2020.142939" target="_blank" rel="noopener noreferrer" class="text-pp-mid-blue">Jafferali <em>et al.</em> (2021)</a> for more information on the methods. More information about <a href="https://www.kth.se/water/research/covid-1.979048" target="_blank" rel="noopener noreferrer" class="text-pp-mid-blue">data summaries and preliminary conclusions are also available</a>.
+        </p>
+
+        <!-- <h2 id="archived-data">Archived data</h2>
+
+        <ul class="list-disc pl-6">
+            <li>
+                <a href="/dashboards/covid_quantification/historic_stockholm" class="text-pp-mid-blue">Historic data for Stockholm; Gene copy number/week (raw wastewater) with bovine + PMMoV factor between April 2020 and August 2021</a>.
+            </li>
+        </ul> -->
+
+        <h2 id="related-data">Related data</h2>
+
+        <ul class="list-disc pl-6">
+            <li>
+                SARS-CoV-2 variant analysis from wastewater (data available in the European Nucleotide Archive (ENA) under project number <a href="https://www.ebi.ac.uk/ena/browser/view/PRJEB60156" target="_blank" rel="noopener noreferrer" class="text-pp-mid-blue">PRJEB60156</a>): The group at KTH analysed samples from Stockholm and Malmö (2021-2022).
+            </li>
+        </ul>
+    </div>
+</div>
+
+{% endblock %}
