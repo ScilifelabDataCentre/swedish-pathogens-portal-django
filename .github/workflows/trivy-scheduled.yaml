@@ -35,6 +35,7 @@ jobs:
         with:
           image-ref: ghcr.io/scilifelabdatacentre/swedish-pathogens-portal:main
           scanners: "vuln,secret,misconfig"  # Default + misconfig scan
+          # ignore-unfixed: true
           format: 'sarif'
           output: 'trivy-results.sarif'
           severity: 'CRITICAL,HIGH'
