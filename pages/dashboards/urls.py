@@ -12,6 +12,7 @@ from .views import (
     NpcStatistics,
     PostCovid,
     SerologyStatistics,
+    Recovac,
     SymptomStudySweden,
     Vaccines,
     VariantsRegionUppsala,
@@ -70,6 +71,11 @@ urlpatterns = [
         "symptom-study-sweden/",
         SymptomStudySweden.as_view(),
         name="symptom_study_sweden",
+    ),
+    path(
+        "recovac/",
+        Recovac.as_view(),
+        name="recovac",
     ),
     path(
         "vaccines/",

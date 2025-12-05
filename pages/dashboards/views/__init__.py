@@ -12,6 +12,7 @@ from .lineage_competition import LineageCompetition
 from .multidisease_serology import MultiDiseaseSerology
 from .npc_statistics import NpcStatistics
 from .post_covid import PostCovid
+from .recovac import Recovac
 from .serology_statistics import SerologyStatistics
 from .symptom_study_sweden import SymptomStudySweden
 from .vaccines import Vaccines
@@ -26,6 +27,7 @@ __all__ = [
     "MultiDiseaseSerology",
     "NpcStatistics",
     "PostCovid",
+    "Recovac",
     "SerologyStatistics",
     "SymptomStudySweden",
     "Vaccines",
