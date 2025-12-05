@@ -1,5 +1,12 @@
 from django.urls import path
-from .views import DataTypeListView, export_selected, homepage_jump, download_study
+from .views import (
+    DataTypeListView,
+    export_selected,
+    homepage_jump,
+    download_study,
+    study_files,
+    download_study_file,
+)
 
 app_name = "pages_portal_data"
 
@@ -11,6 +18,17 @@ urlpatterns = [
         download_study,
         name="data_download",
     ),
+    # Per-study file browser (lists files under the study)
+    path(
+        "<slug:datatype>/<slug:accession>/files/",
+        study_files,
+        name="data_files",
+    ),
+    # Download an individual file from a study (relpath may contain slashes)
+    path(
+        "<slug:datatype>/<slug:accession>/files/<path:relpath>/",
+        download_study_file,
+        name="data_file",
+    ),
     path("<slug:datatype>/", DataTypeListView.as_view(), name="data_type_list"),
 ]
-

@@ -3,13 +3,15 @@ import re
 import os
 import shutil
 import tempfile
+import mimetypes
 
 from pathlib import Path
+from urllib.parse import unquote
 from typing import List, Dict
 
 from django.conf import settings
 from django.http import Http404, FileResponse, HttpResponse, HttpResponseBadRequest
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.views.generic import TemplateView
 
 from .services import build_export_tsv, build_export_json
@@ -410,4 +412,122 @@ def _parse_investigation_file(path: Path) -> dict:
         pass
 
     return meta
+
+
+    # Add these helper + view functions somewhere below the other helpers/views
+
+def _list_study_files(study_dir: Path) -> List[dict]:
+    """
+    Walk the study_dir and return a list of files with their relative paths,
+    sizes and mtime. Directories are not returned, only files.
+    """
+    files: List[dict] = []
+    for root, _, filenames in os.walk(study_dir):
+        for fn in filenames:
+            full = Path(root) / fn
+            try:
+                rel = str(full.relative_to(study_dir))
+            except Exception:
+                # skip files we can't relativize for safety
+                continue
+            try:
+                stat = full.stat()
+            except OSError:
+                continue
+            files.append(
+                {
+                    "relpath": rel.replace(os.sep, "/"),  # use forward slashes in URLs
+                    "name": fn,
+                    "size": stat.st_size,
+                    "mtime": stat.st_mtime,
+                }
+            )
+    # sort by path for stable listing
+    files.sort(key=lambda f: f["relpath"])
+    return files
+
+
+def study_files(request, datatype: str, accession: str):
+    """
+    Render a simple file browser for a study directory on the PVC.
+    """
+    if datatype not in SUPPORTED_TYPES:
+        raise Http404("Unknown data type")
+
+    if not ACCESSION_RE.match(accession):
+        raise Http404("Invalid accession")
+
+    study_dir = DATA_ROOT / accession
+    if not study_dir.is_dir():
+        raise Http404("Study not found on this node")
+
+    files = _list_study_files(study_dir)
+
+    return render(
+        request,
+        "portal_data/study_files.html",
+        {
+            "datatype": datatype,
+            "accession": accession,
+            "files": files,
+        },
+    )
+
+
+def download_study_file(request, datatype: str, accession: str, relpath: str):
+    """
+    Stream a single file from the study directory. Protect against path traversal
+    by resolving and ensuring the requested path is inside the study directory.
+    """
+    if datatype not in SUPPORTED_TYPES:
+        raise Http404("Unknown data type")
+
+    if not ACCESSION_RE.match(accession):
+        raise Http404("Invalid accession")
+
+    # relpath may be URL-encoded in the URL; decode it once
+    relpath = unquote(relpath)
+
+    study_dir = DATA_ROOT / accession
+    if not study_dir.is_dir():
+        raise Http404("Study not found on this node")
+
+    # Construct candidate path and resolve
+    candidate = (study_dir / relpath).resolve()
+
+    try:
+        study_dir_resolved = study_dir.resolve()
+    except Exception:
+        # Shouldn't happen, but be defensive
+        raise Http404("Study directory error")
+
+    # Ensure the requested file is inside the study directory
+    if not str(candidate).startswith(str(study_dir_resolved)):
+        raise Http404("Invalid file path")
+
+    if not candidate.exists() or not candidate.is_file():
+        raise Http404("File not found")
+
+    # Determine content type
+    content_type, _ = mimetypes.guess_type(str(candidate))
+    if content_type is None:
+        content_type = "application/octet-stream"
+
+    f = open(candidate, "rb")
+    response = FileResponse(f, as_attachment=True, filename=candidate.name, content_type=content_type)
+
+    # Close file when response is closed
+    original_close = response.close
+
+    def cleanup_close(*args, **kwargs):
+        try:
+            original_close(*args, **kwargs)
+        finally:
+            try:
+                f.close()
+            except Exception:
+                pass
+
+    response.close = cleanup_close
+    return response
 
