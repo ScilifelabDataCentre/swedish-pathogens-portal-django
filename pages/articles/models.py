@@ -17,7 +17,6 @@ class Article(models.Model):
     organisation and discovery.
 
     Attributes:
-    ----------
         type (str): Content type - either "Editorial" or "Data Highlight".
         title (str): Display title of the article (max 255 chars, unique).
         slug (str): URL-friendly version of title (auto-generated from title).
@@ -34,7 +33,6 @@ class Article(models.Model):
         updated_at (datetime): Timestamp when article was last modified.
 
     Example:
-    -------
         Create a new article:
 
         .. code-block:: python

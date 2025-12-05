@@ -14,7 +14,6 @@ class News(models.Model):
     Each news can contain the following information
 
     Attributes:
-    ----------
         title (str): Display name of the News (max 200 chars, unique).
         slug (str): URL-friendly version of title (auto-generated).
         summary (str): Brief summary to be displayed in news index page.

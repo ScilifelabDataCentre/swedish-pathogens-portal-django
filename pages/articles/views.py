@@ -15,8 +15,7 @@ class ArticleListView(BaseListView):
     Articles are sorted by creation date (newest first) and filtered to show
     only active content.
 
-    Attributes
-    ----------
+    Attributes:
         model: Article model to display.
         template_name: Template for rendering the list.
         context_object_name: Name for articles in template context.
@@ -39,8 +38,7 @@ class ArticleDetailView(BaseDetailView):
     and publication details. Uses slug-based URL lookup and includes related
     articles based on tag similarity.
 
-    Attributes
-    ----------
+    Attributes:
         model: Article model to display.
         template_name: Template for rendering the detail view.
         context_object_name: Name for article in template context.

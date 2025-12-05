@@ -14,7 +14,6 @@ class Topic(models.Model):
     description, content, and thumbnail image.
 
     Attributes:
-    ----------
         name (str): Display name of the topic (max 100 chars, unique).
         slug (str): URL-friendly version of name (auto-generated).
         description (str): Brief description for topic cards.

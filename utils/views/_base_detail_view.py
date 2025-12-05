@@ -13,7 +13,6 @@ class BaseDetailView(DetailView):
     data-highlights, dashboards, etc.
 
     Attributes:
-    ----------
         title (str): Page title. If empty, uses object's string representation.
         slug_field (str): Model field for URL lookups. Defaults to "slug".
         slug_url_kwarg (str): URL keyword argument name. Defaults to "slug".
@@ -22,7 +21,6 @@ class BaseDetailView(DetailView):
             'filter_' will be used as a filter condition.
 
     Example:
-    -------
         For a Topic model:
 
         .. code-block:: python

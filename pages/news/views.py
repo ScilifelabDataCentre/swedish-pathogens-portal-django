@@ -10,8 +10,7 @@ class NewsIndex(BaseListView):
 
     List all active news, sorted by creation date.
 
-    Attributes
-    ----------
+    Attributes:
         model: News model to display.
         template_name: Template for rendering the list.
         context_object_name: Name for news in template context.
@@ -30,8 +29,7 @@ class NewsDetail(BaseDetailView):
 
     Shows the full news content, uses slug-based URL lookup.
 
-    Attributes
-    ----------
+    Attributes:
         model: News model to display.
         template_name: Template for rendering the detail view.
         context_object_name: Name for news in template context.

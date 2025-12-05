@@ -13,8 +13,7 @@ class Vaccines(View):
     This view class renders the template of (historic) dashboard of Covid-19
     vaccine administration in Sweden.
 
-    Attributes
-    ----------
+    Attributes:
         template_name: Template for rendering the dashboard.
         title: Title displayed in the rendered page's banner section.
         description: Description to be used in the HTML's head.

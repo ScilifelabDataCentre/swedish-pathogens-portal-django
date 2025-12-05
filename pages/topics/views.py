@@ -11,8 +11,7 @@ class TopicListView(BaseListView):
     Shows all active topics in a grid layout with thumbnails,
     names, and descriptions. Topics are sorted alphabetically.
 
-    Attributes
-    ----------
+    Attributes:
         model: Topic model to display.
         template_name: Template for rendering the list.
         context_object_name: Name for topics in template context.
@@ -34,8 +33,7 @@ class TopicDetailView(BaseDetailView):
     Shows the full topic content including description, markdown
     content, and optional alert messages. Uses slug-based URL lookup.
 
-    Attributes
-    ----------
+    Attributes:
         model: Topic model to display.
         template_name: Template for rendering the detail view.
         context_object_name: Name for topic in template context.

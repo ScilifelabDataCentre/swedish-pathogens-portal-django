@@ -14,8 +14,7 @@ class NpcStatistics(View):
     conducted at the National Pandemic Centre (NPC) at Karolinska Institute.
     This dashboard is historic and no longer updated.
 
-    Attributes
-    ----------
+    Attributes:
         template_name: Template for rendering the dashboard.
         title: Title displayed in the rendered page's banner section.
         description: Description to be used in the HTML's head.

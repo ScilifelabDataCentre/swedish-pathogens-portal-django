@@ -13,8 +13,7 @@ class SerologyStatistics(View):
     WIP: Currently pulling the plots from blobserver, this is temporary way
     for the MVP. In next set of update this view will change
 
-    Attributes
-    ----------
+    Attributes:
         template_name: Template for rendering the dashboard.
         title: Title displayed in the rendered page's banner section.
         description: Description to be used in the HTML's head.

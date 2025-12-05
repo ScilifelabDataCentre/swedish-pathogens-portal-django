@@ -12,7 +12,6 @@ class BaseListView(ListView):
     applied. Used by apps with collections like topics, data-highlights, dashboards, etc.
 
     Attributes:
-    ----------
         title (str): Page title to add to context. Defaults to empty string.
         ordering (str): Field name to order results by. Optional.
         extra_context (dict): Additional context data. Optional.
@@ -20,7 +19,6 @@ class BaseListView(ListView):
             'filter_' will be used as a filter condition.
 
     Example:
-    -------
         For a Topic model:
 
         .. code-block:: python
