@@ -1,13 +1,33 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
     {% include "html_head_tag.html" %}
-    <body>
+    <body id="top">
         {% include "header.html" %}
+
         <main>
             <div class="container">
                 {% block content %}{% endblock %}
             </div>
         </main>
+
         {% include "footer.html" %}
+
+        <!-- Back to top button -->
+        <a 
+            href="#top" # Fallback
+            class="btn back-to-top" # Styling 
+            data-bs-toggle="tooltip" # Enable tooltip
+            data-bs-placement="left" # Position tooltip
+            title="Back to top" # Tooltip text
+            aria-label="Back to top" # Accessibility label
+        >
+            <i class="bi bi-arrow-up" # Icon for button
+        ></i>
+        </a>
+
+        <!-- Load the back to top functionality after HTML loaded -->
+        <script src="{% static 'js/back_to_top.js' %}" defer></script>
     </body>
 </html>
