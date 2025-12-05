@@ -25,7 +25,6 @@ class Topic(models.Model):
         updated_at (datetime): When topic was last updated.
 
     Example:
-    -------
         Create a new topic:
 
         .. code-block:: python

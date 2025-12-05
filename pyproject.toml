@@ -89,6 +89,7 @@ extend-ignore = [
     "ANN003", # Missing type annotation for **kwargs
     "D203", # Contradicts D211 and gives warning
     "D213", # Contradicts D212 and gives warning  
+    "D407", # Dashed underline after section
     "S308", # Use of mark_safe -- ignored assuming all content comes from admin / trusted sources
 ]
 
