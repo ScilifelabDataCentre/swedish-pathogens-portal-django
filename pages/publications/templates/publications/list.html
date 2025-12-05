@@ -1,0 +1,34 @@
+<div>
+    {% if publications %}
+    <p>
+        Below are the 10 most recent national publications for <b>{{ active_pathogen }}</b>,
+        to see more please visit <a href="{{ europe_pmc_full_list }}" target="_blank"
+        rel="noopener noreferrer">Europe PMC</a>.
+    </p>
+    {% for publication in publications %}
+    <div class="flex flex-col gap-1.5 p-4 border-t border-t-gray-300 hover:bg-pp-pale-grey/30">
+        <div class="font-medium">
+            <a href="{{ publication.url }}" target="_blank" rel="noopener noreferrer"
+            class="text-pp-dark-blue hover:underline"
+            >
+                {{ publication.title|safe }}
+            </a>
+        </div>
+        <div class="text-gray-600 text-sm">
+            {{ publication.authors }}
+        </div>
+        <div class="text-gray-600 text-sm">
+            {{ publication.journal }}
+        </div>
+        <div class="text-gray-600 text-sm">
+            DOI: {{ publication.doi }}
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <div class="text-center mt-8">
+        There was some problem in fetching publications for this pathogen, please try again later.
+        <br> If the problem persists, please <a href="/contact">contact the support team</a>.
+    </div>
+    {% endif %}
+</div>
