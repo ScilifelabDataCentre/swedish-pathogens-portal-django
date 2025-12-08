@@ -414,34 +414,38 @@ def _parse_investigation_file(path: Path) -> dict:
     return meta
 
 
-    # Add these helper + view functions somewhere below the other helpers/views
+---- Download helper functions ---------------------------------------------------
 
 def _list_study_files(study_dir: Path) -> List[dict]:
     """
     Walk the study_dir and return a list of files with their relative paths,
     sizes and mtime. Directories are not returned, only files.
+    Robust to permission errors and skips files that can't be stat'ed.
     """
     files: List[dict] = []
-    for root, _, filenames in os.walk(study_dir):
-        for fn in filenames:
-            full = Path(root) / fn
-            try:
-                rel = str(full.relative_to(study_dir))
-            except Exception:
-                # skip files we can't relativize for safety
-                continue
-            try:
-                stat = full.stat()
-            except OSError:
-                continue
-            files.append(
-                {
-                    "relpath": rel.replace(os.sep, "/"),  # use forward slashes in URLs
-                    "name": fn,
-                    "size": stat.st_size,
-                    "mtime": stat.st_mtime,
-                }
-            )
+    try:
+        for root, _, filenames in os.walk(study_dir):
+            for fn in filenames:
+                full = Path(root) / fn
+                try:
+                    # produce a relative path with forward slashes
+                    rel = str(full.relative_to(study_dir)).replace(os.sep, "/")
+                    stat = full.stat()
+                except (OSError, ValueError):
+                    # skip files we can't access or relativize
+                    logger.debug("Skipping file during listing: %s", full, exc_info=True)
+                    continue
+
+                files.append(
+                    {
+                        "relpath": rel,
+                        "name": fn,
+                        "size": stat.st_size,
+                        "mtime": stat.st_mtime,
+                    }
+                )
+    except Exception:
+        logger.exception("Error walking study_dir %s", study_dir)
     # sort by path for stable listing
     files.sort(key=lambda f: f["relpath"])
     return files
@@ -450,6 +454,7 @@ def _list_study_files(study_dir: Path) -> List[dict]:
 def study_files(request, datatype: str, accession: str):
     """
     Render a simple file browser for a study directory on the PVC.
+    Logs helpful debugging info if something goes wrong.
     """
     if datatype not in SUPPORTED_TYPES:
         raise Http404("Unknown data type")
@@ -457,11 +462,21 @@ def study_files(request, datatype: str, accession: str):
     if not ACCESSION_RE.match(accession):
         raise Http404("Invalid accession")
 
+    # Ensure DATA_ROOT exists on the cluster
+    if not DATA_ROOT.is_dir():
+        logger.error("DATA_ROOT does not exist or is not a directory: %s", DATA_ROOT)
+        raise Http404("Study storage not available")
+
     study_dir = DATA_ROOT / accession
     if not study_dir.is_dir():
+        logger.warning("Study directory not present: %s", study_dir)
         raise Http404("Study not found on this node")
 
-    files = _list_study_files(study_dir)
+    try:
+        files = _list_study_files(study_dir)
+    except Exception:
+        logger.exception("Unexpected error listing files for %s/%s", datatype, accession)
+        raise Http404("Could not list files")
 
     return render(
         request,
@@ -478,6 +493,7 @@ def download_study_file(request, datatype: str, accession: str, relpath: str):
     """
     Stream a single file from the study directory. Protect against path traversal
     by resolving and ensuring the requested path is inside the study directory.
+    This implementation is defensive and logs errors to help diagnose cluster 500s.
     """
     if datatype not in SUPPORTED_TYPES:
         raise Http404("Unknown data type")
@@ -488,24 +504,52 @@ def download_study_file(request, datatype: str, accession: str, relpath: str):
     # relpath may be URL-encoded in the URL; decode it once
     relpath = unquote(relpath)
 
+    # Basic sanity: no absolute paths allowed
+    if os.path.isabs(relpath):
+        logger.warning("Rejecting absolute relpath request: %s", relpath)
+        raise Http404("Invalid file path")
+
+    # Ensure DATA_ROOT exists
+    if not DATA_ROOT.is_dir():
+        logger.error("DATA_ROOT not available: %s", DATA_ROOT)
+        raise Http404("Study storage not available")
+
     study_dir = DATA_ROOT / accession
     if not study_dir.is_dir():
+        logger.warning("Study directory missing for download: %s", study_dir)
         raise Http404("Study not found on this node")
 
-    # Construct candidate path and resolve
-    candidate = (study_dir / relpath).resolve()
-
     try:
-        study_dir_resolved = study_dir.resolve()
+        # Use resolve(strict=False) to avoid raising for strange mount points; then check containment
+        candidate = (study_dir / relpath).resolve(strict=False)
+        study_dir_resolved = study_dir.resolve(strict=False)
     except Exception:
-        # Shouldn't happen, but be defensive
-        raise Http404("Study directory error")
+        # If resolving fails for some reason, log and abort
+        logger.exception("Path resolution failed for %s %s", study_dir, relpath)
+        raise Http404("Invalid file path")
 
-    # Ensure the requested file is inside the study directory
-    if not str(candidate).startswith(str(study_dir_resolved)):
+    # Ensure the requested file is under the study dir using commonpath
+    try:
+        # os.path.commonpath raises ValueError on different drives; catch that
+        common = os.path.commonpath([str(study_dir_resolved), str(candidate)])
+        if common != str(study_dir_resolved):
+            logger.warning(
+                "Path traversal or invalid path detected. study_dir=%s candidate=%s common=%s",
+                study_dir_resolved,
+                candidate,
+                common,
+            )
+            raise Http404("Invalid file path")
+    except ValueError:
+        logger.exception(
+            "Could not determine commonpath for study_dir=%s candidate=%s",
+            study_dir_resolved,
+            candidate,
+        )
         raise Http404("Invalid file path")
 
     if not candidate.exists() or not candidate.is_file():
+        logger.warning("Requested file not found or not a file: %s", candidate)
         raise Http404("File not found")
 
     # Determine content type
@@ -513,10 +557,16 @@ def download_study_file(request, datatype: str, accession: str, relpath: str):
     if content_type is None:
         content_type = "application/octet-stream"
 
-    f = open(candidate, "rb")
+    try:
+        f = open(candidate, "rb")
+    except Exception:
+        logger.exception("Failed to open file for streaming: %s", candidate)
+        # Return 404 rather than 500 to avoid leaking details to users, but log the exception
+        raise Http404("File not accessible")
+
     response = FileResponse(f, as_attachment=True, filename=candidate.name, content_type=content_type)
 
-    # Close file when response is closed
+    # Ensure file closed when response is closed
     original_close = response.close
 
     def cleanup_close(*args, **kwargs):
@@ -526,8 +576,8 @@ def download_study_file(request, datatype: str, accession: str, relpath: str):
             try:
                 f.close()
             except Exception:
-                pass
+                logger.debug("Failed to close file handle for %s", candidate, exc_info=True)
 
     response.close = cleanup_close
     return response
-
+# ---------------------------------------------------------------------------
