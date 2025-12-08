@@ -345,15 +345,25 @@ class ContactFormTests(TestCase):
         self.assertEqual(resp_valid.status_code, 200)
         self.assertEqual(len(mail.outbox), 1)
 
-    def test_email_sent_without_reply_to_when_email_blank(self):
-        """If email is blank, email is still sent but without Reply-To header."""
+    def test_email_required_shows_error_and_blocks_send(self):
+        """Blank email must raise a validation error and not send mail."""
         ts, dsc = self._get_fresh_tokens()
         ts = self._age_timestamp_token(ts)
         post = self._build_post_data(ts, dsc, email="")
-        resp = self.client.post(self.url, data=post, follow=True)
+        resp = self.client.post(self.url, data=post)
         self.assertEqual(resp.status_code, 200)
-        self.assertEqual(len(mail.outbox), 1)
-        self.assertNotIn("Reply-To", mail.outbox[0].extra_headers)
+        self.assertEqual(len(mail.outbox), 0)
+        self.assertIn(b"This field is required.", resp.content)
+
+    def test_name_required_shows_error_and_blocks_send(self):
+        """Blank name must raise a validation error and not send mail."""
+        ts, dsc = self._get_fresh_tokens()
+        ts = self._age_timestamp_token(ts)
+        post = self._build_post_data(ts, dsc, name="")
+        resp = self.client.post(self.url, data=post)
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(len(mail.outbox), 0)
+        self.assertIn(b"This field is required.", resp.content)
 
     def test_message_html_error_message_is_user_friendly(self):
         """HTML-like content should trigger a clear validation error message."""

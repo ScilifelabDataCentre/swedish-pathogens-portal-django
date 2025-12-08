@@ -35,8 +35,8 @@ class ContactForm(forms.Form):
     """Contact form with layered anti-spam.
 
     Fields:
-        name: Optional full name of the sender (2–100 chars when provided).
-        email: Optional reply address, validated when provided.
+        name: Name of the sender (2–100 chars).
+        email: Reply address, validated.
         message: Main text body, 20–5000 chars, with URL and HTML limits.
         category: Multi-select checkbox list, at least one option required.
         website: Honeypot field, must remain empty.
@@ -49,8 +49,8 @@ class ContactForm(forms.Form):
         - Double-submit cookie reduces scripted posts and replays.
     """
 
-    name = forms.CharField(min_length=2, max_length=100, required=False)
-    email = forms.EmailField(required=False)
+    name = forms.CharField(min_length=2, max_length=100, required=True)
+    email = forms.EmailField(required=True)
     message = forms.CharField(min_length=20, max_length=5000, widget=forms.Textarea)
     category = forms.MultipleChoiceField(
         required=True,
@@ -65,7 +65,7 @@ class ContactForm(forms.Form):
             }
         ),
         error_messages={"required": "Please select at least one alternative."},
-    )  # fmt: skip
+    )
     # Anti-spam fields (Honeypot, TimestampSigner token, Double-submit cookie)
     website = forms.CharField(required=False, widget=forms.HiddenInput)
     contact_ts = forms.CharField(required=False, widget=forms.HiddenInput, strip=False)
