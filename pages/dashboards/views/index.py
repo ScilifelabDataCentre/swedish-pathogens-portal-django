@@ -119,7 +119,7 @@ class DashboardsIndex(BaseTemplateView):
             },
             {
                 "name": "Historic SARS-CoV-2 wastewater (SEEC-SLU)",
-                "image": "dashboards/thumbnails/historic_sarscov2_wastewater.png",
+                "image": "dashboards/thumbnails/covid_quantification_kth.png",
                 "url": reverse_lazy("dashboards:historic_sarscov2_wastewater"),
                 "description": (
                     "Historic SARS-CoV-2 wastewater data from SEEC-SLU, including "
