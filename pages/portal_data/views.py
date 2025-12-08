@@ -414,7 +414,7 @@ def _parse_investigation_file(path: Path) -> dict:
     return meta
 
 
----- Download helper functions ---------------------------------------------------
+#---- Download helper functions ---------------------------------------------------
 
 def _list_study_files(study_dir: Path) -> List[dict]:
     """
