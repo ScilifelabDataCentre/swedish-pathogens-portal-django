@@ -20,6 +20,7 @@
     --color-pp-pale-grey: #d8d8d8;
     --color-pp-dark-grey: #55585a;
     --color-pp-almost-black: #1a1c1a;
+    --color-pp-purple: #6b4a77;
 }
 
 /* Site's default element level styling */
@@ -109,18 +110,30 @@
 
     /* Back to top button base styling */
     .back-to-top {
-    @apply fixed right-5 bottom-5 z-50 inline-flex items-center justify-center
-            w-10 h-10 rounded-full bg-pp-dark-blue text-white shadow-sm
-            opacity-0 pointer-events-none translate-y-1
-            transition-all duration-150;
+        background-color: var(--color-pp-purple);
+        @apply fixed right-5 bottom-5 z-50 
+            inline-flex items-center justify-center
+            w-11 h-11 rounded-lg 
+            text-white shadow-sm
+            opacity-0 pointer-events-none translate-y-2
+            transition-all duration-200;
     }
 
     .back-to-top.is-visible {
-    @apply opacity-100 pointer-events-auto translate-y-0;
+        @apply opacity-100 pointer-events-auto translate-y-0;
     }
 
     .back-to-top:hover {
-    @apply bg-pp-teal;
+        @apply opacity-90;
     }
+
+    .back-to-top:focus-visible {
+        @apply outline-none ring-2 ring-pp-teal ring-offset-2;
+    }
+
+    .back-to-top .bi {
+        @apply text-xl leading-none;
+    }
+
 
 }
