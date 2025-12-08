@@ -15,11 +15,8 @@
   // Scroll to top on click
   btn.addEventListener("click", (e) => {
     e.preventDefault(); // Prevent href default action (the fallback)
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     window.scrollTo({ top: 0, behavior: "smooth" }); // Scroll to top smoothly 
   });
 
-  // Bootstrap tooltip (if Bootstrap JS is present)
-  if (window.bootstrap?.Tooltip) {
-    new window.bootstrap.Tooltip(btn);
-  }
 })();
