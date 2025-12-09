@@ -61,7 +61,7 @@ uv sync --group dev
 uv run pre-commit install
 ```
 
-After this, `pre-commit` will always expect a `.pre-commit-config.yaml`. The hooks defined in that config file will be executed every time `git commit` is executed. The commit will fail if the hook finds any issues that need to be solved.
+After this, `pre-commit` will always expect a `.pre-commit-config.yaml`. The hooks defined in that config file will be run every time `git commit` is executed. The commit will fail if the hook finds any issues that need to be solved.
 
 > ℹ️ To uninstall / disable the pre-commit hooks, run:
 >
