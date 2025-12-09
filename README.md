@@ -69,7 +69,9 @@ After this, `pre-commit` will always expect a `.pre-commit-config.yaml`. The hoo
 > uv run pre-commit uninstall
 > ```
 
-**3. (*Optional*) Run all checks manually:**
+**3. (*Optional*) Manually run pre-commit hooks on all files:**
+
+Pre-commit hooks are automatically run on every commit, but only on changed files in the checked out branch. To run the hooks on all files in the repository:
 
 ```bash
 uv run pre-commit run --all-files
