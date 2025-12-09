@@ -93,7 +93,7 @@
           <tbody class="divide-y divide-gray-200">
             {% if kth_rows %}
               {% for row in kth_rows %}
-                <tr class="odd:bg-white even:bg-gray-50 hover:bg-gray-100">
+                <tr class="odd:bg-white even:bg-pp-pale-grey/20 hover:bg-pp-pale-grey/50">
                   {% for cell in row %}
                     <td class="px-4 py-3 whitespace-normal break-normal">{{ cell }}</td>
                   {% endfor %}
@@ -101,7 +101,7 @@
               {% endfor %}
             {% else %}
               <tr>
-                <td class="px-4 py-3 text-gray-500" colspan="{{ kth_headers|length }}">No data available.</td>
+                <td class="px-4 py-3 text-pp-dark-grey" colspan="{{ kth_headers|length }}">No data available.</td>
               </tr>
             {% endif %}
           </tbody>
@@ -135,7 +135,7 @@
       <div class="overflow-x-auto rounded-lg shadow ring-1 ring-gray-200">
         <table class="min-w-full text-sm text-left table-fixed" aria-labelledby="externally-produced-antigens">
           <caption class="sr-only">Externally produced antigens included in the multi‑disease serology assay</caption>
-          <thead class="bg-gray-100 text-gray-700 text-xs uppercase tracking-wide sticky top-0">
+          <thead class="bg-pp-pale-grey text-pp-dark-grey text-xs uppercase tracking-wide sticky top-0">
             <tr>
               {% for header in external_headers %}
                 <th scope="col" class="px-4 py-3 font-semibold whitespace-nowrap">{{ header }}</th>
@@ -145,7 +145,7 @@
           <tbody class="divide-y divide-gray-200">
             {% if external_rows %}
               {% for row in external_rows %}
-                <tr class="odd:bg-white even:bg-gray-50 hover:bg-gray-100">
+                <tr class="odd:bg-white even:bg-pp-pale-grey/20 hover:bg-pp-pale-grey/50">
                   {% for cell in row %}
                     <td class="px-4 py-3 whitespace-normal break-normal">{{ cell }}</td>
                   {% endfor %}
@@ -153,7 +153,7 @@
               {% endfor %}
             {% else %}
               <tr>
-                <td class="px-4 py-3 text-gray-500" colspan="{{ external_headers|length }}">No data available.</td>
+                <td class="px-4 py-3 text-pp-dark-grey" colspan="{{ external_headers|length }}">No data available.</td>
               </tr>
             {% endif %}
           </tbody>
