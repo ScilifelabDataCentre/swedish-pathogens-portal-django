@@ -55,12 +55,6 @@ This project uses **[pre-commit](https://pre-commit.com/)** to run Ruff linting 
 uv sync --group dev
 ```
 
-> ℹ️ To uninstall / disable the pre-commit hooks, run:
->
-> ```bash
-> uv run pre-commit uninstall
-> ```
-
 **2. Enable the Git hook:**
 
 ```bash
@@ -68,6 +62,12 @@ uv run pre-commit install
 ```
 
 After this, `pre-commit` will always expect a `.pre-commit-config.yaml`. The hooks defined in that config file will be executed every time `git commit` is executed; The commit will fail if the hook finds any issues that need to be solved.
+
+> ℹ️ To uninstall / disable the pre-commit hooks, run:
+>
+> ```bash
+> uv run pre-commit uninstall
+> ```
 
 **3. (*Optional*) Run all checks manually:**
 
