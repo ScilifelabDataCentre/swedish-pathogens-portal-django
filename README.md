@@ -45,7 +45,7 @@ cp .env.example .env
 
 ### 3. Enable pre-commit hooks
 
-This project uses **pre-commit** to run Ruff linting and formatting before each commit.
+This project uses **[pre-commit](https://pre-commit.com/)** to run Ruff linting and formatting before each commit.
 
 > ℹ️ The following commands only need to be run once per developer.
 
