@@ -49,19 +49,27 @@ This project uses **[pre-commit](https://pre-commit.com/)** to run Ruff linting 
 
 > ℹ️ The following commands only need to be run once per developer.
 
-Install development dependencies (including `pre-commit` and `ruff`):
+**1. Install development dependencies (including `pre-commit` and `ruff`):**
 
 ```bash
 uv sync --group dev
 ```
 
-Enable the Git hook:
+> ℹ️ To uninstall / disable the pre-commit hooks, run:
+>
+> ```bash
+> uv run pre-commit uninstall
+> ```
+
+**2. Enable the Git hook:**
 
 ```bash
 uv run pre-commit install
 ```
 
-(Optional) Run all checks manually:
+After this, `pre-commit` will always expect a `.pre-commit-config.yaml`. The hooks defined in that config file will be executed every time `git commit` is executed; The commit will fail if the hook finds any issues that need to be solved.
+
+**3. (*Optional*) Run all checks manually:**
 
 ```bash
 uv run pre-commit run --all-files
@@ -73,6 +81,7 @@ uv run pre-commit run --all-files
 > pip install pre-commit      # Install
 > pre-commit install          # Enable 
 > pre-commit run --all-files  # Run checks
+> pre-commit uninstall        # Disable
 > ```
 
 ### 4. Start the application
