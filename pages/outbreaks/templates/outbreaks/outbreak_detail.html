@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<!-- Main Content -->
+<div class="py-8" id="content">
+    <!-- Outbreak Content -->
+    {% if outbreak.content %}
+        <div class="mb-8">
+            <div class="text-pp-dark-grey leading-relaxed prose prose-sm max-w-none overflow-x-auto">
+                {{ outbreak.rendered_content|safe }}
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
