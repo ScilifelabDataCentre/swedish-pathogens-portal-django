@@ -47,6 +47,8 @@ cp .env.example .env
 
 This project uses **pre-commit** to run Ruff linting and formatting before each commit.
 
+> ℹ️ The following commands only need to be run once per developer.
+
 Install development dependencies (including `pre-commit` and `ruff`):
 
 ```bash
@@ -65,7 +67,6 @@ uv run pre-commit install
 uv run pre-commit run --all-files
 ```
 
-> ℹ️ Pre-commit only needs to be installed and enabled once per developer.
 > 💡 Alternative (pip instead of uv):
 >
 > ```bash
