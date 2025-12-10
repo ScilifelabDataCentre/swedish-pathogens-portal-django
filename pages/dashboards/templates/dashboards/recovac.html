@@ -913,32 +913,5 @@
     </div>
 </div>
 
-<script>
-    (function () {
-        const target = document.getElementById("recovac_last_modified");
-        if (!target) {
-            return;
-        }
-
-        fetch("https://blobserver.dc.scilifelab.se/blob/swedishpop_subplot_button.json/info.json")
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Failed to fetch RECOVAC info metadata");
-                }
-                return response.json();
-            })
-            .then((data) => {
-                if (data && data.modified) {
-                    target.textContent = String(data.modified).slice(0, 10);
-                } else {
-                    target.textContent = "Unavailable";
-                }
-            })
-            .catch(() => {
-                target.textContent = "Unavailable";
-            });
-    })();
-</script>
-
 {% endblock %}
 
