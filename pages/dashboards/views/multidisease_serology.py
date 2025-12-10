@@ -45,6 +45,44 @@ class MultiDiseaseSerology(View):
     template_name = "dashboards/multidisease_serology.html"
     title = "Multi-disease serology"
 
+    def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
+        """Render the dashboard template with the computed serology context."""
+        context = self._build_context()
+        return render(request, self.template_name, context)
+
+    def _build_context(self) -> dict[str, Any]:
+        """Build template context with normalised serology tables."""
+        kth_rows_aligned = self._load_rows(KTH_XLSX_URL, KTH_HEADERS, "kth")
+        external_rows_aligned = self._load_rows(EXTERNAL_XLSX_URL, EXTERNAL_HEADERS, "external")
+
+        logger.debug(
+            "serology_context_built",
+            extra={
+                "kth_rows": len(kth_rows_aligned),
+                "external_rows": len(external_rows_aligned),
+                "kth_headers": len(KTH_HEADERS),
+                "external_headers": len(EXTERNAL_HEADERS),
+            },
+        )
+        return {
+            "title": self.title,
+            "kth_headers": KTH_HEADERS,
+            "kth_rows": kth_rows_aligned,
+            "external_headers": EXTERNAL_HEADERS,
+            "external_rows": external_rows_aligned,
+        }
+
+    def _load_rows(self, url: str, headers: list[str], source: str) -> list[list[Any]]:
+        """Helper to fetch, parse, and normalise table data."""
+        try:
+            logger.info("serology_fetch_start", extra={"source": source, "url": url})
+            frame = self._read_excel_frame(url)
+            logger.info("serology_fetch_success", extra={"source": source, "records": frame.height})
+        except Exception:
+            logger.exception("serology_fetch_failed", extra={"source": source, "url": url})
+            return []
+        return self._frame_to_rows(frame, headers)
+
     def _read_excel_frame(self, url: str) -> pl.DataFrame:
         """Fetch an Excel sheet using urllib and parse it with Polars."""
         request = Request(url, headers={"User-Agent": USER_AGENT})
@@ -72,41 +110,3 @@ class MultiDiseaseSerology(View):
             ]
         )
         return [list(row) for row in projected.rows()]
-
-    def _load_rows(self, url: str, headers: list[str], source: str) -> list[list[Any]]:
-        """Helper to fetch, parse, and normalise table data."""
-        try:
-            logger.info("serology_fetch_start", extra={"source": source, "url": url})
-            frame = self._read_excel_frame(url)
-            logger.info("serology_fetch_success", extra={"source": source, "records": frame.height})
-        except Exception:
-            logger.exception("serology_fetch_failed", extra={"source": source, "url": url})
-            return []
-        return self._frame_to_rows(frame, headers)
-
-    def _build_context(self) -> dict[str, Any]:
-        """Build template context with normalised serology tables."""
-        kth_rows_aligned = self._load_rows(KTH_XLSX_URL, KTH_HEADERS, "kth")
-        external_rows_aligned = self._load_rows(EXTERNAL_XLSX_URL, EXTERNAL_HEADERS, "external")
-
-        logger.debug(
-            "serology_context_built",
-            extra={
-                "kth_rows": len(kth_rows_aligned),
-                "external_rows": len(external_rows_aligned),
-                "kth_headers": len(KTH_HEADERS),
-                "external_headers": len(EXTERNAL_HEADERS),
-            },
-        )
-        return {
-            "title": self.title,
-            "kth_headers": KTH_HEADERS,
-            "kth_rows": kth_rows_aligned,
-            "external_headers": EXTERNAL_HEADERS,
-            "external_rows": external_rows_aligned,
-        }
-
-    def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
-        """Render the dashboard template with the computed serology context."""
-        context = self._build_context()
-        return render(request, self.template_name, context)
