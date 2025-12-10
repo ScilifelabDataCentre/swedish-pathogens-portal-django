@@ -13,9 +13,9 @@ from typing import Any
 from urllib.request import Request, urlopen
 
 import polars as pl
-
-from utils.views import BaseTemplateView
-
+from django.http import HttpRequest, HttpResponse
+from django.shortcuts import render
+from django.views import View
 
 KTH_XLSX_URL = "https://blobserver.dc.scilifelab.se/blob/KTH-produced-antigens.xlsx"
 EXTERNAL_XLSX_URL = "https://blobserver.dc.scilifelab.se/blob/External-PLP-proteinlist.xlsx"
@@ -29,7 +29,7 @@ EXTERNAL_HEADERS: list[str] = ["Pathogen", "Variant", "Protein", "Details", "Hos
 logger = logging.getLogger(__name__)
 
 
-class MultiDiseaseSerology(BaseTemplateView):
+class MultiDiseaseSerology(View):
     """Render the multidisease serology dashboard.
 
     The view performs three lightweight steps on every request: download the two
@@ -84,18 +84,8 @@ class MultiDiseaseSerology(BaseTemplateView):
             return []
         return self._frame_to_rows(frame, headers)
 
-    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-        """Build template context with normalised serology tables.
-
-        Args:
-            **kwargs: Standard Django context keyword arguments.
-
-        Returns:
-            Dict[str, Any]: Context including headers and row data for the
-            KTH-produced and externally produced antigens tables.
-        """
-        context = super().get_context_data(**kwargs)
-
+    def _build_context(self) -> dict[str, Any]:
+        """Build template context with normalised serology tables."""
         kth_rows_aligned = self._load_rows(KTH_XLSX_URL, KTH_HEADERS, "kth")
         external_rows_aligned = self._load_rows(EXTERNAL_XLSX_URL, EXTERNAL_HEADERS, "external")
 
@@ -108,12 +98,15 @@ class MultiDiseaseSerology(BaseTemplateView):
                 "external_headers": len(EXTERNAL_HEADERS),
             },
         )
-        context.update(
-            {
-                "kth_headers": KTH_HEADERS,
-                "kth_rows": kth_rows_aligned,
-                "external_headers": EXTERNAL_HEADERS,
-                "external_rows": external_rows_aligned,
-            }
-        )
-        return context
+        return {
+            "title": self.title,
+            "kth_headers": KTH_HEADERS,
+            "kth_rows": kth_rows_aligned,
+            "external_headers": EXTERNAL_HEADERS,
+            "external_rows": external_rows_aligned,
+        }
+
+    def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
+        """Render the dashboard template with the computed serology context."""
+        context = self._build_context()
+        return render(request, self.template_name, context)
