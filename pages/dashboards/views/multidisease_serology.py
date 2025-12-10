@@ -7,9 +7,9 @@ exposing normalised table data to the template.
 
 from __future__ import annotations
 
-from typing import Any, Dict, List
 import logging
 from io import BytesIO
+from typing import Any
 from urllib.request import Request, urlopen
 
 import polars as pl
@@ -23,8 +23,8 @@ REQUEST_TIMEOUT_SECONDS = 10
 USER_AGENT = "pathogens-portal/multidisease-serology"
 
 # Explicit column orders for deterministic display
-KTH_HEADERS: List[str] = ["Virus type", "Variant", "Protein", "Details", "Host"]
-EXTERNAL_HEADERS: List[str] = ["Pathogen", "Variant", "Protein", "Details", "Host"]
+KTH_HEADERS: list[str] = ["Virus type", "Variant", "Protein", "Details", "Host"]
+EXTERNAL_HEADERS: list[str] = ["Pathogen", "Variant", "Protein", "Details", "Host"]
 
 logger = logging.getLogger(__name__)
 
@@ -39,6 +39,7 @@ class MultiDiseaseSerology(BaseTemplateView):
     Attributes:
         template_name: Template that renders the descriptive copy and tables.
         title: Page title that appears in the shared layout.
+
     """
 
     template_name = "dashboards/multidisease_serology.html"
@@ -57,7 +58,7 @@ class MultiDiseaseSerology(BaseTemplateView):
         # Polars returns a dict when the backend loads multiple worksheets; grab the first sheet.
         return next(iter(frame.values())) if isinstance(frame, dict) else frame
 
-    def _frame_to_rows(self, frame: pl.DataFrame, headers: List[str]) -> List[List[Any]]:
+    def _frame_to_rows(self, frame: pl.DataFrame, headers: list[str]) -> list[list[Any]]:
         """Project a Polars frame onto expected columns and normalise values."""
         if frame.is_empty():
             return []
@@ -72,7 +73,7 @@ class MultiDiseaseSerology(BaseTemplateView):
         )
         return [list(row) for row in projected.rows()]
 
-    def _load_rows(self, url: str, headers: List[str], source: str) -> List[List[Any]]:
+    def _load_rows(self, url: str, headers: list[str], source: str) -> list[list[Any]]:
         """Helper to fetch, parse, and normalise table data."""
         try:
             logger.info("serology_fetch_start", extra={"source": source, "url": url})
