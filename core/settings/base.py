@@ -60,6 +60,7 @@ LOCAL_APPS = [
     "pages.home",
     "pages.news",
     "pages.outbreaks",
+    "pages.plp",
     "pages.privacy",
     "pages.publications",
     "pages.register_based_research",
