@@ -117,5 +117,14 @@ class DashboardsIndex(BaseTemplateView):
                     "ceased in June 2023."
                 ),
             },
+            {
+                "name": "Historic SARS-CoV-2 wastewater (SEEC-SLU)",
+                "image": "dashboards/thumbnails/covid_quantification_kth.png",
+                "url": reverse_lazy("dashboards:historic_sarscov2_wastewater"),
+                "description": (
+                    "Historic SARS-CoV-2 wastewater data from SEEC-SLU, including "
+                    "nationwide sites plus Umeå and Örebro visualisations."
+                ),
+            },
         ],
     }
