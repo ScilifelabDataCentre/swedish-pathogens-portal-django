@@ -4,6 +4,7 @@ from django.urls import path
 
 from .views import (
     CovidQuantificationKth,
+    CovidPublications,
     CrushCovid,
     DashboardsIndex,
     HistoricInfluenza,
@@ -42,6 +43,11 @@ urlpatterns = [
         "variants-region-uppsala/",
         VariantsRegionUppsala.as_view(),
         name="variants_region_uppsala",
+    ),
+    path(
+        "covid-publications/",
+        CovidPublications.as_view(),
+        name="covid_publications",
     ),
     path(
         "covid-quantification-kth/",
