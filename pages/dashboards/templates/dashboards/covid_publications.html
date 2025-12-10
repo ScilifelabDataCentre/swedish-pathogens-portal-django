@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% include "dashboards/partials/load_plotlyjs.html" %}
+
+{% comment %}
+    TODO:
+    - Move plot from blobserver to DB
+    - Update link to script used to produce plot
+    - Update local links the django way
+{% endcomment %}
+
+<p>
+    This page explores Swedish research related to COVID-19 over 5 years (May 2020 - May 2025).
+    The manually curated dataset (which is openly available on the <a target="_blank" rel="noopener noreferrer"
+    href="https://doi.org/10.17044/scilifelab.14124014">SciLifeLab Data Repository</a>) comprises
+    publications about SARS-CoV-2/COVID-19 involving at least one author affiliated with a Swedish
+    research institute/organisation. Each publication was tagged according to multiple factors,
+    including subject (e.g. post-covid condition, vaccine research), type of publication (e.g. preprint,
+    review, article), and the involvement of particular funders (e.g. the Swedish Research Council
+    (Vetenskapsrådet)). Between May 2020 and May 2023, the list was compiled entirely manually by
+    searching all publications databases. From May 2023, the Europe PMC REST API was used to identify
+    publications. The scripts used to do this are <a target="_blank" rel="noopener noreferrer"
+    href="https://github.com/ScilifelabDataCentre/pathogens-portal-scripts/tree/main/All_publications">
+    openly available on GitHub</a> and can be reused for work with other pathogens.
+</p>
+
+<p>
+    To see recent Swedish publications on multiple topics, please refer to the <a href="/publications/">
+    publications page</a>.
+</p>
+
+<h5>Number of publications</h5>
+
+<p>
+    This graph displays the number of peer-reviewed articles and preprints published each month,
+    as well as the cumulative daily total of publications. Publication date reflects either the
+    date that the articles were uploaded to preprint servers or the date that the article was
+    published in a journal. Where only a month of publication is provided, rather than a specific
+    date, the date is assigned as the first day of the month. This can cause the appearance of
+    a relatively sharp increase at the start of each month.
+</p>
+
+<div class="lg:hidden p-4 bg-pp-pale-grey text-center" role="alert">
+  Rotating your phone may improve graph layout
+</div>
+
+<div id="publication_plot">
+    {% if publication_plot %}
+        {{ publication_plot|safe }}
+    {% else %}
+        {% include "dashboards/partials/plot_loading_error.html" %}
+    {% endif %}
+</div>
+
+{% comment %}
+    <b>Code used to produce plot:</b> TO BE ADDED
+{% endcomment %}
+
+{% endblock content %}
