@@ -32,6 +32,11 @@ urlpatterns = [
         name="lineage_competition",
     ),
     path(
+        "multidisease-serology/",
+        MultiDiseaseSerology.as_view(),
+        name="multidisease_serology",
+    ),
+    path(
         "serology-statistics/",
         SerologyStatistics.as_view(),
         name="serology_statistics",
