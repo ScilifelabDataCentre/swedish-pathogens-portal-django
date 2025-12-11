@@ -8,14 +8,16 @@
 ---
 name: Yamllint
 on:
-  push:
-    paths:
-      - '**/*.yml'
-      - '**/*.yaml'
   pull_request:
     paths:
       - '**/*.yml'
       - '**/*.yaml'
+  push:
+    branches: [main]
+    paths:
+      - '**/*.yml'
+      - '**/*.yaml'
+
 jobs:
   yamllint:
     runs-on: ubuntu-latest

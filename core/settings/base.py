@@ -54,10 +54,12 @@ LOCAL_APPS = [
     "pages.articles",
     "pages.about",
     "pages.citation",
+    "pages.contact",
     "pages.dashboards",
     "pages.data_management",
     "pages.home",
     "pages.news",
+    "pages.outbreaks",
     "pages.privacy",
     "pages.topics",
 ]

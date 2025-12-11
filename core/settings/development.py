@@ -4,6 +4,7 @@ These settings are intended for local development.
 """
 
 from .base import *  # noqa: F401,F403
+from .base import env
 
 DEBUG = True
 
@@ -55,3 +56,20 @@ LOGGING = {
         },
     },
 }
+
+
+# EMAIL (Development defaults, override via .env if needed)
+# ------------------------------------------------------------------------------
+EMAIL_BACKEND = env(
+    "EMAIL_BACKEND",
+    default="django.core.mail.backends.console.EmailBackend",
+)
+DEFAULT_FROM_EMAIL = env(
+    "DEFAULT_FROM_EMAIL",
+    default="Pathogens Portal <no-reply@example.org>",
+)
+CONTACT_RECIPIENT_EMAIL = env(
+    "CONTACT_RECIPIENT_EMAIL",
+    default="dev-null@example.org",
+)
+EMAIL_TIMEOUT = env.int("EMAIL_TIMEOUT", default=10)

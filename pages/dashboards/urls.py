@@ -3,32 +3,58 @@
 from django.urls import path
 
 from .views import (
-    CrushCovid,
+    # Dashboard index
     DashboardsIndex,
+    # Active dashboards
     LineageCompetition,
+    SerologyStatistics,
+    VariantsRegionUppsala,
+    # Historic dashboards
+    CovidQuantificationKth,
+    CrushCovid,
+    HistoricSarsCov2Wastewater,
     NpcStatistics,
     PostCovid,
-    SerologyStatistics,
     SymptomStudySweden,
     Vaccines,
-    VariantsRegionUppsala,
 )
 
 app_name = "dashboards"
 
 urlpatterns = [
-    # Dashboard index URL
+    # Dashboard index
     path("", DashboardsIndex.as_view(), name="index"),
-    # Individual dashboards URLs
+    # Active dashboards
+    path(
+        "lineage-competition/",
+        LineageCompetition.as_view(),
+        name="lineage_competition",
+    ),
+    path(
+        "serology-statistics/",
+        SerologyStatistics.as_view(),
+        name="serology_statistics",
+    ),
+    path(
+        "variants-region-uppsala/",
+        VariantsRegionUppsala.as_view(),
+        name="variants_region_uppsala",
+    ),
+    # Historic dashboards
+    path(
+        "covid-quantification-kth/",
+        CovidQuantificationKth.as_view(),
+        name="covid_quantification_kth",
+    ),
     path(
         "crush-covid/",
         CrushCovid.as_view(),
         name="crush_covid",
     ),
     path(
-        "lineage-competition/",
-        LineageCompetition.as_view(),
-        name="lineage_competition",
+        "historic-sarscov2-wastewater/",
+        HistoricSarsCov2Wastewater.as_view(),
+        name="historic_sarscov2_wastewater",
     ),
     path(
         "npc-statistics/",
@@ -41,23 +67,13 @@ urlpatterns = [
         name="post_covid",
     ),
     path(
-        "serology-statistics/",
-        SerologyStatistics.as_view(),
-        name="serology_statistics",
+        "symptom-study-sweden/",
+        SymptomStudySweden.as_view(),
+        name="symptom_study_sweden",
     ),
     path(
         "vaccines/",
         Vaccines.as_view(),
         name="vaccines",
-    ),
-    path(
-        "variants-region-uppsala/",
-        VariantsRegionUppsala.as_view(),
-        name="variants_region_uppsala",
-    ),
-    path(
-        "symptom-study-sweden/",
-        SymptomStudySweden.as_view(),
-        name="symptom_study_sweden",
     ),
 ]

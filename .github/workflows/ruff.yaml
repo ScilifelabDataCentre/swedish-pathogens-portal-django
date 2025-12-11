@@ -4,12 +4,13 @@
 name: Ruff
 
 on:
-  push:
-    paths:
-      - '**.py'
   pull_request:
     paths:
-      - '**.py'
+      - '*/**.py'
+  push:
+    branches: [main]
+    paths:
+      - '*/**.py'
 
 jobs:
   ruff:
