@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load django_htmx %}
 
 {% comment %}
     A minimal template file to handle the temparory data sync for SLU wastewater.
@@ -16,11 +17,8 @@
 
 <form
 hx-post="{% url 'dashboards:slu_data_sync' %}"
-hx-target="#sync-status"
-hx-swap="innerHTML"
+hx-swap="none"
 hx-disabled-elt="find button"
-hx-on::before-request="setButtonStatus('syncing')"
-hx-on::after-request="setButtonStatus('to-sync')"
 >
     {% csrf_token %}
     <button type="submit"
@@ -33,16 +31,37 @@ hx-on::after-request="setButtonStatus('to-sync')"
     </button>
 </form>
 
-<div id="sync-status" class="mt-2 *:font-medium *:text-lg *:text-green-800"></div>
+<div id="sync-status" class="mt-2 *:font-medium *:text-lg">
+    <div id="sync-success" class="text-green-800"></div>
+    <div id="sync-error" class="text-red-500"></div>
+</div>
 
 <!-- Load htmx -->
-<script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.7/dist/htmx.min.js"></script>
+{% htmx_script %}
+<script>
+    // reset status messages and set button status before request
+    document.body.addEventListener('htmx:beforeRequest', (event) => {
+        document.getElementById("sync-success").innerHTML = "";
+        document.getElementById("sync-error").innerHTML = "";
+        setButtonStatus('syncing');
+    });
 
-<!-- Helper function -->
- <script>
+    // update status messages and button status after request
+    document.body.addEventListener('htmx:afterRequest', (event) => {
+        if (event.detail.xhr.status === 200) {
+            document.getElementById("sync-success").innerHTML =
+                "Data synced successfully!!";
+        } else {
+            document.getElementById("sync-error").innerHTML =
+                "Data sync failed. Please try again.";
+        }
+        setButtonStatus('to-sync');
+    });
+
+    // function to set button status
     function setButtonStatus(id) {
         document.getElementById("to-sync").style.display = id == "to-sync" ? "block" : "None";
         document.getElementById("syncing").style.display = id == "syncing" ? "block" : "None";
     }
- </script>
+</script>
 {% endblock content %}

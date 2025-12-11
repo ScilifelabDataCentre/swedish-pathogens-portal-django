@@ -1,4 +1,5 @@
 {% extends "dashboards/slu_ww/base.html" %}
+{% load django_htmx %}
 
 {% block slu_content %}
 
@@ -74,7 +75,7 @@
 
 <!-- Plot area -->
 <div id="quant-overview-plot"
-    hx-get="{% url 'dashboards:slu_overview' %}?update_plot=true"
+    hx-get="{% url 'dashboards:slu_overview' %}"
     hx-trigger="input from:#plot-filters delay:300ms, click from:#siteSelector>span delay:300ms"
     hx-include="#plot-filters input, #plot-filters select"
     hx-target="#quant-overview-plot"
@@ -194,7 +195,7 @@
 
 
 <!-- Load htmx -->
-<script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.7/dist/htmx.min.js"></script>
+{% htmx_script %}
 <script>
     // check if any year or site is selected before the HTMX request is sent
     document.body.addEventListener('htmx:beforeRequest', function(evt) {

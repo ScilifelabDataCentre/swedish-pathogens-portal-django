@@ -65,7 +65,7 @@ class SluWasteWater(View):
         # handling overview page
         if self.active_page == "Overview":
             # to handle HTMX request for plot updates
-            if request.headers.get("Hx-Request") and request.GET.get("update_plot"):
+            if request.htmx:
                 request_params = dict(request.GET)
                 plot_html = get_quant_overview_plot(data=raw_data, **request_params)
                 return HttpResponse(plot_html)
@@ -91,7 +91,7 @@ class SluWasteWater(View):
         if self.active_page in self.virus_pages:
             virus = self.active_page
             # to handle HTMX request for plot updates
-            if request.headers.get("Hx-Request") and request.GET.get("update_plot"):
+            if request.htmx:
                 request_params = dict(request.GET)
                 # call appropriate function depending upon the plot type
                 if request.GET.get("plot-toggle") == "all":
@@ -154,4 +154,4 @@ class SLUsync(LoginRequiredMixin, View):
         dashboard_data.data = compiled_data
         dashboard_data.save()
 
-        return HttpResponse("<span class=''>Data synced successfully!!</span>")
+        return HttpResponse("OK")

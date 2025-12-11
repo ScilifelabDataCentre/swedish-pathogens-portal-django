@@ -1,4 +1,5 @@
 {% extends "dashboards/slu_ww/base.html" %}
+{% load django_htmx %}
 
 {% block slu_content %}
 
@@ -71,9 +72,10 @@
 </div>
 
 <!-- Quantitative plot -->
- {% url 'dashboards:slu_overview' as tab_url %}
 <div id="quant-virus-plot"
-    hx-get="{{ tab_url }}{{ active|slugify }}?update_plot=true"
+    {% with active_slug=active|slugify %}
+    hx-get="{% url "dashboards:slu_"|add:active_slug %}"
+    {% endwith %}
     hx-trigger="input from:#plot-filters delay:200ms"
     hx-include="#plot-filters input, #plot-filters select"
     hx-target="#quant-virus-plot"
@@ -100,7 +102,7 @@
 </div>
 
 <!-- Load htmx -->
-<script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.7/dist/htmx.min.js"></script>
+{% htmx_script %}
 <script>
     // check if the HTMX request returned empty response and show error message
     document.body.addEventListener('htmx:afterRequest', function(evt) {
