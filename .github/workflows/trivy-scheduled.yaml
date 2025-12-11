@@ -43,7 +43,7 @@ jobs:
 
       - name: Upload Trivy scan results to GitHub Security tab
         if: always()  # Publish results to security tab even if scan fails
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: 'trivy-results.sarif'
           category: trivy-cron
