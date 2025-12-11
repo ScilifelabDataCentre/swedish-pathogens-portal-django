@@ -6,11 +6,11 @@
 ---
 repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.6.2   # Fixed version required
+    rev: v0.14.8   # Fixed version required
     hooks:
       # 1. Format with Ruff
       - id: ruff-format
 
       # 2. Lint with Ruff + auto-fix if possible
-      - id: ruff
+      - id: ruff-check
         args: ["--fix"]
