@@ -80,6 +80,9 @@
         <p>
             <em>
                 All code used to produce the visualisations on this page is available on
+                {% comment %}
+                  TODO change URL when we will have reworked the data visualisation flow
+                {% endcomment %}
                 <a
                     href="https://github.com/ScilifelabDataCentre/pathogens-portal-visualisations/tree/main/RECOVAC"
                     target="_blank"
@@ -123,13 +126,7 @@
             They were first offered to those most at risk of developing serious symptoms (i.e. the
             elderly and those with certain comorbidities).
             For more details on the vaccine rollout in Sweden, please see our
-            <a
-                href="https://www.pathogens.se/dashboards/vaccines/"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                page on vaccines
-            </a>.
+            <a href="{% url "dashboards:vaccines" %}"> page on vaccines</a>.
         </p>
 
         <p>
@@ -305,6 +302,9 @@
         <p>
             <strong>Code used to produce plots:</strong>
             <a
+              {% comment %}
+                TODO change URLs when we will have reworked the data visualisation flow
+              {% endcomment %}
                 href="https://github.com/ScilifelabDataCentre/pathogens-portal-visualisations/blob/main/RECOVAC/Swedishpop_vaccinecov_dataprep.py"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -492,6 +492,9 @@
         <p>
             <strong>Code used to produce plots:</strong>
             <a
+              {% comment %}
+                TODO change URLs when we will have reworked the data visualisation flow
+              {% endcomment %}
                 href="https://github.com/ScilifelabDataCentre/pathogens-portal-visualisations/blob/main/RECOVAC/comorbidity_cases_dataprep.py"
                 target="_blank"
                 rel="noopener noreferrer"
