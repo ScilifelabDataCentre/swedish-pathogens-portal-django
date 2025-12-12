@@ -43,7 +43,50 @@ For local development, you can copy `.env.example`
 cp .env.example .env
 ```
 
-### 3. Start the application
+### 3. Enable pre-commit hooks
+
+This project uses **[pre-commit](https://pre-commit.com/)** to run Ruff linting and formatting before each commit.
+
+> ℹ️ The following commands only need to be run once per developer.
+
+**Install development dependencies (including `pre-commit` and `ruff`):**
+
+```bash
+uv sync --group dev
+```
+
+**Enable the Git hook:**
+
+```bash
+uv run pre-commit install
+```
+
+After this, `pre-commit` will always expect a `.pre-commit-config.yaml`. The hooks defined in that config file will be run every time `git commit` is executed. The commit will fail if the hook finds any issues that need to be solved.
+
+> ℹ️ To uninstall / disable the pre-commit hooks, run:
+>
+> ```bash
+> uv run pre-commit uninstall
+> ```
+
+**(*Optional*) Manually run pre-commit hooks on all files:**
+
+Pre-commit hooks are automatically run on every commit, but only on changed files in the checked out branch. To run the hooks on all files in the repository:
+
+```bash
+uv run pre-commit run --all-files
+```
+
+> 💡 Alternative (pip instead of uv):
+>
+> ```bash
+> pip install pre-commit      # Install
+> pre-commit install          # Enable 
+> pre-commit run --all-files  # Run checks
+> pre-commit uninstall        # Disable
+> ```
+
+### 4. Start the application
 
 ```bash
 docker compose up

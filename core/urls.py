@@ -30,10 +30,12 @@ urlpatterns = [
     path("articles/", include("pages.articles.urls")),
     path("about/", include("pages.about.urls")),
     path("citation/", include("pages.citation.urls")),
+    path("contact/", include("pages.contact.urls")),
     path("dashboards/", include("pages.dashboards.urls")),
     path("data-management/", include("pages.data_management.urls")),
     path("healthz/", healthz, name="healthz"),
     path("news/", include("pages.news.urls")),
+    path("outbreaks/", include("pages.outbreaks.urls")),
     path("privacy/", include("pages.privacy.urls")),
     path("topics/", include("pages.topics.urls")),
 ]
