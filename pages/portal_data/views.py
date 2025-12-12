@@ -71,7 +71,6 @@ def _iter_study_dirs(datatype: str) -> List[Path]:
 
     return [candidates[name] for name in sorted(candidates)]
 
-
 def _load_all_items(datatype: str) -> list[dict]:
     """
     Load all public metabolomics datasets from the PVC.
@@ -106,6 +105,9 @@ def _load_all_items(datatype: str) -> list[dict]:
         if isinstance(public_release, str) and len(public_release) >= 4:
             year = public_release[:4]
 
+        # tags may not exist in the ISA metadata; provide an empty list by default
+        tags = meta.get("tags", [])
+
         item = {
             # IDs used by bulk selection / export
             "id": accession,
@@ -124,6 +126,7 @@ def _load_all_items(datatype: str) -> list[dict]:
 
             # New metadata from i_Investigation.txt
             "description": description,
+            "tags": tags,
             "public_release_date": public_release,
             "submission_date": meta.get("study_submission_date"),
             "license": meta.get("license"),
@@ -142,7 +145,6 @@ def _load_all_items(datatype: str) -> list[dict]:
 
     return items
 
-
 def _apply_search_and_filters(
     items: List[dict],
     query: str,
@@ -151,12 +153,25 @@ def _apply_search_and_filters(
     # Text search
     if query:
         q = query.lower()
-        items = [
-            it
-            for it in items
-            if q in str(it.get("title", "")).lower()
-            or q in str(it.get("id", "")).lower()
-        ]
+        def matches_text(it: dict) -> bool:
+            # title and id (existing behavior)
+            if q in str(it.get("title", "")).lower() or q in str(it.get("id", "")).lower():
+                return True
+            # description
+            if q in str(it.get("description", "")).lower():
+                return True
+            # tags (could be list or string)
+            tags = it.get("tags", [])
+            if isinstance(tags, str):
+                if q in tags.lower():
+                    return True
+            else:
+                for t in tags:
+                    if q in str(t).lower():
+                        return True
+            return False
+
+        items = [it for it in items if matches_text(it)]
 
     # Facet filters
     for field, values in filters.items():
@@ -170,40 +185,6 @@ def _apply_search_and_filters(
         ]
 
     return items
-
-def _build_facets(items: List[dict], facet_names: List[str]) -> Dict[str, List[dict]]:
-    facets: Dict[str, List[dict]] = {}
-    items = list(items)
-
-    for facet in facet_names:
-        counts: Dict[str, int] = {}
-        for it in items:
-            value = it.get(facet)
-            if value in (None, "", [], {}):
-                continue
-            key = str(value)
-            counts[key] = counts.get(key, 0) + 1
-
-        buckets = list(counts.items())
-
-        # For the "year" facet prefer numeric descending (most recent first),
-        # but only if all keys look like integers; otherwise fall back to
-        # string-based descending sort. All other facets are sorted ascending.
-        if facet == "year" and buckets:
-            def _is_integer_string(s: str) -> bool:
-                # match optional leading minus and digits (covers negative years if any)
-                return re.fullmatch(r"-?\d+", s) is not None
-
-            if all(_is_integer_string(k) for k, _ in buckets):
-                buckets.sort(key=lambda kv: int(kv[0]), reverse=True)
-            else:
-                buckets.sort(key=lambda kv: kv[0], reverse=True)
-        else:
-            buckets.sort(key=lambda kv: kv[0])
-
-        facets[facet] = [{"value": value, "count": count} for value, count in buckets]
-
-    return facets
 
 
 # -------------------------------------------------------------------
