@@ -13,6 +13,7 @@ from typing import Any
 from urllib.request import Request, urlopen
 
 import polars as pl
+from django.core.cache import cache
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.views import View
@@ -21,6 +22,7 @@ KTH_XLSX_URL = "https://blobserver.dc.scilifelab.se/blob/KTH-produced-antigens.x
 EXTERNAL_XLSX_URL = "https://blobserver.dc.scilifelab.se/blob/External-PLP-proteinlist.xlsx"
 REQUEST_TIMEOUT_SECONDS = 10
 USER_AGENT = "pathogens-portal/multidisease-serology"
+CACHE_TTL_SECONDS = 15 * 60  # cache XLSX-derived rows for 15 minutes
 
 # Explicit column orders for deterministic display
 KTH_HEADERS: list[str] = ["Virus type", "Variant", "Protein", "Details", "Host"]
@@ -73,7 +75,13 @@ class MultiDiseaseSerology(View):
         }
 
     def _load_rows(self, url: str, headers: list[str], source: str) -> list[list[Any]]:
-        """Helper to fetch, parse, and normalise table data."""
+        """Helper to fetch, parse, normalise, and cache table data."""
+        cache_key = f"multidisease_serology_rows_{source}"
+        cached_rows = cache.get(cache_key)
+        if cached_rows is not None:
+            logger.debug("serology_fetch_cache_hit", extra={"source": source})
+            return cached_rows
+
         try:
             logger.info("serology_fetch_start", extra={"source": source, "url": url})
             frame = self._read_excel_frame(url)
@@ -81,7 +89,9 @@ class MultiDiseaseSerology(View):
         except Exception:
             logger.exception("serology_fetch_failed", extra={"source": source, "url": url})
             return []
-        return self._frame_to_rows(frame, headers)
+        rows = self._frame_to_rows(frame, headers)
+        cache.set(cache_key, rows, CACHE_TTL_SECONDS)
+        return rows
 
     def _read_excel_frame(self, url: str) -> pl.DataFrame:
         """Fetch an Excel sheet using urllib and parse it with Polars."""
