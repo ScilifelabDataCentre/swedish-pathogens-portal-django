@@ -148,6 +148,7 @@ class ContactFormView(FormView):
         except Exception as err:  # noqa: BLE001
             # If form.data is not a QueryDict (unlikely), continue with initial values only
             logger.warning(err)
+
         response = super().form_invalid(form)
         self._set_dsc_cookie(response, dsc_token)
         return response
