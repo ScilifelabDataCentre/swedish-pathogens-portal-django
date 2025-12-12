@@ -12,12 +12,12 @@ from __future__ import annotations
 
 import re
 import time
-from typing import Any, Optional
+from typing import Any
 
 from django import forms
 from django.core import signing
 from django.core.exceptions import ValidationError
-
+from django.http import HttpRequest
 
 # Rough URL detector used only for counting links in free-text messages.
 # It intentionally ignores bare markers like "www." at the end of a sentence
@@ -61,7 +61,10 @@ class ContactForm(forms.Form):
         ],
         widget=forms.CheckboxSelectMultiple(
             attrs={
-                "class": "h-4 w-4 rounded border-gray-300 text-teal-600 cursor-pointer focus:ring-2 focus:ring-teal-500"
+                "class": (
+                    "h-4 w-4 rounded border-gray-300 text-teal-600 "
+                    "cursor-pointer focus:ring-2 focus:ring-teal-500"
+                )
             }
         ),
         error_messages={"required": "Please select at least one alternative."},
@@ -72,9 +75,9 @@ class ContactForm(forms.Form):
     contact_dsc = forms.CharField(required=False, widget=forms.HiddenInput, strip=False)
 
     # Internal state for logging (not exposed to users)
-    _blocked_reason: Optional[str] = None
+    _blocked_reason: str | None = None
 
-    def __init__(self, *args: Any, request=None, **kwargs: Any) -> None:
+    def __init__(self, *args, request: HttpRequest = None, **kwargs) -> None:
         """Initialise the form.
 
         Args:
@@ -142,9 +145,11 @@ class ContactForm(forms.Form):
         try:
             ts_str = CONTACT_TS_SIGNER.unsign(ts_token, max_age=MAX_TOKEN_AGE_SECONDS)
             ts = float(ts_str)
-        except (signing.BadSignature, ValueError):
+        except (signing.BadSignature, ValueError) as err:
             self._blocked_reason = "TOKEN_BAD_SIGNATURE"
-            raise ValidationError("We couldn't submit the form. Please try again in a moment.")
+            raise ValidationError(
+                "We couldn't submit the form. Please try again in a moment."
+            ) from err
 
         # Double-submit cookie check
         posted_token = cleaned.get("contact_dsc") or ""
