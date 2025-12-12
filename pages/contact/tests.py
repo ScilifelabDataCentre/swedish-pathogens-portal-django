@@ -32,7 +32,7 @@ class ContactFormTests(TestCase):
         self.client = Client()
         self.url = reverse("contact:contact")
 
-    def _get_tokens_from_response(self, response: HttpResponse) -> tuple[str | None, str | None]:  # noqa: 501, fmt: skip
+    def _get_tokens_from_response(self, response: HttpResponse) -> tuple[str | None, str | None]:
         """Extract hidden anti-spam token values from rendered HTML.
 
         Args:
@@ -71,7 +71,7 @@ class ContactFormTests(TestCase):
         aged_value = str(now - (MIN_SUBMIT_SECONDS + 1))
         return CONTACT_TS_SIGNER.sign(aged_value)
 
-    def _build_post_data(self, ts: str, dsc: str, **overrides) -> dict[str, str | list[str]]:  # noqa: E501, fmt: skip
+    def _build_post_data(self, ts: str, dsc: str, **overrides) -> dict[str, str | list[str]]:
         """Return a baseline valid payload merged with overrides."""
         data = {
             "name": "Alice",
@@ -313,7 +313,7 @@ class ContactFormTests(TestCase):
     )
     def test_expired_timestamp_token_blocks_with_bad_signature_reason(
         self, _mock_unsign: MagicMock
-    ):  # noqa: E501, fmt: skip
+    ):
         """An expired timestamp token should be treated as a bad signature."""
         ts, dsc = self._get_fresh_tokens()
         post = self._build_post_data(ts, dsc)
