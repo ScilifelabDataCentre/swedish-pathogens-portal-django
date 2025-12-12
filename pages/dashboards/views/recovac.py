@@ -28,7 +28,10 @@ class Recovac(View):
     def get(self, request: HttpRequest) -> HttpResponse:
         """Fetch the compiled plot data (JSON) and generate plot HTML strings."""
 
-        context = dict(title=self.title, description=self.description)
+        context = {
+            "title": self.title,
+            "description": self.description,
+        }
 
         for chart_id, blob_name in self.plot_sources.items():
             blob_data = fetch_plot_json_blobserver(blob_name)
