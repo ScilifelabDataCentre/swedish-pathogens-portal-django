@@ -8,26 +8,30 @@
   <header class="mb-6 lg:mb-8">
     <h1>{{ datatype_label }} data</h1>
 
-    <form method="get" role="search"
-          class="mt-4 flex w-full flex-col gap-3 sm:flex-row sm:items-center">
-      <input
-        type="search"
-        name="q"
-        value="{{ query }}"
-        placeholder="Search studies, accessions, pathogens…"
-        aria-label="Search"
-        class="w-full rounded border border-pp-pale-grey bg-white px-3 py-2 text-sm text-pp-almost-black placeholder:text-pp-dark-grey shadow-sm focus:outline-none focus:ring-2 focus:ring-pp-mid-blue/30" />
+<form id="searchForm" method="get" role="search"
+      class="mt-4 flex w-full flex-col gap-3 sm:flex-row sm:items-center">
+  <input
+    type="search"
+    name="q"
+    value="{{ query }}"
+    placeholder="Search studies, accessions, pathogens…"
+    aria-label="Search"
+    class="w-full rounded border border-pp-pale-grey bg-white px-3 py-2 text-sm text-pp-almost-black placeholder:text-pp-dark-grey shadow-sm focus:outline-none focus:ring-2 focus:ring-pp-mid-blue/30" />
 
-      <div class="flex shrink-0 items-center gap-2">
-        <button type="submit"
-            Search
-        </button>
-        <a href="?"
-           class="inline-flex items-center justify-center rounded border border-pp-pale-grey bg-white px-4 py-2 text-sm font-medium text-pp-dark-grey hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-pp-pale-grey/50">
-          Reset
-        </a>
-      </div>
-    </form>
+  <div class="flex shrink-0 items-center gap-2">
+    <button type="submit"
+            class="inline-flex items-center justify-center rounded bg-pp-mid-blue px-3 py-2 text-sm font-medium text-white shadow-sm hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-pp-mid-blue/30">
+      Search
+    </button>
+    <a href="?"
+       class="inline-flex items-center justify-center rounded border border-pp-pale-grey bg-white px-4 py-2 text-sm font-medium text-pp-dark-grey hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-pp-pale-grey/50">
+      Reset
+    </a>
+  </div>
+</form>
+
+
+
   </header>
 
   <!-- Main layout -->
@@ -63,11 +67,11 @@
               <li class="flex items-center gap-2">
                 <label class="inline-flex items-center gap-2 text-sm text-pp-almost-black">
                   <input type="checkbox"
-                         name="{{ f }}"
-                         value="{{ b.value }}"
-                         onchange="this.form.submit()"
-                         class="h-4 w-4 rounded border-pp-pale-grey text-pp-mid-blue focus:ring-pp-mid-blue/50">
-                  <span>{{ b.value }}</span>
+                       name="{{ f }}"
+                       value="{{ b.value }}"
+                       onchange="document.getElementById('searchForm').submit()"
+                       class="h-4 w-4 rounded border-pp-pale-grey text-pp-mid-blue focus:ring-pp-mid-blue/50">
+                    <span>{{ b.value }}</span>
                   <span class="badge bg-gray-100 text-pp-dark-grey ring-1 ring-inset ring-pp-pale-grey">
                     {{ b.count }}
                   </span>
@@ -222,6 +226,7 @@
   </div>
 </section>
 
+
 <script>
 function bulkExport(fmt) {
   const ids = [...document.querySelectorAll('.selectRow:checked')].map(x => x.value);
@@ -256,8 +261,14 @@ document.addEventListener('click', function (event) {
     btn.textContent = 'Show less';
   }
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+  const searchForm = document.getElementById('searchForm');
+  if (searchForm) {
+    document.querySelectorAll('aside input[type="checkbox"]').forEach(cb => {
+      cb.addEventListener('change', () => searchForm.submit());
+    });
+  }
+});
 </script>
-
-
-
 {% endblock %}
