@@ -186,6 +186,42 @@ def _apply_search_and_filters(
 
     return items
 
+def _build_facets(items: List[dict], facet_names: List[str]) -> Dict[str, List[dict]]:
+    facets: Dict[str, List[dict]] = {}
+    items = list(items)
+
+    for facet in facet_names:
+        counts: Dict[str, int] = {}
+        for it in items:
+            value = it.get(facet)
+            if value in (None, "", [], {}):
+                continue
+            key = str(value)
+            counts[key] = counts.get(key, 0) + 1
+
+        buckets = list(counts.items())
+
+        # For the "year" facet prefer numeric descending (most recent first),
+        # but only if all keys look like integers; otherwise fall back to
+        # string-based descending sort. All other facets are sorted ascending.
+        if facet == "year" and buckets:
+            def _is_integer_string(s: str) -> bool:
+                # match optional leading minus and digits (covers negative years if any)
+                return re.fullmatch(r"-?\d+", s) is not None
+
+            if all(_is_integer_string(k) for k, _ in buckets):
+                buckets.sort(key=lambda kv: int(kv[0]), reverse=True)
+            else:
+                buckets.sort(key=lambda kv: kv[0], reverse=True)
+        else:
+            buckets.sort(key=lambda kv: kv[0])
+
+        facets[facet] = [{"value": value, "count": count} for value, count in buckets]
+
+    return facets
+
+
+
 
 # -------------------------------------------------------------------
 # Views
