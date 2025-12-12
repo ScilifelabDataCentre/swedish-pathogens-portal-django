@@ -109,3 +109,8 @@ skip-magic-trailing-comma = false
 
 # Use double quotes for strings.
 quote-style = "double"
+
+[tool.ruff.lint.per-file-ignores]
+
+# Ignore `ANN201` rule for all test files
+"**/tests.py" = ["ANN201"]
