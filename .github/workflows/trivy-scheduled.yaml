@@ -40,7 +40,7 @@ jobs:
           format: 'sarif'
           output: 'trivy-results.sarif'
           severity: 'CRITICAL,HIGH,MEDIUM'
-          exit-code: "0"  # Don't fail job if vulnerabilities found (on scheduled)
+          exit-code: "0"  # Don't fail job if vuln found (on scheduled)
 
       - name: Upload Trivy scan results to GitHub Security tab
         if: always()  # Publish results to security tab even if scan fails
