@@ -136,6 +136,7 @@ def _load_all_items(datatype: str) -> list[dict]:
             "publication_title": meta.get("publication_title"),
             "publication_doi": meta.get("publication_doi"),
             "publication_authors": meta.get("publication_authors"),
+            "technology": meta.get("technology"),
 
             # Local PVC location (useful for debugging or later features)
             "local_path": str(study_dir),
@@ -215,7 +216,9 @@ def _build_facets(items: List[dict], facet_names: List[str]) -> Dict[str, List[d
                 buckets.sort(key=lambda kv: kv[0], reverse=True)
         else:
             buckets.sort(key=lambda kv: kv[0])
-
+        
+        ##breakpoint()
+        
         facets[facet] = [{"value": value, "count": count} for value, count in buckets]
 
     return facets
