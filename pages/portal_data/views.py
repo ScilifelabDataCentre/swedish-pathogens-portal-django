@@ -20,7 +20,7 @@ from .services import build_export_tsv, build_export_json
 SUPPORTED_TYPES = {
     "metabolomics": {
         "label": "Metabolomics",
-        "default_facets": ["pathogen", "instrument", "country", "year"],
+        "default_facets": ["year", "platforms","technology","factors", "design_types", "repository"],
     },
 }
 
@@ -425,6 +425,8 @@ def _parse_investigation_file(path: Path) -> dict:
                     meta["design_types"] = values
                 elif key == "Study Assay Technology Platform":
                     meta["platforms"] = values
+                elif key == "Study Assay Technology Type":
+                    meta["technology"] = values[0]
     except FileNotFoundError:
         pass
 
