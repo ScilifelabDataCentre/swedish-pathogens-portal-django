@@ -14,16 +14,12 @@ from unittest.mock import patch
 
 from django.core import mail, signing
 from django.http import HttpResponse
-from django.test import Client, TestCase, override_settings
+from django.test import Client, TestCase
 from django.urls import reverse
 
 from .forms import CONTACT_TS_SIGNER, MAX_URLS_ALLOWED, MIN_SUBMIT_SECONDS
 
 
-@override_settings(
-    EMAIL_BACKEND="django.core.mail.backends.locmem.EmailBackend",
-    DEFAULT_FROM_EMAIL="Pathogens Portal <no-reply@example.org>",
-)
 class ContactFormTests(TestCase):
     """Integration tests for the contact view and form."""
 
