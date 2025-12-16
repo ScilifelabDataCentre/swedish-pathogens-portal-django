@@ -30,7 +30,6 @@ class CrushCovid(View):
 
         Returns:
             Rendered template with context.
-
         """
         context = {"title": self.title, "description": self.description}
 
