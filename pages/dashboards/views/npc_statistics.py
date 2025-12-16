@@ -18,7 +18,6 @@ class NpcStatistics(View):
         template_name: Template for rendering the dashboard.
         title: Title displayed in the rendered page's banner section.
         description: Description to be used in the HTML's head.
-
     """
 
     template_name = "dashboards/npc_statistics.html"
@@ -38,7 +37,6 @@ class NpcStatistics(View):
 
         Returns
             Rendered template with plot HTML strings in context.
-
         """
         context = {"title": self.title, "description": self.description}
 
