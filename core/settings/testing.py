@@ -8,7 +8,7 @@ from .base import *  # noqa: F403
 
 SECRET_KEY: str = "test-secret-key-not-for-production"
 
-DATABASES = {
+DATABASES: dict = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": "test_db.sqlite3",
