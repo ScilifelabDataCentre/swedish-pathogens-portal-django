@@ -26,7 +26,7 @@ env = environ.Env()
 # Read environment variables from .env file
 environ.Env.read_env(BASE_DIR / ".env")
 
-SECRET_KEY = env("SECRET_KEY")
+SECRET_KEY = env("SECRET_KEY", default="test-only-insecure-secret-key")
 
 # INTERNATIONALISATION (https://docs.djangoproject.com/en/5.2/topics/i18n/)
 # ------------------------------------------------------------------------------
@@ -112,7 +112,7 @@ TEMPLATES = [
 # ------------------------------------------------------------------------------
 DATABASES = {
     "default": {
-        **env.db("DATABASE_URL"),
+        **env.db("DATABASE_URL", default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}"),
         "CONN_MAX_AGE": env.int("DB_CONN_MAX_AGE", default=0),
     }
 }
