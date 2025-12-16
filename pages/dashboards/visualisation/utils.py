@@ -33,7 +33,6 @@ def fetch_plot_json_blobserver(blob: str) -> dict | None:
 
         data = fetch_plot_json_blobserver("some_plot.json")
         # Returns dict with 'data' and 'layout' keys, or None
-
     """
     cache_key = f"plotly_data_{blob}"
     # check and fetch cache if exists
@@ -90,7 +89,6 @@ def plot_html_from_json(
 
             graph_html = plot_html_from_json(data=data, height="500px")
             # Returns an HTML string or None if any exception
-
     """
     if data is not None:
         try:
@@ -152,7 +150,6 @@ def get_plotlyjs_cdn_param(param: str) -> str | None:
 
             result = get_plotlyjs_cdn_param("invalid")
             # Returns: None
-
     """
     expected_args = ["url", "hash"]
     if param not in expected_args:
