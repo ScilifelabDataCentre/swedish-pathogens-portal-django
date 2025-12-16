@@ -35,7 +35,7 @@ class NpcStatistics(View):
         Fetches Plotly JSON data from blobserver for each chart, converts it to HTML
         using plot_html_from_json, and adds it to the context for template rendering.
 
-        Returns
+        Returns:
             Rendered template with plot HTML strings in context.
         """
         context = {"title": self.title, "description": self.description}
