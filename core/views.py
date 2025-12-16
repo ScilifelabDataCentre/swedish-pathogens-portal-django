@@ -13,11 +13,9 @@ def healthz(_request: HttpRequest) -> JsonResponse:
     Always returns a JSON object indicating that the service is running.
 
     Args:
-    ----
         _request: Incoming HTTP request object (not used)
 
     Returns:
-    -------
         JsonResponse: A JSON response indicating service status.
             Always returns 200 OK with {"status": "ok"} unless there is a server issue.
 
