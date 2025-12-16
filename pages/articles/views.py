@@ -53,7 +53,7 @@ class ArticleDetailView(BaseDetailView):
         Retrieves articles with similar tags using Jaccard similarity
         algorithm and adds them to the template context for display.
 
-        Returns
+        Returns:
             dict: Context data with related_articles added
         """
         context = super().get_context_data(**kwargs)
