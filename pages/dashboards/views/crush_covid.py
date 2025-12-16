@@ -29,7 +29,7 @@ class CrushCovid(View):
     def get(self, request: HttpRequest) -> HttpResponse:
         """Render the CRUSH Covid dashboard page.
 
-        Returns
+        Returns:
             Rendered template with context.
 
         """
