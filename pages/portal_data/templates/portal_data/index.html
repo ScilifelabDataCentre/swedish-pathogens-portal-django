@@ -66,11 +66,14 @@
             {% for b in buckets %}
               <li class="flex items-center gap-2">
                 <label class="inline-flex items-center gap-2 text-sm text-pp-almost-black">
-                  <input type="checkbox"
+                        <input type="checkbox"
                        name="{{ f }}"
                        value="{{ b.value }}"
+                       {% if filters and b.value in filters.get(f, []) %}
+                          checked
+                       {% endif %}
                        onchange="document.getElementById('searchForm').submit()"
-                       class="h-4 w-4 rounded border-pp-pale-grey text-pp-mid-blue focus:ring-pp-mid-blue/50">
+                   class="h-4 w-4 rounded border-pp-pale-grey text-pp-mid-blue focus:ring-pp-mid-blue/50">
                     <span>{{ b.value }}</span>
                   <span class="badge bg-gray-100 text-pp-dark-grey ring-1 ring-inset ring-pp-pale-grey">
                     {{ b.count }}
