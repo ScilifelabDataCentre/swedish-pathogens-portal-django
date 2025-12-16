@@ -36,7 +36,6 @@ class PostCovid(View):
         using plot_html_from_json, and adds it to the context for template rendering.
 
         Returns
-        -------
             Rendered template with plot HTML strings in context.
 
         """

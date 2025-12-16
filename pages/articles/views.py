@@ -56,7 +56,6 @@ class ArticleDetailView(BaseDetailView):
         algorithm and adds them to the template context for display.
 
         Returns
-        -------
             dict: Context data with related_articles added
 
         """

@@ -161,16 +161,13 @@ class Article(models.Model):
         Results are ordered by similarity score (highest first).
 
         Args:
-        ----
             limit: Maximum number of related articles to return (default: 4)
             threshold: Minimum similarity threshold between 0.0 and 1.0 (default: 0.1)
 
         Returns:
-        -------
             List of related articles ordered by similarity score
 
         Example:
-        -------
             Get top 3 related articles with at least 20% similarity:
 
             .. code-block:: python

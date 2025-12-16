@@ -30,7 +30,6 @@ class CrushCovid(View):
         """Render the CRUSH Covid dashboard page.
 
         Returns
-        -------
             Rendered template with context.
 
         """

@@ -24,7 +24,6 @@ class News(models.Model):
         updated_at (datetime): When news was last updated.
 
     Example:
-    -------
         Create a new News:
 
         .. code-block:: python

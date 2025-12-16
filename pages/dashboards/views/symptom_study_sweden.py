@@ -39,7 +39,6 @@ class SymptomStudySweden(View):
         context for template rendering.
 
         Returns
-        -------
             Rendered template with plot HTML strings in context.
 
         """
