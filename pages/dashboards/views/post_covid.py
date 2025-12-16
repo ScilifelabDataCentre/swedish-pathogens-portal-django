@@ -18,7 +18,6 @@ class PostCovid(View):
         template_name: Template for rendering the dashboard.
         title: Title displayed in the rendered page's banner section.
         description: Description to be used in the HTML's head.
-
     """
 
     template_name = "dashboards/post_covid.html"
@@ -35,9 +34,8 @@ class PostCovid(View):
         Fetches Plotly JSON data from blobserver for each chart, converts it to HTML
         using plot_html_from_json, and adds it to the context for template rendering.
 
-        Returns
+        Returns:
             Rendered template with plot HTML strings in context.
-
         """
         context = {"title": self.title, "description": self.description}
 
