@@ -44,7 +44,6 @@ class VariantsRegionUppsala(View):
 
         Template can access plot HTML via:
             {{ lineage_six_recent|safe }}
-
     """
 
     template_name = "dashboards/variants_region_uppsala.html"
@@ -61,9 +60,8 @@ class VariantsRegionUppsala(View):
         Fetches Plotly JSON data from blobserver for each chart, converts it to HTML
         using plot_html_from_json, and adds it to the context for template rendering.
 
-        Returns
+        Returns:
             Rendered template with plot HTML strings in context.
-
         """
         context = {
             "title": self.title,
