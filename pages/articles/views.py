@@ -21,7 +21,6 @@ class ArticleListView(BaseListView):
         context_object_name: Name for articles in template context.
         title: Page title displayed in template.
         ordering: Field to sort articles by (newest first).
-
     """
 
     model = Article
@@ -42,7 +41,6 @@ class ArticleDetailView(BaseDetailView):
         model: Article model to display.
         template_name: Template for rendering the detail view.
         context_object_name: Name for article in template context.
-
     """
 
     model = Article
@@ -57,7 +55,6 @@ class ArticleDetailView(BaseDetailView):
 
         Returns
             dict: Context data with related_articles added
-
         """
         context = super().get_context_data(**kwargs)
         article = self.get_object()
