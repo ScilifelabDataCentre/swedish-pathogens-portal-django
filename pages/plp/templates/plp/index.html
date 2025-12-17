@@ -153,4 +153,32 @@
     The pages for each capability are regularly updated with new information as it becomes available.
 </p>
 
+<div class="grid gap-4 md:grid-cols-3">
+    {% for project in projects %}
+    <article class="h-full border border-pp-pale-grey rounded-lg shadow-sm bg-white flex flex-col overflow-hidden">
+        <div class="h-40 w-full overflow-hidden bg-pp-pale-grey">
+            <a href="{{ project.get_absolute_url }}" aria-hidden="true">
+                <img src="{{ project.display_image }}" alt="{{ project.title }}" class="w-full h-40 object-cover">
+            </a>
+        </div>
+        <div class="p-4 flex flex-col flex-grow">
+            <h5 class="text-lg mb-2">
+                <a href="{{ project.get_absolute_url }}" class="text-pp-mid-blue hover:underline">
+                    {{ project.title }}
+                </a>
+            </h5>
+            <p class="text-sm text-pp-dark-grey flex-grow">
+                {{ project.summary }}
+            </p>
+            <p class="text-xs uppercase text-pp-dark-grey tracking-wide mt-3">
+                {{ project.get_category_display }}
+            </p>
+        </div>
+    </article>
+    {% empty %}
+    <p>No projects available yet. Please check back soon.</p>
+    {% endfor %}
+</div>
+
+
 {% endblock %}
