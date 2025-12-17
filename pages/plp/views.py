@@ -1,19 +1,42 @@
-from utils.views import BaseTemplateView, BaseDetailView
+from utils.views import BaseListView, BaseDetailView
 
 from .models import PlpProject
 
 
-class PlpProgram(BaseTemplateView):
-    template_name = "plp/index.html"
-    title = "Pandemic Laboratory Preparedness Program"
+class PlpListView(BaseListView):
+    """Display a list of all active PLP projects.
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["projects"] = PlpProject.objects.filter(is_active=True).order_by("-created_at")
-        return context
+    Shows all active pandemic preparedness capability projects in a grid layout
+    with featured images, titles, summaries, and categories. Projects are
+    sorted by creation date (newest first) by default.
+
+    Attributes:
+        model: PlpProject model to display.
+        template_name: Template for rendering the list.
+        context_object_name: Name for projects in template context.
+        title: Page title displayed in template.
+        ordering: Field to sort projects by (newest first).
+    """
+
+    model = PlpProject
+    template_name = "plp/index.html"
+    context_object_name = "projects"
+    title = "Pandemic Laboratory Preparedness Program"
+    ordering = "-created_at"
 
 
 class PlpProjectDetail(BaseDetailView):
-    template_name = "plp/project_detail.html"
+    """Display detailed information about a specific PLP project.
+
+    Shows the full project content rendered from markdown, including
+    featured image and category information. Uses slug-based URL lookup.
+
+    Attributes:
+        model: PlpProject model to display.
+        template_name: Template for rendering the detail view.
+        context_object_name: Name for project in template context.
+    """
+
     model = PlpProject
+    template_name = "plp/project_detail.html"
     context_object_name = "project"

@@ -1,10 +1,10 @@
 from django.urls import path
 
-from .views import PlpProgram, PlpProjectDetail
+from .views import PlpListView, PlpProjectDetail
 
 app_name = "plp"
 
 urlpatterns = [
-    path("", PlpProgram.as_view(), name="index"),
-    path("projects/<slug:slug>/", PlpProjectDetail.as_view(), name="project-detail"),
+    path("", PlpListView.as_view(), name="index"),
+    path("<slug:slug>/", PlpProjectDetail.as_view(), name="detail"),
 ]
