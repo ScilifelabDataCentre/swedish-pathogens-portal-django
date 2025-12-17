@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<article class="prose max-w-none space-y-4">
+    {% if project.featured_image %}
+    <figure class="my-4">
+        <img src="{{ project.featured_image.url }}" alt="{{ project.title }}" class="w-full h-auto rounded border border-pp-pale-grey">
+    </figure>
+    {% endif %}
+    <div class="prose max-w-none space-y-3">
+        {{ project.rendered_content|safe }}
+    </div>
+</article>
+
+{% endblock %}
+
+
+
