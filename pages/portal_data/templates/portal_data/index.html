@@ -38,22 +38,6 @@
   <div class="grid grid-cols-1 gap-6 lg:grid-cols-12">
     <!-- Facets / Sidebar -->
     <aside class="lg:col-span-3">
-      <!-- Data schema -->
-      <details open
-               class="rounded border border-pp-pale-grey bg-white p-4 shadow-sm">
-        <summary class="cursor-pointer list-none text-sm font-semibold text-pp-almost-black">
-          Data schema
-        </summary>
-        <ul class="mt-3 space-y-1 text-xs text-pp-dark-grey font-mono">
-          <li><strong>title</strong>: string — Study title</li>
-          <li><strong>pathogen</strong>: string — e.g., Orthoflavivirus denguei</li>
-          <li><strong>matrix</strong>: string — serum, plasma, etc.</li>
-          <li><strong>instrument</strong>: string</li>
-          <li><strong>country</strong>: string</li>
-          <li><strong>year</strong>: integer</li>
-          <li><strong>repository</strong>: enum (ENA/EMBL/MetaboLights/…)</li>
-        </ul>
-      </details>
 
       <!-- Facet groups -->
       {% for f, buckets in facets.items %}
