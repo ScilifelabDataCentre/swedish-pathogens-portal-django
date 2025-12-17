@@ -64,11 +64,13 @@
           </summary>
           <ul class="mt-3 space-y-2">
             {% for b in buckets %}
-              <li class="flex items-center gap-2">
+               <li class="flex items-center gap-2">
                 <label class="inline-flex items-center gap-2 text-sm text-pp-almost-black">
                   <input type="checkbox"
                        name="{{ f }}"
                        value="{{ b.value }}"
+                       form="searchForm"
+                       {% if b.checked %}checked{% endif %}
                        onchange="document.getElementById('searchForm').submit()"
                        class="h-4 w-4 rounded border-pp-pale-grey text-pp-mid-blue focus:ring-pp-mid-blue/50">
                     <span>{{ b.value }}</span>
