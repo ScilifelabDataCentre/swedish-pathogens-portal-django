@@ -216,27 +216,24 @@
   </dl>
 
   <div class="mt-3 flex flex-wrap items-center gap-2">
-    <span class="badge bg-pp-teal text-black ring-1 ring-inset ring-pp-teal/30">
-      {{ it.repository }}
-    </span>
 
     {% if it.publication_doi %}
       <a href="https://doi.org/{{ it.publication_doi|cut:'https://doi.org/' }}"
          target="_blank" rel="noopener"
-         class="inline-flex items-center justify-center rounded border border-pp-pale-grey bg-white px-3 py-1.5 text-xs font-medium text-pp-dark-grey hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-pp-pale-grey/50">
+         class="inline-flex items-center justify-center rounded border border-pp-pale-grey bg-white px-3 py-1.5 text-sm font-medium text-pp-dark-grey hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-pp-pale-grey/50">
         Publication
       </a>
     {% endif %}
 
     <!-- Local PVC download -->
 <a href="{% url 'pages_portal_data:data_files' datatype=datatype accession=it.accession %}"
-   class="ml-auto inline-flex items-center justify-center rounded bg-pp-dark-blue px-3 py-1.5 text-sm font-medium text-white shadow-sm hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-pp-dark-blue/30">
+   class="ml-auto inline-flex items-center justify-center rounded bg-pp-mid-blue px-3 py-1.5 text-sm font-medium text-white shadow-sm hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-pp-dark-blue/30">
   Download data
 </a>
 
     <!-- Optional: keep a link back to MetaboLights -->
     <a href="{{ it.repo_url }}" target="_blank" rel="noopener"
-       class="inline-flex items-center justify-center rounded border border-pp-pale-grey bg-white px-3 py-1.5 text-xs font-medium text-pp-dark-grey hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-pp-pale-grey/50">
+       class="inline-flex items-center justify-center rounded border border-pp-pale-grey bg-pp-teal px-3 py-1.5 text-sm font-medium text-black hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-pp-pale-grey/50">
       View in MetaboLights
     </a>
   </div>
