@@ -205,11 +205,18 @@
       </div>
     {% endif %}
     {% if it.license %}
+     {% if it.license == "EMBL-EBI Terms of Use" %}
+      <div class="flex gap-1">
+        <dt class="font-semibold">License:</dt>
+        <dd> <a href="https://www.ebi.ac.uk/about/terms-of-use/" target="_blank" rel="noopener noreferrer" >{{ it.license }}</a> </dd>
+        </div>
+        {% else %}
       <div class="flex gap-1">
         <dt class="font-semibold">License:</dt>
         <dd>{{ it.license }}</dd>
       </div>
-    {% endif %}
+      {% endif %}
+     {% endif %}
     {% if it.platforms %}
       <div class="flex gap-1">
         <dt class="font-semibold">Platform(s):</dt>
