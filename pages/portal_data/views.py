@@ -188,7 +188,7 @@ def _apply_search_and_filters(
             # Handle list values (e.g., platforms, factors, design_types)
             if isinstance(field_value, list):
                 # If any value in the list matches any filter value, include the item
-                return any(str(v) in values_set for v in field_value if v)
+                return any(str(v) in values_set for v in field_value if v is not None and v != "")
             else:
                 # Scalar value (e.g., year, repository, technology)
                 return str(field_value) in values_set
@@ -200,7 +200,7 @@ def _apply_search_and_filters(
 def _build_facets(items: List[dict], facet_names: List[str], filters: Dict[str, List[str]] = None) -> Dict[str, List[dict]]:
     facets: Dict[str, List[dict]] = {}
     items = list(items)
-    filters = filters or {}
+    filters = filters if filters is not None else {}
 
     for facet in facet_names:
         counts: Dict[str, int] = {}
@@ -211,7 +211,7 @@ def _build_facets(items: List[dict], facet_names: List[str], filters: Dict[str, 
             # Handle list values (e.g., platforms, factors, design_types)
             if isinstance(value, list):
                 for v in value:
-                    if v:  # skip empty strings
+                    if v is not None and v != "":  # skip None and empty strings
                         key = str(v)
                         counts[key] = counts.get(key, 0) + 1
             else:
@@ -275,7 +275,7 @@ class DataTypeListView(TemplateView):
             or SUPPORTED_TYPES[datatype]["default_facets"]
         )
 
-        filter_fields = ["pathogen", "matrix", "instrument", "country", "year", "repository", "platforms", "technology", "factors", "design_types"]
+        filter_fields = facet_names
         filters = {f: self.request.GET.getlist(f) for f in filter_fields if self.request.GET.getlist(f)}
 
         # Load from PVC
