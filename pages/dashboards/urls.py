@@ -17,6 +17,7 @@ from .views import (
     SymptomStudySweden,
     Vaccines,
     VariantsRegionUppsala,
+    EntericQuantification,
 )
 
 app_name = "dashboards"
@@ -52,6 +53,11 @@ urlpatterns = [
         name="crush_covid",
     ),
     path(
+        "enteric-quantification/",
+        EntericQuantification.as_view(),
+        name="enteric_quantification",
+    ),
+    path(
         "historic-sarscov2-wastewater/",
         HistoricSarsCov2Wastewater.as_view(),
         name="historic_sarscov2_wastewater",
@@ -75,5 +81,10 @@ urlpatterns = [
         "vaccines/",
         Vaccines.as_view(),
         name="vaccines",
+    ),
+    path(
+        "variants-region-uppsala/",
+        VariantsRegionUppsala.as_view(),
+        name="variants_region_uppsala",
     ),
 ]

@@ -128,5 +128,16 @@ class DashboardsIndex(BaseTemplateView):
                     "nationwide sites plus Umeå and Örebro visualisations."
                 ),
             },
+            {
+                "name": "Amount of enteric virus in wastewater (GU)",
+                "image": "dashboards/thumbnails/vaccines.jpg",
+                "url": reverse_lazy("dashboards:enteric_quantification"),
+                "description": (
+                    "The Swedish Health Agency (Folkhälsomyndigheten) provide data "
+                    "and information related to COVID-19 in Sweden. Visualisations "
+                    "are shown on multiple aspects of vaccination coverage, like "
+                    "coverage in different counties."
+                ),
+            },
         ],
     }

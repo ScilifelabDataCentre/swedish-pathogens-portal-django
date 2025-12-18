@@ -15,6 +15,7 @@ from .serology_statistics import SerologyStatistics
 from .symptom_study_sweden import SymptomStudySweden
 from .vaccines import Vaccines
 from .variants_region_uppsala import VariantsRegionUppsala
+from .enteric_quantification import EntericQuantification
 
 __all__ = [
     "CovidQuantificationKth",
@@ -28,4 +29,5 @@ __all__ = [
     "SymptomStudySweden",
     "Vaccines",
     "VariantsRegionUppsala",
+    "EntericQuantification",
 ]
