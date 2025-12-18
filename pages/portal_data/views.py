@@ -4,6 +4,7 @@ import os
 import shutil
 import tempfile
 import mimetypes
+import logging
 
 from pathlib import Path
 from urllib.parse import unquote
@@ -16,6 +17,8 @@ from django.views.generic import TemplateView
 
 from .services import build_export_tsv, build_export_json
 
+
+logger = logging.getLogger("pages.portal_data.views")
 
 SUPPORTED_TYPES = {
     "metabolomics": {
