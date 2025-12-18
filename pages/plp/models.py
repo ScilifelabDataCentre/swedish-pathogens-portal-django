@@ -1,9 +1,11 @@
+"""Models for the Pandemic Laboratory Preparedness (PLP) app."""
+
+import markdown
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.safestring import mark_safe
 from django.utils.text import slugify
-import markdown
 
 
 class PlpProject(models.Model):
@@ -67,6 +69,8 @@ class PlpProject(models.Model):
     )
 
     class Meta:
+        """Metadata for PLP project model."""
+
         ordering = ["-created_at"]
         verbose_name = "PLP Project"
         verbose_name_plural = "PLP Projects"
@@ -81,6 +85,10 @@ class PlpProject(models.Model):
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
 
+    def get_absolute_url(self) -> str:
+        """Return the absolute URL for the project detail page."""
+        return reverse("plp:detail", kwargs={"slug": self.slug})
+
     @property
     def rendered_content(self) -> str:
         """Return content rendered as HTML from markdown.
@@ -90,10 +98,6 @@ class PlpProject(models.Model):
         return mark_safe(
             markdown.markdown(self.content, extensions=["extra", "codehilite", "tables", "nl2br"])
         )
-
-    def get_absolute_url(self) -> str:
-        """Return the absolute URL for the project detail page."""
-        return reverse("plp:detail", kwargs={"slug": self.slug})
 
     @property
     def display_image(self) -> str:

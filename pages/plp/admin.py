@@ -1,5 +1,8 @@
-from django.contrib import admin
-from django.contrib import messages
+"""Admin configuration for PLP projects."""
+
+from django.contrib import admin, messages
+from django.db.models import QuerySet
+from django.http import HttpRequest
 
 from .models import PlpProject
 
@@ -35,7 +38,7 @@ class PlpProjectAdmin(admin.ModelAdmin):
         ),
     )
 
-    def activate_projects(self, request, queryset):
+    def activate_projects(self, request: HttpRequest, queryset: QuerySet[PlpProject]) -> None:
         """Activate selected projects."""
         updated = queryset.update(is_active=True)
         self.message_user(
@@ -44,7 +47,7 @@ class PlpProjectAdmin(admin.ModelAdmin):
 
     activate_projects.short_description = "Activate selected projects"
 
-    def deactivate_projects(self, request, queryset):
+    def deactivate_projects(self, request: HttpRequest, queryset: QuerySet[PlpProject]) -> None:
         """Deactivate selected projects."""
         updated = queryset.update(is_active=False)
         self.message_user(

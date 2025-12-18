@@ -1,3 +1,5 @@
+"""URL routes for the PLP app."""
+
 from django.urls import path
 
 from .views import PlpListView, PlpProjectDetail

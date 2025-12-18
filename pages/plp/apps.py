@@ -1,3 +1,5 @@
+"""Application configuration for the PLP app."""
+
 from django.apps import AppConfig
 
 

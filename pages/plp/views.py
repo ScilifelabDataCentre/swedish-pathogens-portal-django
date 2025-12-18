@@ -1,4 +1,6 @@
-from utils.views import BaseListView, BaseDetailView
+"""Views for listing and viewing PLP projects."""
+
+from utils.views import BaseDetailView, BaseListView
 
 from .models import PlpProject
 
