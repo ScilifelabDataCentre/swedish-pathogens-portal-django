@@ -129,14 +129,14 @@ class DashboardsIndex(BaseTemplateView):
                 ),
             },
             {
-                "name": "Amount of enteric virus in wastewater (GU)",
+                "name": "Wastewater: Enteric Virus Quantification (GU)",
                 "image": "dashboards/thumbnails/wastewater_enteric_virus.png",
                 "url": reverse_lazy("dashboards:enteric_quantification"),
                 "description": (
-                    "The Swedish Health Agency (Folkhälsomyndigheten) provide data "
-                    "and information related to COVID-19 in Sweden. Visualisations "
-                    "are shown on multiple aspects of vaccination coverage, like "
-                    "coverage in different counties."
+                    "Enteric virus levels in Gothenburg’s wastewater, including "
+                    "norovirus and adenovirus. Data from the Norder group’s weekly "
+                    "analysis at Ryaverket WWTP helps predict outbreaks and includes "
+                    "samples from surrounding municipalities."
                 ),
             },
         ],
