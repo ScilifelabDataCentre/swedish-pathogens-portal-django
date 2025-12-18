@@ -17,7 +17,6 @@ class TopicListView(BaseListView):
         context_object_name: Name for topics in template context.
         title: Page title displayed in template.
         ordering: Field to sort topics by (alphabetical by name).
-
     """
 
     model = Topic
@@ -37,7 +36,6 @@ class TopicDetailView(BaseDetailView):
         model: Topic model to display.
         template_name: Template for rendering the detail view.
         context_object_name: Name for topic in template context.
-
     """
 
     model = Topic
