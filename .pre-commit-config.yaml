@@ -2,7 +2,7 @@
 # Pre-commit hooks to ensure code quality before commits
 # Calls .git/hooks/pre-commit automatically on git commit
 # If hooks fail during commit, run `pre-commit run --all-files` to fix issues.
-# Uses the repo's Ruff configuration
+# Uses the repo's config files regarding linting/formatting.
 ---
 repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
