@@ -107,6 +107,3 @@ class Migration(migrations.Migration):
     operations = [
         migrations.RunPython(seed_projects, remove_projects),
     ]
-
-
-
