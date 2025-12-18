@@ -1,8 +1,10 @@
+"""Models for dashboards page."""
+
 from django.db import models
 
 
 class DashboardData(models.Model):
-    """Dashboards model for visualisation data
+    """Dashboards model for visualisation data.
 
     WIP - this is initial placehoder table for development,
     will be modified and finalised later based on the neccessity.
@@ -16,6 +18,7 @@ class DashboardData(models.Model):
         data (json): Data needed for the corresponding dashboard (JSON format).
         created_at (datetime): When dashboard data was created.
         updated_at (datetime): When dashboard data was last updated.
+
     """
 
     dashboard = models.CharField(
@@ -31,9 +34,11 @@ class DashboardData(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
+        """Metadata for DashboardData model."""
+
         verbose_name = "Dashboards Data"
         verbose_name_plural = "Dashboards Data"
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Return the dashboard name for string representation."""
         return self.dashboard

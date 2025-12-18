@@ -1,4 +1,7 @@
-from utils.views import BaseListView, BaseDetailView
+"""Views for News page."""
+
+from utils.views import BaseDetailView, BaseListView
+
 from .models import News
 
 

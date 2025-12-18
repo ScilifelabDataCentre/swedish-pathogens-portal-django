@@ -1,4 +1,7 @@
+"""Admin configuration for Topic page."""
+
 from django.contrib import admin
+
 from .models import Topic
 
 

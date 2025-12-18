@@ -7,8 +7,8 @@ easy/tidy import during usage. Names of the classes
 imported in this file should also be added to __all__
 """
 
-from ._base_template_view import BaseTemplateView
-from ._base_list_view import BaseListView
 from ._base_detail_view import BaseDetailView
+from ._base_list_view import BaseListView
+from ._base_template_view import BaseTemplateView
 
 __all__ = ["BaseTemplateView", "BaseListView", "BaseDetailView"]

@@ -1,4 +1,7 @@
+"""Admin configuration for News page."""
+
 from django.contrib import admin
+
 from .models import News
 
 

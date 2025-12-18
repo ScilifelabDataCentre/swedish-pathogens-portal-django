@@ -66,7 +66,7 @@ indent-width = 4
 # Line length
 line-length = 100
 
-[too.ruff.lint]
+[tool.ruff.lint]
 
 # Select rules to check for
 select = [
@@ -85,6 +85,16 @@ select = [
     "UP",   # pyupgrade
     "W",    # pycodestyle warnings
 ]
+extend-ignore = [
+    "ANN002", # Missing type annotation for *args
+    "ANN003", # Missing type annotation for **kwargs
+    "D202", # Blank line under function
+    "D203", # Contradicts D211 and gives warning
+    "D213", # Contradicts D212 and gives warning  
+    "D407", # Dashed underline after section
+    "D413", # Missing blank line after last section
+    "S308", # Use of mark_safe -- ignored assuming all content comes from admin / trusted sources
+]
 
 [tool.ruff.format]
 
@@ -99,3 +109,8 @@ skip-magic-trailing-comma = false
 
 # Use double quotes for strings.
 quote-style = "double"
+
+[tool.ruff.lint.per-file-ignores]
+
+# Ignore `ANN201` rule for all test files
+"**/tests.py" = ["ANN201"]

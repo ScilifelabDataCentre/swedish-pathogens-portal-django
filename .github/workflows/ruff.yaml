@@ -23,9 +23,9 @@ jobs:
       - name: Ruff lint
         uses: astral-sh/ruff-action@v3
         with:
-          args: check
+          args: check .
 
       - name: Ruff format (check only)
         uses: astral-sh/ruff-action@v3
         with:
-          args: format --check --diff
+          args: format --check --diff .

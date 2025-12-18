@@ -1,12 +1,10 @@
-"""
-Production settings.
+"""Production settings.
 
 These settings are intended for deployments.
 """
 
 from .base import *  # noqa: F401,F403
 from .base import env
-
 
 DEBUG = False
 

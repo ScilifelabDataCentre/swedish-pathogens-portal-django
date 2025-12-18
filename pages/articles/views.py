@@ -1,4 +1,9 @@
-from utils.views import BaseListView, BaseDetailView
+"""Views for the Articles page."""
+
+from typing import Any
+
+from utils.views import BaseDetailView, BaseListView
+
 from .models import Article
 
 
@@ -42,7 +47,7 @@ class ArticleDetailView(BaseDetailView):
     template_name = "articles/article_detail.html"
     context_object_name = "article"
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
         """Add related articles to the context.
 
         Retrieves articles with similar tags using Jaccard similarity

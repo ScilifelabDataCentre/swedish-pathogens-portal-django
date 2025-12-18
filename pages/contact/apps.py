@@ -1,3 +1,5 @@
+"""Configuration for the contact app."""
+
 from django.apps import AppConfig
 
 

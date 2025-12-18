@@ -1,3 +1,5 @@
+from typing import Any
+
 from django.views.generic import TemplateView
 
 
@@ -29,7 +31,7 @@ class BaseTemplateView(TemplateView):
     description = ""
     extra_context = None
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
         """Add title, description, and extra_context to template context."""
         context = super().get_context_data(**kwargs)
 

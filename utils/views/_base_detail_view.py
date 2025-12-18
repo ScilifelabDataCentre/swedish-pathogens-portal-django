@@ -1,3 +1,6 @@
+from typing import Any
+
+from django.db.models import QuerySet
 from django.views.generic import DetailView
 
 
@@ -6,7 +9,8 @@ class BaseDetailView(DetailView):
 
     This class provides common functionality for displaying individual model
     instances that are always filtered by is_active=True and can have additional
-    custom filters applied. Used by apps with collections like topics, data-highlights, dashboards, etc.
+    custom filters applied. Used by apps with collections like topics,
+    data-highlights, dashboards, etc.
 
     Attributes:
         title (str): Page title. If empty, uses object's string representation.
@@ -55,8 +59,8 @@ class BaseDetailView(DetailView):
     slug_url_kwarg = "slug"
     extra_context = None
 
-    def get_queryset(self):
-        """Return active items with custom filters applied"""
+    def get_queryset(self) -> QuerySet[Any]:
+        """Return active items with custom filters applied."""
         # Get custom filter arguments from class attributes
         filter_args = {
             k.replace("filter_", ""): v for k, v in vars(self).items() if k.startswith("filter_")
@@ -65,8 +69,8 @@ class BaseDetailView(DetailView):
         # Always filter by is_active=True and apply any custom filters
         return self.model.objects.filter(is_active=True, **filter_args)
 
-    def get_context_data(self, **kwargs):
-        """Add title and extra_context to context"""
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
+        """Add title and extra_context to context."""
         context = super().get_context_data(**kwargs)
         context["title"] = self.title or str(self.object)
 

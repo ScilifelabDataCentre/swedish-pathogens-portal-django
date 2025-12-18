@@ -1,3 +1,5 @@
+"""Views for the historic SARS-CoV-2 wastewater dashboard page."""
+
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.views import View

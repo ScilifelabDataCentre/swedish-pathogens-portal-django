@@ -1,3 +1,5 @@
+"""Configuration for the topics app."""
+
 from django.apps import AppConfig
 
 

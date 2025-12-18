@@ -1,3 +1,5 @@
+"""App configuration for the About page."""
+
 from django.apps import AppConfig
 
 

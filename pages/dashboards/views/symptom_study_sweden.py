@@ -1,3 +1,6 @@
+"""Views for the COVID Symptom Study Sweden dashboard page."""
+
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.views import View
 
@@ -27,7 +30,7 @@ class SymptomStudySweden(View):
         "research projects."
     )
 
-    def get(self, request):
+    def get(self, request: HttpRequest) -> HttpResponse:
         """Fetch the compiled plot data (JSON) and generate plot HTML strings.
 
         Fetches Plotly JSON data from blobserver for the prevalence map,
@@ -37,8 +40,7 @@ class SymptomStudySweden(View):
         Returns:
             Rendered template with plot HTML strings in context.
         """
-
-        context = dict(title=self.title, description=self.description)
+        context = {"title": self.title, "description": self.description}
 
         # Fetch prevalence map visualization
         blob_data = fetch_plot_json_blobserver("symptoms_map_english.json")

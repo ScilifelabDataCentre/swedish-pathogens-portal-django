@@ -1,3 +1,6 @@
+from typing import Any
+
+from django.db.models import QuerySet
 from django.views.generic import ListView
 
 
@@ -52,8 +55,8 @@ class BaseListView(ListView):
     title = ""
     extra_context = None
 
-    def get_queryset(self):
-        """Return active items with custom filters applied, ordered by specified field"""
+    def get_queryset(self) -> QuerySet[Any]:
+        """Return active items with custom filters applied, ordered by specified field."""
         # Get custom filter arguments from class attributes
         filter_args = {
             k.replace("filter_", ""): v for k, v in vars(self).items() if k.startswith("filter_")
@@ -68,8 +71,8 @@ class BaseListView(ListView):
 
         return queryset
 
-    def get_context_data(self, **kwargs):
-        """Add title and extra_context to context"""
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
+        """Add title and extra_context to context."""
         context = super().get_context_data(**kwargs)
         if self.title:
             context["title"] = self.title

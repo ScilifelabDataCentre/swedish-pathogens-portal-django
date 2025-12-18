@@ -1,5 +1,8 @@
+"""URL configuration for the articles page."""
+
 from django.urls import path
-from .views import ArticleListView, ArticleDetailView
+
+from .views import ArticleDetailView, ArticleListView
 
 app_name = "articles"
 

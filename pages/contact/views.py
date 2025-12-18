@@ -14,19 +14,20 @@ import time
 from typing import Any
 
 from django.conf import settings
+from django.contrib import messages
 from django.core.mail import EmailMessage
 from django.http import HttpRequest, HttpResponse
 from django.urls import reverse_lazy
 from django.views.generic.edit import FormView
-from django.contrib import messages
 
 from .forms import CONTACT_TS_SIGNER, ContactForm
-
 
 logger = logging.getLogger("pages.contact.views")
 
 
 class ContactFormView(FormView):
+    """Contact form view with anti-spam token and email sending."""
+
     template_name = "contact/contact_form.html"
     form_class = ContactForm
     success_url = reverse_lazy("contact:contact")
@@ -43,7 +44,7 @@ class ContactFormView(FormView):
         kwargs["request"] = self.request
         return kwargs
 
-    def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
+    def get(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
         """Render the form and set anti-spam tokens/cookie.
 
         Sets the signed timestamp and double-submit token as hidden fields and
@@ -144,9 +145,10 @@ class ContactFormView(FormView):
             data["contact_ts"] = signed_ts
             data["contact_dsc"] = dsc_token
             form.data = data
-        except Exception:  # noqa: BLE001
+        except Exception as err:  # noqa: BLE001
             # If form.data is not a QueryDict (unlikely), continue with initial values only
-            pass
+            logger.warning(err)
+
         response = super().form_invalid(form)
         self._set_dsc_cookie(response, dsc_token)
         return response

@@ -1,10 +1,12 @@
+"""Views for dashboards index page."""
+
 from django.urls import reverse_lazy
 
 from utils.views import BaseTemplateView
 
 
 class DashboardsIndex(BaseTemplateView):
-    """Index page for Dashboard
+    """Index page for Dashboard.
 
     WIP: currently a simple templateview but will be updated later
     """

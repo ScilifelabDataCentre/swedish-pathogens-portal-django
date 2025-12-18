@@ -1,5 +1,4 @@
-"""
-Development settings.
+"""Development settings.
 
 These settings are intended for local development.
 """

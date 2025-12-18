@@ -1,5 +1,4 @@
-"""
-Base Django settings for Pathogens Portal project.
+"""Base Django settings for Pathogens Portal project.
 
 This file is shared by all environments and is environment-agnostic.
 Environment-specific overrides should live in `development.py` and `production.py`.
@@ -12,8 +11,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
-import environ
 
+import environ
 
 # ENVIRONMENT
 # ------------------------------------------------------------------------------

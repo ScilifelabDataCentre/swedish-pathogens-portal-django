@@ -1,19 +1,22 @@
+"""URL configurations for dashboards page."""
+
 from django.urls import path
+
 from .views import (
-    # Dashboard index
-    DashboardsIndex,
-    # Active dashboards
-    LineageCompetition,
-    SerologyStatistics,
-    VariantsRegionUppsala,
     # Historic dashboards
     CovidQuantificationKth,
     CrushCovid,
+    # Dashboard index
+    DashboardsIndex,
     HistoricSarsCov2Wastewater,
+    # Active dashboards
+    LineageCompetition,
     NpcStatistics,
     PostCovid,
+    SerologyStatistics,
     SymptomStudySweden,
     Vaccines,
+    VariantsRegionUppsala,
 )
 
 app_name = "dashboards"

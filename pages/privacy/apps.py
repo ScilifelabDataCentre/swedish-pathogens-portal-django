@@ -1,3 +1,5 @@
+"""Configuration for the privacy app."""
+
 from django.apps import AppConfig
 
 
