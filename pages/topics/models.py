@@ -36,7 +36,6 @@ class Topic(models.Model):
                 thumbnail_image="covid19.jpg"
             )
             # slug automatically generated as "covid-19-research"
-
     """
 
     name = models.CharField(
