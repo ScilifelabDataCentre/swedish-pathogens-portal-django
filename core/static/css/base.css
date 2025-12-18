@@ -20,7 +20,6 @@
     --color-pp-pale-grey: #d8d8d8;
     --color-pp-dark-grey: #55585a;
     --color-pp-almost-black: #1a1c1a;
-    --color-pp-purple: #6b4a77;
 }
 
 /* Site's default element level styling */
@@ -110,7 +109,7 @@
 
     /* Back to top button base styling */
     .back-to-top {
-        background-color: var(--color-pp-purple);
+        background-color: var(--color-pp-teal);
         @apply fixed right-5 bottom-5 z-50 
             inline-flex items-center justify-center
             w-10 h-10 rounded-lg 
