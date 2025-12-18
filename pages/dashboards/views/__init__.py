@@ -6,6 +6,7 @@ URL configs and other modules.
 
 from .covid_quantification_kth import CovidQuantificationKth
 from .crush_covid import CrushCovid
+from .enteric_quantification import EntericQuantification
 from .historic_sarscov2_wastewater import HistoricSarsCov2Wastewater
 from .index import DashboardsIndex
 from .lineage_competition import LineageCompetition
@@ -15,11 +16,11 @@ from .serology_statistics import SerologyStatistics
 from .symptom_study_sweden import SymptomStudySweden
 from .vaccines import Vaccines
 from .variants_region_uppsala import VariantsRegionUppsala
-from .enteric_quantification import EntericQuantification
 
 __all__ = [
     "CovidQuantificationKth",
     "CrushCovid",
+    "EntericQuantification",
     "DashboardsIndex",
     "HistoricSarsCov2Wastewater",
     "LineageCompetition",
@@ -29,5 +30,4 @@ __all__ = [
     "SymptomStudySweden",
     "Vaccines",
     "VariantsRegionUppsala",
-    "EntericQuantification",
 ]

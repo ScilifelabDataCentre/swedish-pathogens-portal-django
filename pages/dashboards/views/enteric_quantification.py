@@ -1,3 +1,5 @@
+"""Views for enteric virus in wastewater (GU) dashboard dashboard page."""
+
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.views import View
@@ -8,7 +10,7 @@ from ..visualisation.utils import fetch_plot_json_blobserver, plot_html_from_jso
 class EntericQuantification(View):
     """Amount of enteric virus in wastewater (GU) dashboard page.
 
-    This view class renders the template of (historic) dashboard of Amount of 
+    This view class renders the template of (historic) dashboard of Amount of
     enteric virus in wastewater (GU).
 
     Attributes:
@@ -26,9 +28,12 @@ class EntericQuantification(View):
     )
 
     def get(self, request: HttpRequest) -> HttpResponse:
-        """Fetch the compiled plot data (JSON) and generate plot html string"""
+        """Fetch the compiled plot data (JSON) and generate plot html string."""
 
-        context = dict(title=self.title, description=self.description)
+        context = {
+            "title": self.title,
+            "description": self.description,
+        }
 
         vaccine_related_blobs = [
             "enteric_graph_gu",

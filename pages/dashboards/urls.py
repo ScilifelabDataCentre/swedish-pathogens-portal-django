@@ -3,13 +3,11 @@
 from django.urls import path
 
 from .views import (
-    # Historic dashboards
     CovidQuantificationKth,
     CrushCovid,
-    # Dashboard index
     DashboardsIndex,
+    EntericQuantification,
     HistoricSarsCov2Wastewater,
-    # Active dashboards
     LineageCompetition,
     NpcStatistics,
     PostCovid,
@@ -17,7 +15,6 @@ from .views import (
     SymptomStudySweden,
     Vaccines,
     VariantsRegionUppsala,
-    EntericQuantification,
 )
 
 app_name = "dashboards"
