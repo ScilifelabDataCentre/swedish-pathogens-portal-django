@@ -10,6 +10,7 @@ from __future__ import annotations
 import logging
 from io import BytesIO
 from typing import Any
+from urllib.parse import urlparse
 from urllib.request import Request, urlopen
 
 import polars as pl
@@ -47,7 +48,7 @@ class MultiDiseaseSerology(View):
     template_name = "dashboards/multidisease_serology.html"
     title = "Multi-disease serology"
 
-    def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
+    def get(self, request: HttpRequest, *args: object, **kwargs: object) -> HttpResponse:
         """Render the dashboard template with the computed serology context."""
         context = self._build_context()
         return render(request, self.template_name, context)
@@ -75,7 +76,7 @@ class MultiDiseaseSerology(View):
         }
 
     def _load_rows(self, url: str, headers: list[str], source: str) -> list[list[Any]]:
-        """Helper to fetch, parse, normalise, and cache table data."""
+        """Fetch, parse, normalise, and cache table data."""
         cache_key = f"multidisease_serology_rows_{source}"
         cached_rows = cache.get(cache_key)
         if cached_rows is not None:
@@ -95,8 +96,11 @@ class MultiDiseaseSerology(View):
 
     def _read_excel_frame(self, url: str) -> pl.DataFrame:
         """Fetch an Excel sheet using urllib and parse it with Polars."""
-        request = Request(url, headers={"User-Agent": USER_AGENT})
-        with urlopen(request, timeout=REQUEST_TIMEOUT_SECONDS) as response:
+        parsed_url = urlparse(url)
+        if parsed_url.scheme not in {"http", "https"}:
+            raise ValueError(f"Unsupported URL scheme for serology XLSX fetch: {parsed_url.scheme}")
+        request = Request(url, headers={"User-Agent": USER_AGENT})  # noqa: S310 - already validated above and temporary
+        with urlopen(request, timeout=REQUEST_TIMEOUT_SECONDS) as response:  # noqa: S310 - already validated above and temporary
             payload = BytesIO(response.read())
         payload.seek(0)
         # Polars read_excel uses Rust calamine engine which requires fastexcel for performance.

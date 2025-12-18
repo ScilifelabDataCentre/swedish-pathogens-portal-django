@@ -1,3 +1,4 @@
+# ruff: noqa: I001 - imports are alphabetically ordered according to the status of each dashboard
 """URL configurations for dashboards page."""
 
 from django.urls import path
