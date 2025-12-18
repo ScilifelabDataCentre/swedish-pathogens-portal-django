@@ -15,7 +15,6 @@ class NewsIndex(BaseListView):
         template_name: Template for rendering the list.
         context_object_name: Name for news in template context.
         title: Page title displayed in template.
-
     """
 
     model = News
@@ -33,7 +32,6 @@ class NewsDetail(BaseDetailView):
         model: News model to display.
         template_name: Template for rendering the detail view.
         context_object_name: Name for news in template context.
-
     """
 
     model = News
