@@ -1,3 +1,5 @@
+"""Historic influenza data visualizations."""
+
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.views import View
@@ -26,7 +28,7 @@ class HistoricInfluenza(View):
     def get(self, request: HttpRequest) -> HttpResponse:
         """Handle GET requests to display the historic influenza dashboard."""
 
-        context = dict(title=self.title, description=self.description)
+        context = {"title": self.title, "description": self.description}
 
         blobs = [
             "wastewater_sluINFsites",
@@ -35,10 +37,7 @@ class HistoricInfluenza(View):
         ]
         for blob in blobs:
             blob_data = fetch_plot_json_blobserver(f"{blob}.json")
-            if blob.startswith("historic"):
-                plot_height = "600px"
-            else:
-                plot_height = "750px"
+            plot_height = "600px" if blob.startswith("historic") else "750px"
             context[blob] = plot_html_from_json(blob_data, height=plot_height, skip_invalid=True)
 
         return render(request, self.template_name, context)
