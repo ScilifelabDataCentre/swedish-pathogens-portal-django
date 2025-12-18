@@ -5,15 +5,15 @@
 # Uses the repo's Ruff configuration
 ---
 repos:
-  # - repo: https://github.com/astral-sh/ruff-pre-commit
-  #   rev: v0.14.8   # Fixed version required
-  #   hooks:
-  #     # 1. Format with Ruff
-  #     - id: ruff-format
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.14.8   # Fixed version required
+    hooks:
+      # 1. Format with Ruff
+      - id: ruff-format
 
-  #     # 2. Lint with Ruff + auto-fix if possible
-  #     - id: ruff-check
-  #       args: ["--fix"]
+      # 2. Lint with Ruff + auto-fix if possible
+      - id: ruff-check
+        args: ["--fix"]
   - repo: https://github.com/adrienverge/yamllint
     rev: v1.35.1
     hooks:
