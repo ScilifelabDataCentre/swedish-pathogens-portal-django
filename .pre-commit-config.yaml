@@ -19,4 +19,4 @@ repos:
     hooks:
       - id: yamllint
         types: [yaml]
-        args: ["-c", ".github/.yamllint.yaml"]
+        args: ["-c", ".github/.yamllint.yaml", "--strict"]
