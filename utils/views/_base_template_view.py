@@ -25,7 +25,6 @@ class BaseTemplateView(TemplateView):
                 title = "About Us"
                 description = "Learn about our organization"
                 extra_context = {"show_contact": True}
-
     """
 
     title = ""
