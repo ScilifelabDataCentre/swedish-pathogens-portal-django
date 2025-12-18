@@ -130,7 +130,7 @@ class DashboardsIndex(BaseTemplateView):
             },
             {
                 "name": "Amount of enteric virus in wastewater (GU)",
-                "image": "dashboards/thumbnails/vaccines.jpg",
+                "image": "dashboards/thumbnails/wastewater_enteric_virus.png",
                 "url": reverse_lazy("dashboards:enteric_quantification"),
                 "description": (
                     "The Swedish Health Agency (Folkhälsomyndigheten) provide data "
