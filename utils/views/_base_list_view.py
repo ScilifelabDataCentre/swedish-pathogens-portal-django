@@ -48,10 +48,8 @@ class BaseListView(ListView):
         - Merges extra_context into context
 
     Note:
-    ----
         Model must have `is_active` boolean field. All queries will filter by is_active=True
         and can have additional custom filters applied via filter_* attributes.
-
     """
 
     title = ""
