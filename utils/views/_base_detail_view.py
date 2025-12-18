@@ -48,11 +48,9 @@ class BaseDetailView(DetailView):
         - Merges extra_context into context
 
     Note:
-    ----
         Model must have `is_active` boolean field and implement `__str__` method.
         All queries will filter by is_active=True and can have additional custom
         filters applied via filter_* attributes.
-
     """
 
     # Explicit default values for clarity and consistency
