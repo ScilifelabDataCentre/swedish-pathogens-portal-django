@@ -1,7 +1,6 @@
 """Utility functions and common settings for SLU Wastewater dashboard."""
 
 from datetime import datetime, timedelta
-from typing import Any
 
 import numpy as np
 import pandas as pd
@@ -319,7 +318,7 @@ def get_recent_data_info(data: pd.DataFrame) -> dict:
     }
 
 
-def get_quant_overview_plot(data: pd.DataFrame | dict, as_json: bool = False, **f_args: Any) -> str:
+def get_quant_overview_plot(data: pd.DataFrame | dict, as_json: bool = False, **f_args) -> str:
     """Build a quantitative overview scatter plot.
 
     The function builds a multi-facet Plotly scatter with rolling trendlines for
@@ -506,7 +505,7 @@ def get_qual_overview_plot(data: pd.DataFrame, as_json: bool = False) -> str:
 
 
 def get_all_sites_plot(
-    data: pd.DataFrame | dict, virus: str, as_json: bool = False, **f_args: Any
+    data: pd.DataFrame | dict, virus: str, as_json: bool = False, **f_args
 ) -> str:
     """Generate a time-series Plotly figure.
 
@@ -595,7 +594,7 @@ def get_all_sites_plot(
 
 
 def get_single_site_plot(
-    data: pd.DataFrame | dict, virus: str, as_json: bool = False, **f_args: Any
+    data: pd.DataFrame | dict, virus: str, as_json: bool = False, **f_args
 ) -> str:
     """Build a single-site timeseries for multiple normalization methods.
 
