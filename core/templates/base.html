@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
     {% include "html_head_tag.html" %}
-    <body id="top">
+    <body id="base-body">
         {% include "header.html" %}
 
         <main>
@@ -16,10 +16,21 @@
 
         <!-- Back to top button -->
         <!-- href is added as a fallback - works without JS -->
-        <a href="#top" 
-            class="back-to-top" 
+        <a href="#base-body" 
             title="Back to top" 
-            aria-label="Back to top">
+            aria-label="Back to top"
+            class="
+                fixed right-5 bottom-5 z-50 
+                inline-flex items-center justify-center
+                w-10 h-10 rounded-lg 
+                text-white shadow-sm no-underline
+                opacity-0 pointer-events-none translate-y-2
+                transition-all duration-200   
+                hover:opacity-90 
+                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2
+                bg-pp-teal
+                back-to-top
+            ">
             ↑ <!-- This or SVG? -->
         </a>
 

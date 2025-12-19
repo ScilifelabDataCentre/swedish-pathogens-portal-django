@@ -107,27 +107,10 @@
         @apply text-white *:text-white bg-pp-dark-blue text-xs;
     }
 
-    /* Back to top button base styling */
-    .back-to-top {
-        background-color: var(--color-pp-teal);
-        @apply fixed right-5 bottom-5 z-50 
-            inline-flex items-center justify-center
-            w-10 h-10 rounded-lg 
-            text-white shadow-sm no-underline
-            opacity-0 pointer-events-none translate-y-2
-            transition-all duration-200;
-    }
+    /* Back to top button visibility */
 
     .back-to-top.is-visible {
         @apply opacity-100 pointer-events-auto translate-y-0;
-    }
-
-    .back-to-top:hover {
-        @apply opacity-90;
-    }
-
-    .back-to-top:focus-visible {
-        @apply outline-none ring-2 ring-pp-teal ring-offset-2;
     }
 
     .back-to-top .bi {
