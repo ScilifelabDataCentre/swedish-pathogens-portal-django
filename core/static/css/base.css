@@ -107,15 +107,4 @@
         @apply text-white *:text-white bg-pp-dark-blue text-xs;
     }
 
-    /* Back to top button visibility */
-
-    .back-to-top.is-visible {
-        @apply opacity-100 pointer-events-auto translate-y-0;
-    }
-
-    .back-to-top .bi {
-        @apply text-xl leading-none;
-    }
-
-
 }

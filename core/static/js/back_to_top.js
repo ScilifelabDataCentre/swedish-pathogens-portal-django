@@ -6,7 +6,15 @@
 
   // Function to toggle visibility
   const setVisibility = () => { 
-    btn.classList.toggle("is-visible", window.scrollY > SHOW_AFTER_PX); // CSS uses .is-visible to show/hide
+    const show = window.scrollY > SHOW_AFTER_PX;
+
+    btn.classList.toggle("opacity-100", show); // Show
+    btn.classList.toggle("pointer-events-auto", show);
+    btn.classList.toggle("translate-y-0", show);
+
+    btn.classList.toggle("opacity-0", !show); // Hide
+    btn.classList.toggle("pointer-events-none", !show);
+    btn.classList.toggle("translate-y-2", !show);
   };
 
   setVisibility(); // Initial run - in case page is loaded scrolled down
