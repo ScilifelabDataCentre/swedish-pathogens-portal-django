@@ -106,5 +106,4 @@
     .badge-topic {
         @apply text-white *:text-white bg-pp-dark-blue text-xs;
     }
-
 }
