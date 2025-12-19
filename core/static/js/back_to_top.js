@@ -2,7 +2,7 @@
   const btn = document.querySelector(".back-to-top");  // Get the button element
   if (!btn) return; // Exit if button is not found
 
-  const SHOW_AFTER_PX = 10; // Show button after scrolling down
+  const SHOW_AFTER_PX = 350; // Show button after scrolling down
 
   // Function to toggle visibility
   const setVisibility = () => { 
