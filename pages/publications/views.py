@@ -53,7 +53,8 @@ class Publications(View):
         # Get publications for the active pathogen
         if active_pathogen:
             context["europe_pmc_full_list"] = (
-                f'{settings.EUROPE_PMC_WEB_URL}?query={active_pathogen.query_string} AND AFF:"Sweden"'
+                f"{settings.EUROPE_PMC_WEB_URL}?"
+                f'query={active_pathogen.query_string} AND AFF:"Sweden"'
             )
             context["active_pathogen"] = active_pathogen.name
 
