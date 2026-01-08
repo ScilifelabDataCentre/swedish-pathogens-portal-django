@@ -13,16 +13,17 @@ class Pa11ySitemap(Sitemap):
     def items(self) -> list[str]:
         """URL names included in CI scans."""
         return [
-            "home:index",  # may need "home:index"
-            "about:index",  # may need "about:index"
-            "citation:index",  # may need "citation:index"
-            "contact:index",  # may need "contact:index"
-            "privacy:index",  # may need "privacy:index"
-            # Add more index pages once confirmed:
-            # "news:index",
-            # "topics:index",
-            # "outbreaks:index",
-            # "dashboards:index",
+            "about:index",
+            "articles:index",
+            "citation:index",
+            "contact:index",
+            "dashboards:index",
+            "data_management:index",
+            "home:index",
+            "news:index",
+            "outbreaks:index",
+            "privacy:index",
+            "topics:index",
         ]
 
     def location(self, item: str) -> str:
