@@ -20,9 +20,11 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
+from django.contrib.sitemaps.views import sitemap
 from django.urls import include, path
 
 # Local imports
+from core.sitemaps import sitemaps
 from core.views import healthz
 
 urlpatterns = [
@@ -39,6 +41,7 @@ urlpatterns = [
     path("outbreaks/", include("pages.outbreaks.urls")),
     path("privacy/", include("pages.privacy.urls")),
     path("topics/", include("pages.topics.urls")),
+    path("sitemap.xml", sitemap, {"sitemaps": sitemaps}, name="sitemap"),
 ]
 
 # Auto browser reload addition for local development
