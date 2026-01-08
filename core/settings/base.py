@@ -65,13 +65,11 @@ LOCAL_APPS = [
 ]
 
 SITEMAP_APPS = [
-    "django.contrib.sites",  # provides site/domain awareness
     "django.contrib.sitemaps",  # provides sitemap class and sitemap view
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS + SITEMAP_APPS
 
-SITE_ID = 1  # not required but a safe default when using django.contrib.sites
 
 # MIDDLEWARE (https://docs.djangoproject.com/en/5.2/ref/settings/#middleware)
 # ------------------------------------------------------------------------------

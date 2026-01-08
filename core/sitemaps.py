@@ -13,12 +13,11 @@ class Pa11ySitemap(Sitemap):
     def items(self) -> list[str]:
         """URL names included in CI scans."""
         return [
-            # Keep this list small and stable for fast, reliable CI.
-            "home",  # may need "home:index"
-            "about",  # may need "about:index"
-            "citation",  # may need "citation:index"
-            "contact",  # may need "contact:index"
-            "privacy",  # may need "privacy:index"
+            "home:index",  # may need "home:index"
+            "about:index",  # may need "about:index"
+            "citation:index",  # may need "citation:index"
+            "contact:index",  # may need "contact:index"
+            "privacy:index",  # may need "privacy:index"
             # Add more index pages once confirmed:
             # "news:index",
             # "topics:index",
@@ -29,3 +28,9 @@ class Pa11ySitemap(Sitemap):
     def location(self, item: str) -> str:
         """Resolve URL names to real URLs."""
         return reverse(item)
+
+
+# Registry used by Django's sitemap view
+sitemaps = {
+    "pa11y": Pa11ySitemap,
+}
