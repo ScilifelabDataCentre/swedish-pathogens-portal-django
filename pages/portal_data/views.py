@@ -37,9 +37,7 @@ SUPPORTED_TYPES = {
 }
 
 # Root where the PVC is mounted in the web container
-DATA_ROOT: Path = Path(
-    getattr(settings, "PORTAL_DATA_ROOT", "/datasets")
-).resolve()
+DATA_ROOT: Path = Path(getattr(settings, "PORTAL_DATA_ROOT", "/datasets")).resolve()
 
 ACCESSION_RE = re.compile(r"^MTBLS\d+$")
 
@@ -83,6 +81,7 @@ def _iter_study_dirs(datatype: str) -> list[Path]:
 
     return [candidates[name] for name in sorted(candidates)]
 
+
 def _load_all_items(datatype: str) -> list[dict]:
     """Load all public metabolomics datasets from the PVC.
 
@@ -123,10 +122,9 @@ def _load_all_items(datatype: str) -> list[dict]:
             # IDs used by bulk selection / export
             "id": accession,
             "accession": accession,
-
             # Old fields the template already uses
             "title": title,
-            "pathogen": "",        # not available in ISA; left empty for now
+            "pathogen": "",  # not available in ISA; left empty for now
             "matrix": "",
             "instrument": "",
             "country": "",
@@ -134,7 +132,6 @@ def _load_all_items(datatype: str) -> list[dict]:
             "repository": "MetaboLights",
             "repo_accession": accession,
             "repo_url": f"https://www.ebi.ac.uk/metabolights/{accession}",
-
             # New metadata from i_Investigation.txt
             "description": description,
             "tags": tags,
@@ -148,7 +145,6 @@ def _load_all_items(datatype: str) -> list[dict]:
             "publication_doi": meta.get("publication_doi"),
             "publication_authors": meta.get("publication_authors"),
             "technology": meta.get("technology"),
-
             # Local PVC location (useful for debugging or later features)
             "local_path": str(study_dir),
         }
@@ -156,6 +152,7 @@ def _load_all_items(datatype: str) -> list[dict]:
         items.append(item)
 
     return items
+
 
 def _apply_search_and_filters(
     items: list[dict],
@@ -165,6 +162,7 @@ def _apply_search_and_filters(
     # Text search
     if query:
         q = query.lower()
+
         def matches_text(it: dict) -> bool:
             # title and id (existing behavior)
             if q in str(it.get("title", "")).lower() or q in str(it.get("id", "")).lower():
@@ -213,6 +211,7 @@ def _apply_search_and_filters(
 
     return items
 
+
 def _build_facets(
     items: list[dict[str, Any]],
     facet_names: list[str],
@@ -244,6 +243,7 @@ def _build_facets(
         # but only if all keys look like integers; otherwise fall back to
         # string-based descending sort. All other facets are sorted ascending.
         if facet == "year" and buckets:
+
             def _is_integer_string(s: str) -> bool:
                 # match optional leading minus and digits (covers negative years if any)
                 return re.fullmatch(r"-?\d+", s) is not None
@@ -258,17 +258,11 @@ def _build_facets(
         # Mark checked items based on current filters
         active_values = filters.get(facet, [])
         facets[facet] = [
-            {
-                "value": value,
-                "count": count,
-                "checked": str(value) in active_values
-            }
+            {"value": value, "count": count, "checked": str(value) in active_values}
             for value, count in buckets
         ]
 
     return facets
-
-
 
 
 # -------------------------------------------------------------------
@@ -294,15 +288,12 @@ class DataTypeListView(TemplateView):
         page = max(int(self.request.GET.get("page", "1")), 1)
         size = max(int(self.request.GET.get("size", "25")), 1)
         facet_names = (
-            self.request.GET.getlist("facet")
-            or SUPPORTED_TYPES[datatype]["default_facets"]
+            self.request.GET.getlist("facet") or SUPPORTED_TYPES[datatype]["default_facets"]
         )
 
         filter_fields = facet_names
         filters = {
-            f: self.request.GET.getlist(f)
-            for f in filter_fields
-            if self.request.GET.getlist(f)
+            f: self.request.GET.getlist(f) for f in filter_fields if self.request.GET.getlist(f)
         }
 
         # Load from PVC
@@ -478,7 +469,8 @@ def _parse_investigation_file(path: Path) -> dict[str, object]:
     return meta
 
 
-#---- Download helper functions ---------------------------------------------------
+# ---- Download helper functions ---------------------------------------------------
+
 
 def _list_study_files(study_dir: Path) -> list[dict[str, Any]]:
     """List all files within a study directory.
@@ -643,4 +635,6 @@ def download_study_file(
 
     response.close = cleanup_close
     return response
+
+
 # ---------------------------------------------------------------------------

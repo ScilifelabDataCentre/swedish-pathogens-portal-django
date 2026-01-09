@@ -1,4 +1,5 @@
 """App configuration for the portal_data app."""
+
 from django.apps import AppConfig
 
 

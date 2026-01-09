@@ -1,4 +1,5 @@
 """Service functions for exporting item data for the Portal data page."""
+
 from __future__ import annotations
 
 import csv
@@ -87,4 +88,3 @@ def build_export_json(
     filename = default_filename or "export.json"
     content_type = "application/json; charset=utf-8"
     return content, filename, content_type
-
