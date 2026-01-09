@@ -52,3 +52,11 @@ jobs:
         with:
           sarif_file: 'trivy-results.sarif'
           category: trivy-branch
+
+      # Allow download & inspect SARIF
+      - name: Upload SARIF as workflow artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivy-results-sarif
+          path: trivy-results.sarif
