@@ -179,17 +179,28 @@ def _apply_search_and_filters(
         if not values:
             continue
         values_set = {str(v) for v in values}
-        items = [
-            it
-            for it in items
-            if it.get(field) is not None and str(it.get(field)) in values_set
-        ]
+        
+        def matches_filter(it: dict) -> bool:
+            """Check if item matches the filter for this field."""
+            field_value = it.get(field)
+            if field_value is None:
+                return False
+            # Handle list values (e.g., platforms, factors, design_types)
+            if isinstance(field_value, list):
+                # If any value in the list matches any filter value, include the item
+                return any(str(v) in values_set for v in field_value if v is not None and v != "")
+            else:
+                # Scalar value (e.g., year, repository, technology)
+                return str(field_value) in values_set
+        
+        items = [it for it in items if matches_filter(it)]
 
     return items
 
-def _build_facets(items: List[dict], facet_names: List[str]) -> Dict[str, List[dict]]:
+def _build_facets(items: List[dict], facet_names: List[str], filters: Dict[str, List[str]] = None) -> Dict[str, List[dict]]:
     facets: Dict[str, List[dict]] = {}
     items = list(items)
+    filters = filters if filters is not None else {}
 
     for facet in facet_names:
         counts: Dict[str, int] = {}
@@ -197,8 +208,15 @@ def _build_facets(items: List[dict], facet_names: List[str]) -> Dict[str, List[d
             value = it.get(facet)
             if value in (None, "", [], {}):
                 continue
-            key = str(value)
-            counts[key] = counts.get(key, 0) + 1
+            # Handle list values (e.g., platforms, factors, design_types)
+            if isinstance(value, list):
+                for v in value:
+                    if v is not None and v != "":  # skip None and empty strings
+                        key = str(v)
+                        counts[key] = counts.get(key, 0) + 1
+            else:
+                key = str(value)
+                counts[key] = counts.get(key, 0) + 1
 
         buckets = list(counts.items())
 
@@ -217,9 +235,16 @@ def _build_facets(items: List[dict], facet_names: List[str]) -> Dict[str, List[d
         else:
             buckets.sort(key=lambda kv: kv[0])
         
-        ##breakpoint()
-        
-        facets[facet] = [{"value": value, "count": count} for value, count in buckets]
+        # Mark checked items based on current filters
+        active_values = filters.get(facet, [])
+        facets[facet] = [
+            {
+                "value": value,
+                "count": count,
+                "checked": str(value) in active_values
+            }
+            for value, count in buckets
+        ]
 
     return facets
 
@@ -250,14 +275,14 @@ class DataTypeListView(TemplateView):
             or SUPPORTED_TYPES[datatype]["default_facets"]
         )
 
-        filter_fields = ["pathogen", "matrix", "instrument", "country", "year", "repository"]
-        filters = {f: self.request.GET.getlist(f) for f in filter_fields if self.request.GET.get(f)}
+        filter_fields = facet_names
+        filters = {f: self.request.GET.getlist(f) for f in filter_fields if self.request.GET.getlist(f)}
 
         # Load from PVC
         all_items = _load_all_items(datatype)
 
         # Build facets from full set
-        facets = _build_facets(all_items, facet_names)
+        facets = _build_facets(all_items, facet_names, filters)
 
         # Apply filters + search
         filtered_items = _apply_search_and_filters(all_items, q, filters)
