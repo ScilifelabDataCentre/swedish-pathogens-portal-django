@@ -37,6 +37,7 @@ urlpatterns = [
     path("healthz/", healthz, name="healthz"),
     path("news/", include("pages.news.urls")),
     path("outbreaks/", include("pages.outbreaks.urls")),
+    path("portal-data/", include("pages.portal_data.urls")),
     path("privacy/", include("pages.privacy.urls")),
     path("topics/", include("pages.topics.urls")),
 ]
