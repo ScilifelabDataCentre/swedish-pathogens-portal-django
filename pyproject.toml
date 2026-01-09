@@ -6,9 +6,7 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "django>=5.2.8",
-    "django-browser-reload>=1.20.0",
     "django-environ>=0.12.0",
-    "django-extensions>=4.1",
     "django-htmx>=1.27.0",
     "markdown>=3.5.0",
     "pillow>=10.0.0",
