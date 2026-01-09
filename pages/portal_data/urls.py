@@ -1,11 +1,12 @@
 from django.urls import path
+
 from .views import (
     DataTypeListView,
+    download_study,
+    download_study_file,
     export_selected,
     homepage_jump,
-    download_study,
     study_files,
-    download_study_file,
 )
 
 app_name = "pages_portal_data"

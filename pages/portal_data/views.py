@@ -1,22 +1,20 @@
 from __future__ import annotations
-import re
+
+import logging
+import mimetypes
 import os
+import re
 import shutil
 import tempfile
-import mimetypes
-import logging
-
 from pathlib import Path
 from urllib.parse import unquote
-from typing import List, Dict
 
 from django.conf import settings
-from django.http import Http404, FileResponse, HttpResponse, HttpResponseBadRequest
+from django.http import FileResponse, Http404, HttpResponse, HttpResponseBadRequest
 from django.shortcuts import redirect, render
 from django.views.generic import TemplateView
 
-from .services import build_export_tsv, build_export_json
-
+from .services import build_export_json, build_export_tsv
 
 logger = logging.getLogger("pages.portal_data.views")
 
@@ -44,9 +42,8 @@ def homepage_jump(request):
 # -------------------------------------------------------------------
 
 
-def _iter_study_dirs(datatype: str) -> List[Path]:
-    """
-    Yield directories that look like MetaboLights studies.
+def _iter_study_dirs(datatype: str) -> list[Path]:
+    """Yield directories that look like MetaboLights studies.
 
     With your current layout this will hit:
         /datasets/MTBLS1051
@@ -59,7 +56,7 @@ def _iter_study_dirs(datatype: str) -> List[Path]:
     if not DATA_ROOT.exists():
         return []
 
-    candidates: Dict[str, Path] = {}
+    candidates: dict[str, Path] = {}
     for p in DATA_ROOT.iterdir():
         if not p.is_dir():
             continue
@@ -75,8 +72,7 @@ def _iter_study_dirs(datatype: str) -> List[Path]:
     return [candidates[name] for name in sorted(candidates)]
 
 def _load_all_items(datatype: str) -> list[dict]:
-    """
-    Load all public metabolomics datasets from the PVC.
+    """Load all public metabolomics datasets from the PVC.
 
     Each item dict keeps the old keys (id, repository, repo_url, etc.)
     so facets/export keep working, but now also has richer metadata.
@@ -150,10 +146,10 @@ def _load_all_items(datatype: str) -> list[dict]:
     return items
 
 def _apply_search_and_filters(
-    items: List[dict],
+    items: list[dict],
     query: str,
-    filters: Dict[str, List[str]],
-) -> List[dict]:
+    filters: dict[str, list[str]],
+) -> list[dict]:
     # Text search
     if query:
         q = query.lower()
@@ -182,7 +178,7 @@ def _apply_search_and_filters(
         if not values:
             continue
         values_set = {str(v) for v in values}
-        
+
         def matches_filter(it: dict) -> bool:
             """Check if item matches the filter for this field."""
             field_value = it.get(field)
@@ -195,18 +191,18 @@ def _apply_search_and_filters(
             else:
                 # Scalar value (e.g., year, repository, technology)
                 return str(field_value) in values_set
-        
+
         items = [it for it in items if matches_filter(it)]
 
     return items
 
-def _build_facets(items: List[dict], facet_names: List[str], filters: Dict[str, List[str]] = None) -> Dict[str, List[dict]]:
-    facets: Dict[str, List[dict]] = {}
+def _build_facets(items: list[dict], facet_names: list[str], filters: dict[str, list[str]] = None) -> dict[str, list[dict]]:
+    facets: dict[str, list[dict]] = {}
     items = list(items)
     filters = filters if filters is not None else {}
 
     for facet in facet_names:
-        counts: Dict[str, int] = {}
+        counts: dict[str, int] = {}
         for it in items:
             value = it.get(facet)
             if value in (None, "", [], {}):
@@ -237,7 +233,7 @@ def _build_facets(items: List[dict], facet_names: List[str], filters: Dict[str, 
                 buckets.sort(key=lambda kv: kv[0], reverse=True)
         else:
             buckets.sort(key=lambda kv: kv[0])
-        
+
         # Mark checked items based on current filters
         active_values = filters.get(facet, [])
         facets[facet] = [
@@ -312,8 +308,7 @@ class DataTypeListView(TemplateView):
 
 
 def download_study(request, datatype: str, accession: str):
-    """
-    Stream a zip of the local MetaboLights study directory from the PVC.
+    """Stream a zip of the local MetaboLights study directory from the PVC.
     """
     if datatype not in SUPPORTED_TYPES:
         raise Http404("Unknown data type")
@@ -390,8 +385,7 @@ def export_selected(request, datatype):
 
 
 def _find_investigation_file(study_dir: Path) -> Path | None:
-    """
-    Prefer the latest file under METADATA_REVISIONS, fall back to top-level.
+    """Prefer the latest file under METADATA_REVISIONS, fall back to top-level.
     """
     rev_root = study_dir / "METADATA_REVISIONS"
     if rev_root.is_dir():
@@ -412,8 +406,7 @@ def _find_investigation_file(study_dir: Path) -> Path | None:
 
 
 def _parse_investigation_file(path: Path) -> dict:
-    """
-    Very simple ISA-tab parser focusing on the STUDY rows we care about.
+    """Very simple ISA-tab parser focusing on the STUDY rows we care about.
     """
     meta: dict[str, object] = {}
 
@@ -466,13 +459,12 @@ def _parse_investigation_file(path: Path) -> dict:
 
 #---- Download helper functions ---------------------------------------------------
 
-def _list_study_files(study_dir: Path) -> List[dict]:
-    """
-    Walk the study_dir and return a list of files with their relative paths,
+def _list_study_files(study_dir: Path) -> list[dict]:
+    """Walk the study_dir and return a list of files with their relative paths,
     sizes and mtime. Directories are not returned, only files.
     Robust to permission errors and skips files that can't be stat'ed.
     """
-    files: List[dict] = []
+    files: list[dict] = []
     try:
         for root, _, filenames in os.walk(study_dir):
             for fn in filenames:
@@ -502,8 +494,7 @@ def _list_study_files(study_dir: Path) -> List[dict]:
 
 
 def study_files(request, datatype: str, accession: str):
-    """
-    Render a simple file browser for a study directory on the PVC.
+    """Render a simple file browser for a study directory on the PVC.
     Logs helpful debugging info if something goes wrong.
     """
     if datatype not in SUPPORTED_TYPES:
@@ -540,8 +531,7 @@ def study_files(request, datatype: str, accession: str):
 
 
 def download_study_file(request, datatype: str, accession: str, relpath: str):
-    """
-    Stream a single file from the study directory. Protect against path traversal
+    """Stream a single file from the study directory. Protect against path traversal
     by resolving and ensuring the requested path is inside the study directory.
     This implementation is defensive and logs errors to help diagnose cluster 500s.
     """

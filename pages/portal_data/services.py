@@ -3,12 +3,12 @@ from __future__ import annotations
 import csv
 import io
 import json
-from typing import Iterable, Mapping, Tuple, List
+from collections.abc import Iterable, Mapping
 
 # Fields we include in exports:
 # - key in the item dict
 # - human-readable column header
-EXPORT_FIELDS: List[tuple[str, str]] = [
+EXPORT_FIELDS: list[tuple[str, str]] = [
     ("id", "Accession"),
     ("title", "Title"),
     ("pathogen", "Pathogen"),
@@ -22,8 +22,7 @@ EXPORT_FIELDS: List[tuple[str, str]] = [
 
 
 def _normalize_items(items: Iterable[Mapping[str, object]]) -> list[dict]:
-    """
-    Take whatever dicts the view passes in and return a list of clean dicts
+    """Take whatever dicts the view passes in and return a list of clean dicts
     containing only the fields we want to export, with None -> "".
     """
     normalized: list[dict] = []
@@ -43,9 +42,8 @@ def _normalize_items(items: Iterable[Mapping[str, object]]) -> list[dict]:
 def build_export_tsv(
     items: Iterable[Mapping[str, object]],
     default_filename: str = "export.tsv",
-) -> Tuple[str, str, str]:
-    """
-    Build a TSV export from a sequence of item dicts.
+) -> tuple[str, str, str]:
+    """Build a TSV export from a sequence of item dicts.
 
     Returns: (content_str, filename, content_type)
     """
@@ -72,9 +70,8 @@ def build_export_tsv(
 def build_export_json(
     items: Iterable[Mapping[str, object]],
     default_filename: str = "export.json",
-) -> Tuple[str, str, str]:
-    """
-    Build a JSON export from a sequence of item dicts.
+) -> tuple[str, str, str]:
+    """Build a JSON export from a sequence of item dicts.
 
     Returns: (content_str, filename, content_type)
     """
