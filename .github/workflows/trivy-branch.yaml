@@ -41,6 +41,7 @@ jobs:
           output: 'trivy-results.sarif'
           severity: 'CRITICAL,HIGH,MEDIUM'
           exit-code: "1"  # Fail workflow if vulnerabilities found
+          skip-dirs: "app/.venv"
 
       - name: Upload Trivy scan results to GitHub Security tab
         if: always()  # Publish results to security tab even if scan fails
@@ -48,3 +49,11 @@ jobs:
         with:
           sarif_file: 'trivy-results.sarif'
           category: trivy-branch
+
+      # Allow download & inspect SARIF
+      - name: Upload SARIF as workflow artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivy-results-sarif
+          path: trivy-results.sarif
