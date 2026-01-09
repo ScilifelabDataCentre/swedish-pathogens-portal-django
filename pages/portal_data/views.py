@@ -1,3 +1,5 @@
+"""Django views for browsing and exporting portal data mounted on the data PVC."""
+
 from __future__ import annotations
 
 import logging
@@ -6,11 +8,13 @@ import os
 import re
 import shutil
 import tempfile
+from contextlib import ExitStack, suppress
+from typing import Any
 from pathlib import Path
 from urllib.parse import unquote
 
 from django.conf import settings
-from django.http import FileResponse, Http404, HttpResponse, HttpResponseBadRequest
+from django.http import FileResponse, Http404, HttpRequest, HttpResponse, HttpResponseBadRequest
 from django.shortcuts import redirect, render
 from django.views.generic import TemplateView
 
@@ -21,7 +25,14 @@ logger = logging.getLogger("pages.portal_data.views")
 SUPPORTED_TYPES = {
     "metabolomics": {
         "label": "Metabolomics",
-        "default_facets": ["year", "platforms","technology","factors", "design_types", "repository"],
+        "default_facets": [
+            "year",
+            "platforms",
+            "technology",
+            "factors",
+            "design_types",
+            "repository",
+        ],
     },
 }
 
@@ -33,7 +44,8 @@ DATA_ROOT: Path = Path(
 ACCESSION_RE = re.compile(r"^MTBLS\d+$")
 
 
-def homepage_jump(request):
+def homepage_jump(request: HttpRequest) -> HttpResponse:
+    """Redirect the root portal-data URL to the default data type."""
     return redirect("pages_portal_data:data_type_list", datatype="metabolomics")
 
 
@@ -179,24 +191,33 @@ def _apply_search_and_filters(
             continue
         values_set = {str(v) for v in values}
 
-        def matches_filter(it: dict) -> bool:
+        def matches_filter(
+            it: dict[str, Any],
+            *,
+            _field: str = field,
+            _values_set: set[str] = values_set,
+        ) -> bool:
             """Check if item matches the filter for this field."""
-            field_value = it.get(field)
+            field_value = it.get(_field)
             if field_value is None:
                 return False
             # Handle list values (e.g., platforms, factors, design_types)
             if isinstance(field_value, list):
                 # If any value in the list matches any filter value, include the item
-                return any(str(v) in values_set for v in field_value if v is not None and v != "")
+                return any(str(v) in _values_set for v in field_value if v is not None and v != "")
             else:
                 # Scalar value (e.g., year, repository, technology)
-                return str(field_value) in values_set
+                return str(field_value) in _values_set
 
         items = [it for it in items if matches_filter(it)]
 
     return items
 
-def _build_facets(items: list[dict], facet_names: list[str], filters: dict[str, list[str]] = None) -> dict[str, list[dict]]:
+def _build_facets(
+    items: list[dict[str, Any]],
+    facet_names: list[str],
+    filters: dict[str, list[str]] | None = None,
+) -> dict[str, list[dict[str, Any]]]:
     facets: dict[str, list[dict]] = {}
     items = list(items)
     filters = filters if filters is not None else {}
@@ -256,9 +277,11 @@ def _build_facets(items: list[dict], facet_names: list[str], filters: dict[str, 
 
 
 class DataTypeListView(TemplateView):
+    """List available studies for a given data type with faceted search."""
     template_name = "portal_data/index.html"
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        """Build template context for the study list page."""
         ctx = super().get_context_data(**kwargs)
         datatype = kwargs["datatype"]
 
@@ -275,7 +298,11 @@ class DataTypeListView(TemplateView):
         )
 
         filter_fields = facet_names
-        filters = {f: self.request.GET.getlist(f) for f in filter_fields if self.request.GET.getlist(f)}
+        filters = {
+            f: self.request.GET.getlist(f)
+            for f in filter_fields
+            if self.request.GET.getlist(f)
+        }
 
         # Load from PVC
         all_items = _load_all_items(datatype)
@@ -307,9 +334,8 @@ class DataTypeListView(TemplateView):
         return ctx
 
 
-def download_study(request, datatype: str, accession: str):
-    """Stream a zip of the local MetaboLights study directory from the PVC.
-    """
+def download_study(request: HttpRequest, datatype: str, accession: str) -> HttpResponse:
+    """Stream a ZIP archive of a study directory from the PVC."""
     if datatype not in SUPPORTED_TYPES:
         raise Http404("Unknown data type")
 
@@ -321,15 +347,17 @@ def download_study(request, datatype: str, accession: str):
         raise Http404("Study not found on this node")
 
     # Create the archive inside the PVC so we don't touch the read‑only root FS
-    tmpdir = tempfile.mkdtemp(dir=str(DATA_ROOT))
-    archive_base = os.path.join(tmpdir, accession)
+    tmpdir = Path(tempfile.mkdtemp(dir=str(DATA_ROOT)))
+    archive_base = tmpdir / accession
     archive_path = shutil.make_archive(
-        base_name=archive_base,
+        base_name=str(archive_base),
         format="zip",
         root_dir=str(study_dir),
     )
 
-    f = open(archive_path, "rb")
+    archive_file = Path(archive_path)
+    stack = ExitStack()
+    f = stack.enter_context(archive_file.open("rb"))
     response = FileResponse(
         f,
         as_attachment=True,
@@ -339,29 +367,23 @@ def download_study(request, datatype: str, accession: str):
     # Clean up the temp archive when the response is closed
     original_close = response.close
 
-    def cleanup_close(*args, **kwargs):
+    def cleanup_close(*args: object, **kwargs: object) -> None:
         try:
             original_close(*args, **kwargs)
         finally:
-            try:
-                f.close()
-            except Exception:
-                pass
-            try:
-                os.remove(archive_path)
-            except OSError:
-                pass
-            try:
-                os.rmdir(tmpdir)
-            except OSError:
-                # Directory may not be empty or already gone; ignore
-                pass
+            # Close file handle and remove temporary artifacts.
+            stack.close()
+            with suppress(OSError):
+                archive_file.unlink()
+            with suppress(OSError):
+                tmpdir.rmdir()
 
     response.close = cleanup_close
     return response
 
 
-def export_selected(request, datatype):
+def export_selected(request: HttpRequest, datatype: str) -> HttpResponse:
+    """Export a user-selected subset of items as TSV or JSON."""
     if datatype not in SUPPORTED_TYPES:
         return HttpResponseBadRequest("Unknown data type")
 
@@ -385,8 +407,7 @@ def export_selected(request, datatype):
 
 
 def _find_investigation_file(study_dir: Path) -> Path | None:
-    """Prefer the latest file under METADATA_REVISIONS, fall back to top-level.
-    """
+    """Prefer the latest investigation file under METADATA_REVISIONS, falling back to top-level."""
     rev_root = study_dir / "METADATA_REVISIONS"
     if rev_root.is_dir():
         rev_dirs = sorted(
@@ -459,10 +480,11 @@ def _parse_investigation_file(path: Path) -> dict:
 
 #---- Download helper functions ---------------------------------------------------
 
-def _list_study_files(study_dir: Path) -> list[dict]:
-    """Walk the study_dir and return a list of files with their relative paths,
-    sizes and mtime. Directories are not returned, only files.
-    Robust to permission errors and skips files that can't be stat'ed.
+def _list_study_files(study_dir: Path) -> list[dict[str, Any]]:
+    """List all files within a study directory.
+
+    Returns dictionaries containing relative path, size and modification time.
+    Directories are not returned (files only). Skips entries that cannot be stat'ed.
     """
     files: list[dict] = []
     try:
@@ -493,8 +515,9 @@ def _list_study_files(study_dir: Path) -> list[dict]:
     return files
 
 
-def study_files(request, datatype: str, accession: str):
+def study_files(request: HttpRequest, datatype: str, accession: str) -> HttpResponse:
     """Render a simple file browser for a study directory on the PVC.
+
     Logs helpful debugging info if something goes wrong.
     """
     if datatype not in SUPPORTED_TYPES:
@@ -515,9 +538,9 @@ def study_files(request, datatype: str, accession: str):
 
     try:
         files = _list_study_files(study_dir)
-    except Exception:
+    except Exception as err:
         logger.exception("Unexpected error listing files for %s/%s", datatype, accession)
-        raise Http404("Could not list files")
+        raise Http404("Could not list files") from err
 
     return render(
         request,
@@ -530,10 +553,16 @@ def study_files(request, datatype: str, accession: str):
     )
 
 
-def download_study_file(request, datatype: str, accession: str, relpath: str):
-    """Stream a single file from the study directory. Protect against path traversal
-    by resolving and ensuring the requested path is inside the study directory.
-    This implementation is defensive and logs errors to help diagnose cluster 500s.
+def download_study_file(
+    request: HttpRequest,
+    datatype: str,
+    accession: str,
+    relpath: str,
+) -> HttpResponse:
+    """Stream a single file from the study directory.
+
+    Protects against path traversal by resolving the requested path and ensuring it is
+    inside the study directory. Logs errors to help diagnose cluster 500s.
     """
     if datatype not in SUPPORTED_TYPES:
         raise Http404("Unknown data type")
@@ -543,9 +572,9 @@ def download_study_file(request, datatype: str, accession: str, relpath: str):
 
     # relpath may be URL-encoded in the URL; decode it once
     relpath = unquote(relpath)
+    requested_path = Path(relpath)
 
-    # Basic sanity: no absolute paths allowed
-    if os.path.isabs(relpath):
+    if requested_path.is_absolute():
         logger.warning("Rejecting absolute relpath request: %s", relpath)
         raise Http404("Invalid file path")
 
@@ -560,29 +589,19 @@ def download_study_file(request, datatype: str, accession: str, relpath: str):
         raise Http404("Study not found on this node")
 
     try:
-        # Use resolve(strict=False) to avoid raising for strange mount points; then check containment
-        candidate = (study_dir / relpath).resolve(strict=False)
+        # Use resolve(strict=False) to avoid raising for strange mount points.
+        # Then verify the resolved path remains inside the study directory.
+        candidate = (study_dir / requested_path).resolve(strict=False)
         study_dir_resolved = study_dir.resolve(strict=False)
-    except Exception:
+    except Exception as err:
         # If resolving fails for some reason, log and abort
         logger.exception("Path resolution failed for %s %s", study_dir, relpath)
-        raise Http404("Invalid file path")
+        raise Http404("Invalid file path") from err
 
-    # Ensure the requested file is under the study dir using commonpath
-    try:
-        # os.path.commonpath raises ValueError on different drives; catch that
-        common = os.path.commonpath([str(study_dir_resolved), str(candidate)])
-        if common != str(study_dir_resolved):
-            logger.warning(
-                "Path traversal or invalid path detected. study_dir=%s candidate=%s common=%s",
-                study_dir_resolved,
-                candidate,
-                common,
-            )
-            raise Http404("Invalid file path")
-    except ValueError:
-        logger.exception(
-            "Could not determine commonpath for study_dir=%s candidate=%s",
+    # Ensure the requested file is under the study directory (path traversal protection).
+    if not candidate.is_relative_to(study_dir_resolved):
+        logger.warning(
+            "Path traversal or invalid path detected. study_dir=%s candidate=%s",
             study_dir_resolved,
             candidate,
         )
@@ -597,26 +616,30 @@ def download_study_file(request, datatype: str, accession: str, relpath: str):
     if content_type is None:
         content_type = "application/octet-stream"
 
+    stack = ExitStack()
     try:
-        f = open(candidate, "rb")
-    except Exception:
+        f = stack.enter_context(candidate.open("rb"))
+    except Exception as err:
+        stack.close()
         logger.exception("Failed to open file for streaming: %s", candidate)
-        # Return 404 rather than 500 to avoid leaking details to users, but log the exception
-        raise Http404("File not accessible")
+        # Return 404 rather than 500 to avoid leaking details to users, but log the exception.
+        raise Http404("File not accessible") from err
 
-    response = FileResponse(f, as_attachment=True, filename=candidate.name, content_type=content_type)
+    response = FileResponse(
+        f,
+        as_attachment=True,
+        filename=candidate.name,
+        content_type=content_type,
+    )
 
     # Ensure file closed when response is closed
     original_close = response.close
 
-    def cleanup_close(*args, **kwargs):
+    def cleanup_close(*args: object, **kwargs: object) -> None:
         try:
             original_close(*args, **kwargs)
         finally:
-            try:
-                f.close()
-            except Exception:
-                logger.debug("Failed to close file handle for %s", candidate, exc_info=True)
+            stack.close()
 
     response.close = cleanup_close
     return response
