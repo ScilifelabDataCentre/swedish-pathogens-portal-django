@@ -101,7 +101,6 @@ FROM base AS build
 
 # Build dependencies for psycopg[c]
 RUN apt-get update --quiet --assume-yes \
- && apt-get upgrade --quiet --assume-yes \
  && apt-get install --quiet --assume-yes --no-install-recommends \
         gcc \
         libc6-dev \
