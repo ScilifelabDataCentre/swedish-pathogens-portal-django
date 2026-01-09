@@ -41,7 +41,7 @@ jobs:
           output: 'trivy-results.sarif'
           severity: 'CRITICAL,HIGH,MEDIUM'
           exit-code: "1"  # Fail workflow if vulnerabilities found
-          # skip-dirs: "app/.venv"
+          skip-dirs: "app/.venv"
 
       - name: Upload Trivy scan results to GitHub Security tab
         if: always()  # Publish results to security tab even if scan fails
