@@ -1,3 +1,4 @@
+"""Service functions for exporting item data for the Portal data page."""
 from __future__ import annotations
 
 import csv
@@ -22,9 +23,12 @@ EXPORT_FIELDS: list[tuple[str, str]] = [
 
 
 def _normalize_items(items: Iterable[Mapping[str, object]]) -> list[dict]:
-    """Take whatever dicts the view passes in and return a list of clean dicts
+    """Normalize view items for export.
+
+    Take whatever dicts the view passes in and return a list of clean dicts
     containing only the fields we want to export, with None -> "".
     """
+
     normalized: list[dict] = []
 
     for it in items:
@@ -47,6 +51,7 @@ def build_export_tsv(
 
     Returns: (content_str, filename, content_type)
     """
+
     rows = _normalize_items(items)
 
     buf = io.StringIO()
@@ -75,6 +80,7 @@ def build_export_json(
 
     Returns: (content_str, filename, content_type)
     """
+
     rows = _normalize_items(items)
     content = json.dumps(rows, indent=2, ensure_ascii=False)
 

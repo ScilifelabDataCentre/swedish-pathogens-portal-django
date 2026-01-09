@@ -1,3 +1,4 @@
+"""URL configuration for the portal data page."""
 from django.urls import path
 
 from .views import (

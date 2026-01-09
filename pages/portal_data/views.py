@@ -9,8 +9,8 @@ import re
 import shutil
 import tempfile
 from contextlib import ExitStack, suppress
-from typing import Any
 from pathlib import Path
+from typing import Any
 from urllib.parse import unquote
 
 from django.conf import settings
@@ -278,12 +278,13 @@ def _build_facets(
 
 class DataTypeListView(TemplateView):
     """List available studies for a given data type with faceted search."""
+
     template_name = "portal_data/index.html"
 
-    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+    def get_context_data(self, **kwargs: object) -> dict[str, object]:
         """Build template context for the study list page."""
         ctx = super().get_context_data(**kwargs)
-        datatype = kwargs["datatype"]
+        datatype = str(kwargs["datatype"])
 
         if datatype not in SUPPORTED_TYPES:
             ctx["error"] = f"Unknown data type: {datatype}"
@@ -426,9 +427,8 @@ def _find_investigation_file(study_dir: Path) -> Path | None:
     return None
 
 
-def _parse_investigation_file(path: Path) -> dict:
-    """Very simple ISA-tab parser focusing on the STUDY rows we care about.
-    """
+def _parse_investigation_file(path: Path) -> dict[str, object]:
+    """Very simple ISA-tab parser focusing on the STUDY rows we care about."""
     meta: dict[str, object] = {}
 
     if path is None or not path.is_file():
