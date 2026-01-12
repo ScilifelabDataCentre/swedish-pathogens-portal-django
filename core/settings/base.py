@@ -61,6 +61,7 @@ LOCAL_APPS = [
     "pages.news",
     "pages.outbreaks",
     "pages.privacy",
+    "pages.share_data",
     "pages.topics",
 ]
 

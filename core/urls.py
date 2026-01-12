@@ -38,6 +38,7 @@ urlpatterns = [
     path("news/", include("pages.news.urls")),
     path("outbreaks/", include("pages.outbreaks.urls")),
     path("privacy/", include("pages.privacy.urls")),
+    path("share-data/", include("pages.share_data.urls")),
     path("topics/", include("pages.topics.urls")),
 ]
 
