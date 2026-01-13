@@ -1,3 +1,5 @@
+"""Configuration for the Register Based Research app."""
+
 from django.apps import AppConfig
 
 

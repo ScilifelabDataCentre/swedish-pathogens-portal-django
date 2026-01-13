@@ -1,3 +1,5 @@
+"""Views for Register Based Research page."""
+
 from utils.views import BaseTemplateView
 
 
