@@ -1,13 +1,40 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
     {% include "html_head_tag.html" %}
-    <body>
+    <body id="document-body">
         {% include "header.html" %}
+
         <main>
             <div class="container">
                 {% block content %}{% endblock %}
             </div>
         </main>
+
         {% include "footer.html" %}
+
+        <!-- Back to top button -->
+        <a href="#document-body" 
+            title="Back to top" 
+            aria-label="Back to top"
+            class="
+                back-to-top
+                fixed right-5 bottom-5 z-50 
+                inline-flex items-center justify-center
+                w-10 h-10 rounded-lg 
+                text-white shadow-sm no-underline
+                opacity-0 pointer-events-none translate-y-2
+                transition-all duration-200   
+                hover:opacity-90 
+                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2
+                bg-pp-teal
+                text-xl leading-none
+            ">
+              ↑
+        </a>
+
+        <!-- Load the back to top functionality after HTML loaded -->
+        <script src="{% static 'js/back_to_top.js' %}" defer></script>
     </body>
 </html>
