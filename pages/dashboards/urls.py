@@ -42,11 +42,6 @@ urlpatterns = [
         name="variants_region_uppsala",
     ),
     path(
-        "multidisease-serology/",
-        MultiDiseaseSerology.as_view(),
-        name="multidisease_serology",
-    ),
-    path(
         "covid-quantification-kth/",
         CovidQuantificationKth.as_view(),
         name="covid_quantification_kth",
