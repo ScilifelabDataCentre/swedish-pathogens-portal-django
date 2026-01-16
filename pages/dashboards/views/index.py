@@ -49,6 +49,16 @@ class DashboardsIndex(BaseTemplateView):
                     "positive/negative tests over time are shown."
                 ),
             },
+            {
+                "name": "Multi-disease serology",
+                "image": "dashboards/thumbnails/multidisease_serology.jpg",
+                "url": reverse_lazy("dashboards:multidisease_serology"),
+                "description": (
+                    "A summary of the progress in developing a multi-disease serology "
+                    "assay, a key component of pandemic preparedness. Information "
+                    "about externally produced antigens is also provided. "
+                ),
+            },
         ],
         # a list of HISTORIC dashboards
         "historic_dashboards": [

@@ -9,6 +9,7 @@ from .crush_covid import CrushCovid
 from .historic_sarscov2_wastewater import HistoricSarsCov2Wastewater
 from .index import DashboardsIndex
 from .lineage_competition import LineageCompetition
+from .multidisease_serology import MultiDiseaseSerology
 from .npc_statistics import NpcStatistics
 from .post_covid import PostCovid
 from .serology_statistics import SerologyStatistics
@@ -22,6 +23,7 @@ __all__ = [
     "DashboardsIndex",
     "HistoricSarsCov2Wastewater",
     "LineageCompetition",
+    "MultiDiseaseSerology",
     "NpcStatistics",
     "PostCovid",
     "SerologyStatistics",

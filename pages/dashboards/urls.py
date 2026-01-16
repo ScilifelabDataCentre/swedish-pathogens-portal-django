@@ -3,14 +3,12 @@
 from django.urls import path
 
 from .views import (
-    # Historic dashboards
     CovidQuantificationKth,
     CrushCovid,
-    # Dashboard index
     DashboardsIndex,
     HistoricSarsCov2Wastewater,
-    # Active dashboards
     LineageCompetition,
+    MultiDiseaseSerology,
     NpcStatistics,
     PostCovid,
     SerologyStatistics,
@@ -22,13 +20,16 @@ from .views import (
 app_name = "dashboards"
 
 urlpatterns = [
-    # Dashboard index
     path("", DashboardsIndex.as_view(), name="index"),
-    # Active dashboards
     path(
         "lineage-competition/",
         LineageCompetition.as_view(),
         name="lineage_competition",
+    ),
+    path(
+        "multidisease-serology/",
+        MultiDiseaseSerology.as_view(),
+        name="multidisease_serology",
     ),
     path(
         "serology-statistics/",
@@ -40,7 +41,6 @@ urlpatterns = [
         VariantsRegionUppsala.as_view(),
         name="variants_region_uppsala",
     ),
-    # Historic dashboards
     path(
         "covid-quantification-kth/",
         CovidQuantificationKth.as_view(),
