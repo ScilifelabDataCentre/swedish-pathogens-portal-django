@@ -1,32 +1,26 @@
-# ruff: noqa: I001 - imports are alphabetically ordered according to the status of each dashboard
 """URL configurations for dashboards page."""
 
 from django.urls import path
 
 from .views import (
-    # Dashboard index
-    DashboardsIndex,
-    # Active dashboards
-    LineageCompetition,
-    MultiDiseaseSerology,
-    SerologyStatistics,
-    VariantsRegionUppsala,
-    # Historic dashboards
     CovidQuantificationKth,
     CrushCovid,
+    DashboardsIndex,
     HistoricSarsCov2Wastewater,
+    LineageCompetition,
+    MultiDiseaseSerology,
     NpcStatistics,
     PostCovid,
+    SerologyStatistics,
     SymptomStudySweden,
     Vaccines,
+    VariantsRegionUppsala,
 )
 
 app_name = "dashboards"
 
 urlpatterns = [
-    # Dashboard index
     path("", DashboardsIndex.as_view(), name="index"),
-    # Active dashboards
     path(
         "lineage-competition/",
         LineageCompetition.as_view(),
@@ -52,7 +46,6 @@ urlpatterns = [
         MultiDiseaseSerology.as_view(),
         name="multidisease_serology",
     ),
-    # Historic dashboards
     path(
         "covid-quantification-kth/",
         CovidQuantificationKth.as_view(),
