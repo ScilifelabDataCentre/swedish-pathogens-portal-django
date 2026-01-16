@@ -20,6 +20,16 @@ class DashboardsIndex(BaseTemplateView):
         # a list of ACTIVE dashboards
         "active_dashboards": [
             {
+                "name": "Register-based vaccination (RECOVAC)",
+                "image": "dashboards/thumbnails/recovac.png",
+                "url": reverse_lazy("dashboards:recovac"),
+                "description": (
+                    "Dedicated to the work of the register-based large-scale national "
+                    "population study to monitor COVID-19 vaccination effectiveness and "
+                    "safety (RECOVAC) project."
+                ),
+            },
+            {
                 "name": "SARS-CoV-2 Variant Competition",
                 "image": "dashboards/thumbnails/lineage_competition.jpg",
                 "url": reverse_lazy("dashboards:lineage_competition"),

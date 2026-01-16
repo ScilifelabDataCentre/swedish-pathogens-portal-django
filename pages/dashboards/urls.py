@@ -11,6 +11,7 @@ from .views import (
     MultiDiseaseSerology,
     NpcStatistics,
     PostCovid,
+    Recovac,
     SerologyStatistics,
     SymptomStudySweden,
     Vaccines,
@@ -65,6 +66,11 @@ urlpatterns = [
         "post-covid/",
         PostCovid.as_view(),
         name="post_covid",
+    ),
+    path(
+        "recovac/",
+        Recovac.as_view(),
+        name="recovac",
     ),
     path(
         "symptom-study-sweden/",
