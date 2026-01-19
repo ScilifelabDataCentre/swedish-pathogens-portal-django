@@ -108,6 +108,18 @@ class DashboardsIndex(BaseTemplateView):
                 ),
             },
             {
+                "name": "Amount of SARS-CoV-2 in wastewater (GU)",
+                "image": "dashboards/thumbnails/covid_quantification_kth.png",
+                "url": reverse_lazy("dashboards:covid_quantification_gu"),
+                "description": (
+                    "SEEC-KTH wastewater monitoring project led by associate professor "
+                    "Zeynep Cetecioglu Gurol at KTH Royal Institute of Technology. "
+                    "Visualizations of SARS-CoV-2 levels in wastewater from Stockholm "
+                    "and Malmö, including both historic and recent data. Data collection "
+                    "ceased in June 2023."
+                ),
+            },
+            {
                 "name": "Amount of SARS-CoV-2 in wastewater (SEEC-KTH)",
                 "image": "dashboards/thumbnails/covid_quantification_kth.png",
                 "url": reverse_lazy("dashboards:covid_quantification_kth"),
