@@ -6,6 +6,7 @@ from .views import (
     CovidQuantificationKth,
     CrushCovid,
     DashboardsIndex,
+    HistoricInfluenza,
     HistoricSarsCov2Wastewater,
     LineageCompetition,
     MultiDiseaseSerology,
@@ -56,6 +57,11 @@ urlpatterns = [
         "historic-sarscov2-wastewater/",
         HistoricSarsCov2Wastewater.as_view(),
         name="historic_sarscov2_wastewater",
+    ),
+    path(
+        "historic-influenza/",
+        HistoricInfluenza.as_view(),
+        name="historic_influenza",
     ),
     path(
         "npc-statistics/",
