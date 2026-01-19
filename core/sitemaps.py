@@ -1,7 +1,7 @@
 """Sitemaps used by Pa11y CI.
 
 Auto-includes named, static URLs.
-Dynamic URLs are a TODO and up for discussion.
+Dynamic URLs are a TODO / up for discussion.
 """
 
 from collections.abc import Iterable
@@ -20,8 +20,9 @@ def _iter_static_named_urls(
     for entry in url_patterns:
         # URLResolvers need to be recursed into to find their URLPatterns
         if isinstance(entry, URLResolver):  # example of entry: admin, home, about, etc.
-            ns = ":".join([n for n in [namespace, entry.namespace] if n])
-            yield from _iter_static_named_urls(entry.url_patterns, namespace=ns)
+            # Get all namespaces e.g. about:index/partners/funders/nodes
+            ns = entry.namespace or namespace
+            yield from _iter_static_named_urls(url_patterns=entry.url_patterns, namespace=ns)
             continue
 
         if not isinstance(entry, URLPattern):
