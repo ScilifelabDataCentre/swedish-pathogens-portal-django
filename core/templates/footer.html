@@ -1,5 +1,42 @@
-<footer>
-    <div class="container">
-        <p>This is footer section</p>
+{% load static %} 
+<footer role="contentinfo" aria-label="Site footer" class="bg-gray-50 border-t border-gray-200 text-gray-700">
+  
+
+
+  <!-- Main row -->
+  <div class="max-w-7xl mx-auto px-4 py-6 sm:flex sm:items-center sm:justify-between">
+    <!-- Links -->
+    <nav class="flex flex-wrap items-center space-x-6 text-sm" aria-label="Footer links">
+        {% url 'about' as about_url %}
+        <a href="{{ about_url|default:'/about/' }}" class="hover:underline focus:outline-none">About</a>
+        {% url 'contact' as contact_url %}
+        <a href="{{ contact_url|default:'/contact/' }}" class="hover:underline focus:outline-none">Contact</a>
+        {% url 'cite' as cite_url %}
+        <a href="{{ cite_url|default:'/citation/' }}" class="hover:underline focus:outline-none">Cite us</a>
+        {% url 'privacy' as privacy_url %}
+        <a href="{{ privacy_url|default:'/privacy/' }}" class="hover:underline focus:outline-none">Privacy policy</a>
+    </nav>
+
+    <!-- Funders (right) -->
+    <div class="mt-4 sm:mt-0 flex items-center">
+      <div class="flex items-center space-x-4" aria-label="Funders">
+      <!-- Host and partner logo -->
+          <img src="{% static '/images/complete_footer.png' %}"
+               alt="SciLifeLab, Knut and Alice Wallenberg Foundation and SSF Logo"
+               class="h-15 sm:h-22 w-auto opacity-90 transition-opacity duration-150 hover:opacity-100">
+
+      </div>
     </div>
+  </div>
+
+  <!-- Small bottom row (copyright) -->
+  <div class="max-w-7xl mx-auto px-4 py-2 border-t border-gray-100 text-xs text-gray-500">
+    © {% now "Y" %} SciLifeLab DC
+  </div>
 </footer>
+
+
+
+
+
+
