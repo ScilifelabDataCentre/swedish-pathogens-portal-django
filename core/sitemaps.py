@@ -18,19 +18,20 @@ def _iter_static_named_urls(
 ) -> Iterable[str]:
     """Find all static, named pages."""
     for entry in url_patterns:
-        # URLResolvers need to be recursed into to find their URLPatterns
+        # URLResolver = include(...) block --> need to recursed into it
         if isinstance(entry, URLResolver):  # example of entry: admin, home, about, etc.
             # Get all namespaces e.g. about:index/partners/funders/nodes
-            ns = (
-                entry.namespace or namespace
-            )  # NOTE: Update this if we include nested namespaces (about:partners:...)
-            yield from _iter_static_named_urls(url_patterns=entry.url_patterns, namespace=ns)
+            child_namespace = entry.namespace or namespace  # single-level namespaces so far
+            yield from _iter_static_named_urls(
+                url_patterns=entry.url_patterns, namespace=child_namespace
+            )
             continue
 
+        # Skip anything that is not a concrete route (i.e. URLPattern = "path(...)").
         if not isinstance(entry, URLPattern):
             continue
 
-        # Only include named, static paths (no converters like <slug:...>)
+        # Only include named, static paths
         if entry.name and not entry.pattern.converters:
             yield f"{namespace}:{entry.name}" if namespace else entry.name
 
