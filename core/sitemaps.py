@@ -1,37 +1,66 @@
 """Sitemaps used by Pa11y CI.
 
-Defines which public pages Pa11y should scan.
+Auto-includes named, static URLs.
+Dynamic URLs are a TODO and up for discussion.
 """
 
+from collections.abc import Iterable
+
 from django.contrib.sitemaps import Sitemap
-from django.urls import reverse  # Builds URLs from URL names (avoids hardcoding paths)
+from django.urls import URLPattern, URLResolver, get_resolver, reverse
 
 
-class Pa11ySitemap(Sitemap):
-    """Pages scanned by Pa11y CI."""
+def _iter_static_named_urls(
+    url_patterns: Iterable[
+        URLPattern | URLResolver
+    ],  # url_patterns are a mix of URLPattern and URLResolver
+    namespace: str | None = None,
+) -> Iterable[str]:
+    """Find all static, named pages."""
+    for entry in url_patterns:
+        # URLResolvers need to be recursed into to find their URLPatterns
+        if isinstance(entry, URLResolver):  # example of entry: admin, home, about, etc.
+            ns = ":".join([n for n in [namespace, entry.namespace] if n])
+            yield from _iter_static_named_urls(entry.url_patterns, namespace=ns)
+            continue
+
+        if not isinstance(entry, URLPattern):
+            continue
+
+        # Only include named, static paths (no converters like <slug:...>)
+        if entry.name and not entry.pattern.converters:
+            yield f"{namespace}:{entry.name}" if namespace else entry.name
+
+
+class Pa11yAutoSitemap(Sitemap):
+    """Sitemap for Pa11y (static URLs only)."""
+
+    APP_NAMESPACES = [
+        "about",
+        "articles",
+        "citation",
+        "contact",
+        "dashboards",
+        "data_management",
+        "home",
+        "news",
+        "outbreaks",
+        "privacy",
+        "topics",
+    ]
 
     def items(self) -> list[str]:
-        """URL names included in CI scans."""
-        return [
-            "about:index",
-            "articles:index",
-            "citation:index",
-            "contact:index",
-            "dashboards:index",
-            "data_management:index",
-            "home:index",
-            "news:index",
-            "outbreaks:index",
-            "privacy:index",
-            "topics:index",
-        ]
+        """All static and named URLs found under the namespaces above."""
+        # Get all named URLs
+        # Set to avoid duplicates
+        all_names = set(_iter_static_named_urls(url_patterns=get_resolver().url_patterns))
+
+        allowed = tuple(f"{ns}:" for ns in self.APP_NAMESPACES)
+        return sorted(name for name in all_names if name.startswith(allowed))
 
     def location(self, item: str) -> str:
-        """Resolve URL names to real URLs."""
+        """Resolve a URL name to a path."""
         return reverse(item)
 
 
-# Registry used by Django's sitemap view
-sitemaps = {
-    "pa11y": Pa11ySitemap,
-}
+sitemaps = {"pa11y": Pa11yAutoSitemap}

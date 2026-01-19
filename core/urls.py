@@ -28,26 +28,31 @@ from core.sitemaps import sitemaps
 from core.views import healthz
 
 urlpatterns = [
-    path(settings.ADMIN_URL, admin.site.urls, name="admin"),
+    path(
+        settings.ADMIN_URL, admin.site.urls, name="admin"
+    ),  # not part of public scan - skipping namespace
     path("", include(("pages.home.urls", "home"), namespace="home")),
-    path("articles/", include("pages.articles.urls")),
+    path("articles/", include(("pages.articles.urls", "articles"), namespace="articles")),
     path("about/", include(("pages.about.urls", "about"), namespace="about")),
     path("citation/", include(("pages.citation.urls", "citation"), namespace="citation")),
     path("contact/", include(("pages.contact.urls", "contact"), namespace="contact")),
-    path("dashboards/", include("pages.dashboards.urls")),
-    path("data-management/", include("pages.data_management.urls")),
-    path("healthz/", healthz, name="healthz"),
-    path("news/", include("pages.news.urls")),
-    path("outbreaks/", include("pages.outbreaks.urls")),
+    path("dashboards/", include(("pages.dashboards.urls", "dashboards"), namespace="dashboards")),
+    path(
+        "data-management/",
+        include(("pages.data_management.urls", "data_management"), namespace="data_management"),
+    ),
+    path("healthz/", healthz, name="healthz"),  # not part of public scan - skipping namespace
+    path("news/", include(("pages.news.urls", "news"), namespace="news")),
+    path("outbreaks/", include(("pages.outbreaks.urls", "outbreaks"), namespace="outbreaks")),
     path("privacy/", include(("pages.privacy.urls", "privacy"), namespace="privacy")),
-    path("topics/", include("pages.topics.urls")),
+    path("topics/", include(("pages.topics.urls", "topics"), namespace="topics")),
     path("sitemap.xml", sitemap, {"sitemaps": sitemaps}, name="sitemap"),
 ]
 
 # Auto browser reload addition for local development
 if settings.DEBUG:
     urlpatterns += [
-        path("__reload__/", include("django_browser_reload.urls")),
+        path("__reload__/", include("django_browser_reload.urls")),  # skipping namespace
     ]
     # Serve media files in development
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
