@@ -4,9 +4,9 @@ from django.urls import path
 
 from .views import (
     CovidQuantificationKth,
-    CovidPublications,
     CrushCovid,
     DashboardsIndex,
+    HistoricCovidPublications,
     HistoricInfluenza,
     HistoricSarsCov2Wastewater,
     LineageCompetition,
@@ -45,9 +45,9 @@ urlpatterns = [
         name="variants_region_uppsala",
     ),
     path(
-        "covid-publications/",
-        CovidPublications.as_view(),
-        name="covid_publications",
+        "historic-covid-publications/",
+        HistoricCovidPublications.as_view(),
+        name="historic_covid_publications",
     ),
     path(
         "covid-quantification-kth/",

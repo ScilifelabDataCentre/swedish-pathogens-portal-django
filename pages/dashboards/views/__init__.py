@@ -5,8 +5,8 @@ URL configs and other modules.
 """
 
 from .covid_quantification_kth import CovidQuantificationKth
-from .covid_publications import CovidPublications
 from .crush_covid import CrushCovid
+from .historic_covid_publications import HistoricCovidPublications
 from .historic_influenza import HistoricInfluenza
 from .historic_sarscov2_wastewater import HistoricSarsCov2Wastewater
 from .index import DashboardsIndex
@@ -22,11 +22,11 @@ from .variants_region_uppsala import VariantsRegionUppsala
 
 __all__ = [
     "CovidQuantificationKth",
-    "CovidPublications",
     "CrushCovid",
     "DashboardsIndex",
-    "HistoricSarsCov2Wastewater",
+    "HistoricCovidPublications",
     "HistoricInfluenza",
+    "HistoricSarsCov2Wastewater",
     "LineageCompetition",
     "MultiDiseaseSerology",
     "NpcStatistics",

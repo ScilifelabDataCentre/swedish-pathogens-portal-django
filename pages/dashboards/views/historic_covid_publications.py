@@ -7,7 +7,7 @@ from django.views import View
 from ..visualisation.utils import fetch_plot_json_blobserver, plot_html_from_json
 
 
-class CovidPublications(View):
+class HistoricCovidPublications(View):
     """Historic COVID-19 publications dashboard.
 
     Displays the (historic) publications trend related to COVID-19.
@@ -18,7 +18,7 @@ class CovidPublications(View):
         description: Description to be used in the HTML's head.
     """
 
-    template_name = "dashboards/covid_publications.html"
+    template_name = "dashboards/historic_covid_publications.html"
     title = "Swedish COVID-19 publications over 5 years"
     description = "A dashboard showcasing the trend of historic publications related to COVID-19."
 
