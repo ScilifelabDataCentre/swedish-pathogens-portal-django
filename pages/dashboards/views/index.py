@@ -130,8 +130,8 @@ class DashboardsIndex(BaseTemplateView):
                 "image": "dashboards/thumbnails/historic_covid_publications.jpg",
                 "url": reverse_lazy("dashboards:historic_covid_publications"),
                 "description": (
-                    "A summary of the COVID-19 and SARS-CoV-2 publications produced involving at"
-                    "least one contributor from a Swedish university or research institute. Shows"
+                    "A summary of the COVID-19 and SARS-CoV-2 publications produced involving at "
+                    "least one contributor from a Swedish university or research institute. Shows "
                     "publications over time and key words/phrases within them."
                 ),
             },
