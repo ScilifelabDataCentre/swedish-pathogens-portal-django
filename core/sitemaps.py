@@ -39,7 +39,7 @@ def _iter_static_named_urls(
 class Pa11yAutoSitemap(Sitemap):
     """Sitemap for Pa11y (static URLs only)."""
 
-    APP_NAMESPACES = [
+    PUBLIC_APPS = [
         "about",
         "articles",
         "citation",
@@ -60,7 +60,7 @@ class Pa11yAutoSitemap(Sitemap):
         all_names = set(_iter_static_named_urls(url_patterns=get_resolver().url_patterns))
 
         # Only include URLs under the defined namespaces
-        allowed_prefixes = tuple(f"{ns}:" for ns in self.APP_NAMESPACES)
+        allowed_prefixes = tuple(f"{ns}:" for ns in self.PUBLIC_APPS)
         return sorted(name for name in all_names if name.startswith(allowed_prefixes))
 
     def location(self, item: str) -> str:
