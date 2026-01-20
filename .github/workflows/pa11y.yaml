@@ -30,7 +30,7 @@ jobs:
         run: pipx install uv
 
       - name: Install Python deps
-        run: uv sync
+        run: uv sync --group dev
 
       # Pa11y tooling
       - name: Set up Node.js 22.x
