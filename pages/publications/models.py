@@ -13,6 +13,16 @@ class PublicationPathogens(models.Model):
         created_at: Timestamp when the pathogen entry was created.
         updated_at: Timestamp when the pathogen entry was last updated.
 
+    Example:
+        Create a new pathogen entry:
+
+        .. code-block:: python
+
+            pathogen = PublicationPathogens.objects.create(
+                name="Influenza",
+                query_string='ABSTRACT:"Influenza"',
+                is_active=True
+            )
     """
 
     # Fields

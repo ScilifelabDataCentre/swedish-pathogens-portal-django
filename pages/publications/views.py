@@ -4,6 +4,7 @@ import json
 import logging
 import urllib
 from datetime import datetime
+from typing import Any
 
 from django.conf import settings
 from django.core.cache import cache
@@ -37,8 +38,16 @@ class Publications(View):
         """To render the publications page."""
 
         pathogens_list = PublicationPathogens.objects.filter(is_active=True).order_by("name")
-        pathogen = request.GET.get("pathogen", "")
         context = {"pathogens": pathogens_list}
+
+        # Sanitize pathogen input for safety
+        pathogen = request.GET.get("pathogen", "").strip().replace("\n", "").replace("\r", "")
+
+        # Limit pathogen input length to prevent DB overload
+        if len(pathogen) > 255:
+            logger.warning(f"Pathogen name too long with {len(pathogen)} characters: '{pathogen}'")
+            pathogen = ""
+
         # Determine the active pathogen
         if pathogen:
             try:
@@ -73,7 +82,7 @@ class Publications(View):
 
         return render(request, self.template_name, context)
 
-    def _get_pathogen_publications(self, pathogen: str, query_string: str) -> list:
+    def _get_pathogen_publications(self, pathogen: str, query_string: str) -> list[dict[str, Any]]:
         """Fetch publications for a given pathogen from Europe PMC API.
 
         First, it checks if cached data is available. If not, it fetches
@@ -110,13 +119,20 @@ class Publications(View):
                         "url": f"https://doi.org/{pub.get('doi')}",
                     }
                     publications.append(publication)
+        except urllib.error.URLError as e:
+            logger.error(f"URL error fetching publications: {e}")
+        except urllib.error.HTTPError as e:
+            logger.error(f"HTTP error {e.code} fetching publications: {e.reason}")
+        except json.JSONDecodeError as e:
+            logger.error(f"Invalid JSON response: {e}")
+        except TimeoutError:
+            logger.error("Request timeout fetching publications")
         except Exception as e:
-            logger.error(
-                f"Error fetching publications for pathogen '{pathogen}' with '{query_string}': {e}"
-            )
-            return []
+            # Only catch unexpected errors - these are likely bugs
+            logger.exception(f"Unexpected error fetching publications: {e}")
 
         # Cache the fetched data for 30 minutes
-        cache.set(cache_key, publications, 30 * 60)
+        if publications:
+            cache.set(cache_key, publications, 30 * 60)
 
         return publications
