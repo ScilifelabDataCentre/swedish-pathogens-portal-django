@@ -50,7 +50,7 @@ jobs:
           DATABASE_URL: sqlite:///db.sqlite3
           ALLOWED_HOSTS: 127.0.0.1,localhost
         run: |
-          uv run python manage.py runserver http://127.0.0.1:8000 &
+          uv run python manage.py runserver 127.0.0.1:8000 &
           npx wait-on http://127.0.0.1:8000
 
       - name: Run Pa11y CI (PR)
