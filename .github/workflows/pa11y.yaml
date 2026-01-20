@@ -44,6 +44,9 @@ jobs:
       # PR: Start server and scan
       - name: Start app (PR)
         if: github.event_name == 'pull_request'
+        env:
+          SECRET_KEY: ci-not-a-secret
+          DEBUG: "1"
         run: |
           uv run python manage.py runserver http://127.0.0.1:8000 &
           npx wait-on http://127.0.0.1:8000
