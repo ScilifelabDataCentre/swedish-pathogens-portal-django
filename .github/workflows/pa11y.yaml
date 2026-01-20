@@ -42,10 +42,11 @@ jobs:
         run: npm install -g pa11y-ci wait-on
 
       # PR: Start server and scan
-      - name: Start web app (PR)
+      - name: Start app (PR)
         if: github.event_name == 'pull_request'
         run: |
-          uv run python -m yourapp & wait-on http://127.0.0.1:8000
+          uv run python manage.py runserver http://127.0.0.1:8000 &
+          npx wait-on http://127.0.0.1:8000
 
       - name: Run Pa11y CI (PR)
         if: github.event_name == 'pull_request'
