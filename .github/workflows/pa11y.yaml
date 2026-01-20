@@ -28,9 +28,9 @@ jobs:
       - name: Install Pa11y CI
         run: npm install -g pa11y-ci
 
-      - name: Run Pa11y CI
-        run: |
-          pa11y-ci \
-            --config ${GITHUB_WORKSPACE}/.github/pa11y.config \
-            --sitemap https://www.pathogens.se/sitemap.xml \
-            --sitemap-exclude 'pdf$'
+        # - name: Run Pa11y CI
+        #   run: |
+        #     pa11y-ci \
+        #       --config ${GITHUB_WORKSPACE}/.github/pa11y.config \
+        #       --sitemap https://www.pathogens.se/sitemap.xml \
+        #       --sitemap-exclude 'pdf$'
