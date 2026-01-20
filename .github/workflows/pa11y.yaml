@@ -16,6 +16,7 @@ jobs:
   pa11y:
     name: Pa11y Test
     runs-on: ubuntu-latest
+
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
@@ -26,11 +27,32 @@ jobs:
           node-version: 22.x
 
       - name: Install Pa11y CI
-        run: npm install -g pa11y-ci
+        run: npm install -g pa11y-ci wait-on
 
-        # - name: Run Pa11y CI
-        #   run: |
-        #     pa11y-ci \
-        #       --config ${GITHUB_WORKSPACE}/.github/pa11y.config \
-        #       --sitemap https://www.pathogens.se/sitemap.xml \
-        #       --sitemap-exclude 'pdf$'
+      # -------------------------------------
+      - name: Build (PR)
+        if: github.event_name == 'pull_request'
+        run: |
+          npm ci
+          npm run build --if-present
+
+      - name: Start server (PR)
+        if: github.event_name == 'pull_request'
+        run: |
+          npm run start --if-present &
+          wait-on http://127.0.0.1:3000
+
+      - name: Run Pa11y CI (PR)
+        if: github.event_name == 'pull_request'
+        run: |
+          pa11y-ci \
+            --config ${GITHUB_WORKSPACE}/.github/pa11y.config \
+            --sitemap http://127.0.0.1:3000/sitemap.xml \
+            --sitemap-exclude 'pdf$'
+      # -------------------------------------
+      # - name: Run Pa11y CI
+      #   run: |
+      #     pa11y-ci \
+      #       --config ${GITHUB_WORKSPACE}/.github/pa11y.config \
+      #       --sitemap https://www.pathogens.se/sitemap.xml \
+      #       --sitemap-exclude 'pdf$'
