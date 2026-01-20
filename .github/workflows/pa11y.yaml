@@ -21,6 +21,18 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v4
 
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version-file: .python-version
+
+      - name: Install uv
+        run: pipx install uv
+
+      - name: Install Python deps
+        run: uv sync
+
+      # Pa11y tooling
       - name: Set up Node.js 22.x
         uses: actions/setup-node@v4
         with:
@@ -29,18 +41,11 @@ jobs:
       - name: Install Pa11y CI
         run: npm install -g pa11y-ci wait-on
 
-      # -------------------------------------
-      - name: Build (PR)
+      # PR: Start server and scan
+      - name: Start web app (PR)
         if: github.event_name == 'pull_request'
         run: |
-          npm ci
-          npm run build --if-present
-
-      - name: Start server (PR)
-        if: github.event_name == 'pull_request'
-        run: |
-          npm run start --if-present &
-          wait-on http://127.0.0.1:3000
+          uv run python -m yourapp & wait-on http://127.0.0.1:8000
 
       - name: Run Pa11y CI (PR)
         if: github.event_name == 'pull_request'
