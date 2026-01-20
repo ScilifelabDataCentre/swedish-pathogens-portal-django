@@ -59,8 +59,9 @@ class Pa11yAutoSitemap(Sitemap):
         # Set to avoid duplicates
         all_names = set(_iter_static_named_urls(url_patterns=get_resolver().url_patterns))
 
-        allowed = tuple(f"{ns}:" for ns in self.APP_NAMESPACES)
-        return sorted(name for name in all_names if name.startswith(allowed))
+        # Only include URLs under the defined namespaces
+        allowed_prefixes = tuple(f"{ns}:" for ns in self.APP_NAMESPACES)
+        return sorted(name for name in all_names if name.startswith(allowed_prefixes))
 
     def location(self, item: str) -> str:
         """Resolve a URL name to a path."""
