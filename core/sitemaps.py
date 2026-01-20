@@ -1,7 +1,7 @@
 """Sitemaps used by Pa11y CI.
 
 Auto-includes named, static URLs.
-Dynamic URLs are a TODO / up for discussion.
+Dynamic URLs are a TODO / up for discussion, as are nested namespaces.
 """
 
 from collections.abc import Iterable
