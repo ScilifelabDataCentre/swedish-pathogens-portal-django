@@ -20,6 +20,16 @@ class DashboardsIndex(BaseTemplateView):
         # a list of ACTIVE dashboards
         "active_dashboards": [
             {
+                "name": "Register-based vaccination (RECOVAC)",
+                "image": "dashboards/thumbnails/recovac.png",
+                "url": reverse_lazy("dashboards:recovac"),
+                "description": (
+                    "Dedicated to the work of the register-based large-scale national "
+                    "population study to monitor COVID-19 vaccination effectiveness and "
+                    "safety (RECOVAC) project."
+                ),
+            },
+            {
                 "name": "SARS-CoV-2 Variant Competition",
                 "image": "dashboards/thumbnails/lineage_competition.jpg",
                 "url": reverse_lazy("dashboards:lineage_competition"),
@@ -49,6 +59,16 @@ class DashboardsIndex(BaseTemplateView):
                     "positive/negative tests over time are shown."
                 ),
             },
+            {
+                "name": "Multi-disease serology",
+                "image": "dashboards/thumbnails/multidisease_serology.jpg",
+                "url": reverse_lazy("dashboards:multidisease_serology"),
+                "description": (
+                    "A summary of the progress in developing a multi-disease serology "
+                    "assay, a key component of pandemic preparedness. Information "
+                    "about externally produced antigens is also provided. "
+                ),
+            },
         ],
         # a list of HISTORIC dashboards
         "historic_dashboards": [
@@ -72,6 +92,15 @@ class DashboardsIndex(BaseTemplateView):
                     "number of cases, test positivity, and geographic distribution, "
                     "among other things. Data for each postal code is available for "
                     "download and reuse."
+                ),
+            },
+            {
+                "name": "Historic influenza virus in wastewater (SLU)",
+                "image": "dashboards/thumbnails/historic_influenza.jpg",
+                "url": reverse_lazy("dashboards:historic_influenza"),
+                "description": (
+                    "Historic data of Influenza A and B virus levels in wastewater "
+                    "across Sweden from SLU-SEEC."
                 ),
             },
             {

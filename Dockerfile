@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-ARG PYTHON_IMAGE=python:3.13-slim-bookworm
+ARG PYTHON_IMAGE=python:3.13-slim-trixie
 
 ###############################################################################
 #                             Base Stage                                      #
@@ -19,6 +19,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Install curl and CA certs, clean in same layer (no development tools here)
 RUN apt-get update --quiet --assume-yes \
+ && apt-get upgrade --quiet --assume-yes \
  && apt-get install --quiet --assume-yes --no-install-recommends \
         curl \
         ca-certificates \
@@ -144,6 +145,7 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 # Install runtime libraries required by psycopg[c] and clean up
 RUN apt-get update --quiet --assume-yes \
+ && apt-get upgrade --quiet --assume-yes \
  && apt-get install --quiet --assume-yes --no-install-recommends \
         libpq5 \
         ca-certificates \
