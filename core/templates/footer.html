@@ -1,6 +1,6 @@
 {% load static %} 
 <footer role="contentinfo" aria-label="Site footer"
-        class="bg-gradient-to-br from-pp-dark-blue to-pp-mid-blue text-white mt-16">
+        class="bg-gradient-to-br from-pp-dark-blue to-pp-mid-blue mt-16">
   <div class="container mx-auto px-6 max-w-7xl py-12">
 
     <!-- Main row: three columns (left / center / right) -->
@@ -12,15 +12,15 @@
                 </p>
                 
 
-    <nav class="flex flex-wrap items-center space-x-6 text-sm" aria-label="Footer links">
+    <nav class="flex flex-wrap items-center space-x-6 text-sm " aria-label="Footer links">
         {% url 'about' as about_url %}
-        <a href="{{ about_url|default:'/about/' }}" class="hover:underline focus:outline-none">About</a>
+        <a href="{{ about_url|default:'/about/' }}" class="text-white  hover:underline focus:outline-none">About</a>
         {% url 'contact' as contact_url %}
-        <a href="{{ contact_url|default:'/contact/' }}" class="hover:underline focus:outline-none">Contact</a>
+        <a href="{{ contact_url|default:'/contact/' }}" class="text-white hover:underline focus:outline-none">Contact</a>
         {% url 'cite' as cite_url %}
-        <a href="{{ cite_url|default:'/citation/' }}" class="hover:underline focus:outline-none">Cite us</a>
+        <a href="{{ cite_url|default:'/citation/' }}" class="text-white hover:underline focus:outline-none">Cite us</a>
         {% url 'privacy' as privacy_url %}
-        <a href="{{ privacy_url|default:'/privacy/' }}" class="hover:underline focus:outline-none">Privacy policy</a>
+        <a href="{{ privacy_url|default:'/privacy/' }}" class="text-white hover:underline focus:outline-none">Privacy policy</a>
     </nav>
             </div>
 
@@ -28,7 +28,7 @@
             <div class="lg:col-span-1 justify-center">
                 <div class="flex gap-3 justify-center-safe">
                     <a href="#"
-                        class="text-inherit w-9 h-9 bg-white/10 hover:bg-pp-lime-green hover:text-pp-dark-blue rounded-lg flex items-center justify-center transition-all"
+                        class="text-white w-9 h-9 bg-white/10 hover:bg-pp-lime-green hover:text-pp-dark-blue rounded-lg flex items-center justify-center transition-all"
                         aria-label="Twitter">
                         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                             <path
@@ -37,7 +37,7 @@
                         </svg>
                     </a>
                     <a href="#"
-                        class="text-inherit w-9 h-9 bg-white/10 hover:bg-pp-lime-green hover:text-pp-dark-blue rounded-lg flex items-center justify-center transition-all"
+                        class="text-white w-9 h-9 bg-white/10 hover:bg-pp-lime-green hover:text-pp-dark-blue rounded-lg flex items-center justify-center transition-all"
                         aria-label="GitHub">
                         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                             <path
@@ -46,7 +46,7 @@
                         </svg>
                     </a>
                     <a href="#"
-                        class="text-inherit w-9 h-9 bg-white/10 hover:bg-pp-lime-green hover:text-pp-dark-blue rounded-lg flex items-center justify-center transition-all"
+                        class="text-white w-9 h-9 bg-white/10 hover:bg-pp-lime-green hover:text-pp-dark-blue rounded-lg flex items-center justify-center transition-all"
                         aria-label="LinkedIn">
                         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                             <path
