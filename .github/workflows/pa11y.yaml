@@ -47,6 +47,7 @@ jobs:
         env:
           SECRET_KEY: ci-not-a-secret
           DEBUG: "1"
+          DATABASE_URL: sqlite:///db.sqlite3
         run: |
           uv run python manage.py runserver http://127.0.0.1:8000 &
           npx wait-on http://127.0.0.1:8000
