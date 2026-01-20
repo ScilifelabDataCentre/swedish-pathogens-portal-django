@@ -1,0 +1,36 @@
+# Pa11y: A tool to check accessibility issues on a webpage
+# The config file and sitemap file used by this workflow
+# are in the ".github" directory of the repository
+#
+# This workflow is configured to run weekly at 12:12 every Friday
+# It can also be run manually from repo's GitHub page
+---
+name: Pa11y Accessibility Check
+on:
+  pull_request:
+  workflow_dispatch:
+  # schedule:
+  #   - cron: '12 12 * * FRI'
+
+jobs:
+  pa11y:
+    name: Pa11y Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 22.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+
+      - name: Install Pa11y CI
+        run: npm install -g pa11y-ci
+
+      - name: Run Pa11y CI
+        run: |
+          pa11y-ci \
+            --config ${GITHUB_WORKSPACE}/.github/pa11y.config \
+            --sitemap https://www.pathogens.se/sitemap.xml \
+            --sitemap-exclude 'pdf$'
