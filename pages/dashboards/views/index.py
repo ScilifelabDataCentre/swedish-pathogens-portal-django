@@ -112,11 +112,12 @@ class DashboardsIndex(BaseTemplateView):
                 "image": "dashboards/thumbnails/covid_quantification_kth.png",
                 "url": reverse_lazy("dashboards:covid_quantification_gu"),
                 "description": (
-                    "SEEC-KTH wastewater monitoring project led by associate professor "
-                    "Zeynep Cetecioglu Gurol at KTH Royal Institute of Technology. "
-                    "Visualizations of SARS-CoV-2 levels in wastewater from Stockholm "
-                    "and Malmö, including both historic and recent data. Data collection "
-                    "ceased in June 2023."
+                    "This project is led by Professor Helene Norder (University of Gothenburg, "
+                    "GU), and supported by co-workers from the University of Gothenburg and "
+                    "Sahlgrenska University Hospital (Hao Wang, Marianela Patzi Churqui, Timur "
+                    "Tunovic, Fredy Saguti, and Kristina Nyström). The wastewater sample "
+                    "collections were performed by Lucica Enache at Ryaverket, "
+                    "Gryaab AB, Gothenburg."
                 ),
             },
             {
