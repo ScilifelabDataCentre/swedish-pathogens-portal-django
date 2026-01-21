@@ -7,11 +7,15 @@ URL configs and other modules.
 from .covid_quantification_gu import CovidQuantificationGu
 from .covid_quantification_kth import CovidQuantificationKth
 from .crush_covid import CrushCovid
+from .historic_covid_publications import HistoricCovidPublications
+from .historic_influenza import HistoricInfluenza
 from .historic_sarscov2_wastewater import HistoricSarsCov2Wastewater
 from .index import DashboardsIndex
 from .lineage_competition import LineageCompetition
+from .multidisease_serology import MultiDiseaseSerology
 from .npc_statistics import NpcStatistics
 from .post_covid import PostCovid
+from .recovac import Recovac
 from .serology_statistics import SerologyStatistics
 from .symptom_study_sweden import SymptomStudySweden
 from .vaccines import Vaccines
@@ -22,10 +26,14 @@ __all__ = [
     "CovidQuantificationKth",
     "CrushCovid",
     "DashboardsIndex",
+    "HistoricCovidPublications",
+    "HistoricInfluenza",
     "HistoricSarsCov2Wastewater",
     "LineageCompetition",
+    "MultiDiseaseSerology",
     "NpcStatistics",
     "PostCovid",
+    "Recovac",
     "SerologyStatistics",
     "SymptomStudySweden",
     "Vaccines",

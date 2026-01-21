@@ -8,9 +8,11 @@ dependencies = [
     "django>=5.2.8",
     "django-environ>=0.12.0",
     "django-htmx>=1.27.0",
+    "fastexcel>=0.18.0",
     "markdown>=3.5.0",
     "pillow>=10.0.0",
     "plotly>=6.4.0",
+    "polars>=1.12.0",
 ]
 
 [dependency-groups]
