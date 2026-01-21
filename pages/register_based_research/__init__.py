@@ -1,0 +1,1 @@
+"""Register Based Research page."""

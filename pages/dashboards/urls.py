@@ -3,17 +3,17 @@
 from django.urls import path
 
 from .views import (
-    # Historic dashboards
-    CovidQuantificationGu,
     CovidQuantificationKth,
     CrushCovid,
-    # Dashboard index
     DashboardsIndex,
+    HistoricCovidPublications,
+    HistoricInfluenza,
     HistoricSarsCov2Wastewater,
-    # Active dashboards
     LineageCompetition,
+    MultiDiseaseSerology,
     NpcStatistics,
     PostCovid,
+    Recovac,
     SerologyStatistics,
     SymptomStudySweden,
     Vaccines,
@@ -23,13 +23,16 @@ from .views import (
 app_name = "dashboards"
 
 urlpatterns = [
-    # Dashboard index
     path("", DashboardsIndex.as_view(), name="index"),
-    # Active dashboards
     path(
         "lineage-competition/",
         LineageCompetition.as_view(),
         name="lineage_competition",
+    ),
+    path(
+        "multidisease-serology/",
+        MultiDiseaseSerology.as_view(),
+        name="multidisease_serology",
     ),
     path(
         "serology-statistics/",
@@ -41,7 +44,11 @@ urlpatterns = [
         VariantsRegionUppsala.as_view(),
         name="variants_region_uppsala",
     ),
-    # Historic dashboards
+    path(
+        "historic-covid-publications/",
+        HistoricCovidPublications.as_view(),
+        name="historic_covid_publications",
+    ),
     path(
         "covid-quantification-gu/",
         CovidQuantificationGu.as_view(),
@@ -63,6 +70,11 @@ urlpatterns = [
         name="historic_sarscov2_wastewater",
     ),
     path(
+        "historic-influenza/",
+        HistoricInfluenza.as_view(),
+        name="historic_influenza",
+    ),
+    path(
         "npc-statistics/",
         NpcStatistics.as_view(),
         name="npc_statistics",
@@ -71,6 +83,11 @@ urlpatterns = [
         "post-covid/",
         PostCovid.as_view(),
         name="post_covid",
+    ),
+    path(
+        "recovac/",
+        Recovac.as_view(),
+        name="recovac",
     ),
     path(
         "symptom-study-sweden/",
