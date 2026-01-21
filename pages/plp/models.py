@@ -18,7 +18,7 @@ class PlpProject(models.Model):
 
     Attributes:
         title (str): Project title (e.g. 'Multi-disease serology').
-        slug (str): URL-friendly identifier (auto-generated from title if blank).
+        slug (str): URL-friendly identifier.
         category (str): Project category (e.g. PLP1, PLP2, TDP).
         summary (str): Short blurb shown on cards and listings (plain text).
         content (str): Full markdown content for the project detail page.
@@ -44,8 +44,7 @@ class PlpProject(models.Model):
     slug = models.SlugField(
         max_length=255,
         unique=True,
-        blank=True,
-        help_text="URL-friendly identifier (auto-generated from title if blank)",
+        help_text="URL-friendly version of the title (auto-generated from title)",
     )
     category = models.CharField(
         max_length=20,
@@ -56,8 +55,6 @@ class PlpProject(models.Model):
     content = models.TextField(help_text="Full markdown content for the project detail page")
     featured_image = models.ImageField(
         upload_to="plp/projects/",
-        blank=True,
-        null=True,
         help_text="Featured image for the project",
     )
     created_at = models.DateTimeField(
