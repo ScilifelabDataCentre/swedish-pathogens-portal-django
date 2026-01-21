@@ -3,11 +3,11 @@
 from django.urls import path
 
 from .views import (
-    HistoricCovidQuantificationGu,
     CovidQuantificationKth,
     CrushCovid,
     DashboardsIndex,
     HistoricCovidPublications,
+    HistoricCovidQuantificationGu,
     HistoricInfluenza,
     HistoricSarsCov2Wastewater,
     LineageCompetition,
