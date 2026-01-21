@@ -149,7 +149,7 @@ class DashboardsIndex(BaseTemplateView):
             {
                 "name": "Amount of SARS-CoV-2 in wastewater (GU)",
                 "image": "dashboards/thumbnails/covid_quantification_kth.png",
-                "url": reverse_lazy("dashboards:covid_quantification_gu"),
+                "url": reverse_lazy("dashboards:historic_covid_quantification_gu"),
                 "description": (
                     "This project is led by Professor Helene Norder (University of Gothenburg, "
                     "GU), and supported by co-workers from the University of Gothenburg and "
