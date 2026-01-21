@@ -1,6 +1,6 @@
 {% load static %} 
 <footer role="contentinfo" aria-label="Site footer"
-        class="bg-gradient-to-br from-pp-dark-blue to-pp-mid-blue mt-16">
+        class="bg-gradient-to-br from-pp-pale-grey  to-pp-pale-grey mt-16">
   <div class="container mx-auto px-6 max-w-7xl py-6">
 
     <!-- Main row: three columns (left / center / right) -->
@@ -8,19 +8,19 @@
 
             <!-- Brand Column -->
             <div class="lg:col-span-1">
-                <p class="text-white text-sm leading-relaxed mb-4">
+                <p class="text-black text-sm leading-relaxed mb-4">
                
                 
 
     <nav class="flex flex-wrap items-center justify-center space-x-6 text-sm " aria-label="Footer links">
         {% url 'about' as about_url %}
-        <a href="{{ about_url|default:'/about/' }}" class="text-white  hover:underline focus:outline-none">About</a>
+        <a href="{{ about_url|default:'/about/' }}" class="hover:underline focus:outline-none">About</a>
         {% url 'contact' as contact_url %}
-        <a href="{{ contact_url|default:'/contact/' }}" class="text-white hover:underline focus:outline-none">Contact</a>
+        <a href="{{ contact_url|default:'/contact/' }}" class="hover:underline focus:outline-none">Contact</a>
         {% url 'cite' as cite_url %}
-        <a href="{{ cite_url|default:'/citation/' }}" class="text-white hover:underline focus:outline-none">Cite us</a>
+        <a href="{{ cite_url|default:'/citation/' }}" class="hover:underline focus:outline-none">Cite us</a>
         {% url 'privacy' as privacy_url %}
-        <a href="{{ privacy_url|default:'/privacy/' }}" class="text-white hover:underline focus:outline-none">Privacy policy</a>
+        <a href="{{ privacy_url|default:'/privacy/' }}" class=" hover:underline focus:outline-none">Privacy policy</a>
     </nav>  </p>
             </div>
 
