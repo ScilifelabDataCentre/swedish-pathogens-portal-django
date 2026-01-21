@@ -19,7 +19,7 @@ class HistoricCovidQuantificationGu(View):
         description: Description to be used in the HTML's head.
     """
 
-    template_name = "dashboards/covid_quantification_gu.html"
+    template_name = "dashboards/historic_covid_quantification_gu.html"
     title = "Amount of SARS-CoV-2 in wastewater (GU)"
     description = (
         "This project is led by Professor Helene Norder (University of Gothenburg, "
