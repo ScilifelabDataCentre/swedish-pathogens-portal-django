@@ -1,18 +1,18 @@
 {% load static %} 
 <footer role="contentinfo" aria-label="Site footer"
         class="bg-gradient-to-br from-pp-dark-blue to-pp-mid-blue mt-16">
-  <div class="container mx-auto px-6 max-w-7xl py-12">
+  <div class="container mx-auto px-6 max-w-7xl py-6">
 
     <!-- Main row: three columns (left / center / right) -->
-    <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+    <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
 
             <!-- Brand Column -->
             <div class="lg:col-span-1">
                 <p class="text-white text-sm leading-relaxed mb-4">
-                </p>
+               
                 
 
-    <nav class="flex flex-wrap items-center space-x-6 text-sm " aria-label="Footer links">
+    <nav class="flex flex-wrap items-center justify-center space-x-6 text-sm " aria-label="Footer links">
         {% url 'about' as about_url %}
         <a href="{{ about_url|default:'/about/' }}" class="text-white  hover:underline focus:outline-none">About</a>
         {% url 'contact' as contact_url %}
@@ -21,7 +21,7 @@
         <a href="{{ cite_url|default:'/citation/' }}" class="text-white hover:underline focus:outline-none">Cite us</a>
         {% url 'privacy' as privacy_url %}
         <a href="{{ privacy_url|default:'/privacy/' }}" class="text-white hover:underline focus:outline-none">Privacy policy</a>
-    </nav>
+    </nav>  </p>
             </div>
 
             <!-- Social media column -->
@@ -61,16 +61,16 @@
         <div class="mt-4 sm:mt-0 flex justify-end-safe">
             <div class="flex items-center space-x-4" aria-label="Funders">
                 <!-- Host and partner logo -->
-                <img src="{% static '/images/complete_funders_logo.svg' %}"
+                <img src="{% static '/images/complete_funders_logo_black.svg' %}"
                     alt="SciLifeLab, Knut and Alice Wallenberg Foundation and SSF Logo"
-                    class="h-15 sm:h-22 w-auto opacity-90 transition-opacity duration-150 hover:opacity-100">
+                    class="h-15 sm:h-22 w-auto  transition-opacity duration-150 hover:opacity-100">
 
         </div>
     </div>
 
 </div>
   <!-- Small bottom row (copyright) -->
-  <div class="max-w-7xl mx-auto px-4 py-2 border-t border-gray-100 text-xs text-gray-500">
+  <div class="max-w-4xl mx-auto px-2 py-1 border-t border-gray-100 text-xs text-gray-500">
     © {% now "Y" %} SciLifeLab DC
   </div>
 </footer>
