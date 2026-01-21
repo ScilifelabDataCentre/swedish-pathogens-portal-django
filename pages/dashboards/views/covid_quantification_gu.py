@@ -10,7 +10,7 @@ from ..visualisation.utils import fetch_plot_json_blobserver, plot_html_from_jso
 class CovidQuantificationGu(View):
     """Amount of enteric virus in wastewater (GU) dashboard page.
 
-    This view class renders the template of (historic) dashboard of COVID Quantification 
+    This view class renders the template of (historic) dashboard of COVID Quantification
     GU in wastewater (GU).
 
     Attributes:
@@ -39,6 +39,7 @@ class CovidQuantificationGu(View):
 
         vaccine_related_blobs = [
             "wastewater_gothenburg",
+            "historic_wastewater_gothenburg",
         ]
 
         for blob in vaccine_related_blobs:
