@@ -95,10 +95,3 @@ class PlpProject(models.Model):
         return mark_safe(
             markdown.markdown(self.content, extensions=["extra", "codehilite", "tables", "nl2br"])
         )
-
-    @property
-    def display_image(self) -> str:
-        """Return featured image URL or a default placeholder."""
-        if self.featured_image and hasattr(self.featured_image, "url"):
-            return self.featured_image.url
-        return "/static/images/defaults/blue_microbes.png"
