@@ -7,7 +7,7 @@ from django.views import View
 from ..visualisation.utils import fetch_plot_json_blobserver, plot_html_from_json
 
 
-class CovidQuantificationGu(View):
+class HistoricCovidQuantificationGu(View):
     """Amount of enteric virus in wastewater (GU) dashboard page.
 
     This view class renders the template of (historic) dashboard of COVID Quantification

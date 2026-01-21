@@ -3,14 +3,11 @@
 from django.urls import path
 
 from .views import (
-    # Historic dashboards
-    CovidQuantificationGu,
+    HistoricCovidQuantificationGu,
     CovidQuantificationKth,
     CrushCovid,
-    # Dashboard index
     DashboardsIndex,
     HistoricSarsCov2Wastewater,
-    # Active dashboards
     LineageCompetition,
     NpcStatistics,
     PostCovid,
@@ -44,8 +41,8 @@ urlpatterns = [
     # Historic dashboards
     path(
         "covid-quantification-gu/",
-        CovidQuantificationGu.as_view(),
-        name="covid_quantification_gu",
+        HistoricCovidQuantificationGu.as_view(),
+        name="historic_covid_quantification_gu",
     ),
     path(
         "covid-quantification-kth/",
