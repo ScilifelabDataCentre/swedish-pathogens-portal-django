@@ -26,8 +26,12 @@
         shed in the faeces and urine of infected individuals. The Norder group at the University 
         of Gothenburg showed that the relative levels of some enteric viruses in wastewater could 
         be used to predict upcoming outbreaks 
-        (<a target="_blank" rel="noopener noreferrer" 
-        href="https://pubmed.ncbi.nlm.nih.gov/25172863/">Hellmér <em>et al.</em>, 2014</a>). 
+        (<a 
+            href="https://pubmed.ncbi.nlm.nih.gov/25172863/"
+            target="_blank" rel="noopener noreferrer"
+        >
+                Hellmér <em>et al.</em>, 2014
+        </a>). 
         Indeed, previous studies by the Norder group have shown that the levels of noroviruses in 
         wastewater increase 1-2 weeks before larger outbreaks in nursing homes and hospital wards.
     </p>
@@ -40,9 +44,10 @@
         that was used from week 20 (15th May) of 2023. This method was used in parallel with a 
         previous method until week 43 of 2023. Data produced using that previous method between 
         week 2 and week 43 of 2023 (i.e. 9th January and 23rd October 2023) are available on the 
-        page related to <a target="_blank"
-        href="/dashboards/wastewater/enteric_quantification/historic_enteric_gu/"
-        rel="noopener noreferrer" >historic enteric virus data from Gothenburg</a>.
+        page related to 
+        <a href="{% url 'dashboards:historic_enteric_quantification' %}">
+            historic enteric virus data from Gothenburg
+        </a>.
     </p>
 
     <p>
@@ -54,7 +59,7 @@
     <p>
         The enteric virus monitoring by the Norder group was done alongside their ongoing 
         monitoring of SARS-CoV-2 in wastewater, the data for which are 
-        <a href="/dashboards/covid_quantification/covid_quant_gu/">also shared on this portal</a>.
+        <a href="{% url 'dashboards:historic_enteric_quantification' %}">also shared on this portal</a>.
     </p>
 
     <p>
@@ -75,7 +80,7 @@
     <h4>Visualisations</h4>
     <div class="mt-6 p-4 bg-pp-pale-grey">
         Last updated:
-        <span id="visualisations_date_modified">
+        <span>
             2023-03-24 (no longer updating)
         </span>
     </div>
@@ -100,8 +105,10 @@
 
     <p>
         <b>Code used to produce plot:</b> 
-        <a target="_blank" rel="noopener noreferrer" 
-        href="https://github.com/ScilifelabDataCentre/pathogens-portal-visualisations/blob/main/wastewater/archive/enteric_viruses_gu.py">
+        <a
+            href="https://github.com/ScilifelabDataCentre/pathogens-portal-visualisations/blob/main/wastewater/archive/enteric_viruses_gu.py"
+            target="_blank" rel="noopener noreferrer"
+        >
             Script to produce plot.
         </a>
     </p>
@@ -153,7 +160,7 @@
         weeks. It is worth noting that a peak was observed in week 7-2024.
     </p>
 
-    <h4>Dataset</h4>
+    <h4 id="dataset">Dataset</h4>
 
     <p>
         <strong>Download the data:</strong><br />
@@ -228,7 +235,7 @@
         </a>
     </p>
 
-    <h4>Methods</h4>
+    <h4 id="methods">Methods</h4>
 
     <p>
         Samples of wastewater are collected using a fixed-site sampler that collects 30ml per 
@@ -301,14 +308,14 @@
 
     <p>
         <a
-            href="/dashboards/enteric_quantification/historic_enteric_gu/"
+            href="{% url 'dashboards:historic_sarscov2_wastewater' %}"
         >
             Historic enteric virus data from Gothenburg collected between week 2 and week
             43 of 2023
         </a>
     </p>
 
-    <h4>Basic virus information</h4>
+    <h4 id="basic-virus-information">Basic virus information</h4>
 
     <p>
         <strong>Enterovirus</strong> is the largest genus of enteric viruses infecting humans. 
@@ -394,10 +401,4 @@
         analyses, it is used as a control of the technique.
     </p>
 
-
-
- 
-    
-
-
-{% endblock content %}
+{% endblock %}

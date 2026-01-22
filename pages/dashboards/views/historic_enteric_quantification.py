@@ -7,7 +7,7 @@ from django.views import View
 from ..visualisation.utils import fetch_plot_json_blobserver, plot_html_from_json
 
 
-class EntericQuantification(View):
+class HistoricEntericQuantification(View):
     """Amount of enteric virus in wastewater (GU) dashboard page.
 
     This view class renders the template of (historic) dashboard of Amount of
@@ -19,7 +19,7 @@ class EntericQuantification(View):
         description: Description to be used in the HTML's head.
     """
 
-    template_name = "dashboards/enteric_quantification.html"
+    template_name = "dashboards/historic_enteric_quantification.html"
     title = "Amount of enteric virus in wastewater (GU)"
     description = (
         "The Swedish Health Agency (Folkhälsomyndigheten) provide data and information "

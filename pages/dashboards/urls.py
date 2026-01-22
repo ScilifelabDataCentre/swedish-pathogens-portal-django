@@ -6,7 +6,7 @@ from .views import (
     CovidQuantificationKth,
     CrushCovid,
     DashboardsIndex,
-    EntericQuantification,
+    HistoricEntericQuantification,
     HistoricSarsCov2Wastewater,
     LineageCompetition,
     NpcStatistics,
@@ -50,9 +50,9 @@ urlpatterns = [
         name="crush_covid",
     ),
     path(
-        "enteric-quantification/",
-        EntericQuantification.as_view(),
-        name="enteric_quantification",
+        "historic-enteric-quantification/",
+        HistoricEntericQuantification.as_view(),
+        name="historic_enteric_quantification",
     ),
     path(
         "historic-sarscov2-wastewater/",

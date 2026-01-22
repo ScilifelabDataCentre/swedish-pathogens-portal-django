@@ -131,7 +131,7 @@ class DashboardsIndex(BaseTemplateView):
             {
                 "name": "Wastewater: Enteric Virus Quantification (GU)",
                 "image": "dashboards/thumbnails/wastewater_enteric_virus.png",
-                "url": reverse_lazy("dashboards:enteric_quantification"),
+                "url": reverse_lazy("dashboards:historic_enteric_quantification"),
                 "description": (
                     "Enteric virus levels in Gothenburg’s wastewater, including "
                     "norovirus and adenovirus. Data from the Norder group’s weekly "
