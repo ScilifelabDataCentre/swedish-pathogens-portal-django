@@ -22,8 +22,8 @@ class HistoricEntericQuantification(View):
     template_name = "dashboards/historic_enteric_quantification.html"
     title = "Amount of enteric virus in wastewater (GU)"
     description = (
-        "Enteric virus levels in Gothenburg’s wastewater, including "
-        "norovirus and adenovirus. Data from the Norder group’s weekly "
+        "Enteric virus levels in Gothenburg's wastewater, including "
+        "norovirus and adenovirus. Data from the Norder group's weekly "
         "analysis at Ryaverket WWTP helps predict outbreaks and includes "
         "samples from surrounding municipalities."
     )

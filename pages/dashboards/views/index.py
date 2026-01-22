@@ -133,8 +133,8 @@ class DashboardsIndex(BaseTemplateView):
                 "image": "dashboards/thumbnails/wastewater_enteric_virus.png",
                 "url": reverse_lazy("dashboards:historic_enteric_quantification"),
                 "description": (
-                    "Enteric virus levels in Gothenburg’s wastewater, including "
-                    "norovirus and adenovirus. Data from the Norder group’s weekly "
+                    "Enteric virus levels in Gothenburg's wastewater, including "
+                    "norovirus and adenovirus. Data from the Norder group's weekly "
                     "analysis at Ryaverket WWTP helps predict outbreaks and includes "
                     "samples from surrounding municipalities."
                 ),
