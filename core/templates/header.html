@@ -2,101 +2,94 @@
 
 <div class="header">
 
-  <!-- Logo -->
-  <div class="container my-4 flex flex-wrap items-center gap-6">
-    <a href="/" class="no-underline">
-      <img class="h-15 inline" src="{% static 'images/swe_pathogens_logo.svg' %}" alt="Pathogens Portal Sweden">
-    </a>
-    <a href="https://www.scilifelab.se">
-      <img class="h-13 inline" src="{% static 'images/SciLifeLab_logo.svg' %}" alt="SciLifeLab Home">
-    </a>
+  <!-- Top bar: Logos (left) + Menu (right) -->
+  <div class="border-b border-slate-200 bg-white">
+    <div class="container my-4 flex flex-wrap items-center gap-6">
+
+      <!-- Logos (left) -->
+      <div class="flex flex-wrap items-center gap-6">
+        <a href="/" class="no-underline">
+          <img class="h-15 inline" src="{% static 'images/swe_pathogens_logo.svg' %}" alt="Pathogens Portal Sweden">
+        </a>
+        <a href="https://www.scilifelab.se">
+          <img class="h-13 inline" src="{% static 'images/SciLifeLab_logo.svg' %}" alt="SciLifeLab Home">
+        </a>
+      </div>
+
+      <!-- Menu (right) -->
+      <nav class="ml-auto" aria-label="Main navigation">
+        <ul class="flex flex-wrap items-center justify-end gap-1 py-2 text-sm font-medium">
+
+          <!-- Home -->
+          <li>
+            <a class="block rounded px-3 py-2 hover:bg-slate-100" href="/">
+              Home
+            </a>
+          </li>
+
+          <!-- Data -->
+          <li class="relative">
+            <details class="group" data-nav-dropdown="top">
+              <summary class="list-none cursor-pointer select-none rounded px-3 py-2 hover:bg-slate-100 flex items-center gap-2">
+                <span>Data</span>
+                <span class="text-xs opacity-70 group-open:rotate-180 transition-transform">▾</span>
+              </summary>
+
+              <div class="absolute right-0 z-50 mt-2 w-72 rounded-lg border border-slate-200 bg-white shadow-lg">
+                <ul class="p-2">
+                  <li><a class="block rounded px-3 py-2 hover:bg-slate-100" href="/data-management/">Data management</a></li>
+                  <li><a class="block rounded px-3 py-2 hover:bg-slate-100" href="/dashboards/">Dashboards</a></li>
+                  <li><a class="block rounded px-3 py-2 hover:bg-slate-100" href="/register-based-research/">Register-based research</a></li>
+                </ul>
+              </div>
+            </details>
+          </li>
+
+          <!-- Explore -->
+          <li class="relative">
+            <details class="group" data-nav-dropdown="top">
+              <summary class="list-none cursor-pointer select-none rounded px-3 py-2 hover:bg-slate-100 flex items-center gap-2">
+                <span>Explore</span>
+                <span class="text-xs opacity-70 group-open:rotate-180 transition-transform">▾</span>
+              </summary>
+
+              <div class="absolute right-0 z-50 mt-2 w-72 rounded-lg border border-slate-200 bg-white shadow-lg">
+                <ul class="p-2">
+                  <li><a class="block rounded px-3 py-2 hover:bg-slate-100" href="/outbreaks/">Outbreaks</a></li>
+                  <li><a class="block rounded px-3 py-2 hover:bg-slate-100" href="/topics/">Topics</a></li>
+                  <li><a class="block rounded px-3 py-2 hover:bg-slate-100" href="/articles/">Articles</a></li>
+                  <li><a class="block rounded px-3 py-2 hover:bg-slate-100" href="/news/">News</a></li>
+                </ul>
+              </div>
+            </details>
+          </li>
+
+          <!-- About -->
+          <li class="relative">
+            <details class="group" data-nav-dropdown="top">
+              <summary class="list-none cursor-pointer select-none rounded px-3 py-2 hover:bg-slate-100 flex items-center gap-2">
+                <span>About</span>
+                <span class="text-xs opacity-70 group-open:rotate-180 transition-transform">▾</span>
+              </summary>
+
+              <div class="absolute right-0 z-50 mt-2 w-72 rounded-lg border border-slate-200 bg-white shadow-lg">
+                <ul class="p-2">
+                  <li><a class="block rounded px-3 py-2 hover:bg-slate-100" href="/about/">About</a></li>
+                  <li><a class="block rounded px-3 py-2 hover:bg-slate-100" href="/citation/">Citation</a></li>
+                  <li><a class="block rounded px-3 py-2 hover:bg-slate-100" href="/privacy/">Privacy</a></li>
+                  <li><a class="block rounded px-3 py-2 hover:bg-slate-100" href="/contact/">Contact</a></li>
+                </ul>
+              </div>
+            </details>
+          </li>
+
+        </ul>
+      </nav>
+
+    </div>
   </div>
 
-  <!-- Primary navigation -->
-  <nav class="border-y border-slate-200 bg-white">
-    <div class="container justify-right">
-      <ul class="flex flex-wrap items-center justify-end gap-1 py-2 text-sm font-medium">
-
-        <!-- Home -->
-        <li>
-          <a class="block rounded px-3 py-2 hover:bg-slate-100" href="/">
-            Home
-          </a>
-        </li>
-
-        <!-- Data -->
-        <li class="relative">
-          <details class="group"  data-nav-dropdown="top">
-            <summary class="list-none cursor-pointer select-none rounded px-3 py-2 hover:bg-slate-100 flex items-center gap-2">
-              <span>Data</span>
-              <span class="text-xs opacity-70 group-open:rotate-180 transition-transform">▾</span>
-            </summary>
-
-            <div class="absolute left-0 z-50 mt-2 w-72 rounded-lg border border-slate-200 bg-white shadow-lg">
-              <ul class="p-2">
-                <li>
-                  <a class="block rounded px-3 py-2 hover:bg-slate-100" href="/data-management/">
-                    Data management
-                  </a>
-                </li>
-                <li>
-                  <a class="block rounded px-3 py-2 hover:bg-slate-100" href="/dashboards/">
-                    Dashboards
-                  </a>
-                </li>
-                <li>
-                  <a class="block rounded px-3 py-2 hover:bg-slate-100" href="/register-based-research/">
-                    Register-based research
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </details>
-        </li>
-
-        <!-- Explore -->
-        <li class="relative">
-          <details class="group"  data-nav-dropdown="top">
-            <summary class="list-none cursor-pointer select-none rounded px-3 py-2 hover:bg-slate-100 flex items-center gap-2">
-              <span>Explore</span>
-              <span class="text-xs opacity-70 group-open:rotate-180 transition-transform">▾</span>
-            </summary>
-
-            <div class="absolute left-0 z-50 mt-2 w-72 rounded-lg border border-slate-200 bg-white shadow-lg">
-              <ul class="p-2">
-                <li>
-                  <a class="block rounded px-3 py-2 hover:bg-slate-100" href="/outbreaks/">
-                    Outbreaks
-                  </a>
-                </li>
-                <li>
-                  <a class="block rounded px-3 py-2 hover:bg-slate-100" href="/topics/">
-                    Topics
-                  </a>
-                </li>
-                <li>
-                  <a class="block rounded px-3 py-2 hover:bg-slate-100" href="/articles/">
-                    Articles
-                  </a>
-                </li>
-                <li>
-                  <a class="block rounded px-3 py-2 hover:bg-slate-100" href="/news/">
-                    News
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </details>
-        </li>
-
-      
-      
-
-      </ul>
-    </div>
-  </nav>
-
-  <!-- Banner and text -->
+  <!-- Banner and text (unchanged) -->
   <div class="bg-cover bg-center bg-no-repeat py-4"
        style="background-image: linear-gradient(
               to bottom, rgba(55, 174, 148, 0.52), rgba(55, 174, 148, 0.73)),
@@ -114,12 +107,10 @@
 
 </div>
 
-
-
-
+<!-- Dropdown behavior -->
 <script>
   (function () {
-    const nav = document.querySelector("nav");
+    const nav = document.querySelector('nav[aria-label="Main navigation"]');
     if (!nav) return;
 
     const selector = 'details[data-nav-dropdown="top"]';
@@ -131,7 +122,6 @@
       });
     }
 
-    // When one opens, close the others
     nav.addEventListener(
       "toggle",
       (e) => {
@@ -139,19 +129,15 @@
         if (!(target instanceof HTMLDetailsElement)) return;
         if (!target.matches(selector)) return;
         if (!target.open) return;
-
         closeAll(target);
       },
-      true 
+      true
     );
 
-    // Close when clicking outside the nav
     document.addEventListener("pointerdown", (e) => {
-      const clickedInsideNav = nav.contains(e.target);
-      if (!clickedInsideNav) closeAll();
+      if (!nav.contains(e.target)) closeAll();
     });
 
-    // Close when pressing Escape
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") closeAll();
     });
