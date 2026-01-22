@@ -79,9 +79,4 @@ urlpatterns = [
         Vaccines.as_view(),
         name="vaccines",
     ),
-    path(
-        "variants-region-uppsala/",
-        VariantsRegionUppsala.as_view(),
-        name="variants_region_uppsala",
-    ),
 ]
