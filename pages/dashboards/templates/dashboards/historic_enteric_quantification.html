@@ -25,14 +25,9 @@
         Wastewater contains many different types of viruses that infect humans because viruses are
         shed in the faeces and urine of infected individuals. The Norder group at the University 
         of Gothenburg showed that the relative levels of some enteric viruses in wastewater could 
-        be used to predict upcoming outbreaks 
-        (<a 
-            href="https://pubmed.ncbi.nlm.nih.gov/25172863/"
-            target="_blank" rel="noopener noreferrer"
-        >
-                Hellmér <em>et al.</em>, 2014
-        </a>). 
-        Indeed, previous studies by the Norder group have shown that the levels of noroviruses in 
+        be used to predict upcoming outbreaks (<a href="https://pubmed.ncbi.nlm.nih.gov/25172863/"
+        target="_blank" rel="noopener noreferrer">Hellmér <em>et al.</em>, 2014</a>). Indeed, 
+        previous studies by the Norder group have shown that the levels of noroviruses in 
         wastewater increase 1-2 weeks before larger outbreaks in nursing homes and hospital wards.
     </p>
     <p>
@@ -45,9 +40,13 @@
         previous method until week 43 of 2023. Data produced using that previous method between 
         week 2 and week 43 of 2023 (i.e. 9th January and 23rd October 2023) are available on the 
         page related to 
-        <a href="{% url 'dashboards:historic_enteric_quantification' %}">
-            historic enteric virus data from Gothenburg
-        </a>.
+
+        {% comment %}
+            TODO change URL with django URL when we will merge other dashboards
+        {% endcomment %}
+        
+        <a href="https://www.pathogens.se/dashboards/wastewater/enteric_quantification/historic_enteric_gu/">
+        historic enteric virus data from Gothenburg</a>.
     </p>
 
     <p>
@@ -59,7 +58,12 @@
     <p>
         The enteric virus monitoring by the Norder group was done alongside their ongoing 
         monitoring of SARS-CoV-2 in wastewater, the data for which are 
-        <a href="{% url 'dashboards:historic_enteric_quantification' %}">also shared on this portal</a>.
+
+        {% comment %}
+            TODO change URL with django URL when we will merge other dashboards
+        {% endcomment %}
+
+        <a href="dashboards/covid_quantification/covid_quant_gu/">also shared on this portal</a>.
     </p>
 
     <p>
@@ -67,6 +71,7 @@
     </p>
 
     <h4>Wastewater collection sites</h4>
+
     <p>
         Influent wastewater samples were collected from Ryaverket wastewater treatment plant 
         (WWTP) in Gothenburg by Lucica Enache at Ryaverket, Gryaab AB, Gothenburg (see the 
@@ -78,11 +83,9 @@
     </p>
 
     <h4>Visualisations</h4>
+    
     <div class="mt-6 p-4 bg-pp-pale-grey">
-        Last updated:
-        <span>
-            2023-03-24 (no longer updating)
-        </span>
+        Last updated: <span>2023-03-24 (no longer updating)</span>
     </div>
 
     <p>
@@ -104,18 +107,15 @@
 
 
     <p>
-        <b>Code used to produce plot:</b> 
-        <a
-            href="https://github.com/ScilifelabDataCentre/pathogens-portal-visualisations/blob/main/wastewater/archive/enteric_viruses_gu.py"
-            target="_blank" rel="noopener noreferrer"
-        >
-            Script to produce plot.
-        </a>
+        <b>Code used to produce plot:</b> <a
+        href="https://github.com/ScilifelabDataCentre/pathogens-portal-visualisations/blob/main/wastewater/archive/enteric_viruses_gu.py"
+        target="_blank" rel="noopener noreferrer">Script to produce plot.</a>
     </p>
 
     <h4>Commentary from the research group</h4>
+
     <p>
-        <b>Date</b>:2024-04-25
+        <b>Date:</b> 2024-04-25
     </p>
 
     <p>
@@ -164,35 +164,23 @@
 
     <p>
         <strong>Download the data:</strong><br />
-        <a
-            href="https://blobserver.dc.scilifelab.se/blob/wastewater_data_gu_allviruses.xlsx"
-            target="_blank" rel="noopener noreferrer"
-        >
-            Quantification of SARS-CoV-2 and enteric viruses in wastewater
-        </a>
-        . Results are available for SARS-CoV-2 and enteric viruses from week 20 of 2023. Updated weekly.
+        <a href="https://blobserver.dc.scilifelab.se/blob/wastewater_data_gu_allviruses.xlsx"
+        target="_blank" rel="noopener noreferrer">Quantification of SARS-CoV-2 and enteric 
+        viruses in wastewater</a>. Results are available for SARS-CoV-2 and enteric viruses 
+        from week 20 of 2023. Updated weekly.
     </p>
 
     <p>
-        <strong>Contact:</strong>
-        <a
-            href="mailto:helene.norder@gu.se"
-        >
-            helene.norder@gu.se
-        </a>
+        <strong>Contact: </strong><a href="mailto:helene.norder@gu.se">helene.norder@gu.se</a>
     </p>
 
     <p>
         <strong>How to cite the dataset:</strong><br />
         Norder, H., Nyström, K. Patzi Churqui, M., Tunovic, T., Wang, H., Saguti, F.
         (2023). Detection of SARS-CoV-2 and other human enteric viruses in wastewater
-        from Gothenburg.
-        <a
-            href="https://doi.org/10.17044/scilifelab.24787353.v1"
-            target="_blank" rel="noopener noreferrer"
-        >
-            https://doi.org/10.17044/scilifelab.24787353.v1
-        </a>
+        from Gothenburg. <a href="https://doi.org/10.17044/scilifelab.24787353.v1"
+        target="_blank" rel="noopener noreferrer">
+        https://doi.org/10.17044/scilifelab.24787353.v1</a>
     </p>
 
     <p>
@@ -200,12 +188,8 @@
         Hellmér, M., Paxéus, N., Magnius, L., Enache, L., Arnholm, B., Johansson, A.,
         Bergström, T., and Norder, H. (2014). Detection of pathogenic viruses in sewage
         provided early warnings of hepatitis A virus and norovirus outbreaks.
-        <a
-            href="https://doi.org/10.1128/AEM.01981-14"
-            target="_blank" rel="noopener noreferrer"
-        >
-            https://doi.org/10.1128/AEM.01981-14
-        </a>
+        <a href="https://doi.org/10.1128/AEM.01981-14" target="_blank" 
+        rel="noopener noreferrer">https://doi.org/10.1128/AEM.01981-14</a>
     </p>
 
     <p>
@@ -213,13 +197,9 @@
         Davidsson, F., Dotevall, L., Mattsson, A., Trybala, E., Lagging, M., Lindh, M.,
         Gisslen, M., Brezicka, T., Nystrom, K. and Norder, H. (2021). Surveillance of
         wastewater revealed peaks of SARS-CoV-2 preceding those of hospitalized
-        patients with COVID-19.
-        <a
-            href="https://doi.org/10.1016/j.watres.2020.116620"
-            target="_blank" rel="noopener noreferrer"
-        >
-            https://doi.org/10.1016/j.watres.2020.116620
-        </a>
+        patients with COVID-19. <a href="https://doi.org/10.1016/j.watres.2020.116620"
+        target="_blank" rel="noopener noreferrer">
+        https://doi.org/10.1016/j.watres.2020.116620</a>
     </p>
 
     <p>
@@ -227,12 +207,8 @@
         Nilsson, S., Lagging, M., Andersson, M., Dotevall, L., Brezicka, T., Nystrom, K.
         and Norder, H. (2022). The amount of SARS-CoV-2 RNA in wastewater relates to the
         development of the pandemic and its burden on the health system.
-        <a
-            href="https://doi.org/10.1016/j.isci.2022.105000"
-            rel="noopener noreferrer" target="_blank"
-        >
-            https://doi.org/10.1016/j.isci.2022.105000
-        </a>
+        <a href="https://doi.org/10.1016/j.isci.2022.105000" target="_blank" 
+        rel="noopener noreferrer"> https://doi.org/10.1016/j.isci.2022.105000</a>
     </p>
 
     <h4 id="methods">Methods</h4>
@@ -249,70 +225,48 @@
         order to account for this during analysis, the samples to be analysed for viruses are 
         flow-weighted. This means that the amount of wastewater collected and analysed relates to 
         the flow of incoming wastewater. More information on this can be found in 
-        <a rel="noopener noreferrer" target="_blank" 
-        href="https://pubmed.ncbi.nlm.nih.gov/25172863/">
-            Hellmér et al. (2014)
-        </a>
-        and
-        <a rel="noopener noreferrer" target="_blank"
-        href="https://pubmed.ncbi.nlm.nih.gov/36035197/">
-            Wang et al. (2022).
-        </a>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/25172863/" target="_blank" 
+        rel="noopener noreferrer">Hellmér et al. (2014)</a> and <a
+        href="https://pubmed.ncbi.nlm.nih.gov/36035197/" target="_blank" rel="noopener noreferrer">
+        Wang et al. (2022).</a>
     </p>
 
     <p>
         At the Clinical Microbiology Laboratory, two methods developed in-house were used to 
         concentrate viruses. The current method used involves ultrafiltration as the main 
         concentration method. Our previous method used an electropositive filter (Argonide, 
-        Florida, USA) as the primary means of concentration 
-        (<a rel="noopener noreferrer" target="_blank"
-        href="https://doi.org/10.1016/j.watres.2020.116620">
-            Saguti et al., 2021
-        </a>).
+        Florida, USA) as the primary means of concentration (<a 
+        href="https://doi.org/10.1016/j.watres.2020.116620" target="_blank" 
+        rel="noopener noreferrer">Saguti et al., 2021</a>).
     </p>
 
     <p>
         Nucleic acids are extracted from 1ml of the concentrated sample using the QIAamp 
         Circulating Nucleic Acid Kit (Qiagen, Hilden, Germany). Real-time quantitative PCR 
         (RT-qPCR) is performed to detect and quantify the viral genomes. Details about the 
-        method of calculation are provided in 
-        <a 
-        rel="noopener noreferrer" target="_blank"
-        href="https://doi.org/10.1128/AEM.01981-14"
-        >
-            Hellmér et al. (2014)
-        </a>,
-        <a 
-        rel="noopener noreferrer" target="_blank"
-        href="https://doi.org/10.1016/j.watres.2020.116620"
-        >
-            Saguti et al. (2021)
-        </a>,
-        <a 
-        rel="noopener noreferrer" target="_blank"
-        href="https://doi.org/10.1016/j.isci.2022.105000"
-        >
-            Wang et al. (2022)
-        </a> and
-        <a 
-        rel="noopener noreferrer" target="_blank" 
+        method of calculation are provided in <a href="https://doi.org/10.1128/AEM.01981-14" 
+        target="_blank" rel="noopener noreferrer">Hellmér et al. (2014)</a>, <a 
+        href="https://doi.org/10.1016/j.watres.2020.116620" target="_blank" 
+        rel="noopener noreferrer">Saguti et al. (2021)</a>, <a 
+        href="https://doi.org/10.1016/j.isci.2022.105000" target="_blank" 
+        rel="noopener noreferrer">Wang et al. (2022)</a> and <a
         href="https://doi.org/10.1016/j.scitotenv.2023.165012"
-        >
-            Wang et al. (2023).
-        </a>
-        With both techniques, the amounts of the different virus genomes are given as daily average 
-        amounts, as they are based on one week of wastewater sampling.
+        target="_blank" rel="noopener noreferrer">Wang et al. (2023)</a>. With both techniques, 
+        the amounts of the different virus genomes are given as daily average amounts, as they 
+        are based on one week of wastewater sampling.
     </p>
 
     <h4>Archived data</h4>
 
     <p>
-        <a
-            href="{% url 'dashboards:historic_sarscov2_wastewater' %}"
-        >
-            Historic enteric virus data from Gothenburg collected between week 2 and week
-            43 of 2023
-        </a>
+        {% comment %}
+            TODO change URL with django URL after merging other dashboards and 
+            discussion what we decide to do about historic data
+        {% endcomment %}
+
+        <a href="https://www.pathogens.se/dashboards/enteric_quantification/historic_enteric_gu/">
+        Historic enteric virus data from Gothenburg collected between week 2 and week 43 of 
+        2023</a>
     </p>
 
     <h4 id="basic-virus-information">Basic virus information</h4>
@@ -349,15 +303,14 @@
         <strong>Norovirus</strong> including GG2 (more commonly known as “winter vomiting disease 
         virus”), belong to the Caliciviridae family. The number of norovirus cases usually peaks 
         in the winter (January/February). The infection can cause serious complications among the 
-        immunosuppressed and the elderly (see
-        <a rel="noopener noreferrer" target="_blank"
-        href="https://www.folkhalsomyndigheten.se/smittskydd-beredskap/smittsamma-sjukdomar/calicivirus-noro-och-sapovirus/">
-            Folkhälsomyndigheten
-        </a> for more information). GG2 is highly contagious and spreads rapidly in environments 
-        where individuals are in close contact. The incubation period is short, between 12 and 
-        48 hours. Although GG2-infected individuals recover quickly, they may be infectious for 
-        2 days after recovery. Immunity is short-lived and because there are several GG2 
-        genotypes, so an individual can get sick multiple times.
+        immunosuppressed and the elderly (see <a 
+        href="https://www.folkhalsomyndigheten.se/smittskydd-beredskap/smittsamma-sjukdomar/calicivirus-noro-och-sapovirus/"
+        target="_blank" rel="noopener noreferrer">Folkhälsomyndigheten</a> for more information). 
+        GG2 is highly contagious and spreads rapidly in environments where individuals are in 
+        close contact. The incubation period is short, between 12 and 48 hours. Although 
+        GG2-infected individuals recover quickly, they may be infectious for 2 days after 
+        recovery. Immunity is short-lived and because there are several GG2 genotypes, so an 
+        individual can get sick multiple times.
     </p>
 
     <p>
