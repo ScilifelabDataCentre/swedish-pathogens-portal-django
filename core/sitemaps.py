@@ -11,14 +11,21 @@ from django.urls import URLPattern, URLResolver, get_resolver, reverse
 
 
 def _iter_static_named_urls(
-    url_patterns: Iterable[
-        URLPattern | URLResolver
-    ],  # url_patterns are a mix of URLPattern and URLResolver
+    url_patterns: Iterable[URLPattern | URLResolver],
     namespace: str | None = None,
 ) -> Iterable[str]:
-    """Find all static, named pages."""
+    """Find all static, named pages.
+
+    Args:
+        url_patterns: Iterable containing URLPattern and/or URLResolver objects.
+            URLPattern = concrete route (i.e. path(...))
+            URLResolver = include(...) block --> need to recurse into it
+        namespace: Current namespace (if any)
+
+    Yields:
+        str: Fully namespaced URL name for each static named URL found (e.g. "about:index").
+    """
     for entry in url_patterns:
-        # URLResolver = include(...) block --> need to recursed into it
         if isinstance(entry, URLResolver):  # example of entry: admin, home, about, etc.
             # Get all namespaces e.g. about:index/partners/funders/nodes
             child_namespace = entry.namespace or namespace  # single-level namespaces so far
@@ -27,7 +34,7 @@ def _iter_static_named_urls(
             )
             continue
 
-        # Skip anything that is not a concrete route (i.e. URLPattern = "path(...)").
+        # Skip anything that is not a concrete route
         if not isinstance(entry, URLPattern):
             continue
 
