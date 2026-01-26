@@ -120,14 +120,173 @@
             </nav>
 
             <!-- Mobile Menu Button -->
-            <div class="lg:hidden">
-                <button class="text-pp-dark-blue focus:outline-none">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="lg:hidden ml-auto">
+                <button 
+                    id="mobile-menu-button"
+                    class="text-pp-dark-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2 rounded p-2"
+                    aria-label="Open navigation menu"
+                    aria-expanded="false"
+                    aria-controls="mobile-menu"
+                    onclick="toggleMobileMenu()"
+                    type="button">
+                    <svg id="menu-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                    <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
                 </button>
             </div>
         </div>
-        </nav>
+    </div>
+
+    <!-- Mobile Menu -->
+    <nav id="mobile-menu" 
+         class="lg:hidden hidden fixed inset-0 top-20 z-40 bg-white overflow-y-auto"
+         role="navigation"
+         aria-label="Mobile navigation">
+        <div class="container mx-auto px-6 max-w-7xl py-4">
+            <!-- Data Section -->
+            <div class="mb-4">
+                <h3 class="text-sm font-bold text-pp-dark-blue uppercase tracking-wider mb-2">Data</h3>
+                <ul class="space-y-1">
+                    <li>
+                        <a href="{% url 'dashboards:index' %}"
+                            class="block px-4 py-2 text-pp-dark-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2">Dashboards</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'topics:index' %}"
+                            class="block px-4 py-2 text-pp-dark-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2">Topics</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'articles:index' %}"
+                            class="block px-4 py-2 text-pp-dark-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2">Publications</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Resources Section -->
+            <div class="mb-4">
+                <h3 class="text-sm font-bold text-pp-dark-blue uppercase tracking-wider mb-2">Resources</h3>
+                <ul class="space-y-1">
+                    <li>
+                        <a href="#"
+                            class="block px-4 py-2 text-pp-dark-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2">Biobanks</a>
+                    </li>
+                    <li>
+                        <a href="#"
+                            class="block px-4 py-2 text-pp-dark-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2">Guidelines</a>
+                    </li>
+                    <li>
+                        <a href="#"
+                            class="block px-4 py-2 text-pp-dark-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2">Events & Training</a>
+                    </li>
+                    <li>
+                        <a href="#"
+                            class="block px-4 py-2 text-pp-dark-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2">Funding Opportunities</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Research Section -->
+            <div class="mb-4">
+                <h3 class="text-sm font-bold text-pp-dark-blue uppercase tracking-wider mb-2">Research</h3>
+                <ul class="space-y-1">
+                    <li>
+                        <a href="#"
+                            class="block px-4 py-2 text-pp-dark-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2">Pandemic Preparedness</a>
+                    </li>
+                    <li>
+                        <a href="#"
+                            class="block px-4 py-2 text-pp-dark-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2">Ongoing Projects</a>
+                    </li>
+                    <li>
+                        <a href="#"
+                            class="block px-4 py-2 text-pp-dark-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2">Contribute</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Direct Links -->
+            <div class="border-t border-gray-200 pt-4 mt-4">
+                <ul class="space-y-1">
+                    <li>
+                        <a href="{% url 'about:index' %}"
+                            class="block px-4 py-2 text-pp-dark-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2">About</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'citation:index' %}"
+                            class="block px-4 py-2 text-pp-dark-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2">Cite Us</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <script>
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const button = document.getElementById('mobile-menu-button');
+            const menuIcon = document.getElementById('menu-icon');
+            const closeIcon = document.getElementById('close-icon');
+            const body = document.body;
+            const isExpanded = button.getAttribute('aria-expanded') === 'true';
+
+            if (isExpanded) {
+                menu.classList.add('hidden');
+                button.setAttribute('aria-expanded', 'false');
+                button.setAttribute('aria-label', 'Open navigation menu');
+                menuIcon.classList.remove('hidden');
+                closeIcon.classList.add('hidden');
+                // Re-enable body scrolling
+                body.style.overflow = '';
+            } else {
+                menu.classList.remove('hidden');
+                button.setAttribute('aria-expanded', 'true');
+                button.setAttribute('aria-label', 'Close navigation menu');
+                menuIcon.classList.add('hidden');
+                closeIcon.classList.remove('hidden');
+                // Prevent body scrolling when menu is open
+                body.style.overflow = 'hidden';
+            }
+        }
+
+        // Close menu when clicking outside or on a link
+        document.addEventListener('click', function(event) {
+            const menu = document.getElementById('mobile-menu');
+            const button = document.getElementById('mobile-menu-button');
+            
+            if (!menu.contains(event.target) && !button.contains(event.target)) {
+                if (!menu.classList.contains('hidden')) {
+                    toggleMobileMenu();
+                }
+            }
+        });
+
+        // Close menu on Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const menu = document.getElementById('mobile-menu');
+                const button = document.getElementById('mobile-menu-button');
+                
+                if (!menu.classList.contains('hidden')) {
+                    toggleMobileMenu();
+                    button.focus();
+                }
+            }
+        });
+
+        // Close menu when clicking on a link (common UX pattern)
+        const mobileMenuLinks = document.querySelectorAll('#mobile-menu a');
+        mobileMenuLinks.forEach(function(link) {
+            link.addEventListener('click', function() {
+                const menu = document.getElementById('mobile-menu');
+                if (!menu.classList.contains('hidden')) {
+                    toggleMobileMenu();
+                }
+            });
+        });
+    </script>
 </header>
