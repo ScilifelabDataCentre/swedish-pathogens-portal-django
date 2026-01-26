@@ -19,11 +19,13 @@
             </p>
             <div class="flex gap-4 flex-wrap">
                 <a href="{% url 'topics:index' %}"
-                    class="bg-pp-lime-green text-pp-dark-blue px-8 py-3 rounded-lg font-bold hover:bg-white transition-colors shadow-lg">
+                    class="bg-pp-lime-green text-pp-dark-blue px-8 py-3 rounded-lg font-bold hover:bg-white transition-colors shadow-lg"
+                    aria-label="Explore topics and research areas">
                     Explore Topics
                 </a>
                 <a href="{% url 'about:index' %}"
-                    class="hidden md:block bg-white/10 backdrop-blur-sm text-white px-8 py-3 rounded-lg font-bold hover:bg-white/20 transition-colors border border-white/30">
+                    class="hidden md:block bg-white/10 backdrop-blur-sm text-white px-8 py-3 rounded-lg font-bold hover:bg-white/20 transition-colors border border-white/30"
+                    aria-label="Learn more about the Swedish Pathogens Portal">
                     Learn More
                 </a>
             </div>
@@ -41,11 +43,13 @@
             <div class="flex items-center justify-between mb-6">
                 <h2 class="text-2xl font-bold text-pp-dark-blue m-0">Dashboards</h2>
                 <a href="{% url 'dashboards:index' %}"
-                    class="text-pp-mid-blue font-bold hover:text-pp-teal hover:underline">View all &rarr;</a>
+                    class="text-pp-mid-blue font-bold hover:text-pp-teal hover:underline"
+                    aria-label="View all dashboards">View all &rarr;</a>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {% for dashboard in dashboards %}
-                <a href="{{ dashboard.url }}" class="group no-underline hover:no-underline">
+                <a href="{{ dashboard.url }}" class="group no-underline hover:no-underline"
+                    aria-label="View {{ dashboard.name }} dashboard">
                     <div
                         class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all h-full flex flex-col">
                         <div class="h-40 overflow-hidden bg-gray-100 relative">
@@ -74,11 +78,13 @@
             <div class="flex items-center justify-between mb-6">
                 <h2 class="text-2xl font-bold text-pp-dark-blue m-0">Latest Articles</h2>
                 <a href="{% url 'articles:index' %}"
-                    class="text-pp-mid-blue font-bold hover:text-pp-teal hover:underline">View all &rarr;</a>
+                    class="text-pp-mid-blue font-bold hover:text-pp-teal hover:underline"
+                    aria-label="View all articles">View all &rarr;</a>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {% for article in articles %}
-                <a href="{% url 'articles:detail' article.slug %}" class="group no-underline hover:no-underline">
+                <a href="{% url 'articles:detail' article.slug %}" class="group no-underline hover:no-underline"
+                    aria-label="Read article: {{ article.title }}">
                     <div
                         class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all h-full flex flex-col">
                         <div class="h-40 overflow-hidden bg-gray-100 relative">
@@ -119,11 +125,13 @@
             <div class="flex items-center justify-between mb-6">
                 <h2 class="text-2xl font-bold text-pp-dark-blue m-0">Explore Topics</h2>
                 <a href="{% url 'topics:index' %}"
-                    class="text-pp-mid-blue font-bold hover:text-pp-teal hover:underline">View all &rarr;</a>
+                    class="text-pp-mid-blue font-bold hover:text-pp-teal hover:underline"
+                    aria-label="View all topics">View all &rarr;</a>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {% for topic in topics %}
-                <a href="{% url 'topics:topic_detail' topic.slug %}" class="group no-underline hover:no-underline">
+                <a href="{% url 'topics:topic_detail' topic.slug %}" class="group no-underline hover:no-underline"
+                    aria-label="Learn more about {{ topic.title }}">
                     <div
                         class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all h-full flex flex-col">
                         <div class="h-40 overflow-hidden bg-gray-100 relative">
@@ -167,7 +175,8 @@
                 <div class="flex items-center justify-between">
                     <h2 class="text-lg font-bold m-0">News & Updates</h2>
                     <a href="{% url 'news:index' %}"
-                        class="text-pp-lime-green font-bold hover:text-white transition-colors text-xs">View all
+                        class="text-pp-lime-green font-bold hover:text-white transition-colors text-xs"
+                        aria-label="View all news and updates">View all
                         &rarr;</a>
                 </div>
             </div>
@@ -182,7 +191,8 @@
                     </div>
                     <h3
                         class="text-sm font-bold text-pp-dark-blue mb-2 leading-tight hover:text-pp-teal transition-colors">
-                        <a href="{% url 'news:detail' item.slug %}" class="no-underline hover:no-underline">
+                        <a href="{% url 'news:detail' item.slug %}" class="no-underline hover:no-underline"
+                            aria-label="Read news: {{ item.title }}">
                             {{ item.title }}
                         </a>
                     </h3>
@@ -190,9 +200,10 @@
                         {{ item.summary }}
                     </p>
                     <a href="{% url 'news:detail' item.slug %}"
-                        class="inline-flex items-center gap-1 text-pp-mid-blue font-bold text-xs hover:text-pp-teal hover:gap-2 transition-all">
+                        class="inline-flex items-center gap-1 text-pp-mid-blue font-bold text-xs hover:text-pp-teal hover:gap-2 transition-all"
+                        aria-label="Read more about {{ item.title }}">
                         <span>Read more</span>
-                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
                             </path>
                         </svg>
