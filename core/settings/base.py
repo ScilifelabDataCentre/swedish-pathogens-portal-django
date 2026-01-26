@@ -44,6 +44,7 @@ DJANGO_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.sitemaps",  # provides sitemap class and sitemap view
 ]
 
 THIRD_PARTY_APPS = [
@@ -65,11 +66,7 @@ LOCAL_APPS = [
     "pages.topics",
 ]
 
-SITEMAP_APPS = [
-    "django.contrib.sitemaps",  # provides sitemap class and sitemap view
-]
-
-INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS + SITEMAP_APPS
+INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 
 # MIDDLEWARE (https://docs.djangoproject.com/en/5.2/ref/settings/#middleware)
