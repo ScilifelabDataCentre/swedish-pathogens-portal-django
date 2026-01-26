@@ -5,8 +5,13 @@
 {% include "html_head_tag.html" %}
 
 <body>
+    <!-- Skip to main content link -->
+    <a href="#main-content"
+        class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-pp-teal focus:text-white focus:rounded-lg focus:font-bold focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-pp-teal focus:ring-offset-2">
+        Skip to main content
+    </a>
     {% include "header.html" %}
-    <main>
+    <main id="main-content">
         {% block full_width_content %}{% endblock %}
         <div class="container py-8">
             {% block content %}{% endblock %}
