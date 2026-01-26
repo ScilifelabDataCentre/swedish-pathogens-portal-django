@@ -1,15 +1,31 @@
-from django.views.generic import TemplateView
+import logging
+
 from django.urls import reverse_lazy
-from pages.topics.models import Topic
+
 from pages.articles.models import Article
 from pages.news.models import News
-import logging
+from pages.topics.models import Topic
+from utils.views import BaseTemplateView
 
 logger = logging.getLogger(__name__)
 
 
-class Home(TemplateView):
+class Home(BaseTemplateView):
+    """Home page view displaying dashboards, articles, topics, and news.
+
+    This view fetches and displays:
+    - Active dashboards (hardcoded list of 3)
+    - Latest articles (3 most recent active articles)
+    - Active topics (3 most recent active topics)
+    - Latest news (5 most recent active news items)
+
+    Attributes:
+        template_name (str): Path to the home page template
+        title (str): Page title for SEO and context
+    """
+
     template_name = "home/index.html"
+    title = "Swedish Pathogens Portal: supporting pandemic preparedness"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -70,4 +86,3 @@ class Home(TemplateView):
             print(a)
         
         return context
-    title = "Swedish Pathogens Portal: supporting pandemic preparedness"
