@@ -19,45 +19,62 @@
                 <!-- Data Dropdown -->
                 <div class="relative group">
                     <button
-                        class="flex items-center gap-1 text-pp-dark-blue font-medium hover:text-pp-teal transition-colors py-2">
+                        class="flex items-center gap-1 text-pp-dark-blue font-medium hover:text-pp-teal transition-colors py-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2 rounded"
+                        aria-expanded="false"
+                        aria-haspopup="true"
+                        aria-controls="data-menu">
                         Data
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
                             </path>
                         </svg>
                     </button>
                     <div
-                        class="absolute left-0 mt-2 w-56 bg-white border border-gray-200 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
+                        id="data-menu"
+                        role="menu"
+                        class="absolute left-0 mt-2 w-56 bg-white border border-gray-200 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible [.group:focus-within_&]:opacity-100 [.group:focus-within_&]:visible transition-all">
                         <a href="{% url 'dashboards:index' %}"
-                            class="block px-4 py-3 text-pp-dark-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors">Dashboards</a>
+                            role="menuitem"
+                            class="block px-4 py-3 text-pp-dark-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2 focus-visible:bg-pp-pale-grey">Dashboards</a>
                         <a href="{% url 'topics:index' %}"
-                            class="block px-4 py-3 text-pp-dark-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors">Topics</a>
+                            role="menuitem"
+                            class="block px-4 py-3 text-pp-dark-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2 focus-visible:bg-pp-pale-grey">Topics</a>
                         <a href="{% url 'articles:index' %}"
-                            class="block px-4 py-3 text-pp-dark-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors">Publications</a>
+                            role="menuitem"
+                            class="block px-4 py-3 text-pp-dark-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2 focus-visible:bg-pp-pale-grey">Publications</a>
                     </div>
                 </div>
 
                 <!-- Resources Dropdown -->
                 <div class="relative group">
                     <button
-                        class="flex items-center gap-1 text-pp-dark-blue font-medium hover:text-pp-teal transition-colors py-2">
+                        class="flex items-center gap-1 text-pp-dark-blue font-medium hover:text-pp-teal transition-colors py-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2 rounded"
+                        aria-expanded="false"
+                        aria-haspopup="true"
+                        aria-controls="resources-menu">
                         Resources
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
                             </path>
                         </svg>
                     </button>
                     <div
-                        class="absolute left-0 mt-2 w-56 bg-white border border-gray-200 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
+                        id="resources-menu"
+                        role="menu"
+                        class="absolute left-0 mt-2 w-56 bg-white border border-gray-200 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible [.group:focus-within_&]:opacity-100 [.group:focus-within_&]:visible transition-all">
                         <a href="#"
-                            class="block px-4 py-3 text-pp-dark-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors">Biobanks</a>
+                            role="menuitem"
+                            class="block px-4 py-3 text-pp-dark-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2 focus-visible:bg-pp-pale-grey">Biobanks</a>
                         <a href="#"
-                            class="block px-4 py-3 text-pp-dark-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors">Guidelines</a>
+                            role="menuitem"
+                            class="block px-4 py-3 text-pp-dark-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2 focus-visible:bg-pp-pale-grey">Guidelines</a>
                         <a href="#"
-                            class="block px-4 py-3 text-pp-dark-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors">Events
+                            role="menuitem"
+                            class="block px-4 py-3 text-pp-dark-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2 focus-visible:bg-pp-pale-grey">Events
                             & Training</a>
                         <a href="#"
-                            class="block px-4 py-3 text-pp-dark-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors">Funding
+                            role="menuitem"
+                            class="block px-4 py-3 text-pp-dark-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2 focus-visible:bg-pp-pale-grey">Funding
                             Opportunities</a>
                     </div>
                 </div>
@@ -65,23 +82,31 @@
                 <!-- Research Dropdown -->
                 <div class="relative group">
                     <button
-                        class="flex items-center gap-1 text-pp-dark-blue font-medium hover:text-pp-teal transition-colors py-2">
+                        class="flex items-center gap-1 text-pp-dark-blue font-medium hover:text-pp-teal transition-colors py-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2 rounded"
+                        aria-expanded="false"
+                        aria-haspopup="true"
+                        aria-controls="research-menu">
                         Research
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
                             </path>
                         </svg>
                     </button>
                     <div
-                        class="absolute left-0 mt-2 w-56 bg-white border border-gray-200 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
+                        id="research-menu"
+                        role="menu"
+                        class="absolute left-0 mt-2 w-56 bg-white border border-gray-200 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible [.group:focus-within_&]:opacity-100 [.group:focus-within_&]:visible transition-all">
                         <a href="#"
-                            class="block px-4 py-3 text-pp-dark-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors">Pandemic
+                            role="menuitem"
+                            class="block px-4 py-3 text-pp-dark-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2 focus-visible:bg-pp-pale-grey">Pandemic
                             Preparedness</a>
                         <a href="#"
-                            class="block px-4 py-3 text-pp-dark-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors">Ongoing
+                            role="menuitem"
+                            class="block px-4 py-3 text-pp-dark-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2 focus-visible:bg-pp-pale-grey">Ongoing
                             Projects</a>
                         <a href="#"
-                            class="block px-4 py-3 text-pp-dark-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors">Contribute</a>
+                            role="menuitem"
+                            class="block px-4 py-3 text-pp-dark-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2 focus-visible:bg-pp-pale-grey">Contribute</a>
                     </div>
                 </div>
 
