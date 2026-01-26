@@ -1,4 +1,5 @@
 import logging
+from typing import Any
 
 from django.urls import reverse_lazy
 
@@ -27,7 +28,7 @@ class Home(BaseTemplateView):
     template_name = "home/index.html"
     title = "Swedish Pathogens Portal: supporting pandemic preparedness"
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         
         # Fetch active dashboards with thumbnails
