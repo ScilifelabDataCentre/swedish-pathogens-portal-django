@@ -6,6 +6,7 @@ from .views import (
     CovidQuantificationKth,
     CrushCovid,
     DashboardsIndex,
+    HistoricCovidPublications,
     HistoricInfluenza,
     HistoricSarsCov2Wastewater,
     LineageCompetition,
@@ -42,6 +43,11 @@ urlpatterns = [
         "variants-region-uppsala/",
         VariantsRegionUppsala.as_view(),
         name="variants_region_uppsala",
+    ),
+    path(
+        "historic-covid-publications/",
+        HistoricCovidPublications.as_view(),
+        name="historic_covid_publications",
     ),
     path(
         "covid-quantification-kth/",
