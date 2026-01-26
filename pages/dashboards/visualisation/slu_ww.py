@@ -423,7 +423,7 @@ def get_quant_overview_plot(data: pd.DataFrame | dict, as_json: bool = False, **
             "font": {"size": 16},
         },
         legend={"y": -0.25, **horizontal_legend},
-        margin={"t": 18, "r": 20, "b": 0, "l": 0},
+        margin={"t": 20, "r": 20, "b": 0, "l": 0},
     )
     fig.for_each_annotation(
         lambda a: a.update(text=a.text.split("=")[-1], yshift=3, font={"size": 14})
@@ -746,19 +746,24 @@ def get_qual_plots(data: pd.DataFrame | dict, virus: str, as_json: bool = False)
     # make subplots layout
     fig = make_subplots(rows=2, cols=1, shared_xaxes=True, vertical_spacing=0.05)
 
-    fig.add_trace(
-        go.Heatmap(
-            z=pdata_numeric,
-            x=pdata.columns,
-            y=pdata.index,
-            customdata=pdata_text,
-            colorscale=hmapcolors,
-            showscale=False,
-            hovertemplate="Date: %{x}<br>City: %{y}<br>Type: %{customdata}<extra></extra>",
-        ),
-        row=1,
-        col=1,
-    )
+    for category, value in category_map.items():
+        fig.add_trace(
+            go.Heatmap(
+                z=pdata_numeric.where(pdata_numeric == value),
+                x=pdata.columns,
+                y=pdata.index,
+                customdata=pdata_text.where(pdata_text == category),
+                colorscale=[[0, hmapcolors_map[category]], [1, hmapcolors_map[category]]],
+                showscale=False,
+                name=category,
+                legendgroup=category,
+                showlegend=False,
+                hoverongaps=False,
+                hovertemplate="Date: %{x}<br>City: %{y}<br>Type: %{customdata}<extra></extra>",
+            ),
+            row=1,
+            col=1,
+        )
 
     bar_fig = px.bar(
         data_bar,
