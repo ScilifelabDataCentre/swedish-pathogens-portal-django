@@ -3,13 +3,13 @@
 <div class="header">
 
   <!-- Top bar: Logos (left) + Menu (right) --> 
-  <div class="border-b border-slate-200 bg-gradient-to-br from-pp-dark-blue to-pp-mid-blue">
-    <div class="container my-4 flex flex-wrap items-center gap-6">
+  <div class="border-b border-slate-200 bg-pp-pale-grey text-black">
+    <div class="container py-4 flex flex-wrap items-center gap-6 ">
 
       <!-- Logos (left) -->
       <div class="flex flex-wrap items-center gap-6">
         <a href="/" class="no-underline">
-          <img class="h-15 inline" src="{% static 'images/swe_pathogens_logo.svg' %}" alt="Pathogens Portal Sweden">
+          <img class="h-15 inline" src="{% static 'images/swe_pathogens_logo_transparent.svg' %}" alt="Pathogens Portal Sweden">
         </a>
         <a href="https://www.scilifelab.se">
           <img class="h-13 inline" src="{% static 'images/SciLifeLab_logo.svg' %}" alt="SciLifeLab Home">
@@ -27,10 +27,9 @@
                 <span>Research Data Management </span>
                 <span class="text-xs opacity-70 group-open:rotate-180 transition-transform">▾</span>
               </summary>
-
               <div class="absolute right-0 z-50 mt-2 w-72 rounded-lg border border-slate-200 bg-white shadow-lg">
                 <ul class="p-2">
-                  <li><a class="block rounded px-3 py-2 hover:bg-slate-100" href="/data-management/">Data management</a></li>
+                  <li><a class="block rounded px-3 py-2 hover:bg-slate-100 " href="/data-management/">Data management</a></li>
                   <li><a class="block rounded px-3 py-2 hover:bg-slate-100" href="/dashboards/">Dashboards</a></li>
                   <li><a class="block rounded px-3 py-2 hover:bg-slate-100" href="/register-based-research/">Register-based research</a></li>
                   <li><a class="block rounded px-3 py-2 hover:bg-slate-100" href="/articles/">Articles</a></li>
@@ -41,13 +40,13 @@
           </li>
            <!-- Outbreaks -->
           <li>
-            <a class="block rounded px-3 py-2 hover:bg-slate-100" href="/outbreaks/">
+            <a class="block rounded px-3 py-2 hover:bg-slate-100 text-black" href="/outbreaks/">
               Outbreaks
             </a>
           </li>
           <!-- Topics -->
           <li>
-            <a class="block rounded px-3 py-2 hover:bg-slate-100" href="/topics/">
+            <a class="block rounded px-3 py-2 hover:bg-slate-100 text-black" href="/topics/">
               Topics
             </a>
           </li>
