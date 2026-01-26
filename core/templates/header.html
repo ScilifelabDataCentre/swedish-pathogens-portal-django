@@ -42,6 +42,12 @@
                         <a href="{% url 'articles:index' %}"
                             role="menuitem"
                             class="block px-4 py-3 text-pp-dark-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2 focus-visible:bg-pp-pale-grey">Publications</a>
+                        <a href="{% url 'news:index' %}"
+                            role="menuitem"
+                            class="block px-4 py-3 text-pp-dark-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2 focus-visible:bg-pp-pale-grey">News</a>
+                        <a href="{% url 'outbreaks:index' %}"
+                            role="menuitem"
+                            class="block px-4 py-3 text-pp-dark-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2 focus-visible:bg-pp-pale-grey">Outbreaks</a>
                     </div>
                 </div>
 
@@ -163,6 +169,14 @@
                     <li>
                         <a href="{% url 'articles:index' %}"
                             class="block px-4 py-2 text-pp-dark-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2">Publications</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'news:index' %}"
+                            class="block px-4 py-2 text-pp-dark-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2">News</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'outbreaks:index' %}"
+                            class="block px-4 py-2 text-pp-dark-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2">Outbreaks</a>
                     </li>
                 </ul>
             </div>
