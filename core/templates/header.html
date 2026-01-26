@@ -68,6 +68,9 @@
                         id="resources-menu"
                         role="menu"
                         class="absolute left-0 mt-2 w-56 bg-white border border-gray-200 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible [.group:focus-within_&]:opacity-100 [.group:focus-within_&]:visible transition-all">
+                        <a href="{% url 'data_management:index' %}"
+                            role="menuitem"
+                            class="block px-4 py-3 text-pp-dark-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2 focus-visible:bg-pp-pale-grey">Data Management</a>
                         <a href="#"
                             role="menuitem"
                             class="block px-4 py-3 text-pp-dark-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2 focus-visible:bg-pp-pale-grey">Biobanks</a>
@@ -185,6 +188,10 @@
             <div class="mb-4">
                 <h3 class="text-sm font-bold text-pp-dark-blue uppercase tracking-wider mb-2">Resources</h3>
                 <ul class="space-y-1">
+                    <li>
+                        <a href="{% url 'data_management:index' %}"
+                            class="block px-4 py-2 text-pp-dark-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2">Data Management</a>
+                    </li>
                     <li>
                         <a href="#"
                             class="block px-4 py-2 text-pp-dark-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2">Biobanks</a>
