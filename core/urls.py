@@ -39,7 +39,7 @@ page_urls = [
     path("articles/", include("pages.articles.urls")),
     path("about/", include("pages.about.urls")),
     path("citation/", include("pages.citation.urls")),
-    path("contact/", include("pages.contact.urls", "contact")),
+    path("contact/", include("pages.contact.urls")),
     path("dashboards/", include("pages.dashboards.urls")),
     path("data-management/", include("pages.data_management.urls")),
     path("news/", include("pages.news.urls")),
