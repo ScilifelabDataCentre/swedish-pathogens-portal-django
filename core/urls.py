@@ -35,20 +35,17 @@ core_urls = [
 ]
 
 page_urls = [
-    path("", include(("pages.home.urls", "home"), namespace="home")),
-    path("articles/", include(("pages.articles.urls", "articles"), namespace="articles")),
-    path("about/", include(("pages.about.urls", "about"), namespace="about")),
-    path("citation/", include(("pages.citation.urls", "citation"), namespace="citation")),
-    path("contact/", include(("pages.contact.urls", "contact"), namespace="contact")),
-    path("dashboards/", include(("pages.dashboards.urls", "dashboards"), namespace="dashboards")),
-    path(
-        "data-management/",
-        include(("pages.data_management.urls", "data_management"), namespace="data_management"),
-    ),
-    path("news/", include(("pages.news.urls", "news"), namespace="news")),
-    path("outbreaks/", include(("pages.outbreaks.urls", "outbreaks"), namespace="outbreaks")),
-    path("privacy/", include(("pages.privacy.urls", "privacy"), namespace="privacy")),
-    path("topics/", include(("pages.topics.urls", "topics"), namespace="topics")),
+    path("", include("pages.home.urls")),
+    path("articles/", include("pages.articles.urls")),
+    path("about/", include("pages.about.urls")),
+    path("citation/", include("pages.citation.urls")),
+    path("contact/", include("pages.contact.urls", "contact")),
+    path("dashboards/", include("pages.dashboards.urls")),
+    path("data-management/", include("pages.data_management.urls")),
+    path("news/", include("pages.news.urls")),
+    path("outbreaks/", include("pages.outbreaks.urls")),
+    path("privacy/", include("pages.privacy.urls")),
+    path("topics/", include("pages.topics.urls")),
 ]
 
 urlpatterns = core_urls + page_urls
