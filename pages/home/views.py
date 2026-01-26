@@ -67,22 +67,4 @@ class Home(BaseTemplateView):
         context['articles'] = Article.objects.filter(is_active=True).order_by('-created_at')[:3]
         context['news'] = News.objects.filter(is_active=True).order_by('-created_at')[:5]
         
-        # Print context for debugging
-        print("=" * 80)
-        print("HOME VIEW CONTEXT:")
-        print(f"Dashboards count: {len(context['dashboards'])}")
-        print(f"Topics count: {context['topics'].count()}")
-        print(f"Articles count: {context['articles'].count()}")
-        print(f"News count: {context['news'].count()}")
-        print(f"Full context keys: {list(context.keys())}")
-        print("=" * 80)
-        for n in context['news']:
-            print(n.title)
-            print(n.created_at)
-            
-        for t in context['topics']:
-            print(t)
-        for a in context['articles']:
-            print(a)
-        
         return context
