@@ -55,7 +55,7 @@ urlpatterns = core_urls + page_urls
 # Auto browser reload addition for local development
 if settings.DEBUG:
     urlpatterns += [
-        path("__reload__/", include("django_browser_reload.urls")),  # skipping namespace
+        path("__reload__/", include("django_browser_reload.urls")),
     ]
     # Serve media files in development
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
