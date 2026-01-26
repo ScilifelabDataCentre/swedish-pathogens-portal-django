@@ -43,8 +43,11 @@ def _iter_static_named_urls(
             yield f"{namespace}:{entry.name}" if namespace else entry.name
 
 
-class Pa11yAutoSitemap(Sitemap):
-    """Sitemap for Pa11y (static URLs only)."""
+class SPPAutoSitemap(Sitemap):
+    """Sitemap for Pa11y (static URLs only).
+
+    Can potentially be used for other purposes beyond Pa11y.
+    """
 
     PUBLIC_APPS = [
         "about",
@@ -75,4 +78,4 @@ class Pa11yAutoSitemap(Sitemap):
         return reverse(item)
 
 
-sitemaps = {"pa11y": Pa11yAutoSitemap}
+sitemaps = {"pa11y": SPPAutoSitemap}
