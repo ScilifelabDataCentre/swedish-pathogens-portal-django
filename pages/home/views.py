@@ -20,6 +20,9 @@ class Home(BaseTemplateView):
     - Active topics (3 most recent active topics)
     - Latest news (5 most recent active news items)
 
+    The view overrides get_context_data to populate the template context
+    with dashboard data, filtered content from the database, and the page title.
+
     Attributes:
         template_name (str): Path to the home page template
         title (str): Page title for SEO and context
@@ -29,6 +32,19 @@ class Home(BaseTemplateView):
     title = "Swedish Pathogens Portal: supporting pandemic preparedness"
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        """Add dashboards, topics, articles, and news to template context.
+
+        Fetches active content from the database and hardcoded dashboard
+        information, then adds them to the context for template rendering.
+
+        Returns:
+            dict: Context data containing:
+                - dashboards: List of dashboard dictionaries with name, image, url, description
+                - topics: QuerySet of 3 most recent active topics
+                - articles: QuerySet of 3 most recent active articles
+                - news: QuerySet of 5 most recent active news items
+                - title: Page title (from BaseTemplateView)
+        """
         context = super().get_context_data(**kwargs)
         
         # Fetch active dashboards with thumbnails
