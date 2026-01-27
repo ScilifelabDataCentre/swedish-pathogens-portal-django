@@ -104,6 +104,7 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "pages.dashboards.context_processors.plotlyjs",
+                "core.context_processors.breadcrumbs",
             ],
         },
     },
