@@ -151,4 +151,4 @@ STATICFILES_DIRS = [
 # Publications settings
 # ------------------------------------------------------------------------------
 EUROPE_PMC_API_URL = env("EUROPE_PMC_API_URL", default="http://localhost:8000/example")
-EUROPE_PMC_WEB_URL = env("EUROPE_PMC_WEB_URL")
+EUROPE_PMC_WEB_URL = env("EUROPE_PMC_WEB_URL", default="http://localhost:8000/example")
