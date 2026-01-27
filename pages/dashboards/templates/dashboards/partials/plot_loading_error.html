@@ -4,14 +4,12 @@
 
     Usage:
         {% include "dashboards/partials/plot_loading_error.html" %}
-    
-    TODO: change href url after contact page implemented
 {% endcomment %}
 
 <div class="my-6 min-h-30 bg-pp-pale-grey text-center content-center" role="alert">
     <span>
         Problem loading the plot, please try again later.<br>
-        If the problem persists, <a href="/contact">contact</a>
+        If the problem persists, <a href="{% url 'contact:index' %}">contact</a>
         the portal team.
     </span>
 </div>

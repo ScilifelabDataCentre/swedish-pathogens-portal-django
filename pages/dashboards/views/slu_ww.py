@@ -1,5 +1,7 @@
 """Views for SLU wastewater dashboards pages."""
 
+import logging
+
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.utils.text import slugify
@@ -13,6 +15,8 @@ from ..visualisation.slu_ww import (
     get_single_site_plot,
 )
 from ..visualisation.utils import plot_html_from_json
+
+logger = logging.getLogger(__name__)
 
 
 class SluWasteWater(View):
@@ -71,20 +75,44 @@ class SluWasteWater(View):
                 return HttpResponse(plot_html)
 
             # content about recent data
-            context.update(**dashboard_data.get("recent_data_info"))
+            recent_data_info = dashboard_data.get("recent_data_info")
+            if recent_data_info:
+                context.update(**recent_data_info)
+            else:
+                context["no_recent_data_info"] = True
+                logger.warning("No recent data info found for SLU wastewater dashboard.")
+
             # get filter input context
-            context.update(**dashboard_data.get("filter_input_context"))
-            # get plots data
-            context["quant_plot_html"] = get_quant_overview_plot(data=raw_data)
-            context["qual_plot_html"] = plot_html_from_json(
-                dashboard_data.get("qual_overview_plot")
-            )
+            filter_intput_context = dashboard_data.get("filter_input_context")
+            if filter_intput_context:
+                context.update(**filter_intput_context)
+            else:
+                context["no_filter_input_context"] = True
+                logger.warning("No filter input context found for SLU wastewater dashboard.")
+
+            # get overview quantitative plot
+            if raw_data:
+                context["quant_plot_html"] = get_quant_overview_plot(data=raw_data)
+            else:
+                logger.warning("No raw data found for SLU wastewater dashboard.")
+
+            # get overview qualitative plot
+            qual_orverview_plot = dashboard_data.get("qual_overview_plot")
+            if qual_orverview_plot:
+                context["qual_plot_html"] = plot_html_from_json(qual_orverview_plot)
+            else:
+                logger.warning("No qualitative overview plot found for SLU wastewater dashboard.")
 
             return render(request, "dashboards/slu_ww/overview.html", context)
 
         # handling methods page
         if self.active_page == "Methodology":
-            context["site_info"] = dashboard_data.get("sites_info")
+            site_info = dashboard_data.get("sites_info")
+            if site_info:
+                context["site_info"] = site_info
+            else:
+                context["no_site_info"] = True
+                logger.warning("No site info found for SLU wastewater dashboard.")
             return render(request, "dashboards/slu_ww/methods.html", context)
 
         # handling individual virus pages
@@ -105,12 +133,25 @@ class SluWasteWater(View):
                 return HttpResponse(quant_plot_html)
 
             # get filter input context
-            context.update(**dashboard_data.get("filter_input_context"))
-            # get plots data
-            context["quant_plot_html"] = get_all_sites_plot(data=raw_data, virus=virus)
-            context["qual_plot_html"] = plot_html_from_json(
-                dashboard_data.get(f"qual_plot_{slugify(virus)}")
-            )
+            filter_intput_context = dashboard_data.get("filter_input_context")
+            if filter_intput_context:
+                context.update(**filter_intput_context)
+            else:
+                context["no_filter_input_context"] = True
+                logger.warning("No filter input context found for SLU wastewater dashboard.")
+
+            # get quantitative plot
+            if raw_data:
+                context["quant_plot_html"] = get_all_sites_plot(data=raw_data, virus=virus)
+            else:
+                logger.warning("No raw data found for SLU wastewater dashboard.")
+
+            # get qualitative plot
+            qual_plot = dashboard_data.get(f"qual_plot_{slugify(virus)}")
+            if qual_plot:
+                context["qual_plot_html"] = plot_html_from_json(qual_plot)
+            else:
+                logger.warning("No qualitative plot found for SLU wastewater dashboard.")
 
             return render(request, "dashboards/slu_ww/analysis.html", context)
 
@@ -118,7 +159,6 @@ class SluWasteWater(View):
 # TODO: The following is a temp workaround, it should be removed
 # and the data sync lagic will be couple with researcher data
 # upload page and related views
-from core.settings.base import env  # noqa: E402, F401, I001
 from django.contrib.auth.mixins import LoginRequiredMixin  # noqa: E402, F401
 
 
@@ -134,7 +174,7 @@ class SLUsync(LoginRequiredMixin, View):
 
     # Dashboard related values
     dashboard = "slu_wastewater"
-    data_url = env("DASHBOARD_SLU_DATA", default="")
+    data_url = "https://blobserver.dc.scilifelab.se/blob/slu_test_data.csv"
 
     def get(self, request: HttpRequest) -> HttpResponse:
         """To serve the temp data sync frontend page."""

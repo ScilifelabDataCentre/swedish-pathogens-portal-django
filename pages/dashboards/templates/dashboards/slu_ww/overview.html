@@ -22,45 +22,51 @@
                 group-open:after:content-['(click_to_close)']">
         Recent data summary
     </summary>
-    <div class="md:flex gap-4 bg-gray-100 px-6 py-3">
-        <div class="md:flex-2 flex flex-col gap-3 pr-2 max-md:mb-3 md:border-r md:border-gray-300">
-            <div class="text-lg">
-                Latest data sampling date
-            </div>
-            <div>{{ sampling_date }}</div>
-            <div class="text-lg">Latest data sampling sites</div>
-            <div>
-                {{ sampling_sites }}
-                Collectively, these sites represent {{ sampling_sites_pop }}% of Sweden's population.
-            </div>
-            <div class="text-lg">Comments from research group</div>
-            <div>
-                To be implemented
-            </div>
+    {% if no_recent_data_info %}
+        <div class="py-4 text-center" role="alert">
+            No recent data info available
         </div>
+    {% else %}
+        <div class="md:flex gap-4 bg-gray-100 px-6 py-3">
+            <div class="md:flex-2 flex flex-col gap-3 pr-2 max-md:mb-3 md:border-r md:border-gray-300">
+                <div class="text-lg">
+                    Latest data sampling date
+                </div>
+                <div>{{ sampling_date }}</div>
+                <div class="text-lg">Latest data sampling sites</div>
+                <div>
+                    {{ sampling_sites }}
+                    Collectively, these sites represent {{ sampling_sites_pop }}% of Sweden's population.
+                </div>
+                <div class="text-lg">Comments from research group</div>
+                <div>
+                    To be implemented
+                </div>
+            </div>
 
-        <div class="md:flex-1 flex flex-col gap-3 md:pl-2">
-            <div class="text-lg">Sample summary</div>
-            <div class="flex flex-col">
-                {% for row in sample_summary %}
-                    <div class="flex justify-between border-b border-gray-300 gap-2 py-1.5
-                                first:font-medium last:border-0">
-                        {% for v in row %}
-                            <span
-                            {% if forloop.first %}
-                                class="flex-2"
-                            {% else %}
-                                class="flex-1 text-right"
-                            {% endif %}
-                            >
-                                {{ v }}
-                            </span>
-                        {% endfor %}
-                    </div>
-                {% endfor %}
+            <div class="md:flex-1 flex flex-col gap-3 md:pl-2">
+                <div class="text-lg">Sample summary</div>
+                <div class="flex flex-col">
+                    {% for row in sample_summary %}
+                        <div class="flex justify-between border-b border-gray-300 gap-2 py-1.5
+                                    first:font-medium last:border-0">
+                            {% for v in row %}
+                                <span
+                                {% if forloop.first %}
+                                    class="flex-2"
+                                {% else %}
+                                    class="flex-1 text-right"
+                                {% endif %}
+                                >
+                                    {{ v }}
+                                </span>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
-    </div>
+    {% endif %}
 </details>
 
 <!-- Quantitative overview -->
@@ -98,82 +104,90 @@
                 group-open:after:content-['(click_to_close)']">
         Plot Filters
     </summary>
-    <p class="px-5">Use the filters below to update the above plot.</p>
-    <div id="plot-filters">
-        <div class="grid grid-cols-4 mb-5">
-            <!-- Years checkbox -->
-            <div>
-                <div class="font-medium mb-4 bg-gray-200/50 py-1.5 px-5">Years</div>
-                <div class="px-5">
-                    {% for y in input_years %}
-                    <input type="checkbox" id="yr-{{y}}" name="year" value="{{y}}" class="scale-112 mr-0.5" checked/>
-                    <label for="yr-{{y}}" class="mr-4">{{y}}</label>
-                    {% endfor %}
-                </div>
-            </div>
-
-            <!-- Months slider -->
-            <div>
-                <div class="font-medium mb-4 bg-gray-200/50  py-1.5">Months</div>
-                <input type="range" id="months" name="months"
-                    min="{{ input_months|first }}" max="{{ input_months|last }}"
-                    value="{{ input_months|last }}" step="1" list="markers"/>
-                <datalist id="markers">
-                    {% for m in input_months %}
-                    <option value="{{m}}"></option>
-                    {% endfor %}
-                </datalist>
-            </div>
-
-            <!-- Normalisation methodology dropdown -->
-            <div>
-                <div class="font-medium mb-4 bg-gray-200/50 py-1.5">Normalisation method</div>
-                <select name="method" id="norm-method" class="border p-2">
-                    {% for k,v in input_methods.items %}
-                    <option value="{{k}}" {% if k == "pmmov_normalised" %}selected{% endif %}>{{v}}</option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <!-- Rolling average dropdown -->
-            <div>
-                <div class="font-medium mb-4 bg-gray-200/50 py-1.5">Time series display</div>
-                <select name="timeseries" id="timeseries" class="border p-2">
-                    {% for k,v in input_timeseries.items %}
-                    <option value="{{k}}" {% if k == 3 %}selected{% endif %}>{{v}}</option>
-                    {% endfor %}
-                </select>
-            </div>
+    {% if no_filter_input_context %}
+        <div class="py-4 text-center" role="alert">
+            Problem loading filter options, please try again later.<br>
+            If the problem persists, <a href="{% url 'contact:index' %}">contact</a>
+            the portal team.
         </div>
-
-        <!-- Sampling sites checkbox -->
-        <div class="pb-3">
-            <div class="flex justify-between mb-4 bg-gray-200/50 py-1.5 px-5">
-                <span class="font-medium" >Sampling sites</span>
-                <div id="siteSelector">
-                    <span class="border rounded text-xs px-1.5 mr-3
-                        hover:bg-gray-600 hover:text-white cursor-pointer"
-                        onclick="siteSelector(true)">
-                        All
-                    </span>
-                    <span class="border rounded text-xs px-1.5
-                        hover:bg-gray-600 hover:text-white cursor-pointer"
-                        onclick="siteSelector(false)">
-                        None
-                    </span>
-                </div>
-            </div>
-            <div class="columns-4 px-5">
-                {% for site in input_sites %}
+    {% else %}
+        <p class="px-5">Use the filters below to update the above plot.</p>
+        <div id="plot-filters">
+            <div class="grid grid-cols-4 mb-5">
+                <!-- Years checkbox -->
                 <div>
-                    <input type="checkbox" id="site-{{site|lower}}" name="site" value="{{site}}"
-                            class="scale-112 mr-0.5" checked/>
-                    <label for="site-{{site|lower}}" class="mr-4">{{site}}</label>
+                    <div class="font-medium mb-4 bg-gray-200/50 py-1.5 px-5">Years</div>
+                    <div class="px-5">
+                        {% for y in input_years %}
+                        <input type="checkbox" id="yr-{{y}}" name="year" value="{{y}}" class="scale-112 mr-0.5" checked/>
+                        <label for="yr-{{y}}" class="mr-4">{{y}}</label>
+                        {% endfor %}
+                    </div>
                 </div>
-                {% endfor %}
+
+                <!-- Months slider -->
+                <div>
+                    <div class="font-medium mb-4 bg-gray-200/50  py-1.5">Months</div>
+                    <input type="range" id="months" name="months"
+                        min="{{ input_months|first }}" max="{{ input_months|last }}"
+                        value="{{ input_months|last }}" step="1" list="markers"/>
+                    <datalist id="markers">
+                        {% for m in input_months %}
+                        <option value="{{m}}"></option>
+                        {% endfor %}
+                    </datalist>
+                </div>
+
+                <!-- Normalisation methodology dropdown -->
+                <div>
+                    <div class="font-medium mb-4 bg-gray-200/50 py-1.5">Normalisation method</div>
+                    <select name="method" id="norm-method" class="border p-2">
+                        {% for k,v in input_methods.items %}
+                        <option value="{{k}}" {% if k == "pmmov_normalised" %}selected{% endif %}>{{v}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Rolling average dropdown -->
+                <div>
+                    <div class="font-medium mb-4 bg-gray-200/50 py-1.5">Time series display</div>
+                    <select name="timeseries" id="timeseries" class="border p-2">
+                        {% for k,v in input_timeseries.items %}
+                        <option value="{{k}}" {% if k == 3 %}selected{% endif %}>{{v}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <!-- Sampling sites checkbox -->
+            <div class="pb-3">
+                <div class="flex justify-between mb-4 bg-gray-200/50 py-1.5 px-5">
+                    <span class="font-medium" >Sampling sites</span>
+                    <div id="siteSelector">
+                        <span class="border rounded text-xs px-1.5 mr-3
+                            hover:bg-gray-600 hover:text-white cursor-pointer"
+                            onclick="siteSelector(true)">
+                            All
+                        </span>
+                        <span class="border rounded text-xs px-1.5
+                            hover:bg-gray-600 hover:text-white cursor-pointer"
+                            onclick="siteSelector(false)">
+                            None
+                        </span>
+                    </div>
+                </div>
+                <div class="columns-4 px-5">
+                    {% for site in input_sites %}
+                    <div>
+                        <input type="checkbox" id="site-{{site|lower}}" name="site" value="{{site}}"
+                                class="scale-112 mr-0.5" checked/>
+                        <label for="site-{{site|lower}}" class="mr-4">{{site}}</label>
+                    </div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
-    </div>
+        {% endif %}
 </details>
 
 <!-- Qualitative overview -->
@@ -215,7 +229,7 @@
             evt.target.innerHTML = `
                 <div id='plot-loading-error' class='min-h-[450px] content-center text-red-500 text-center'>
                     An error occurred while loading the plot. Please try again later.<br>
-                    If the problem persists, <a href="/contact">contact</a> the portal team.
+                    If the problem persists, <a href="{% url 'contact:index' %}">contact</a> the portal team.
                 </div>`;
         }
     });
