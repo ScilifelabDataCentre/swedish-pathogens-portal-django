@@ -73,4 +73,3 @@ CONTACT_RECIPIENT_EMAIL = env(
     default="dev-null@example.org",
 )
 EMAIL_TIMEOUT = env.int("EMAIL_TIMEOUT", default=10)
-EUROPE_PMC_API_URL = env("EUROPE_PMC_API_URL", default="http://localhost:8000/example")
