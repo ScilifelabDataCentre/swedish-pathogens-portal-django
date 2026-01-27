@@ -41,6 +41,16 @@ jobs:
       - name: Install Pa11y CI
         run: npm install -g pa11y-ci wait-on
 
+      - name: Prepare DB (PR)
+        if: github.event_name == 'pull_request'
+        env:
+          SECRET_KEY: ci-not-a-secret
+          DEBUG: "1"
+          DATABASE_URL: sqlite:///db.sqlite3
+          ALLOWED_HOSTS: 127.0.0.1,localhost
+        run: |
+          uv run python manage.py migrate --noinput
+
       # PR: Start server and scan
       - name: Start app (PR)
         if: github.event_name == 'pull_request'
