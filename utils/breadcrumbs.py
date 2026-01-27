@@ -23,6 +23,7 @@ from typing import Optional
 from django.http import HttpRequest
 from django.urls import NoReverseMatch, resolve, reverse
 from django.urls.exceptions import Resolver404
+from django.views.generic import DetailView
 
 
 @dataclass
@@ -124,7 +125,12 @@ def get_breadcrumbs(request: HttpRequest) -> list[BreadcrumbItem]:
         # Try to resolve the URL to get better name and correct URL
         try:
             resolved = resolve(current_path)
-            name = _get_breadcrumb_name(resolved, segment)
+            # For the last segment (current page), try to get object name if it's a detail view
+            is_active = i == len(path_segments) - 1
+            if is_active:
+                name = _get_breadcrumb_name(resolved, segment, request)
+            else:
+                name = _get_breadcrumb_name(resolved, segment, None)
             # Try to reverse the URL to get the canonical URL
             try:
                 full_url_name = (
@@ -146,9 +152,7 @@ def get_breadcrumbs(request: HttpRequest) -> list[BreadcrumbItem]:
             else:
                 # Use original path to preserve trailing slash if present
                 url = path if path.endswith("/") else current_path
-
-        # Check if this is the last segment (current page)
-        is_active = i == len(path_segments) - 1
+            is_active = i == len(path_segments) - 1
 
         breadcrumbs_list.append(
             BreadcrumbItem(name=name, url=url, is_active=is_active)
@@ -157,26 +161,28 @@ def get_breadcrumbs(request: HttpRequest) -> list[BreadcrumbItem]:
     return breadcrumbs_list
 
 
-def _get_breadcrumb_name(resolved, segment: str) -> str:
+def _get_breadcrumb_name(resolved, segment: str, request: Optional[HttpRequest] = None) -> str:
     """Get display name for breadcrumb from resolved URL.
 
     Attempts to get a meaningful display name from the resolved URL using
     the following priority:
     1. URL name mapping (if available and not None)
-    2. Object name for detail views (handled in Commit 6)
+    2. Object name for detail views (if request provided and object available)
     3. App namespace formatted as display name
     4. Formatted path segment
 
     Args:
         resolved: Resolved URL object from Django's resolve().
         segment: The URL path segment.
+        request: Optional HTTP request object. Required to extract object
+            names from detail views for the current page.
 
     Returns:
         Display name for the breadcrumb.
 
     Example:
         For "topics:index" -> "Topics"
-        For "topics:topic_detail" -> Will use object name (Commit 6)
+        For "topics:topic_detail" with request -> "COVID-19" (object name)
         For "dashboards:lineage_competition" -> "Lineage Competition"
     """
     # Try to get name from URL name
@@ -191,10 +197,14 @@ def _get_breadcrumb_name(resolved, segment: str) -> str:
     mapping = _get_url_name_mapping_dict()
     if full_url_name in mapping:
         mapped_name = mapping[full_url_name]
-        # If mapping explicitly returns None, it's a detail view (use object name in Commit 6)
+        # If mapping explicitly returns None, it's a detail view (use object name)
         if mapped_name is None:
-            # Object name will be handled in Commit 6
-            # For now, use formatted segment as fallback
+            # Try to get object name from view if request is available (current page)
+            if request is not None:
+                object_name = _get_object_name_from_view(resolved, request)
+                if object_name:
+                    return object_name
+            # Fallback to formatted segment if object not available
             return _format_segment_name(segment)
         # If mapping returns a string, use it
         return mapped_name
@@ -320,3 +330,69 @@ def _format_app_name(namespace: str) -> str:
         Formatted display name.
     """
     return namespace.replace("_", " ").title()
+
+
+def _get_object_name_from_view(resolved, request: HttpRequest) -> Optional[str]:
+    """Extract object name from detail view.
+
+    Checks if the resolved view is a DetailView and attempts to get
+    the object name. This is used for the current page breadcrumb
+    to show the actual object name instead of a generic label.
+
+    The function instantiates the view class and calls get_object()
+    to retrieve the object. If this fails (e.g., object doesn't exist,
+    requires authentication), it returns None and falls back to
+    formatted segment name.
+
+    Args:
+        resolved: Resolved URL object from Django's resolve().
+        request: The current HTTP request object.
+
+    Returns:
+        Object name string if available, None otherwise.
+
+    Example:
+        For a topic detail page, returns the topic's name:
+        >>> _get_object_name_from_view(resolved, request)
+        "COVID-19"
+    """
+    view_class = resolved.func
+
+    # Check if view is a DetailView (or BaseDetailView which inherits from DetailView)
+    # Handle both class-based views and function views
+    if not isinstance(view_class, type):
+        return None
+
+    if not issubclass(view_class, DetailView):
+        return None
+
+    try:
+        # Instantiate the view
+        view = view_class()
+
+        # Set up the view with request and URL kwargs
+        # Django 3.2+ has setup() method, older versions need manual setup
+        if hasattr(view, "setup"):
+            view.setup(request, *resolved.args, **resolved.kwargs)
+        else:
+            # Manual setup for older Django versions
+            view.request = request
+            view.args = resolved.args
+            view.kwargs = resolved.kwargs
+
+        # Try to get the object using get_object method
+        # This will trigger the view's queryset filtering and object retrieval
+        if hasattr(view, "get_object"):
+            obj = view.get_object()
+            if obj:
+                return str(obj)
+    except Exception:
+        # Silently fail if we can't get the object
+        # This can happen if:
+        # - Object doesn't exist (404)
+        # - View requires authentication
+        # - Object is not active (filtered out)
+        # - Other view-specific errors
+        return None
+
+    return None
