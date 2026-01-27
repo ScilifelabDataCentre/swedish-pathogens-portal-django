@@ -82,18 +82,17 @@
 <!-- Plot area -->
 <div id="quant-overview-plot"
     hx-get="{% url 'dashboards:slu_overview' %}"
-    hx-trigger="input from:#plot-filters delay:300ms, click from:#siteSelector>span delay:300ms"
+    hx-trigger="load once, input from:#plot-filters delay:300ms, click from:#siteSelector>span delay:300ms"
     hx-include="#plot-filters input, #plot-filters select"
     hx-target="#quant-overview-plot"
     hx-swap="innerHTML"
     hx-on::before-request="this.classList.add('opacity-40')"
     hx-on::after-settle="this.classList.remove('opacity-40')"
     >
-    {% if quant_plot_html %}
-        {{ quant_plot_html|safe }}
-    {% else %}
-        {% include "dashboards/partials/plot_loading_error.html" %}
-    {% endif %}
+    <!-- Place holder loading message, HTMX will replace it with plot -->
+    <div id='plot-loading' class='min-h-[450px] content-center text-center'>
+        Loading plot...
+    </div>
 </div>
 
 <!-- Fliter section -->

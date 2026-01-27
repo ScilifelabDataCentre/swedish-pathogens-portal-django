@@ -90,13 +90,7 @@ class SluWasteWater(View):
                 context["no_filter_input_context"] = True
                 logger.warning("No filter input context found for SLU wastewater dashboard.")
 
-            # get overview quantitative plot
-            if raw_data:
-                context["quant_plot_html"] = get_quant_overview_plot(data=raw_data)
-            else:
-                logger.warning("No raw data found for SLU wastewater dashboard.")
-
-            # get overview qualitative plot
+            # get static pre-compiled overview qualitative plot
             qual_orverview_plot = dashboard_data.get("qual_overview_plot")
             if qual_orverview_plot:
                 context["qual_plot_html"] = plot_html_from_json(qual_orverview_plot)
@@ -140,13 +134,7 @@ class SluWasteWater(View):
                 context["no_filter_input_context"] = True
                 logger.warning("No filter input context found for SLU wastewater dashboard.")
 
-            # get quantitative plot
-            if raw_data:
-                context["quant_plot_html"] = get_all_sites_plot(data=raw_data, virus=virus)
-            else:
-                logger.warning("No raw data found for SLU wastewater dashboard.")
-
-            # get qualitative plot
+            # get static pre-compiled qualitative plot
             qual_plot = dashboard_data.get(f"qual_plot_{slugify(virus)}")
             if qual_plot:
                 context["qual_plot_html"] = plot_html_from_json(qual_plot)
