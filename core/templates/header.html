@@ -1,98 +1,54 @@
 {% load static %}
 
-<div class="header">
+<header class="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+  <div class="container mx-auto px-6 max-w-7xl">
+    <div class="flex items-center justify-between h-20">
 
-  <!-- Top bar: Logos (left) + Menu (right) --> 
-  <div class="border-b border-slate-200 bg-pp-pale-grey text-black">
-    <div class="container py-4 flex flex-wrap items-center gap-6 ">
-
-      <!-- Logos (left) -->
-      <div class="flex flex-wrap items-center gap-6">
-        <a href="/" class="no-underline">
-          <img class="h-15 inline" src="{% static 'images/swe_pathogens_logo_transparent.svg' %}" alt="Pathogens Portal Sweden">
+      <!-- Logos -->
+      <div class="flex items-center gap-6">
+        <a href="{% url 'home:index' %}" class="flex items-center">
+          <img class="h-15 inline" src="{% static 'images/swe_pathogens_logo_transparent.svg' %}" alt="Swedish Pathogens Portal">
         </a>
-        <a href="https://www.scilifelab.se">
-          <img class="h-13 inline" src="{% static 'images/SciLifeLab_logo.svg' %}" alt="SciLifeLab Home">
+        <div class="h-10 w-px bg-gray-300"></div>
+        <a href="https://www.scilifelab.se/" target="_blank" rel="noopener" class="flex items-center">
+          <img src="{% static 'images/SciLifeLab_logo.svg' %}" alt="SciLifeLab" class="h-10">
         </a>
       </div>
 
-      <!-- Menu (right) -->
-      <nav class="ml-auto" aria-label="Main navigation">
-        <ul class="flex flex-wrap items-center justify-end gap-1 py-2 text-sm font-medium">
+<!-- Navigation -->
+<nav class="hidden lg:flex ml-auto items-center gap-6">
+  <!-- Research Data Management Dropdown -->
+  <div class="relative group">
+    <button class="flex items-center gap-1 text-pp-dark-blue font-medium hover:text-pp-teal transition-colors py-2">
+      Research Data Management
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+      </svg>
+    </button>
 
-          <!-- Research Data Management -->
-          <li class="relative">
-            <details class="group" data-nav-dropdown="top">
-              <summary class="list-none cursor-pointer select-none rounded px-3 py-2 hover:bg-slate-100 flex items-center gap-2">
-                <span>Research Data Management </span>
-                <span class="text-xs opacity-70 group-open:rotate-180 transition-transform">▾</span>
-              </summary>
-              <div class="absolute right-0 z-50 mt-2 w-72 rounded-lg border border-slate-200 bg-white shadow-lg">
-                <ul class="p-2">
-                  <li><a class="block rounded px-3 py-2 hover:bg-slate-100 " href="/data-management/">Data management</a></li>
-                  <li><a class="block rounded px-3 py-2 hover:bg-slate-100" href="/dashboards/">Dashboards</a></li>
-                  <li><a class="block rounded px-3 py-2 hover:bg-slate-100" href="/register-based-research/">Register-based research</a></li>
-                  <li><a class="block rounded px-3 py-2 hover:bg-slate-100" href="/articles/">Articles</a></li>
-                  <li><a class="block rounded px-3 py-2 hover:bg-slate-100" href="/news/">News</a></li>
-                </ul>
-              </div>
-            </details>
-          </li>
-           <!-- Outbreaks -->
-          <li>
-            <a class="block rounded px-3 py-2 hover:bg-slate-100 text-black" href="/outbreaks/">
-              Outbreaks
-            </a>
-          </li>
-          <!-- Topics -->
-          <li>
-            <a class="block rounded px-3 py-2 hover:bg-slate-100 text-black" href="/topics/">
-              Topics
-            </a>
-          </li>
+    <div class="absolute left-0 mt-2 w-56 bg-white border border-gray-200 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
+      <a href="{% url 'data_management:index' %}" class="block px-4 py-3 text-pp-dark-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors">Data management</a>
+      <a href="{% url 'topics:index' %}" class="block px-4 py-3 text-pp-dark-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors">Dashboards</a>
+      <a href="{% url 'register_based_research:index' %}" class="block px-4 py-3 text-pp-dark-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors">Register-based research</a>
+      <a href="{% url 'news:index' %}" class="block px-4 py-3 text-pp-dark-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors">News</a>
+    </div>
+  </div>
+  
+  <a href="{% url 'outbreaks:index' %}" class="items-center gap-1 text-pp-dark-blue px-3 py-2 font-medium hover:text-pp-teal transition-colors py-2">Outbreaks</a>
+ 
+  <a href="{% url 'topics:index' %}" class=" items-center gap-1 text-pp-dark-blue px-3 py-2 font-medium hover:text-pp-teal transition-colors py-2">Topics</a>
+</nav>
 
+<!-- Mobile Menu Button -->
+<div class="lg:hidden">
+  <button class="text-pp-dark-blue focus:outline-none">
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+    </svg>
+  </button>
+</div>
 
-        </ul>
-      </nav>
 
     </div>
   </div>
-
-</div>
-
-<!-- Dropdown behavior -->
-<script>
-  (function () {
-    const nav = document.querySelector('nav[aria-label="Main navigation"]');
-    if (!nav) return;
-
-    const selector = 'details[data-nav-dropdown="top"]';
-    const dropdowns = Array.from(nav.querySelectorAll(selector));
-
-    function closeAll(except) {
-      dropdowns.forEach((d) => {
-        if (d !== except) d.open = false;
-      });
-    }
-
-    nav.addEventListener(
-      "toggle",
-      (e) => {
-        const target = e.target;
-        if (!(target instanceof HTMLDetailsElement)) return;
-        if (!target.matches(selector)) return;
-        if (!target.open) return;
-        closeAll(target);
-      },
-      true
-    );
-
-    document.addEventListener("pointerdown", (e) => {
-      if (!nav.contains(e.target)) closeAll();
-    });
-
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") closeAll();
-    });
-  })();
-</script>
+</header>
