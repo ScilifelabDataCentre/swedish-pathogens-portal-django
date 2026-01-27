@@ -160,8 +160,12 @@ def get_breadcrumbs(request: HttpRequest) -> list[BreadcrumbItem]:
 def _get_breadcrumb_name(resolved, segment: str) -> str:
     """Get display name for breadcrumb from resolved URL.
 
-    Attempts to get a meaningful display name from the resolved URL.
-    Uses URL name mapping, app namespace, or falls back to formatted segment.
+    Attempts to get a meaningful display name from the resolved URL using
+    the following priority:
+    1. URL name mapping (if available and not None)
+    2. Object name for detail views (handled in Commit 6)
+    3. App namespace formatted as display name
+    4. Formatted path segment
 
     Args:
         resolved: Resolved URL object from Django's resolve().
@@ -169,6 +173,11 @@ def _get_breadcrumb_name(resolved, segment: str) -> str:
 
     Returns:
         Display name for the breadcrumb.
+
+    Example:
+        For "topics:index" -> "Topics"
+        For "topics:topic_detail" -> Will use object name (Commit 6)
+        For "dashboards:lineage_competition" -> "Lineage Competition"
     """
     # Try to get name from URL name
     url_name = resolved.url_name
@@ -178,15 +187,17 @@ def _get_breadcrumb_name(resolved, segment: str) -> str:
     full_url_name = f"{namespace}:{url_name}" if namespace else url_name
 
     # Check if we have a mapping for this URL name
-    name = _get_name_from_url_mapping(full_url_name)
-    if name:
-        return name
-
-    # For detail views, try to get object name from view
-    if url_name and ("detail" in url_name or "_detail" in url_name):
-        # Object name will be handled in later commits
-        # For now, use formatted segment
-        return _format_segment_name(segment)
+    # Use a helper to check both existence and value
+    mapping = _get_url_name_mapping_dict()
+    if full_url_name in mapping:
+        mapped_name = mapping[full_url_name]
+        # If mapping explicitly returns None, it's a detail view (use object name in Commit 6)
+        if mapped_name is None:
+            # Object name will be handled in Commit 6
+            # For now, use formatted segment as fallback
+            return _format_segment_name(segment)
+        # If mapping returns a string, use it
+        return mapped_name
 
     # Use app namespace as name if available
     if namespace:
@@ -196,29 +207,87 @@ def _get_breadcrumb_name(resolved, segment: str) -> str:
     return _format_segment_name(segment)
 
 
+def _get_url_name_mapping_dict() -> dict[str, Optional[str]]:
+    """Get the URL name to display name mapping dictionary.
+
+    Returns the complete mapping of URL names to display names.
+    None values indicate detail views that should use object names.
+
+    Returns:
+        Dictionary mapping URL names to display names or None.
+    """
+    # Comprehensive URL name to display name mapping
+    return {
+        # Home
+        "home:index": "Home",
+        # Topics
+        "topics:index": "Topics",
+        "topics:topic_detail": None,  # Will use object name
+        # Articles
+        "articles:index": "Articles",
+        "articles:detail": None,  # Will use object name
+        # Dashboards
+        "dashboards:index": "Dashboards",
+        "dashboards:lineage_competition": "Lineage Competition",
+        "dashboards:multidisease_serology": "Multi-disease Serology",
+        "dashboards:serology_statistics": "Serology Statistics",
+        "dashboards:variants_region_uppsala": "Variants Region Uppsala",
+        "dashboards:historic_covid_publications": "Historic COVID Publications",
+        "dashboards:covid_quantification_kth": "COVID Quantification KTH",
+        "dashboards:crush_covid": "Crush COVID",
+        "dashboards:historic_sarscov2_wastewater": "Historic SARS-CoV-2 Wastewater",
+        "dashboards:historic_influenza": "Historic Influenza",
+        "dashboards:npc_statistics": "NPC Statistics",
+        "dashboards:post_covid": "Post COVID",
+        "dashboards:recovac": "RECOVAC",
+        "dashboards:symptom_study_sweden": "Symptom Study Sweden",
+        "dashboards:vaccines": "Vaccines",
+        # News
+        "news:index": "News",
+        "news:detail": None,  # Will use object name
+        # Outbreaks
+        "outbreaks:index": "Outbreaks",
+        "outbreaks:detail": None,  # Will use object name
+        # Publications
+        "publications:index": "Publications",
+        # About
+        "about:index": "About",
+        "about:partners": "Partners",
+        "about:funders": "Funders",
+        "about:nodes": "Pathogens Portal Nodes",
+        # Data Management
+        "data_management:index": "Data Management",
+        # Register Based Research
+        "register_based_research:index": "Register Based Research",
+        # Citation
+        "citation:index": "Citation",
+        # Contact
+        "contact:index": "Contact",
+        # Privacy
+        "privacy:index": "Privacy",
+    }
+
+
 def _get_name_from_url_mapping(url_name: str) -> Optional[str]:
     """Get display name from URL name mapping.
 
-    Maps common URL names to user-friendly display names.
-    This will be expanded in later commits.
+    Maps URL names to user-friendly display names. Returns None for
+    detail views, which should use object names instead (handled in Commit 6).
 
     Args:
         url_name: Full URL name (e.g., "topics:index", "articles:detail").
 
     Returns:
-        Display name if mapping exists, None otherwise.
-    """
-    # Basic mapping - will be expanded in Commit 5
-    mapping = {
-        "home:index": "Home",
-        "topics:index": "Topics",
-        "articles:index": "Articles",
-        "dashboards:index": "Dashboards",
-        "news:index": "News",
-        "outbreaks:index": "Outbreaks",
-        "publications:index": "Publications",
-    }
+        Display name if mapping exists, None otherwise. None is returned
+        for detail views to indicate object name should be used.
 
+    Example:
+        >>> _get_name_from_url_mapping("topics:index")
+        "Topics"
+        >>> _get_name_from_url_mapping("topics:topic_detail")
+        None  # Will use object name
+    """
+    mapping = _get_url_name_mapping_dict()
     return mapping.get(url_name)
 
 
