@@ -2,8 +2,11 @@
 # The config file and sitemap file used by this workflow
 # are in the ".github" directory of the repository
 #
-# This workflow is configured to run weekly at 12:12 every Friday
-# It can also be run manually from repo's GitHub page
+# This runs against a local instance of the app
+# since we don't have a live url to test against.
+# We can change this later if wanted / needed
+#
+# TODO: Schedule scans against live site
 ---
 name: Pa11y Accessibility Check
 on:
@@ -19,10 +22,10 @@ jobs:
 
     steps:
       - name: Check out the repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v6
         with:
           python-version-file: .python-version
 
@@ -32,17 +35,15 @@ jobs:
       - name: Install Python deps
         run: uv sync --group dev
 
-      # Pa11y tooling
-      - name: Set up Node.js 22.x
-        uses: actions/setup-node@v4
+      - name: Set up Node.js 24
+        uses: actions/setup-node@v6
         with:
-          node-version: 22.x
+          node-version: 24
 
-      - name: Install Pa11y CI
+      - name: Install Pa11y CI and wait-on
         run: npm install -g pa11y-ci wait-on
 
-      - name: Prepare DB (PR)
-        if: github.event_name == 'pull_request'
+      - name: Prepare DB
         env:
           SECRET_KEY: ci-not-a-secret
           DEBUG: "1"
@@ -51,9 +52,7 @@ jobs:
         run: |
           uv run python manage.py migrate --noinput
 
-      # PR: Start server and scan
-      - name: Start app (PR)
-        if: github.event_name == 'pull_request'
+      - name: Start app and wait until ready
         env:
           SECRET_KEY: ci-not-a-secret
           DEBUG: "1"
@@ -63,8 +62,7 @@ jobs:
           uv run python manage.py runserver 127.0.0.1:8000 &
           npx wait-on http://127.0.0.1:8000
 
-      - name: Run Pa11y CI (PR)
-        if: github.event_name == 'pull_request'
+      - name: Run Pa11y CI
         run: |
           pa11y-ci \
             --config ${GITHUB_WORKSPACE}/.github/pa11y.config \
