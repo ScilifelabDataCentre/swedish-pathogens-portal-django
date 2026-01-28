@@ -9,11 +9,16 @@
 # TODO: Schedule scans against live site
 ---
 name: Pa11y Accessibility Check
+
 on:
   pull_request:
   workflow_dispatch:
-  # schedule:
-  #   - cron: '12 12 * * FRI'
+
+env:
+  SECRET_KEY: ci-not-a-secret
+  DEBUG: "1"
+  DATABASE_URL: sqlite:///db.sqlite3
+  ALLOWED_HOSTS: 127.0.0.1,localhost
 
 jobs:
   pa11y:
@@ -44,20 +49,10 @@ jobs:
         run: npm install -g pa11y-ci wait-on
 
       - name: Prepare DB
-        env:
-          SECRET_KEY: ci-not-a-secret
-          DEBUG: "1"
-          DATABASE_URL: sqlite:///db.sqlite3
-          ALLOWED_HOSTS: 127.0.0.1,localhost
         run: |
           uv run python manage.py migrate --noinput
 
       - name: Start app and wait until ready
-        env:
-          SECRET_KEY: ci-not-a-secret
-          DEBUG: "1"
-          DATABASE_URL: sqlite:///db.sqlite3
-          ALLOWED_HOSTS: 127.0.0.1,localhost
         run: |
           uv run python manage.py runserver 127.0.0.1:8000 &
           npx wait-on http://127.0.0.1:8000
