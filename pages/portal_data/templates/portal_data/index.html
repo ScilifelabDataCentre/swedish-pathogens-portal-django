@@ -129,7 +129,7 @@
           {{ error }}
         </p>
       {% else %}
-        <form id="bulkForm" action="{% url 'pages_portal_data:data_export' datatype=datatype %}" method="get" class="space-y-4">
+        <form id="bulkForm" action="{% url 'portal_data:data_export' datatype=datatype %}" method="get" class="space-y-4">
           <!-- Cards -->
           <ul class="grid grid-cols-1 gap-4 md:grid-cols-1">
             {% for it in items %}
@@ -222,7 +222,7 @@
     {% endif %}
 
     <!-- Local PVC download -->
-<a href="{% url 'pages_portal_data:data_files' datatype=datatype accession=it.accession %}"
+<a href="{% url 'portal_data:data_files' datatype=datatype accession=it.accession %}"
    class="ml-auto inline-flex items-center justify-center rounded bg-pp-mid-blue px-3 py-1.5 text-sm font-medium text-white shadow-sm hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-pp-dark-blue/30">
   Download data
 </a>
@@ -274,7 +274,7 @@
 function bulkExport(fmt) {
   const ids = [...document.querySelectorAll('.selectRow:checked')].map(x => x.value);
   if (!ids.length) { alert('Select at least one row.'); return; }
-  const url = new URL("{% url 'pages_portal_data:data_export' datatype=datatype %}", window.location.origin);
+  const url = new URL("{% url 'portal_data:data_export' datatype=datatype %}", window.location.origin);
   url.searchParams.set('format', fmt);
   ids.forEach(id => url.searchParams.append('ids', id));
   window.location = url.toString();

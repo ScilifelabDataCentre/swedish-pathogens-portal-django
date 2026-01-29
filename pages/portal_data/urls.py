@@ -10,7 +10,7 @@ from .views import (
     study_files,
 )
 
-app_name = "pages_portal_data"
+app_name = "portal_data"
 
 urlpatterns = [
     path("<slug:datatype>/export/", export_selected, name="data_export"),
