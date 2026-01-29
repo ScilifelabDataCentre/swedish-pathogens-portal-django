@@ -30,11 +30,18 @@ class PlpProject(models.Model):
 
     CATEGORY_CHOICES = [
         ("plp1", "PLP1"),
-        ("plp2", "PLP2"),
         ("tdp", "TDP"),
+        ("plp2", "PLP2"),
         ("test", "PLP-Test"),
         ("pmt", "PM TDP"),
     ]
+    CATEGORY_GROUP_LABELS = {
+        "plp1": "Pandemic Laboratory Preparedness Capabilities round 1",
+        "tdp": "Technology Development Projects",
+        "plp2": "Pandemic Laboratory Preparedness Capabilities round 2 2022",
+        "test": "Testing PLP Capabilities",
+        "pmt": "Precision Medicine Technology Development Projects",
+    }
 
     title = models.CharField(
         max_length=255,
@@ -85,6 +92,10 @@ class PlpProject(models.Model):
     def get_absolute_url(self) -> str:
         """Return the absolute URL for the project detail page."""
         return reverse("plp:detail", kwargs={"slug": self.slug})
+
+    def get_category_group_label(self) -> str:
+        """Return the display label for category group headings."""
+        return self.CATEGORY_GROUP_LABELS.get(self.category, self.get_category_display())
 
     @property
     def rendered_content(self) -> str:

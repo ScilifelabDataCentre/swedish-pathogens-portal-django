@@ -1,5 +1,7 @@
 """Views for listing and viewing PLP projects."""
 
+from typing import Any
+
 from utils.views import BaseDetailView, BaseListView
 
 from .models import PlpProject
@@ -25,6 +27,33 @@ class PlpListView(BaseListView):
     context_object_name = "projects"
     title = "Pandemic Laboratory Preparedness Program"
     ordering = "-created_at"
+
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
+        """Add grouped projects by category to context."""
+        context = super().get_context_data(**kwargs)
+        projects = context.get("projects", PlpProject.objects.none())
+
+        # Group projects by category
+        category_map = {}
+        for project in projects:
+            if project.category not in category_map:
+                category_map[project.category] = []
+            category_map[project.category].append(project)
+
+        # Convert category map to category groups in CATEGORY_CHOICES order
+        category_groups = []
+        for value, _label in PlpProject.CATEGORY_CHOICES:
+            if value in category_map:
+                category_groups.append(
+                    {
+                        "value": value,
+                        "label": category_map[value][0].get_category_group_label(),
+                        "projects": category_map[value],
+                    }
+                )
+
+        context["category_groups"] = category_groups
+        return context
 
 
 class PlpProjectDetailView(BaseDetailView):
