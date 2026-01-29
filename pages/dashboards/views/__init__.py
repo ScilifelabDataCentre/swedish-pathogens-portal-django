@@ -7,7 +7,7 @@ URL configs and other modules.
 from .covid_quantification_kth import CovidQuantificationKth
 from .crush_covid import CrushCovid
 from .historic_covid_publications import HistoricCovidPublications
-from .historic_enteric_quantification import HistoricEntericQuantification
+from .historic_enteric_quantification_gu import HistoricEntericQuantificationGu
 from .historic_influenza import HistoricInfluenza
 from .historic_sarscov2_wastewater import HistoricSarsCov2Wastewater
 from .index import DashboardsIndex
@@ -26,7 +26,7 @@ __all__ = [
     "CrushCovid",
     "DashboardsIndex",
     "HistoricCovidPublications",
-    "HistoricEntericQuantification",
+    "HistoricEntericQuantificationGu",
     "HistoricInfluenza",
     "HistoricSarsCov2Wastewater",
     "LineageCompetition",
