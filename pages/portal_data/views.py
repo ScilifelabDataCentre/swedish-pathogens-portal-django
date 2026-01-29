@@ -17,7 +17,9 @@ from django.conf import settings
 from django.core.cache import cache
 from django.http import FileResponse, Http404, HttpRequest, HttpResponse, HttpResponseBadRequest
 from django.shortcuts import redirect, render
+from django.urls import path
 from django.views.generic import TemplateView
+from django.views.generic.base import RedirectView
 
 from .services import build_export_json, build_export_tsv
 
@@ -42,10 +44,12 @@ DATA_ROOT: Path = Path(getattr(settings, "PORTAL_DATA_ROOT", "/datasets")).resol
 
 ACCESSION_RE = re.compile(r"^MTBLS\d+$")
 
-
-def homepage_jump(request: HttpRequest) -> HttpResponse:
-    """Redirect the root portal-data URL to the default data type."""
-    return redirect("pages_portal_data:data_type_list", datatype="metabolomics")
+urlpatterns = [
+    path(
+        "",
+        RedirectView.as_view(url="/portal-data/metabolomics/", permanent=False),
+    ),
+]
 
 
 # -------------------------------------------------------------------

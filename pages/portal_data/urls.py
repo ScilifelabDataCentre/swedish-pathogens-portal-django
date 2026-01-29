@@ -7,14 +7,12 @@ from .views import (
     download_study,
     download_study_file,
     export_selected,
-    homepage_jump,
     study_files,
 )
 
 app_name = "pages_portal_data"
 
 urlpatterns = [
-    path("", homepage_jump, name="index"),
     path("<slug:datatype>/export/", export_selected, name="data_export"),
     path(
         "<slug:datatype>/<slug:accession>/download/",
