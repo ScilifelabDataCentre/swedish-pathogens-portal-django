@@ -164,7 +164,7 @@ def _apply_search_and_filters(
     if query:
         q = query.lower()
 
-        def matches_text(it: dict) -> bool:
+        def matches_text(it: dict[str, Any]) -> bool:
             # title and id (existing behavior)
             if q in str(it.get("title", "")).lower() or q in str(it.get("id", "")).lower():
                 return True
