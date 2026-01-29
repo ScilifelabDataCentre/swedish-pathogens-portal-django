@@ -1,4 +1,4 @@
-"""Views for COVID Quantification GU dashboard dashboard page."""
+"""Views for COVID Quantification GU dashboard page."""
 
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
