@@ -23,10 +23,10 @@
     and support research throughout. The first program established to support research efforts was
     the
     <a href="https://www.scilifelab.se/capabilities/pandemic-laboratory-preparedness/pandemic-response/national-program/"
-        target="_blank" rel="noopener noreferrer" class="text-pp-dark-blue">
-        The SciLifeLab/KAW National COVID-19 Research Program</a>, which was established in April 2020 and
-    co-funded by the <a href="https://kaw.wallenberg.org/en" target="_blank" rel="noopener noreferrer"
-    class="text-pp-dark-blue">Knut and Alice Wallenberg Foundation (KAW)</a>.
+       target="_blank" rel="noopener noreferrer">
+      The SciLifeLab/KAW National COVID-19 Research Program</a>, which was established in April 2020 and
+    co-funded by the <a href="https://kaw.wallenberg.org/en" target="_blank" rel="noopener noreferrer">
+      Knut and Alice Wallenberg Foundation (KAW)</a>.
     When the focus of the global research community started to shift towards pandemic preparedness,
     SciLifeLab was commissioned to establish a program to support pandemic preparedness in general.
     This resulted in SciLifeLab's Pandemic Laboratory Preparedness (PLP) program.
@@ -63,8 +63,7 @@
                     <td>2020-12-01</td>
                     <td>
                     <a href="https://www.regeringen.se/rattsliga-dokument/proposition/2020/12/forskning-frihet-framtid--kunskap-och-innovation-for-sverige/"
-                            target="_blank" rel="noopener noreferrer"
-                            class="text-pp-dark-blue">
+                            target="_blank" rel="noopener noreferrer">
                             Swedish government commissioned SciLifeLab
                         </a>
                     </td>
@@ -108,8 +107,7 @@
                 <tr>
                     <td>2022-09-01</td>
                     <td>
-                        <a href="https://anubis.scilifelab.se/call/REPLP1" target="_blank"
-                            rel="noopener noreferrer" class="text-pp-dark-blue">
+                        <a href="https://anubis.scilifelab.se/call/REPLP1" target="_blank" rel="noopener noreferrer">
                             REPLP-1 Call
                         </a>
                     </td>
@@ -120,8 +118,7 @@
                 <tr>
                     <td>2023-02-01</td>
                     <td>
-                        <a href="https://anubis.scilifelab.se/call/REPLPCM" target="_blank"
-                            rel="noopener noreferrer" class="text-pp-dark-blue">
+                        <a href="https://anubis.scilifelab.se/call/REPLPCM" target="_blank" rel="noopener noreferrer">
                             REPLPCM Call
                         </a>
                     </td>
@@ -133,8 +130,7 @@
                     <td>2023-09-01</td>
                     <td>
                         <a href="https://www.scilifelab.se/news/grants-for-testing-of-plp-capabilities-plp-test/"
-                            target="_blank" rel="noopener noreferrer"
-                            class="text-pp-dark-blue">PLP-Test Call</a>
+                            target="_blank" rel="noopener noreferrer">PLP-Test Call</a>
                     </td>
                     <td>Support up to 9 projects to test
                         and improve PLP capabilities.</td>
@@ -151,8 +147,7 @@
                     <td>2025-06-01</td>
                     <td>
                         <a href="https://www.scilifelab.se/news/call-for-grants-for-technology-development-projects-within-pandemic-laboratory-preparedness-plp-tdp/"
-                            target="_blank" rel="noopener noreferrer"
-                            class="text-pp-dark-blue">PLPTDP25 Call</a>
+                            target="_blank" rel="noopener noreferrer">PLPTDP25 Call</a>
                     </td>
                     <td>Launch of new TDP funding to drive
                         diagnostics and host response innovation that will support during outbreaks.</td>
@@ -165,7 +160,7 @@
     TODO replace URL placeholder with real Django path once it exists
     {% endcomment %}
     <p class="px-3">To view any current funding available from PLP, view our
-        <a href="" class="text-pp-dark-blue">funding page.</a>
+        <a href="#">funding page.</a>
     </p>
     </div>
 </details>
@@ -178,7 +173,7 @@
     proactive investment in preparedness. This includes maintaining and updating the resources developed
     during COVID-19 so they can be quickly deployed again. The
     <a href="https://www.scilifelab.se/capabilities/pandemic-laboratory-preparedness/" target="_blank"
-        rel="noopener noreferrer" class="text-pp-dark-blue">
+        rel="noopener noreferrer">
         Pandemic Laboratory Preparedness (PLP) program at SciLifeLab
     </a> contributes to this effort by establishing a national network of laboratory capabilities.
 </p>
@@ -210,34 +205,37 @@
                         {{ project.get_category_display }}
                     </div>
 
-            <!-- Content -->
-            <div class="p-5 flex flex-col grow">
-                <h5 class="mt-0 mb-2">
-                    <a href="{{ project.get_absolute_url }}"
-                        class="text-pp-dark-blue text-base font-bold no-underline">
-                        {{ project.title }}
-                    </a>
-                </h5>
-                <p class="text-pp-dark-grey text-sm leading-relaxed mb-4 grow line-clamp-3">
-                    {{ project.summary }}
-                </p>
-                <div class="mt-auto pt-4 border-t border-pp-pale-grey/20 flex items-center justify-end">
-                    <a href="{{ project.get_absolute_url }}"
-                        class="text-pp-dark-blue text-base flex items-center gap-1 group/link no-underline">
-                        Details
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            class="h-3 w-3 transition-transform group-hover/link:translate-x-0.5" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                        </svg>
-                    </a>
+                    <!-- Content -->
+                    <div class="p-5 flex flex-col grow">
+                        <h5 class="mt-0 mb-2 font-bold">
+                            <a href="{{ project.get_absolute_url }}">
+                                {{ project.title }}
+                            </a>
+                        </h5>
+                        <p class="text-pp-dark-grey text-sm leading-relaxed mb-4 grow line-clamp-3">
+                            {{ project.summary }}
+                        </p>
+                        <div class="mt-auto pt-4 border-t border-pp-pale-grey/20 flex items-center justify-end">
+                            <a href="{{ project.get_absolute_url }}"
+                                class="flex items-center gap-1 group/link">
+                                Details
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                    class="h-3 w-3 transition-transform group-hover/link:translate-x-0.5" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 5l7 7-7 7" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
+            {% endfor %}
         </div>
-    </div>
-    {% empty %}
-    <p class="text-center py-8 text-pp-dark-grey italic">No projects to display</p>
+    </section>
     {% endfor %}
-</div>
+{% else %}
+    <p class="text-center py-8 text-pp-dark-grey italic">No projects to display</p>
+{% endif %}
 
 {% endblock %}
