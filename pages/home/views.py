@@ -1,3 +1,5 @@
+"""Home page view and context logic."""
+
 import logging
 from typing import Any
 
@@ -31,7 +33,7 @@ class Home(BaseTemplateView):
     template_name = "home/index.html"
     title = "Swedish Pathogens Portal: supporting pandemic preparedness"
 
-    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+    def get_context_data(self, **kwargs: object) -> dict[str, Any]:
         """Add dashboards, topics, articles, and news to template context.
 
         Fetches active content from the database and hardcoded dashboard
@@ -46,9 +48,9 @@ class Home(BaseTemplateView):
                 - title: Page title (from BaseTemplateView)
         """
         context = super().get_context_data(**kwargs)
-        
+
         # Fetch active dashboards with thumbnails
-        context['dashboards'] = [
+        context["dashboards"] = [
             {
                 "name": "SARS-CoV-2 Variant Competition",
                 "image": "dashboards/thumbnails/lineage_competition.jpg",
@@ -79,9 +81,9 @@ class Home(BaseTemplateView):
                 ),
             },
         ]
-        
-        context['topics'] = Topic.objects.filter(is_active=True)[:3]
-        context['articles'] = Article.objects.filter(is_active=True).order_by('-created_at')[:3]
-        context['news'] = News.objects.filter(is_active=True).order_by('-created_at')[:5]
-        
+
+        context["topics"] = Topic.objects.filter(is_active=True)[:3]
+        context["articles"] = Article.objects.filter(is_active=True).order_by("-created_at")[:3]
+        context["news"] = News.objects.filter(is_active=True).order_by("-created_at")[:5]
+
         return context
