@@ -121,7 +121,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # DATASETS ROOT variable used for portal data storage
 DATASETS_ROOT =  env(
-    "DEFAULT_FROM_EMAIL",
+    "DATASETS_ROOT"
     default="/datasets",
 )
 
