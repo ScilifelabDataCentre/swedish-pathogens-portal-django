@@ -99,7 +99,7 @@
 @layer components {
     /* Base badge styling */
     .badge {
-        @apply inline-block px-1 py-1 font-bold leading-none text-center whitespace-nowrap align-baseline rounded mr-1 mb-1;
+        @apply inline-block px-2 py-1 text-[10px] font-bold rounded bg-pp-dark-blue text-white uppercase tracking-wider;
     }
     
     /* Topic badge specific properties */
