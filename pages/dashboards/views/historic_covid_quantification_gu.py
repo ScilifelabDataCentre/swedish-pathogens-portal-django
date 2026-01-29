@@ -38,12 +38,12 @@ class HistoricCovidQuantificationGu(View):
             "description": self.description,
         }
 
-        vaccine_related_blobs = [
+        wastewater_blobs = [
             "wastewater_gothenburg",
             "historic_wastewater_gothenburg",
         ]
 
-        for blob in vaccine_related_blobs:
+        for blob in wastewater_blobs:
             # TODO: plot data to be fetch from DB
             blob_data = fetch_plot_json_blobserver(f"{blob}.json")
             if blob_data is not None:
