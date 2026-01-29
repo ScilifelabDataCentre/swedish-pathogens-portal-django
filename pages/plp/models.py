@@ -93,5 +93,5 @@ class PlpProject(models.Model):
         Uses markdown library with common extensions for rich text rendering.
         """
         return mark_safe(
-            markdown.markdown(self.content, extensions=["extra", "codehilite", "tables", "nl2br"])
+            markdown.markdown(self.content, extensions=["extra", "codehilite", "nl2br"])
         )
