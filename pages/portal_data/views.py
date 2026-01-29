@@ -16,7 +16,7 @@ from urllib.parse import unquote
 from django.conf import settings
 from django.core.cache import cache
 from django.http import FileResponse, Http404, HttpRequest, HttpResponse, HttpResponseBadRequest
-from django.shortcuts import redirect, render
+from django.shortcuts import render
 from django.urls import path
 from django.views.generic import TemplateView
 from django.views.generic.base import RedirectView
