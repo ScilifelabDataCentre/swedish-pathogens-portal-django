@@ -213,37 +213,58 @@ def _apply_search_and_filters(
     return items
 
 
-def _build_facets(items, facet_names, filters=None, datatype=None):
+def _build_facets(
+    items: list[dict[str, Any]],
+    facet_names: list[str],
+    filters: dict[str, list[str]] | None,
+    datatype: str,
+) -> dict[str, list[dict[str, Any]]]:
+    """Build facet buckets for a given datatype.
+
+    items:
+        Full list of items (dicts) for this datatype.
+    facet_names:
+        Keys in each item to facet on, e.g. ["pathogen", "country", "year"].
+    filters:
+        Currently active filters (used to mark 'checked' buckets).
+    datatype:
+        Slug/name of the datatype, e.g. "metabolomics".
+    """
+    # Normalise inputs
     items = list(items)
     filters = filters or {}
-    dt = datatype or "default"
 
-    cache_key = f"facet_counts_{dt}_{hash(str(sorted(facet_names)))}"
-    counts_by_facet = cache.get(cache_key)
-
-    if counts_by_facet is None:
-        counts_by_facet: dict[str, dict[str, int]] = {}
-        for facet in facet_names:
-            counts: dict[str, int] = {}
-            for it in items:
-                value = it.get(facet)
-                if value in (None, "", [], {}):
-                    continue
-                if isinstance(value, list):
-                    for v in value:
-                        if v not in (None, ""):
-                            key = str(v)
-                            counts[key] = counts.get(key, 0) + 1
-                else:
-                    key = str(value)
-                    counts[key] = counts.get(key, 0) + 1
-            counts_by_facet[facet] = counts
-        cache.set(cache_key, counts_by_facet, timeout=3600)
+    # Include datatype and facet_names in the cache key
+    cache_key = f"facets_{datatype}_{hash(str(sorted(facet_names)))}"
+    cached: dict[str, list[dict[str, Any]]] | None = cache.get(cache_key)
+    if cached is not None:
+        # Update "checked" flags based on current filters before returning
+        for facet, buckets in cached.items():
+            active_values = set(filters.get(facet, []))
+            for bucket in buckets:
+                bucket["checked"] = str(bucket["value"]) in active_values
+        return cached
 
     facets: dict[str, list[dict[str, Any]]] = {}
 
     for facet in facet_names:
-        counts = counts_by_facet.get(facet, {})
+        counts: dict[str, int] = {}
+
+        for it in items:
+            value = it.get(facet)
+            if value in (None, "", [], {}):
+                continue
+
+            # Handle list-valued fields (e.g. platforms, design_types)
+            if isinstance(value, list):
+                for v in value:
+                    if v not in (None, ""):
+                        key = str(v)
+                        counts[key] = counts.get(key, 0) + 1
+            else:
+                key = str(value)
+                counts[key] = counts.get(key, 0) + 1
+
         buckets = list(counts.items())
 
         # For the "year" facet prefer numeric descending (most recent first),
@@ -252,7 +273,6 @@ def _build_facets(items, facet_names, filters=None, datatype=None):
         if facet == "year" and buckets:
 
             def _is_integer_string(s: str) -> bool:
-                # match optional leading minus and digits (covers negative years if any)
                 return re.fullmatch(r"-?\d+", s) is not None
 
             if all(_is_integer_string(k) for k, _ in buckets):
@@ -262,13 +282,13 @@ def _build_facets(items, facet_names, filters=None, datatype=None):
         else:
             buckets.sort(key=lambda kv: kv[0])
 
-        # Mark checked items based on current filters
-        active_values = filters.get(facet, [])
+        active_values = set(filters.get(facet, []))
         facets[facet] = [
             {"value": value, "count": count, "checked": str(value) in active_values}
             for value, count in buckets
         ]
 
+    cache.set(cache_key, facets, timeout=3600)
     return facets
 
 
