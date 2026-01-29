@@ -5,19 +5,19 @@
 
 {% block full_width_content %}
 <!-- Hero Section -->
-<div class="relative bg-gradient-to-br from-pp-dark-blue via-pp-mid-blue to-pp-teal text-white py-16 mb-4">
+<div class="relative bg-gradient-to-br from-pp-dark-blue via-pp-mid-blue to-pp-teal text-white py-12 md:py-16 mb-4">
     <div class="absolute inset-0 bg-cover bg-center opacity-20"
         style="background-image: url('{% static 'images/hero.png' %}');"></div>
     <div class="container relative z-10">
         <div class="max-w-3xl">
-            <h1 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4 md:mb-6 leading-tight">
                 Swedish Pathogens Portal
             </h1>
-            <p class="text-xl mb-8 text-gray-100 leading-relaxed">
+            <p class="text-base md:text-xl mb-6 md:mb-8 text-gray-100 leading-relaxed">
                 Supporting pandemic preparedness research in Sweden by providing access to datasets, resources, and
                 tools.
             </p>
-            <div class="flex gap-4 flex-wrap">
+            <div class="flex gap-3 md:gap-4 flex-wrap">
                 <a href="{% url 'topics:index' %}"
                     class="bg-pp-lime-green text-pp-dark-blue px-8 py-3 rounded-lg font-bold hover:bg-white transition-colors shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-lime-green focus-visible:ring-offset-2 focus-visible:ring-offset-pp-dark-blue"
                     aria-label="Explore topics and research areas">
