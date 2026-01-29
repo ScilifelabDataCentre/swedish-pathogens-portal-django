@@ -7,6 +7,7 @@
     {% comment %}
         TODO: cleanup in second phase
         TODO: change URL with django URL after merging other dashboards
+        TODO:  change the visualisation scripts source code URI after rework
     {% endcomment %}
 
     <div class="mt-6 p-4 bg-pp-pale-grey">
@@ -16,7 +17,7 @@
             TODO change URL with django URL after merging other dashboards
         {% endcomment %}
 
-        April 2024 is <a href="https://www.pathogens.se/dashboards/covid_quantification/">
+        April 2024 is <a href="">
         available from other research groups</a>.
     </div>
 
@@ -46,7 +47,7 @@
             TODO change URL with django URL after merging other dashboards
         {% endcomment %}
         
-        <a href="/dashboards/enteric-quantification/">also shared on this portal</a>.
+        <a href="">also shared on this portal</a>.
     </p>
 
     <h4>Wastewater collection sites</h4>
@@ -95,6 +96,11 @@
             </div>
 
             <p>
+
+                {% comment %}
+                  TODO change URL when we will have reworked the data visualisation flow
+                {% endcomment %}
+
                 <b>Code used to produce plot:</b> <a 
                 href="https://github.com/ScilifelabDataCentre/pathogens-portal-visualisations/blob/main/wastewater/archive/gothenburg_covid_historic.py"
                 target="_blank" rel="noopener noreferrer">Script to produce plot.</a>
@@ -223,8 +229,12 @@
 
             <p>
                 <b>Code used to produce plot:</b> 
-                <a 
-                href="https://github.com/ScilifelabDataCentre/pathogens-portal-visualisations/blob/main/wastewater/archive/gothenburg_covid.py"
+
+                {% comment %}
+                  TODO change URL when we will have reworked the data visualisation flow
+                {% endcomment %}
+
+                <a href="https://github.com/ScilifelabDataCentre/pathogens-portal-visualisations/blob/main/wastewater/archive/gothenburg_covid.py"
                 target="_blank" rel="noopener noreferrer">Script to produce plot.</a>
             </p>
 
@@ -312,7 +322,7 @@
                     TODO change URL with django URL after merging other dashboards
                 {% endcomment %}
 
-                <a href="/dashboards/covid_quantification/historic_covid_gu/">historic 
+                <a href="">historic 
                 SARS-CoV-2 data from Gothenburg</a>.
             </p>
 
@@ -342,7 +352,7 @@
                     TODO change URL with django URL after merging other dashboards
                 {% endcomment %}
 
-                <a href="/dashboards/covid_quantification/historic_covid_gu/">historic SARS-CoV-2 
+                <a href="">historic SARS-CoV-2 
                 data from Gothenburg page to view this data</a>). With the new technique, the 
                 data for which is shown above, the amount of virus genomes is given as daily 
                 average amounts, as is based on one week of wastewater sampling.
