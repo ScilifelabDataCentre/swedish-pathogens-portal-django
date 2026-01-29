@@ -180,5 +180,16 @@ class DashboardsIndex(BaseTemplateView):
                     "nationwide sites plus Umeå and Örebro visualisations."
                 ),
             },
+            {
+                "name": "Wastewater: Enteric Virus Quantification (GU)",
+                "image": "dashboards/thumbnails/wastewater_enteric_virus.png",
+                "url": reverse_lazy("dashboards:historic_enteric_quantification_gu"),
+                "description": (
+                    "Enteric virus levels in Gothenburg's wastewater, including "
+                    "norovirus and adenovirus. Data from the Norder group's weekly "
+                    "analysis at Ryaverket WWTP helps predict outbreaks and includes "
+                    "samples from surrounding municipalities."
+                ),
+            },
         ],
     }
