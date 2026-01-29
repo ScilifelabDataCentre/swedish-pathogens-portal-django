@@ -10,10 +10,10 @@
 <!-- Main Content -->
 <div class="py-8">
     <!-- Title and Category -->
-    <h1 class="text-3xl text-pp-almost-black mb-2">
+    <h1 class="text-3xl mb-2">
         {{ project.title }}
     </h1>
-    <p class="text-pp-dark-grey mb-6 flex items-center gap-2 flex-wrap text-sm uppercase tracking-wide">
+    <p class="mb-6 flex items-center gap-2 flex-wrap text-sm uppercase tracking-wide">
         <span class="px-2 py-1 text-xs font-semibold rounded shadow-sm bg-pp-dark-blue text-white uppercase tracking-wider">
             {{ project.get_category_display }}
         </span>
@@ -29,12 +29,12 @@
     {% endif %}
 
     <!-- Project Content -->
-    <div class="prose prose-lg max-w-none text-pp-dark-grey mb-8 prose-a:text-base prose-a:text-pp-dark-blue prose-a:no-underline prose-a:font-normal prose-a:hover:no-underline">
+    <div class="max-w-none mb-8">
         {{ project.rendered_content|safe }}
     </div>
 
     <div class="mt-12 pt-6 border-t border-pp-pale-grey">
-        <a href="{% url 'plp:index' %}" class="group inline-flex items-center text-pp-dark-blue text-base font-medium no-underline">
+        <a href="{% url 'plp:index' %}" class="group inline-flex items-center text-pp-dark-blue font-medium no-underline">
             <svg class="w-4 h-4 mr-1 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
             </svg>
