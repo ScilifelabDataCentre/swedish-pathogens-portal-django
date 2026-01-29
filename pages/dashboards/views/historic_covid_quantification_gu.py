@@ -8,10 +8,11 @@ from ..visualisation.utils import fetch_plot_json_blobserver, plot_html_from_jso
 
 
 class HistoricCovidQuantificationGu(View):
-    """Amount of enteric virus in wastewater (GU) dashboard page.
+    """Historic SARS-CoV-2 wastewater quantification dashboard (GU).
 
-    This view class renders the template of (historic) dashboard of COVID Quantification
-    GU in wastewater (GU).
+    Renders the dashboard for historic SARS-CoV-2 wastewater quantification data
+    from the University of Gothenburg (GU). Combines both historic (method used
+    until May 2023) and updated (method used from May 2023) visualizations.
 
     Attributes:
         template_name: Template for rendering the dashboard.
