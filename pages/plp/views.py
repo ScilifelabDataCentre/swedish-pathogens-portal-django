@@ -27,7 +27,7 @@ class PlpListView(BaseListView):
     ordering = "-created_at"
 
 
-class PlpProjectDetail(BaseDetailView):
+class PlpProjectDetailView(BaseDetailView):
     """Display detailed information about a specific PLP project.
 
     Shows the full project content rendered from markdown, including
