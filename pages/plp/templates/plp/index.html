@@ -248,8 +248,9 @@
                     <small class="text-pp-dark-grey/60 text-[10px] font-medium uppercase tracking-widest">
                         Added {{ project.created_at|date:"M j, Y" }}
                     </small>
+                <div class="mt-auto pt-4 border-t border-pp-pale-grey/20 flex items-center justify-end">
                     <a href="{{ project.get_absolute_url }}"
-                        class="text-pp-dark-blue text-base font-bold flex items-center gap-1 group/link no-underline">
+                        class="text-pp-dark-blue text-base flex items-center gap-1 group/link no-underline">
                         Details
                         <svg xmlns="http://www.w3.org/2000/svg"
                             class="h-3 w-3 transition-transform group-hover/link:translate-x-0.5" fill="none"
@@ -264,8 +265,6 @@
     {% empty %}
     <p class="text-center py-8 text-pp-dark-grey italic">No projects to display</p>
     {% endfor %}
-</div>
-
 </div>
 
 {% endblock %}
