@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="py-8" id="content">
+    <div class="mb-8">
+        <h1>{{ title }}</h1>
+        <p>Resources where users can access data.</p>
+    </div>
+    {% include "external_resources/partials/resource_grid.html" with empty_title="No data sources available" empty_message="There are currently no data sources listed. Please check back later." %}
+</div>
+{% endblock %}
