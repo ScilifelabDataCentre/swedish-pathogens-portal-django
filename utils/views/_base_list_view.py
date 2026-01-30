@@ -59,7 +59,9 @@ class BaseListView(ListView):
         """Return active items with custom filters applied, ordered by specified field."""
         # Get custom filter arguments from class attributes
         filter_args = {
-            k.replace("filter_", ""): v for k, v in vars(self).items() if k.startswith("filter_")
+            k.replace("filter_", ""): v
+            for k, v in vars(self.__class__).items()
+            if k.startswith("filter_")
         }
 
         # Always filter by is_active=True and apply any custom filters
