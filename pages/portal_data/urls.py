@@ -4,7 +4,6 @@ from django.urls import path
 
 from .views import (
     DataTypeListView,
-    download_study,
     download_study_file,
     export_selected,
     study_files,
@@ -16,12 +15,6 @@ DEFAULT = {"datatype": "metabolomics"}
 
 urlpatterns = [
     path("export/", export_selected, DEFAULT, name="data_export"),
-    path(
-        "<slug:accession>/download/",
-        download_study,
-        DEFAULT,
-        name="data_download",
-    ),
     # Per-study file browser (lists files under the study)
     path(
         "<slug:accession>/files/",

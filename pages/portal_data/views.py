@@ -355,54 +355,6 @@ class DataTypeListView(TemplateView):
         return ctx
 
 
-def download_study(request: HttpRequest, datatype: str, accession: str) -> HttpResponse:
-    """Stream a ZIP archive of a study directory from the PVC."""
-    if datatype not in SUPPORTED_TYPES:
-        raise Http404("Unknown data type")
-
-    if not ACCESSION_RE.match(accession):
-        raise Http404("Invalid accession")
-
-    study_dir = DATA_ROOT / accession
-    if not study_dir.is_dir():
-        raise Http404("Study not found on this node")
-
-    # Create the archive inside the PVC so we don't touch the read‑only root FS
-    tmpdir = Path(tempfile.mkdtemp(dir=str(DATA_ROOT)))
-    archive_base = tmpdir / accession
-    archive_path = shutil.make_archive(
-        base_name=str(archive_base),
-        format="zip",
-        root_dir=str(study_dir),
-    )
-
-    archive_file = Path(archive_path)
-    stack = ExitStack()
-    f = stack.enter_context(archive_file.open("rb"))
-    response = FileResponse(
-        f,
-        as_attachment=True,
-        filename=f"{accession}.zip",
-    )
-
-    # Clean up the temp archive when the response is closed
-    original_close = response.close
-
-    def cleanup_close(*args: object, **kwargs: object) -> None:
-        try:
-            original_close(*args, **kwargs)
-        finally:
-            # Close file handle and remove temporary artifacts.
-            stack.close()
-            with suppress(OSError):
-                archive_file.unlink()
-            with suppress(OSError):
-                tmpdir.rmdir()
-
-    response.close = cleanup_close
-    return response
-
-
 def export_selected(request: HttpRequest, datatype: str) -> HttpResponse:
     """Export a user-selected subset of items as TSV or JSON."""
     if datatype not in SUPPORTED_TYPES:
