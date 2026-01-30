@@ -17,9 +17,8 @@ from django.conf import settings
 from django.core.cache import cache
 from django.http import FileResponse, Http404, HttpRequest, HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render
-from django.urls import path
+from django.views import View
 from django.views.generic import TemplateView
-from django.views.generic.base import RedirectView
 
 from .services import build_export_json, build_export_tsv
 
@@ -355,28 +354,31 @@ class DataTypeListView(TemplateView):
         return ctx
 
 
-def export_selected(request: HttpRequest, datatype: str) -> HttpResponse:
+class ExportSelectedView(View):
     """Export a user-selected subset of items as TSV or JSON."""
-    if datatype not in SUPPORTED_TYPES:
-        return HttpResponseBadRequest("Unknown data type")
 
-    fmt = request.GET.get("format", "tsv")
-    ids = request.GET.getlist("ids")
+    def get(self, request: HttpRequest, *args: object, **kwargs: object) -> HttpResponse:
+        datatype = str(kwargs["datatype"])
+        if datatype not in SUPPORTED_TYPES:
+            return HttpResponseBadRequest("Unknown data type")
 
-    if not ids:
-        return HttpResponseBadRequest("No IDs selected")
+        fmt = request.GET.get("format", "tsv")
+        ids = request.GET.getlist("ids")
 
-    all_items = _load_all_items(datatype)
-    items = [it for it in all_items if it["id"] in ids]
+        if not ids:
+            return HttpResponseBadRequest("No IDs selected")
 
-    if fmt == "json":
-        content, filename, ctype = build_export_json(items, f"{datatype}_selection.json")
-    else:
-        content, filename, ctype = build_export_tsv(items, f"{datatype}_selection.tsv")
+        all_items = _load_all_items(datatype)
+        items = [it for it in all_items if it["id"] in ids]
 
-    resp = HttpResponse(content, content_type=ctype)
-    resp["Content-Disposition"] = f'attachment; filename="{filename}"'
-    return resp
+        if fmt == "json":
+            content, filename, ctype = build_export_json(items, f"{datatype}_selection.json")
+        else:
+            content, filename, ctype = build_export_tsv(items, f"{datatype}_selection.tsv")
+
+        resp = HttpResponse(content, content_type=ctype)
+        resp["Content-Disposition"] = f'attachment; filename="{filename}"'
+        return resp
 
 
 def _find_investigation_file(study_dir: Path) -> Path | None:
@@ -488,134 +490,144 @@ def _list_study_files(study_dir: Path) -> list[dict[str, Any]]:
     return files
 
 
-def study_files(request: HttpRequest, datatype: str, accession: str) -> HttpResponse:
+class StudyFilesView(View):
     """Render a simple file browser for a study directory on the PVC.
 
     Logs helpful debugging info if something goes wrong.
     """
-    if datatype not in SUPPORTED_TYPES:
-        raise Http404("Unknown data type")
 
-    if not ACCESSION_RE.match(accession):
-        raise Http404("Invalid accession")
+    def get(
+        self, request: HttpRequest, accession: str, *args: object, **kwargs: object
+    ) -> HttpResponse:
+        datatype = str(kwargs["datatype"])
+        if datatype not in SUPPORTED_TYPES:
+            raise Http404("Unknown data type")
 
-    # Ensure DATA_ROOT exists on the cluster
-    if not DATA_ROOT.is_dir():
-        logger.error("DATA_ROOT does not exist or is not a directory: %s", DATA_ROOT)
-        raise Http404("Study storage not available")
+        if not ACCESSION_RE.match(accession):
+            raise Http404("Invalid accession")
 
-    study_dir = DATA_ROOT / accession
-    if not study_dir.is_dir():
-        logger.warning("Study directory not present: %s", study_dir)
-        raise Http404("Study not found on this node")
+        # Ensure DATA_ROOT exists on the cluster
+        if not DATA_ROOT.is_dir():
+            logger.error("DATA_ROOT does not exist or is not a directory: %s", DATA_ROOT)
+            raise Http404("Study storage not available")
 
-    try:
-        files = _list_study_files(study_dir)
-    except Exception as err:
-        logger.exception("Unexpected error listing files for %s/%s", datatype, accession)
-        raise Http404("Could not list files") from err
+        study_dir = DATA_ROOT / accession
+        if not study_dir.is_dir():
+            logger.warning("Study directory not present: %s", study_dir)
+            raise Http404("Study not found on this node")
 
-    return render(
-        request,
-        "portal_data/study_files.html",
-        {
-            "datatype": datatype,
-            "accession": accession,
-            "files": files,
-        },
-    )
+        try:
+            files = _list_study_files(study_dir)
+        except Exception as err:
+            logger.exception("Unexpected error listing files for %s/%s", datatype, accession)
+            raise Http404("Could not list files") from err
+
+        return render(
+            request,
+            "portal_data/study_files.html",
+            {
+                "datatype": datatype,
+                "accession": accession,
+                "files": files,
+            },
+        )
 
 
-def download_study_file(
-    request: HttpRequest,
-    datatype: str,
-    accession: str,
-    relpath: str,
-) -> HttpResponse:
+class DownloadStudyFileView(View):
     """Stream a single file from the study directory.
 
     Protects against path traversal by resolving the requested path and ensuring it is
     inside the study directory. Logs errors to help diagnose cluster 500s.
     """
-    if datatype not in SUPPORTED_TYPES:
-        raise Http404("Unknown data type")
 
-    if not ACCESSION_RE.match(accession):
-        raise Http404("Invalid accession")
+    def get(
+        self,
+        request: HttpRequest,
+        accession: str,
+        relpath: str,
+        *args: object,
+        **kwargs: object,
+    ) -> HttpResponse:
+        datatype = str(kwargs["datatype"])
+        if datatype not in SUPPORTED_TYPES:
+            raise Http404("Unknown data type")
 
-    # relpath may be URL-encoded in the URL; decode it once
-    relpath = unquote(relpath)
-    requested_path = Path(relpath)
+        if not ACCESSION_RE.match(accession):
+            raise Http404("Invalid accession")
 
-    if requested_path.is_absolute():
-        logger.warning("Rejecting absolute relpath request: %s", relpath)
-        raise Http404("Invalid file path")
+        # relpath may be URL-encoded in the URL; decode it once
+        relpath = unquote(relpath)
+        requested_path = Path(relpath)
 
-    # Ensure DATA_ROOT exists
-    if not DATA_ROOT.is_dir():
-        logger.error("DATA_ROOT not available: %s", DATA_ROOT)
-        raise Http404("Study storage not available")
+        if requested_path.is_absolute():
+            logger.warning("Rejecting absolute relpath request: %s", relpath)
+            raise Http404("Invalid file path")
 
-    study_dir = DATA_ROOT / accession
-    if not study_dir.is_dir():
-        logger.warning("Study directory missing for download: %s", study_dir)
-        raise Http404("Study not found on this node")
+        # Ensure DATA_ROOT exists
+        if not DATA_ROOT.is_dir():
+            logger.error("DATA_ROOT not available: %s", DATA_ROOT)
+            raise Http404("Study storage not available")
 
-    try:
-        # Use resolve(strict=False) to avoid raising for strange mount points.
-        # Then verify the resolved path remains inside the study directory.
-        candidate = (study_dir / requested_path).resolve(strict=False)
-        study_dir_resolved = study_dir.resolve(strict=False)
-    except Exception as err:
-        # If resolving fails for some reason, log and abort
-        logger.exception("Path resolution failed for %s %s", study_dir, relpath)
-        raise Http404("Invalid file path") from err
+        study_dir = DATA_ROOT / accession
+        if not study_dir.is_dir():
+            logger.warning("Study directory missing for download: %s", study_dir)
+            raise Http404("Study not found on this node")
 
-    # Ensure the requested file is under the study directory (path traversal protection).
-    if not candidate.is_relative_to(study_dir_resolved):
-        logger.warning(
-            "Path traversal or invalid path detected. study_dir=%s candidate=%s",
-            study_dir_resolved,
-            candidate,
-        )
-        raise Http404("Invalid file path")
-
-    if not candidate.exists() or not candidate.is_file():
-        logger.warning("Requested file not found or not a file: %s", candidate)
-        raise Http404("File not found")
-
-    # Determine content type
-    content_type, _ = mimetypes.guess_type(str(candidate))
-    if content_type is None:
-        content_type = "application/octet-stream"
-
-    stack = ExitStack()
-    try:
-        f = stack.enter_context(candidate.open("rb"))
-    except Exception as err:
-        stack.close()
-        logger.exception("Failed to open file for streaming: %s", candidate)
-        # Return 404 rather than 500 to avoid leaking details to users, but log the exception.
-        raise Http404("File not accessible") from err
-
-    response = FileResponse(
-        f,
-        as_attachment=True,
-        filename=candidate.name,
-        content_type=content_type,
-    )
-
-    # Ensure file closed when response is closed
-    original_close = response.close
-
-    def cleanup_close(*args: object, **kwargs: object) -> None:
         try:
-            original_close(*args, **kwargs)
-        finally:
-            stack.close()
+            # Use resolve(strict=False) to avoid raising for strange mount points.
+            # Then verify the resolved path remains inside the study directory.
+            candidate = (study_dir / requested_path).resolve(strict=False)
+            study_dir_resolved = study_dir.resolve(strict=False)
+        except Exception as err:
+            # If resolving fails for some reason, log and abort
+            logger.exception("Path resolution failed for %s %s", study_dir, relpath)
+            raise Http404("Invalid file path") from err
 
-    response.close = cleanup_close
-    return response
+        # Ensure the requested file is under the study directory (path traversal protection).
+        if not candidate.is_relative_to(study_dir_resolved):
+            logger.warning(
+                "Path traversal or invalid path detected. study_dir=%s candidate=%s",
+                study_dir_resolved,
+                candidate,
+            )
+            raise Http404("Invalid file path")
+
+        if not candidate.exists() or not candidate.is_file():
+            logger.warning("Requested file not found or not a file: %s", candidate)
+            raise Http404("File not found")
+
+        # Determine content type
+        content_type, _ = mimetypes.guess_type(str(candidate))
+        if content_type is None:
+            content_type = "application/octet-stream"
+
+        stack = ExitStack()
+        try:
+            f = stack.enter_context(candidate.open("rb"))
+        except Exception as err:
+            stack.close()
+            logger.exception("Failed to open file for streaming: %s", candidate)
+            # Return 404 rather than 500 to avoid leaking details to users, but log the exception.
+            raise Http404("File not accessible") from err
+
+        response = FileResponse(
+            f,
+            as_attachment=True,
+            filename=candidate.name,
+            content_type=content_type,
+        )
+
+        # Ensure file closed when response is closed
+        original_close = response.close
+
+        def cleanup_close(*cargs: object, **ckwargs: object) -> None:
+            try:
+                original_close(*cargs, **ckwargs)
+            finally:
+                stack.close()
+
+        response.close = cleanup_close
+        return response
 
 
 # ---------------------------------------------------------------------------
