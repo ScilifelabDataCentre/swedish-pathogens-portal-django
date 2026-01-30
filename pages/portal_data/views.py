@@ -6,9 +6,7 @@ import logging
 import mimetypes
 import os
 import re
-import shutil
-import tempfile
-from contextlib import ExitStack, suppress
+from contextlib import ExitStack
 from pathlib import Path
 from typing import Any
 from urllib.parse import unquote
@@ -358,6 +356,7 @@ class ExportSelectedView(View):
     """Export a user-selected subset of items as TSV or JSON."""
 
     def get(self, request: HttpRequest, *args: object, **kwargs: object) -> HttpResponse:
+        """Return a TSV or JSON export for the selected item IDs."""
         datatype = str(kwargs["datatype"])
         if datatype not in SUPPORTED_TYPES:
             return HttpResponseBadRequest("Unknown data type")
@@ -499,6 +498,7 @@ class StudyFilesView(View):
     def get(
         self, request: HttpRequest, accession: str, *args: object, **kwargs: object
     ) -> HttpResponse:
+        """Render a list of files available under the given study accession."""
         datatype = str(kwargs["datatype"])
         if datatype not in SUPPORTED_TYPES:
             raise Http404("Unknown data type")
@@ -548,6 +548,10 @@ class DownloadStudyFileView(View):
         *args: object,
         **kwargs: object,
     ) -> HttpResponse:
+        """Stream a single file from the given study.
+
+        Validating that the path stays within the study directory.
+        """
         datatype = str(kwargs["datatype"])
         if datatype not in SUPPORTED_TYPES:
             raise Http404("Unknown data type")
