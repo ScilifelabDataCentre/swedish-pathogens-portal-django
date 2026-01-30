@@ -12,24 +12,30 @@ from .views import (
 
 app_name = "portal_data"
 
+DEFAULT = {"datatype": "metabolomics"}
+
 urlpatterns = [
-    path("<slug:datatype>/export/", export_selected, name="data_export"),
+    path("export/", export_selected, DEFAULT, name="data_export"),
     path(
-        "<slug:datatype>/<slug:accession>/download/",
+        "<slug:accession>/download/",
         download_study,
+        DEFAULT,
         name="data_download",
     ),
     # Per-study file browser (lists files under the study)
     path(
-        "<slug:datatype>/<slug:accession>/files/",
+        "<slug:accession>/files/",
         study_files,
+        DEFAULT,
         name="data_files",
     ),
     # Download an individual file from a study (relpath may contain slashes)
     path(
-        "<slug:datatype>/<slug:accession>/files/<path:relpath>/",
+        "<slug:accession>/files/<path:relpath>/",
         download_study_file,
+        DEFAULT,
         name="data_file",
     ),
-    path("<slug:datatype>/", DataTypeListView.as_view(), name="data_type_list"),
+    # Root listing page: /portal-data/
+    path("", DataTypeListView.as_view(), DEFAULT, name="data_type_list"),
 ]

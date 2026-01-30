@@ -44,13 +44,6 @@ DATA_ROOT: Path = Path(getattr(settings, "PORTAL_DATA_ROOT", "/datasets")).resol
 
 ACCESSION_RE = re.compile(r"^MTBLS\d+$")
 
-urlpatterns = [
-    path(
-        "",
-        RedirectView.as_view(url="/portal-data/metabolomics/", permanent=False),
-    ),
-]
-
 
 # -------------------------------------------------------------------
 # Helpers to read real data from the PVC
