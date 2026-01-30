@@ -172,9 +172,10 @@ class DashboardsIndex(BaseTemplateView):
                 "image": "dashboards/thumbnails/external/nextstrain_logo.png",
                 "url": "https://nextstrain.org/ncov/open/global/6m?c=country&f_country=Sweden",
                 "description": (
-                    "Phylogenetic and temporal visualisation of global SARS-CoV-2 genomic data over "
-                    "the past six months, with sequences from Sweden highlighted so you can explore " 
-                    "how Swedish viruses relate to worldwide SARS-CoV-2 diversity and spread. "
+                    "Phylogenetic and temporal visualisation of global SARS-CoV-2 "
+                    "genomic data over the past six months, with sequences from Sweden "
+                    "highlighted to help explore how Swedish data relate to worldwide "
+                    "SARS-CoV-2 diversity and spread. "
                 ),
             },
              {
@@ -183,9 +184,9 @@ class DashboardsIndex(BaseTemplateView):
                 "url": "https://nextstrain.org/groups/neherlab/ncov/sweden?c=clade_membership&f_country=Sweden&p=grid&r=division",
                 "description": (
                     "Genomic surveillance visualisation showing the phylogenetic relationships and "
-                    "clade membership of SARS-CoV-2 sequences from Sweden, allowing exploration of how " 
-                    "different viral lineages are distributed across Swedish regions and over time "
-                    "in the context of the global pandemic."
+                    "clade membership of SARS-CoV-2 sequences from Sweden, allowing exploration of  "
+                    "how different viral lineages are distributed across Swedish regions and over  "
+                    "time in the context of the global pandemic."
                 ),
             },
             {
@@ -194,7 +195,7 @@ class DashboardsIndex(BaseTemplateView):
                 "url": "https://nextstrain.org/measles/N450?c=country&f_country=Sweden",
                 "description": (
                     "Phylogenetic visualisation of measles N450 virus sequences, "
-                    "showing measles viruses from Sweden enabling exploration of transmission " 
+                    "showing measles viruses from Sweden enabling exploration of transmission "
                     "patterns and lineage diversity. "
                 ),
             },
@@ -204,7 +205,7 @@ class DashboardsIndex(BaseTemplateView):
                 "url": "https://nextstrain.org/tb/global?f_country=Sweden",
                 "description": (
                     "Mycobacterium tuberculosis genomic data, with Swedish isolates highlighted "
-                    "to help explore their evolutionary relationships, lineages and distribution " 
+                    "to help explore their evolutionary relationships, lineages and distribution "
                     "in the context of worldwide TB diversity. "
                 ),
             },
