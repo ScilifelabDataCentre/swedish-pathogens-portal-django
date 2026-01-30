@@ -41,6 +41,7 @@ page_urls = [
     path("contact/", include("pages.contact.urls")),
     path("dashboards/", include("pages.dashboards.urls")),
     path("highlights-and-editorials/", include("pages.highlights_and_editorials.urls")),
+    path("external-resources/", include("pages.external_resources.urls")),
     path("news/", include("pages.news.urls")),
     path("outbreaks/", include("pages.outbreaks.urls")),
     path("plp-program/", include("pages.plp.urls")),
