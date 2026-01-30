@@ -45,6 +45,7 @@ DJANGO_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.sitemaps",  # provides sitemap class and sitemap view
+    "django.contrib.postgres",
 ]
 
 THIRD_PARTY_APPS = [
