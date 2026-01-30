@@ -101,7 +101,7 @@ class DashboardsIndex(BaseTemplateView):
                 "url": "https://www.folkhalsomyndigheten.se/fall-covid-19/",
                 "description": (
                     "Shows an up-to-date interactive visualisation "
-                    "of the number of confirmed COVID-19 cases in Sweden over time " 
+                    "of the number of confirmed COVID-19 cases in Sweden over time "
                     "(with options to compare by region and other filters)."
                 ),
             },
@@ -111,7 +111,7 @@ class DashboardsIndex(BaseTemplateView):
                 "url": "https://www.folkhalsomyndigheten.se/PCR-covid-19/",
                 "description": (
                     "Visualisation of weekly PCR testing statistics for COVID-19 in Sweden, "
-                    "including the number of individuals tested, PCR tests conducted, " 
+                    "including the number of individuals tested, PCR tests conducted, "
                     "and related breakdowns by age, region and other variables."
                 ),
             },
@@ -121,7 +121,7 @@ class DashboardsIndex(BaseTemplateView):
                 "url": "https://www.folkhalsomyndigheten.se/vaccination-covid-19/",
                 "description": (
                     "COVID-19 vaccination coverage in Sweden, showing numbers and "
-                    "proportions of vaccinated individuals over time, broken down by age group,  " 
+                    "proportions of vaccinated individuals over time, broken down by age group,  "
                     "region, and dose type, using data from the national vaccinations database."
                 ),
             },
@@ -131,7 +131,7 @@ class DashboardsIndex(BaseTemplateView):
                 "url": "https://www.folkhalsomyndigheten.se/faktablad/fall-influensa/",
                 "description": (
                     "Laboratory confirmed influenza cases in Sweden over time, with options "
-                    "to explore trends by region, age group and calendar week based on data  " 
+                    "to explore trends by region, age group and calendar week based on data  "
                     "from the national health data system."
                 ),
             },
@@ -141,8 +141,9 @@ class DashboardsIndex(BaseTemplateView):
                 "url": "https://www.folkhalsomyndigheten.se/faktablad/fall-RS-virus/",
                 "description": (
                     "Shows the statistics of the number of confirmed RS‑virus "
-                    "(respiratory syncytial virus) cases in Sweden over time, allowing " 
-                    "exploration by region, age group and other filters using national surveillance data."
+                    "(respiratory syncytial virus) cases in Sweden over time, allowing "
+                    "exploration by region, age group and other filters using "
+                    "national surveillance data."
                 ),
             },
             {
@@ -151,9 +152,9 @@ class DashboardsIndex(BaseTemplateView):
                 "url": "https://nextstrain.org/avian-flu/h5n1/ha/2y?c=country&f_country=Sweden",
                 "description": (
                     "Phylogenetic visualisation of avian influenza A (H5N1) hemagglutinin (HA) "
-                    "gene sequences from the past two years, highlighting the genetic relationships " 
-                    "and temporal evolution of strains with a filter showing sequences" 
-                    "from Sweden in the global context."
+                    "gene sequences from the past two years, highlighting the genetic "
+                    "relationships and temporal evolution of strains with a filter "
+                    "showing sequences from Sweden in the global context."
                 ),
             },
             {
@@ -161,10 +162,9 @@ class DashboardsIndex(BaseTemplateView):
                 "image": "dashboards/thumbnails/external/nextstrain_logo.png",
                 "url": "https://nextstrain.org/seasonal-flu/h3n2/ha/2y?c=country&f_country=Sweden",
                 "description": (
-                    "Phylogenetic visualisation of the hemagglutinin (HA) gene of seasonal influenza A "
-                    "(H3N2) viruses over the past 2 years, with sequences from Sweden highlighted. " 
-                     
-                    
+                    "Phylogenetic visualisation of the hemagglutinin (HA) "
+                    "gene of seasonal influenza A (H3N2) viruses over the past "
+                    "2 years, with sequences from Sweden highlighted. "
                 ),
             },
             {
