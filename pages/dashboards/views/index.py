@@ -184,8 +184,8 @@ class DashboardsIndex(BaseTemplateView):
                 "url": "https://nextstrain.org/groups/neherlab/ncov/sweden?c=clade_membership&f_country=Sweden&p=grid&r=division",
                 "description": (
                     "Genomic surveillance visualisation showing the phylogenetic relationships and "
-                    "clade membership of SARS-CoV-2 sequences from Sweden, allowing exploration of  "
-                    "how different viral lineages are distributed across Swedish regions and over  "
+                    "clade membership of SARS-CoV-2 sequences from Sweden, allowing exploration of "
+                    "how different viral lineages are distributed across Swedish regions and over "
                     "time in the context of the global pandemic."
                 ),
             },
