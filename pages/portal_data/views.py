@@ -43,7 +43,7 @@ ACCESSION_RE = re.compile(r"^MTBLS\d+$")
 # -------------------------------------------------------------------
 
 
-class DataTypeListView(View):
+class DataTypeList(View):
     """List available studies for a given data type with faceted search."""
 
     template_name = "portal_data/index.html"
@@ -101,7 +101,7 @@ class DataTypeListView(View):
         return render(request, self.template_name, ctx)
 
 
-class StudyFilesView(View):
+class StudyFiles(View):
     """Render a simple file browser for a study directory on the PVC.
 
     Logs helpful debugging info if something goes wrong.
@@ -145,7 +145,7 @@ class StudyFilesView(View):
         )
 
 
-class DownloadStudyFileView(View):
+class DownloadStudyFile(View):
     """Stream a single file from the study directory.
 
     Protects against path traversal by resolving the requested path and ensuring it is

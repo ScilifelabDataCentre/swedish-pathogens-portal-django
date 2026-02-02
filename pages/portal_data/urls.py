@@ -3,9 +3,9 @@
 from django.urls import path
 
 from .views import (
-    DataTypeListView,
-    DownloadStudyFileView,
-    StudyFilesView,
+    DataTypeList,
+    DownloadStudyFile,
+    StudyFiles,
 )
 
 app_name = "portal_data"
@@ -16,17 +16,17 @@ urlpatterns = [
     # Per-study file browser (lists files under the study)
     path(
         "<slug:accession>/files/",
-        StudyFilesView.as_view(),
+        StudyFiles.as_view(),
         DEFAULT,
         name="data_files",
     ),
     # Download an individual file from a study (relpath may contain slashes)
     path(
         "<slug:accession>/files/<path:relpath>/",
-        DownloadStudyFileView.as_view(),
+        DownloadStudyFile.as_view(),
         DEFAULT,
         name="data_file",
     ),
     # Root listing page: /portal-data/
-    path("", DataTypeListView.as_view(), DEFAULT, name="data_type_list"),
+    path("", DataTypeList.as_view(), DEFAULT, name="data_type_list"),
 ]
