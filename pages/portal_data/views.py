@@ -18,8 +18,6 @@ from django.shortcuts import render
 from django.views import View
 from django.views.generic import TemplateView
 
-from .services import build_export_json, build_export_tsv
-
 logger = logging.getLogger("pages.portal_data.views")
 
 SUPPORTED_TYPES = {
@@ -212,6 +210,8 @@ def _build_facets(
     facet_names: list[str],
     filters: dict[str, list[str]] | None,
     datatype: str,
+    *,
+    use_cache: bool = True,
 ) -> dict[str, list[dict[str, Any]]]:
     """Build facet buckets for a given datatype.
 
@@ -230,14 +230,15 @@ def _build_facets(
 
     # Include datatype and facet_names in the cache key
     cache_key = f"facets_{datatype}_{hash(str(sorted(facet_names)))}"
-    cached: dict[str, list[dict[str, Any]]] | None = cache.get(cache_key)
-    if cached is not None:
-        # Update "checked" flags based on current filters before returning
-        for facet, buckets in cached.items():
-            active_values = set(filters.get(facet, []))
-            for bucket in buckets:
-                bucket["checked"] = str(bucket["value"]) in active_values
-        return cached
+    if use_cache:
+        cached: dict[str, list[dict[str, Any]]] | None = cache.get(cache_key)
+        if cached is not None:
+            # Update "checked" flags based on current filters before returning
+            for facet, buckets in cached.items():
+                active_values = set(filters.get(facet, []))
+                for bucket in buckets:
+                    bucket["checked"] = str(bucket["value"]) in active_values
+            return cached
 
     facets: dict[str, list[dict[str, Any]]] = {}
 
@@ -282,7 +283,8 @@ def _build_facets(
             for value, count in buckets
         ]
 
-    cache.set(cache_key, facets, timeout=3600)
+    if use_cache:
+        cache.set(cache_key, facets, timeout=3600)
     return facets
 
 
@@ -320,16 +322,17 @@ class DataTypeListView(TemplateView):
         # Load from PVC
         all_items = _load_all_items(datatype)
 
-        # Build facets from full set
-        facets = _build_facets(
-            items=all_items,
-            facet_names=facet_names,
-            filters=filters,
-            datatype=datatype,  # from view / query_data_backend
-        )
-
         # Apply filters + search
         filtered_items = _apply_search_and_filters(all_items, q, filters)
+
+        # Build facets from the current result set so they track search/filters
+        facets = _build_facets(
+            items=filtered_items,
+            facet_names=facet_names,
+            filters=filters,
+            datatype=datatype,
+            use_cache=(not q and not filters),
+        )
 
         # Simple paging
         start = (page - 1) * size
