@@ -13,10 +13,9 @@ from urllib.parse import unquote
 
 from django.conf import settings
 from django.core.cache import cache
-from django.http import FileResponse, Http404, HttpRequest, HttpResponse, HttpResponseBadRequest
+from django.http import FileResponse, Http404, HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.views import View
-from django.views.generic import TemplateView
 
 logger = logging.getLogger("pages.portal_data.views")
 
@@ -35,7 +34,7 @@ SUPPORTED_TYPES = {
 }
 
 # Root where the PVC is mounted in the web container
-DATA_ROOT: Path = Path(getattr(settings, "PORTAL_DATA_ROOT", "/datasets")).resolve()
+DATA_ROOT = Path(settings.DATASETS_ROOT).resolve()
 
 ACCESSION_RE = re.compile(r"^MTBLS\d+$")
 
@@ -293,31 +292,27 @@ def _build_facets(
 # -------------------------------------------------------------------
 
 
-class DataTypeListView(TemplateView):
+class DataTypeListView(View):
     """List available studies for a given data type with faceted search."""
 
     template_name = "portal_data/index.html"
 
-    def get_context_data(self, **kwargs: object) -> dict[str, object]:
+    def get(self, request: HttpRequest, *args: object, **kwargs: object) -> HttpResponse:
         """Build template context for the study list page."""
-        ctx = super().get_context_data(**kwargs)
+        ctx: dict[str, object] = {}
         datatype = str(kwargs["datatype"])
 
         if datatype not in SUPPORTED_TYPES:
             ctx["error"] = f"Unknown data type: {datatype}"
-            return ctx
+            return render(request, self.template_name, ctx)
 
-        q = self.request.GET.get("q", "").strip()
-        page = max(int(self.request.GET.get("page", "1")), 1)
-        size = max(int(self.request.GET.get("size", "25")), 1)
-        facet_names = (
-            self.request.GET.getlist("facet") or SUPPORTED_TYPES[datatype]["default_facets"]
-        )
+        q = request.GET.get("q", "").strip()
+        page = max(int(request.GET.get("page", "1")), 1)
+        size = max(int(request.GET.get("size", "25")), 1)
+        facet_names = request.GET.getlist("facet") or SUPPORTED_TYPES[datatype]["default_facets"]
 
         filter_fields = facet_names
-        filters = {
-            f: self.request.GET.getlist(f) for f in filter_fields if self.request.GET.getlist(f)
-        }
+        filters = {f: request.GET.getlist(f) for f in filter_fields if request.GET.getlist(f)}
 
         # Load from PVC
         all_items = _load_all_items(datatype)
@@ -325,12 +320,12 @@ class DataTypeListView(TemplateView):
         # Apply filters + search
         filtered_items = _apply_search_and_filters(all_items, q, filters)
 
-        # Build facets from the current result set so they track search/filters
+        # Build facets from the current result set (so facets update when search/filters change)
         facets = _build_facets(
             items=filtered_items,
             facet_names=facet_names,
             filters=filters,
-            datatype=datatype,
+            datatype=datatype,  # from view / query_data_backend
             use_cache=(not q and not filters),
         )
 
@@ -352,7 +347,7 @@ class DataTypeListView(TemplateView):
                 "size": size,
             }
         )
-        return ctx
+        return render(request, self.template_name, ctx)
 
 
 def _find_investigation_file(study_dir: Path) -> Path | None:
