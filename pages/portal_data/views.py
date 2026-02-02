@@ -50,8 +50,8 @@ class DataTypeList(View):
 
     def get(self, request: HttpRequest, *args: object, **kwargs: object) -> HttpResponse:
         """Build template context for the study list page."""
-        ctx: dict[str, object] = {}
         datatype = str(kwargs["datatype"])
+        ctx: dict[str, object] = {}
 
         if datatype not in SUPPORTED_TYPES:
             ctx["error"] = f"Unknown data type: {datatype}"
@@ -84,6 +84,9 @@ class DataTypeList(View):
         start = (page - 1) * size
         end = start + size
         page_items = filtered_items[start:end]
+
+        has_facets = any(bool(buckets) for buckets in facets.values())
+        ctx["has_facets"] = has_facets
 
         ctx.update(
             {
