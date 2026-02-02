@@ -129,12 +129,12 @@
         </div>
     </div>
 
-    <!-- Mobile Menu (agreed structure: mirrors desktop) -->
+    <!-- Mobile Menu (agreed structure: mirrors desktop); scrollable when content overflows -->
     <nav id="mobile-menu"
-         class="lg:hidden hidden fixed inset-0 z-40 bg-white overflow-y-auto text-base pt-4 lg:pt-20"
+         class="lg:hidden hidden fixed inset-0 z-40 bg-white overflow-y-auto overflow-x-hidden text-base pt-4 lg:pt-20 min-h-0 [-webkit-overflow-scrolling:touch] [overscroll-behavior-y:contain]"
          role="navigation"
          aria-label="Mobile navigation">
-        <div class="container mx-auto max-w-7xl lg:px-6 py-4">
+        <div class="container mx-auto max-w-7xl lg:px-6 py-4 pb-8">
             <!-- Close menu button (visible inside overlay) -->
             <div class="flex justify-end">
                 <button
