@@ -352,34 +352,6 @@ class DataTypeListView(TemplateView):
         return ctx
 
 
-class ExportSelectedView(View):
-    """Export a user-selected subset of items as TSV or JSON."""
-
-    def get(self, request: HttpRequest, *args: object, **kwargs: object) -> HttpResponse:
-        """Return a TSV or JSON export for the selected item IDs."""
-        datatype = str(kwargs["datatype"])
-        if datatype not in SUPPORTED_TYPES:
-            return HttpResponseBadRequest("Unknown data type")
-
-        fmt = request.GET.get("format", "tsv")
-        ids = request.GET.getlist("ids")
-
-        if not ids:
-            return HttpResponseBadRequest("No IDs selected")
-
-        all_items = _load_all_items(datatype)
-        items = [it for it in all_items if it["id"] in ids]
-
-        if fmt == "json":
-            content, filename, ctype = build_export_json(items, f"{datatype}_selection.json")
-        else:
-            content, filename, ctype = build_export_tsv(items, f"{datatype}_selection.tsv")
-
-        resp = HttpResponse(content, content_type=ctype)
-        resp["Content-Disposition"] = f'attachment; filename="{filename}"'
-        return resp
-
-
 def _find_investigation_file(study_dir: Path) -> Path | None:
     """Prefer the latest investigation file under METADATA_REVISIONS, falling back to top-level."""
     rev_root = study_dir / "METADATA_REVISIONS"

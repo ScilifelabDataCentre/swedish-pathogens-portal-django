@@ -129,7 +129,6 @@
           {{ error }}
         </p>
       {% else %}
-        <form id="bulkForm" action="{% url 'portal_data:data_export' datatype=datatype %}" method="get" class="space-y-4">
           <!-- Cards -->
           <ul class="grid grid-cols-1 gap-4 md:grid-cols-1">
             {% for it in items %}
@@ -138,12 +137,7 @@
     <h3 class="text-xl text-pp-almost-black">
       {{ it.title }}
     </h3>
-    <label class="inline-flex items-center gap-2 text-sm text-pp-dark-grey">
-      <input type="checkbox"
-             class="selectRow h-4 w-4 rounded border-pp-pale-grey text-pp-mid-blue focus:ring-pp-mid-blue/50"
-             value="{{ it.id }}">
-      <span class="sr-only">Select</span>
-    </label>
+
   </div>
 
   {#Description with truncation and HTML rendering #}
@@ -243,26 +237,7 @@
           </ul>
 
           <!-- Toolbar (moved below the cards so "results" appear after the list) -->
-          <div class="rounded border border-pp-pale-grey bg-white p-3 text-sm shadow-sm">
-            <div class="flex items-center justify-between">
-              <div class="text-pp-dark-grey">
-                {{ total }} results
-              </div>
-              <div class="flex items-center gap-2">
-                <input type="hidden" name="ids" value="" />
-                <button type="button"
-                        onclick="bulkExport('tsv')"
-                        class="inline-flex items-center justify-center rounded border border-pp-pale-grey bg-white px-3 py-2 text-sm font-medium text-pp-dark-grey hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-pp-pale-grey/50">
-                  Export TSV
-                </button>
-                <button type="button"
-                        onclick="bulkExport('json')"
-                        class="inline-flex items-center justify-center rounded bg-pp-teal px-3 py-2 text-sm font-medium text-black shadow-sm hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-pp-teal/30">
-                  Export JSON
-                </button>
-              </div>
-            </div>
-          </div>
+
         </form>
       {% endif %}
     </main>
@@ -271,14 +246,7 @@
 
 
 <script>
-function bulkExport(fmt) {
-  const ids = [...document.querySelectorAll('.selectRow:checked')].map(x => x.value);
-  if (!ids.length) { alert('Select at least one row.'); return; }
-  const url = new URL("{% url 'portal_data:data_export' datatype=datatype %}", window.location.origin);
-  url.searchParams.set('format', fmt);
-  ids.forEach(id => url.searchParams.append('ids', id));
-  window.location = url.toString();
-}
+
 
 // Description "Show more / Show less" toggling
 document.addEventListener('click', function (event) {
