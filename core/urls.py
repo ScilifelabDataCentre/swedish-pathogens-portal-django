@@ -44,6 +44,7 @@ page_urls = [
     path("data-management/", include("pages.data_management.urls")),
     path("news/", include("pages.news.urls")),
     path("outbreaks/", include("pages.outbreaks.urls")),
+    path("portal-data/", include("pages.portal_data.urls")),
     path("privacy/", include("pages.privacy.urls")),
     path("publications/", include("pages.publications.urls")),
     path("register-based-research/", include("pages.register_based_research.urls")),
