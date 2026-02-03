@@ -13,13 +13,8 @@ app_name = "portal_data"
 DEFAULT = {"datatype": "metabolomics"}
 
 urlpatterns = [
-    # Per-study file browser (lists files under the study)
-    path(
-        "<slug:accession>/files/",
-        StudyFiles.as_view(),
-        DEFAULT,
-        name="data_files",
-    ),
+    # Root listing page: /portal-data/
+    path("", DataTypeList.as_view(), DEFAULT, name="index"),
     # Download an individual file from a study (relpath may contain slashes)
     path(
         "<slug:accession>/files/<path:relpath>/",
@@ -27,6 +22,11 @@ urlpatterns = [
         DEFAULT,
         name="data_file",
     ),
-    # Root listing page: /portal-data/
-    path("", DataTypeList.as_view(), DEFAULT, name="data_type_list"),
+    # Per-study file browser (lists files under the study)
+    path(
+        "<slug:accession>/files/",
+        StudyFiles.as_view(),
+        DEFAULT,
+        name="data_files",
+    ),
 ]
