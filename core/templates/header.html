@@ -37,6 +37,9 @@
                         id="rdm-menu"
                         role="menu"
                         class="absolute left-0 mt-2 min-w-64 max-h-[70vh] overflow-y-auto bg-white border border-gray-200 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible [.group:focus-within_&]:opacity-100 [.group:focus-within_&]:visible transition-all">
+                        <a href="{% url 'data_management:index' %}"
+                            role="menuitem"
+                            class="block px-4 py-3 text-pp-mid-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2 focus-visible:bg-pp-pale-grey">Research Data Management</a>
                         <a href="#"
                             role="menuitem"
                             class="block px-4 py-3 text-pp-mid-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2 focus-visible:bg-pp-pale-grey">Share data</a>
@@ -220,6 +223,7 @@
                         </svg>
                     </summary>
                     <ul class="mt-1 ml-2 space-y-1 border-l-2 border-pp-pale-grey pl-4">
+                        <li><a href="{% url 'data_management:index' %}" class="flex items-center min-h-[44px] px-2 py-2 text-pp-mid-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2">Research Data Management</a></li>
                         <li><a href="#" class="flex items-center min-h-[44px] px-2 py-2 text-pp-mid-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2">Share data</a></li>
                         <li><a href="#" class="flex items-center min-h-[44px] px-2 py-2 text-pp-mid-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2">Data repositories</a></li>
                         <li><a href="#" class="flex items-center min-h-[44px] px-2 py-2 text-pp-mid-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2">Data Sources</a></li>
