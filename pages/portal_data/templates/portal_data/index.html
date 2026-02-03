@@ -4,7 +4,7 @@
 {% endblock %}
 
 {% block content %}
-<section class="container px-4 lg:px-6">
+<section>
    <!-- Header / Search -->
    <header class="mb-6 lg:mb-8">
        <h1>{{ datatype_label }} data</h1>
@@ -37,14 +37,14 @@
     <!-- Main layout -->
     <div class="grid grid-cols-1 gap-6 lg:grid-cols-12">
     <!-- Facets / Sidebar -->
-    <aside class="lg:col-span-3">
+    <aside class="lg:col-span-3 space-y-4">
 
     <!-- Facet groups -->
     {% if has_facets %}
         {% for f, buckets in facets.items %}
             {% if buckets %}
                 <details open
-                   class="mt-4 rounded border border-pp-pale-grey bg-white p-4 shadow-sm">
+                   class=" rounded border border-pp-pale-grey bg-white p-4 shadow-sm">
                 <summary class="cursor-pointer text-sm font-semibold capitalize text-pp-almost-black">
             {{ f }}
             </summary>
