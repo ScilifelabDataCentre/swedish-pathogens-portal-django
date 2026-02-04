@@ -85,8 +85,10 @@ def _segment_to_item(
 ) -> BreadcrumbItem:
     """Build a single breadcrumb item for one path segment."""
     is_active = i == len(path_segments) - 1
+    # Django URLs use trailing slashes; resolve() needs path with trailing slash to match.
+    path_to_resolve = current_path + "/" if not current_path.endswith("/") else current_path
     try:
-        resolved = resolve(current_path)
+        resolved = resolve(path_to_resolve)
         name = _get_breadcrumb_name(resolved, segment, request if is_active else None)
         try:
             full_url_name = (
