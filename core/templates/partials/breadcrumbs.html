@@ -1,11 +1,11 @@
 {% comment %}
-    Breadcrumbs navigation component.
+    Breadcrumbs navigation component (partial).
 
     Displays a breadcrumb trail showing the user's location within the site.
     Only renders when breadcrumbs are available (not on homepage).
 
     Usage:
-        {% include "breadcrumbs.html" %}
+        {% include "partials/breadcrumbs.html" %}
 
     Accessibility:
         - Uses semantic <nav> element with aria-label
@@ -20,9 +20,9 @@
         {% for item in breadcrumbs %}
         <li class="flex items-center">
             {% if not item.is_active %}
-            <a href="{{ item.url }}" 
-               class="text-pp-mid-blue hover:text-pp-dark-blue hover:underline 
-                      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2 
+            <a href="{{ item.url }}"
+               class="text-pp-mid-blue hover:text-pp-dark-blue hover:underline
+                      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2
                       rounded transition-colors duration-150">
                 {{ item.name }}
             </a>
