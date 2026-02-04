@@ -18,11 +18,15 @@ SHELL ["sh", "-exc"]
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Install curl and CA certs, clean in same layer (no development tools here)
+# Explicitly upgrade openssl to ensure latest security patches (CVE-2025-15467)
+# https://github.com/ScilifelabDataCentre/swedish-pathogens-portal/security/code-scanning/156
 RUN apt-get update --quiet --assume-yes \
  && apt-get upgrade --quiet --assume-yes \
  && apt-get install --quiet --assume-yes --no-install-recommends \
         curl \
         ca-certificates \
+        openssl \
+        openssl-provider-legacy \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -144,11 +148,15 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PATH=/app/.venv/bin:$PATH
 
 # Install runtime libraries required by psycopg[c] and clean up
+# Explicitly upgrade openssl to ensure latest security patches (CVE-2025-15467)
+# https://github.com/ScilifelabDataCentre/swedish-pathogens-portal/security/code-scanning/156
 RUN apt-get update --quiet --assume-yes \
  && apt-get upgrade --quiet --assume-yes \
  && apt-get install --quiet --assume-yes --no-install-recommends \
         libpq5 \
         ca-certificates \
+        openssl \
+        openssl-provider-legacy \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
