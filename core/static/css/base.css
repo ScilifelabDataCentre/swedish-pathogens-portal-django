@@ -82,7 +82,7 @@
     }
 
     p {
-        @apply my-4 wrap-break-word hyphens-auto text-pretty;
+        @apply my-4 wrap-break-word hyphens-none text-pretty;
     }
 }
 
