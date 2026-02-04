@@ -56,6 +56,11 @@ class BreadcrumbItem:
     is_active: bool = False
 
 
+def _is_homepage(request: HttpRequest) -> bool:
+    """Return True if the request is for the site homepage (no breadcrumbs)."""
+    return request.path == "/"
+
+
 def get_breadcrumbs(request: HttpRequest) -> list[BreadcrumbItem]:
     """Generate breadcrumbs based on current request.
 
@@ -90,17 +95,10 @@ def get_breadcrumbs(request: HttpRequest) -> list[BreadcrumbItem]:
             #     BreadcrumbItem(name="COVID-19", url="/topics/covid-19/", is_active=True)
             # ]
     """
+    if _is_homepage(request):
+        return []
+
     path = request.path
-
-    # Homepage should not have breadcrumbs
-    if path == "/":
-        try:
-            resolved = resolve(path)
-            if resolved.url_name == "index" and resolved.namespace == "home":
-                return []
-        except Resolver404:
-            pass
-
     breadcrumbs_list: list[BreadcrumbItem] = []
 
     # Always start with Home (except on homepage, which we already handled)
