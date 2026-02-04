@@ -189,7 +189,7 @@
     {% for group in category_groups %}
     <section class="mt-8 first:mt-0" id="category-{{ group.value }}">
         <div class="flex items-baseline justify-between mb-4">
-            <h5 class="m-0 text-lg font-bold text-pp-dark-blue">
+            <h5 class="m-0 text-lg font-bold">
                 {{ group.label }}
             </h5>
         </div>
@@ -215,7 +215,7 @@
 
                     <!-- Content -->
                     <div class="p-5 flex flex-col grow">
-                        <h5 class="mt-0 mb-2 font-bold">
+                        <h6 class="mt-0 mb-2 font-bold">
                             <a href="{{ project.get_absolute_url }}">
                                 {{ project.title }}
                             </a>
