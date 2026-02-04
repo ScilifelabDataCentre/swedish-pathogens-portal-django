@@ -1,0 +1,56 @@
+"""Views for COVID Quantification GU dashboard page."""
+
+from django.http import HttpRequest, HttpResponse
+from django.shortcuts import render
+from django.views import View
+
+from ..visualisation.utils import fetch_plot_json_blobserver, plot_html_from_json
+
+
+class HistoricCovidQuantificationGu(View):
+    """Historic SARS-CoV-2 wastewater quantification dashboard (GU).
+
+    Renders the dashboard for historic SARS-CoV-2 wastewater quantification data
+    from the University of Gothenburg (GU). Combines both historic (method used
+    until May 2023) and updated (method used from May 2023) visualizations.
+
+    Attributes:
+        template_name: Template for rendering the dashboard.
+        title: Title displayed in the rendered page's banner section.
+        description: Description to be used in the HTML's head.
+    """
+
+    template_name = "dashboards/historic_covid_quantification_gu.html"
+    title = "Amount of SARS-CoV-2 in wastewater (GU)"
+    description = (
+        "This project is led by Professor Helene Norder (University of Gothenburg, "
+        "GU), and supported by co-workers from the University of Gothenburg and "
+        "Sahlgrenska University Hospital (Hao Wang, Marianela Patzi Churqui, Timur "
+        "Tunovic, Fredy Saguti, and Kristina Nyström). The wastewater sample collections "
+        "were performed by Lucica Enache at Ryaverket, Gryaab AB, Gothenburg."
+    )
+
+    def get(self, request: HttpRequest) -> HttpResponse:
+        """Fetch the compiled plot data (JSON) and generate plot html string."""
+
+        context = {
+            "title": self.title,
+            "description": self.description,
+        }
+
+        wastewater_blobs = [
+            "wastewater_gothenburg",
+            "historic_wastewater_gothenburg",
+        ]
+
+        for blob in wastewater_blobs:
+            # TODO: plot data to be fetch from DB
+            blob_data = fetch_plot_json_blobserver(f"{blob}.json")
+            if blob_data is not None:
+                context[blob] = plot_html_from_json(
+                    blob_data,
+                    height="500px",
+                    skip_invalid=True,
+                )
+
+        return render(request, self.template_name, context)

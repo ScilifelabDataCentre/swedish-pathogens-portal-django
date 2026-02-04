@@ -8,6 +8,8 @@ from .views import (
     CrushCovid,
     DashboardsIndex,
     HistoricCovidPublications,
+    HistoricCovidQuantificationGu,
+    HistoricEntericQuantificationGu,
     HistoricInfluenza,
     HistoricSarsCov2Wastewater,
     LineageCompetition,
@@ -53,6 +55,11 @@ urlpatterns = [
         name="historic_covid_publications",
     ),
     path(
+        "historic-covid-quantification-gu/",
+        HistoricCovidQuantificationGu.as_view(),
+        name="historic_covid_quantification_gu",
+    ),
+    path(
         "covid-quantification-kth/",
         CovidQuantificationKth.as_view(),
         name="covid_quantification_kth",
@@ -61,6 +68,11 @@ urlpatterns = [
         "crush-covid/",
         CrushCovid.as_view(),
         name="crush_covid",
+    ),
+    path(
+        "historic-enteric-quantification-gu/",
+        HistoricEntericQuantificationGu.as_view(),
+        name="historic_enteric_quantification_gu",
     ),
     path(
         "historic-sarscov2-wastewater/",

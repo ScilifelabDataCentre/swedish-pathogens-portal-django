@@ -157,6 +157,19 @@ class DashboardsIndex(BaseTemplateView):
                 ),
             },
             {
+                "name": "Amount of SARS-CoV-2 in wastewater (GU)",
+                "image": "dashboards/thumbnails/covid_quantification_kth.png",
+                "url": reverse_lazy("dashboards:historic_covid_quantification_gu"),
+                "description": (
+                    "This project is led by Professor Helene Norder (University of Gothenburg, "
+                    "GU), and supported by co-workers from the University of Gothenburg and "
+                    "Sahlgrenska University Hospital (Hao Wang, Marianela Patzi Churqui, Timur "
+                    "Tunovic, Fredy Saguti, and Kristina Nyström). The wastewater sample "
+                    "collections were performed by Lucica Enache at Ryaverket, "
+                    "Gryaab AB, Gothenburg."
+                ),
+            },
+            {
                 "name": "Amount of SARS-CoV-2 in wastewater (SEEC-KTH)",
                 "image": "dashboards/thumbnails/covid_quantification_kth.png",
                 "url": reverse_lazy("dashboards:covid_quantification_kth"),
@@ -175,6 +188,17 @@ class DashboardsIndex(BaseTemplateView):
                 "description": (
                     "Historic SARS-CoV-2 wastewater data from SEEC-SLU, including "
                     "nationwide sites plus Umeå and Örebro visualisations."
+                ),
+            },
+            {
+                "name": "Wastewater: Enteric Virus Quantification (GU)",
+                "image": "dashboards/thumbnails/wastewater_enteric_virus.png",
+                "url": reverse_lazy("dashboards:historic_enteric_quantification_gu"),
+                "description": (
+                    "Enteric virus levels in Gothenburg's wastewater, including "
+                    "norovirus and adenovirus. Data from the Norder group's weekly "
+                    "analysis at Ryaverket WWTP helps predict outbreaks and includes "
+                    "samples from surrounding municipalities."
                 ),
             },
         ],
