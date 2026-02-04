@@ -17,7 +17,7 @@ class PlpProjectAdmin(admin.ModelAdmin):
 
     list_display = ("title", "category", "is_active", "created_at", "updated_at")
     list_filter = ("category", "is_active", "created_at", "updated_at")
-    search_fields = ("title", "summary", "content")
+    search_fields = ("title", "content")
     prepopulated_fields = {"slug": ("title",)}
     readonly_fields = ("updated_at",)
     actions = ["activate_projects", "deactivate_projects"]
@@ -25,7 +25,7 @@ class PlpProjectAdmin(admin.ModelAdmin):
     fieldsets = (
         (
             "Basic Information",
-            {"fields": ("title", "slug", "category", "summary")},
+            {"fields": ("title", "slug", "category")},
         ),
         ("Content", {"fields": ("content",)}),
         ("Media", {"fields": ("featured_image",)}),

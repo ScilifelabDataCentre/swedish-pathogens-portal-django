@@ -20,7 +20,6 @@ class PlpProject(models.Model):
         title (str): Project title (e.g. 'Multi-disease serology').
         slug (str): URL-friendly identifier.
         category (str): Project category (e.g. PLP1, PLP2, TDP).
-        summary (str): Short blurb shown on cards and listings (plain text).
         content (str): Full markdown content for the project detail page.
         featured_image (ImageField): Featured image for the project.
         created_at (datetime): Creation timestamp (defaults to now).
@@ -58,7 +57,6 @@ class PlpProject(models.Model):
         choices=CATEGORY_CHOICES,
         help_text="Project category (e.g. PLP1, PLP2, TDP)",
     )
-    summary = models.TextField(help_text="Short blurb shown on cards and listings (plain text)")
     content = models.TextField(help_text="Full markdown content for the project detail page")
     featured_image = models.ImageField(
         upload_to="plp/projects/",
