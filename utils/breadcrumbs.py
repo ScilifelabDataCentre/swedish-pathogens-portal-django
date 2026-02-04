@@ -18,12 +18,12 @@ Example:
 """
 
 from dataclasses import dataclass
-from typing import Optional
 
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.http import Http404, HttpRequest
 from django.urls import NoReverseMatch, resolve, reverse
 from django.urls.exceptions import Resolver404
+from django.urls.resolvers import ResolverMatch
 from django.views.generic import DetailView
 
 from utils.breadcrumb_names import BREADCRUMB_NAME_MAPPING
@@ -101,7 +101,10 @@ def _segment_to_item(
             url = current_path + "/"
     except Resolver404:
         name = _format_segment_name(segment)
-        url = current_path + "/" if i < len(path_segments) - 1 else (path if path.endswith("/") else current_path)
+        if i < len(path_segments) - 1:
+            url = current_path + "/"
+        else:
+            url = path if path.endswith("/") else current_path
     return BreadcrumbItem(name=name, url=url, is_active=is_active)
 
 
@@ -132,14 +135,14 @@ def get_breadcrumbs(request: HttpRequest) -> list[BreadcrumbItem]:
     current_path = ""
     for i, segment in enumerate(path_segments):
         current_path += f"/{segment}"
-        items.append(
-            _segment_to_item(path, path_segments, i, segment, current_path, request)
-        )
+        items.append(_segment_to_item(path, path_segments, i, segment, current_path, request))
 
     return items
 
 
-def _get_breadcrumb_name(resolved, segment: str, request: Optional[HttpRequest] = None) -> str:
+def _get_breadcrumb_name(
+    resolved: ResolverMatch, segment: str, request: HttpRequest | None = None
+) -> str:
     """Get display name for breadcrumb from resolved URL.
 
     Attempts to get a meaningful display name from the resolved URL using
@@ -224,7 +227,7 @@ def _format_app_name(namespace: str) -> str:
     return namespace.replace("_", " ").title()
 
 
-def _get_object_name_from_view(resolved, request: HttpRequest) -> Optional[str]:
+def _get_object_name_from_view(resolved: ResolverMatch, request: HttpRequest) -> str | None:
     """Extract object name from detail view for the current page breadcrumb.
 
     We instantiate the view and call get_object() so we reuse the view's

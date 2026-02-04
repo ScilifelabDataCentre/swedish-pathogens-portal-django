@@ -11,10 +11,8 @@ To add a new URL name:
     2. No changes needed in utils.breadcrumbs; it imports BREADCRUMB_NAME_MAPPING.
 """
 
-from typing import Optional
-
 # URL name (namespace:name or name) → display name, or None for detail views
-BREADCRUMB_NAME_MAPPING: dict[str, Optional[str]] = {
+BREADCRUMB_NAME_MAPPING: dict[str, str | None] = {
     # Home
     "home:index": "Home",
     # Topics
@@ -38,9 +36,7 @@ BREADCRUMB_NAME_MAPPING: dict[str, Optional[str]] = {
     "dashboards:historic_enteric_quantification_gu": "Amount of enteric virus in wastewater (GU)",
     "dashboards:historic_sarscov2_wastewater": "Historic SARS-CoV-2 wastewater data (SEEC-SLU)",
     "dashboards:historic_influenza": "Historic data of influenza virus in wastewater (SLU)",
-    "dashboards:npc_statistics": (
-        "National Pandemic Centre SARS-CoV-2 (COVID-19) test statistics"
-    ),
+    "dashboards:npc_statistics": ("National Pandemic Centre SARS-CoV-2 (COVID-19) test statistics"),
     "dashboards:post_covid": "Post COVID-19 condition in Sweden: statistics and available data",
     "dashboards:recovac": "Register-based COVID-19 vaccination study (RECOVAC)",
     "dashboards:symptom_study_sweden": "COVID Symptom Study Sweden",
