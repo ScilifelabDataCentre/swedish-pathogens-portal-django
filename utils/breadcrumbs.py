@@ -25,6 +25,8 @@ from django.urls import NoReverseMatch, resolve, reverse
 from django.urls.exceptions import Resolver404
 from django.views.generic import DetailView
 
+from utils.breadcrumb_names import BREADCRUMB_NAME_MAPPING
+
 
 @dataclass
 class BreadcrumbItem:
@@ -193,10 +195,8 @@ def _get_breadcrumb_name(resolved, segment: str, request: Optional[HttpRequest] 
     full_url_name = f"{namespace}:{url_name}" if namespace else url_name
 
     # Check if we have a mapping for this URL name
-    # Use a helper to check both existence and value
-    mapping = _get_url_name_mapping_dict()
-    if full_url_name in mapping:
-        mapped_name = mapping[full_url_name]
+    if full_url_name in BREADCRUMB_NAME_MAPPING:
+        mapped_name = BREADCRUMB_NAME_MAPPING[full_url_name]
         # If mapping explicitly returns None, it's a detail view (use object name)
         if mapped_name is None:
             # Try to get object name from view if request is available (current page)
@@ -215,90 +215,6 @@ def _get_breadcrumb_name(resolved, segment: str, request: Optional[HttpRequest] 
 
     # Fallback to formatted segment
     return _format_segment_name(segment)
-
-
-def _get_url_name_mapping_dict() -> dict[str, Optional[str]]:
-    """Get the URL name to display name mapping dictionary.
-
-    Returns the complete mapping of URL names to display names.
-    None values indicate detail views that should use object names.
-
-    Returns:
-        Dictionary mapping URL names to display names or None.
-    """
-    # Comprehensive URL name to display name mapping
-    return {
-        # Home
-        "home:index": "Home",
-        # Topics
-        "topics:index": "Topics",
-        "topics:topic_detail": None,  # Will use object name
-        # Articles
-        "articles:index": "Articles",
-        "articles:detail": None,  # Will use object name
-        # Dashboards
-        "dashboards:index": "Dashboards",
-        "dashboards:lineage_competition": "Lineage Competition",
-        "dashboards:multidisease_serology": "Multi-disease Serology",
-        "dashboards:serology_statistics": "Serology Statistics",
-        "dashboards:variants_region_uppsala": "Variants Region Uppsala",
-        "dashboards:historic_covid_publications": "Historic COVID Publications",
-        "dashboards:covid_quantification_kth": "COVID Quantification KTH",
-        "dashboards:crush_covid": "Crush COVID",
-        "dashboards:historic_sarscov2_wastewater": "Historic SARS-CoV-2 Wastewater",
-        "dashboards:historic_influenza": "Historic Influenza",
-        "dashboards:npc_statistics": "NPC Statistics",
-        "dashboards:post_covid": "Post COVID",
-        "dashboards:recovac": "RECOVAC",
-        "dashboards:symptom_study_sweden": "Symptom Study Sweden",
-        "dashboards:vaccines": "Vaccines",
-        # News
-        "news:index": "News",
-        "news:detail": None,  # Will use object name
-        # Outbreaks
-        "outbreaks:index": "Outbreaks",
-        "outbreaks:detail": None,  # Will use object name
-        # Publications
-        "publications:index": "Publications",
-        # About
-        "about:index": "About",
-        "about:partners": "Partners",
-        "about:funders": "Funders",
-        "about:nodes": "Pathogens Portal Nodes",
-        # Data Management
-        "data_management:index": "Data Management",
-        # Register Based Research
-        "register_based_research:index": "Register Based Research",
-        # Citation
-        "citation:index": "Citation",
-        # Contact
-        "contact:index": "Contact",
-        # Privacy
-        "privacy:index": "Privacy",
-    }
-
-
-def _get_name_from_url_mapping(url_name: str) -> Optional[str]:
-    """Get display name from URL name mapping.
-
-    Maps URL names to user-friendly display names. Returns None for
-    detail views, which should use object names instead (handled in Commit 6).
-
-    Args:
-        url_name: Full URL name (e.g., "topics:index", "articles:detail").
-
-    Returns:
-        Display name if mapping exists, None otherwise. None is returned
-        for detail views to indicate object name should be used.
-
-    Example:
-        >>> _get_name_from_url_mapping("topics:index")
-        "Topics"
-        >>> _get_name_from_url_mapping("topics:topic_detail")
-        None  # Will use object name
-    """
-    mapping = _get_url_name_mapping_dict()
-    return mapping.get(url_name)
 
 
 def _format_segment_name(segment: str) -> str:
