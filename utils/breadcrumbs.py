@@ -20,7 +20,8 @@ Example:
 from dataclasses import dataclass
 from typing import Optional
 
-from django.http import HttpRequest
+from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
+from django.http import Http404, HttpRequest
 from django.urls import NoReverseMatch, resolve, reverse
 from django.urls.exceptions import Resolver404
 from django.views.generic import DetailView
@@ -249,16 +250,12 @@ def _format_app_name(namespace: str) -> str:
 
 
 def _get_object_name_from_view(resolved, request: HttpRequest) -> Optional[str]:
-    """Extract object name from detail view.
+    """Extract object name from detail view for the current page breadcrumb.
 
-    Checks if the resolved view is a DetailView and attempts to get
-    the object name. This is used for the current page breadcrumb
-    to show the actual object name instead of a generic label.
-
-    The function instantiates the view class and calls get_object()
-    to retrieve the object. If this fails (e.g., object doesn't exist,
-    requires authentication), it returns None and falls back to
-    formatted segment name.
+    We instantiate the view and call get_object() so we reuse the view's
+    queryset and lookup logic (e.g. is_active, slug) instead of
+    duplicating it here. Caller falls back to formatted segment if this
+    returns None.
 
     Args:
         resolved: Resolved URL object from Django's resolve().
@@ -266,49 +263,27 @@ def _get_object_name_from_view(resolved, request: HttpRequest) -> Optional[str]:
 
     Returns:
         Object name string if available, None otherwise.
-
-    Example:
-        For a topic detail page, returns the topic's name:
-        >>> _get_object_name_from_view(resolved, request)
-        "COVID-19"
     """
     view_class = resolved.func
 
-    # Check if view is a DetailView (or BaseDetailView which inherits from DetailView)
-    # Handle both class-based views and function views
-    if not isinstance(view_class, type):
-        return None
-
-    if not issubclass(view_class, DetailView):
+    if not isinstance(view_class, type) or not issubclass(view_class, DetailView):
         return None
 
     try:
-        # Instantiate the view
         view = view_class()
-
-        # Set up the view with request and URL kwargs
-        # Django 3.2+ has setup() method, older versions need manual setup
         if hasattr(view, "setup"):
             view.setup(request, *resolved.args, **resolved.kwargs)
         else:
-            # Manual setup for older Django versions
             view.request = request
             view.args = resolved.args
             view.kwargs = resolved.kwargs
 
-        # Try to get the object using get_object method
-        # This will trigger the view's queryset filtering and object retrieval
         if hasattr(view, "get_object"):
             obj = view.get_object()
             if obj:
                 return str(obj)
-    except Exception:
-        # Silently fail if we can't get the object
-        # This can happen if:
-        # - Object doesn't exist (404)
-        # - View requires authentication
-        # - Object is not active (filtered out)
-        # - Other view-specific errors
+    except (Http404, PermissionDenied, ObjectDoesNotExist):
+        # Object not found, no permission, or filtered out (e.g. is_active=False).
         return None
 
     return None
