@@ -1,19 +1,20 @@
 """Home page view and context logic."""
 
 import logging
-from typing import Any
 
+from django.http import HttpRequest, HttpResponse
+from django.shortcuts import render
 from django.urls import reverse_lazy
+from django.views import View
 
 from pages.articles.models import Article
 from pages.news.models import News
 from pages.topics.models import Topic
-from utils.views import BaseTemplateView
 
 logger = logging.getLogger(__name__)
 
 
-class Home(BaseTemplateView):
+class Home(View):
     """Home page view displaying dashboards, articles, topics, and news.
 
     This view fetches and displays:
@@ -22,32 +23,25 @@ class Home(BaseTemplateView):
     - Active topics (3 most recent active topics)
     - Latest news (5 most recent active news items)
 
-    The view overrides get_context_data to populate the template context
-    with dashboard data, filtered content from the database, and the page title.
-
     Attributes:
         template_name (str): Path to the home page template
         title (str): Page title for SEO and context
+        description (str): Page description for SEO and context
     """
 
     template_name = "home/index.html"
     title = "Swedish Pathogens Portal: supporting pandemic preparedness"
+    description = (
+        "The Swedish Pathogens Portal provides information about available datasets, resources, "
+        "tools, and services related to pandemic preparedness in Sweden. We offer support to all "
+        "those involved in pandemic preparedness research that are affiliated with a Swedish "
+        "research institution or university."
+    )
 
-    def get_context_data(self, **kwargs: object) -> dict[str, Any]:
-        """Add dashboards, topics, articles, and news to template context.
+    def get(self, request: HttpRequest) -> HttpResponse:
+        """Handle GET requests for the home page."""
 
-        Fetches active content from the database and hardcoded dashboard
-        information, then adds them to the context for template rendering.
-
-        Returns:
-            dict: Context data containing:
-                - dashboards: List of dashboard dictionaries with name, image, url, description
-                - topics: QuerySet of 3 most recent active topics
-                - articles: QuerySet of 3 most recent active articles
-                - news: QuerySet of 5 most recent active news items
-                - title: Page title (from BaseTemplateView)
-        """
-        context = super().get_context_data(**kwargs)
+        context = {"title": self.title, "description": self.description}
 
         # Fetch active dashboards with thumbnails
         context["dashboards"] = [
@@ -86,4 +80,4 @@ class Home(BaseTemplateView):
         context["articles"] = Article.objects.filter(is_active=True).order_by("-created_at")[:3]
         context["news"] = News.objects.filter(is_active=True).order_by("-created_at")[:5]
 
-        return context
+        return render(request, self.template_name, context)

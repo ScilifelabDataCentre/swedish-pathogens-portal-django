@@ -3,5 +3,8 @@
 {% block content %}
     <p>Sorry, that page cannot be found.</p>
 
-    <p><a href="{% url 'home:index' %}" class="text-pp-mid-blue hover:underline rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2">Back to the homepage</a></p>
+    <a href="{% url 'home:index' %}"
+        class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:rounded">
+        Back to the homepage
+    </a>
 {% endblock %}

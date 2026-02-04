@@ -1,29 +1,38 @@
 {% load static %}
 
-<header class="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
-    <div class="container mx-auto max-w-7xl px-0">
+<header class="bg-white border-b border-pp-pale-grey sticky top-0 z-50 shadow-sm">
+    <div class="container">
         <div class="flex items-center justify-between h-16 lg:h-20 w-full">
             <!-- Logos: left-aligned, minimal gutter on mobile; full spacing on desktop -->
-            <div class="flex items-center gap-2 lg:gap-6 min-w-0 shrink-0">
-                <a href="{% url 'home:index' %}" class="flex items-center rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2 shrink-0">
-                    <img src="{% static 'images/swe_pathogens_logo.svg' %}" alt="Swedish Pathogens Portal" class="h-8 lg:h-10 w-auto">
+            <div class="flex items-center gap-2 lg:gap-5 min-w-0 shrink-0">
+                <a href="{% url 'home:index' %}" class="focus-visible:rounded focus-visible:outline-none
+                    focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2">
+                    <img src="{% static 'images/swe_pathogens_logo.svg' %}" alt="Swedish Pathogens Portal"
+                    class="h-7 lg:h-10 w-auto">
                 </a>
-                <div class="h-6 lg:h-8 w-px bg-gray-300 shrink-0" aria-hidden="true"></div>
-                <a href="https://www.scilifelab.se/" target="_blank" rel="noopener" class="flex items-center rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2 shrink-0">
-                    <img src="{% static 'images/SciLifeLab_logo.svg' %}" alt="SciLifeLab" class="h-6 lg:h-8 w-auto">
+                <div class="h-6 lg:h-9 w-px bg-gray-300" aria-hidden="true"></div>
+                <a href="https://www.scilifelab.se/" target="_blank" rel="noopener" class="focus-visible:rounded
+                    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2">
+                    <img src="{% static 'images/SciLifeLab_logo.svg' %}" alt="SciLifeLab" class="h-6 lg:h-8.5 w-auto">
                 </a>
             </div>
 
             <!-- Desktop Navigation (agreed menu structure) -->
-            <nav class="hidden lg:flex items-center gap-6 text-base" aria-label="Main navigation">
+            <nav class="hidden lg:flex items-center gap-6" aria-label="Main navigation">
                 <!-- Dashboards (direct) -->
                 <a href="{% url 'dashboards:index' %}"
-                    class="text-pp-dark-blue font-medium hover:text-pp-teal transition-colors py-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2 rounded">Dashboards</a>
+                    class="text-pp-dark-blue font-medium hover:text-pp-teal transition-colors
+                    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal
+                    focus-visible:ring-offset-2 focus-visible:rounded">
+                    Dashboards
+                </a>
 
                 <!-- Data Management dropdown -->
                 <div class="relative group">
                     <button
-                        class="flex items-center gap-1 text-pp-dark-blue font-medium hover:text-pp-teal transition-colors py-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2 rounded"
+                        class="flex items-center gap-1 text-pp-dark-blue font-medium hover:text-pp-teal
+                        transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal
+                        focus-visible:ring-offset-2 focus-visible:rounded"
                         aria-expanded="false"
                         aria-haspopup="true"
                         aria-controls="rdm-menu"
@@ -33,52 +42,47 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
                     </button>
-                    <div
-                        id="rdm-menu"
-                        role="menu"
-                        class="absolute left-0 mt-2 min-w-64 max-h-[70vh] overflow-y-auto bg-white border border-gray-200 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible [.group:focus-within_&]:opacity-100 [.group:focus-within_&]:visible transition-all">
-                        <a href="{% url 'data_management:index' %}"
-                            role="menuitem"
-                            class="block px-4 py-3 text-pp-mid-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2 focus-visible:bg-pp-pale-grey">Research Data Management</a>
-                        <a href="#"
-                            role="menuitem"
-                            class="block px-4 py-3 text-pp-mid-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2 focus-visible:bg-pp-pale-grey">Share data</a>
-                        <a href="#"
-                            role="menuitem"
-                            class="block px-4 py-3 text-pp-mid-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2 focus-visible:bg-pp-pale-grey">Data repositories</a>
-                        <a href="#"
-                            role="menuitem"
-                            class="block px-4 py-3 text-pp-mid-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2 focus-visible:bg-pp-pale-grey">Data Sources</a>
-                        <a href="#"
-                            role="menuitem"
-                            class="block px-4 py-3 text-pp-mid-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2 focus-visible:bg-pp-pale-grey">Available datasets</a>
-                        <a href="#"
-                            role="menuitem"
-                            class="block px-4 py-3 text-pp-mid-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2 focus-visible:bg-pp-pale-grey">COVID-19 biobanks samples</a>
-                        <a href="{% url 'register_based_research:index' %}"
-                            role="menuitem"
-                            class="block px-4 py-3 text-pp-mid-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2 focus-visible:bg-pp-pale-grey">Register-based data</a>
-                        <a href="#"
-                            role="menuitem"
-                            class="block px-4 py-3 text-pp-mid-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2 focus-visible:bg-pp-pale-grey">Tools catalogue</a>
-                        <a href="#"
-                            role="menuitem"
-                            class="block px-4 py-3 text-pp-mid-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2 focus-visible:bg-pp-pale-grey">Services catalogue</a>
+                    <div id="rdm-menu" role="menu"
+                        class="absolute left-0 pt-2 min-w-64 max-h-[70vh] overflow-y-auto opacity-0 invisible
+                        group-hover:opacity-100 group-hover:visible [.group:focus-within_&]:opacity-100
+                        [.group:focus-within_&]:visible transition-all">
+                        <div class="flex flex-col bg-white border border-gray-200 rounded-lg p-2 shadow-lg
+                             *:p-2 *:text-pp-mid-blue *:hover:bg-pp-pale-grey/20 *:hover:text-pp-teal *:transition-colors *:focus-visible:outline-none *:focus-visible:ring-2 *:focus-visible:ring-offset-2 *:focus-visible:bg-pp-pale-grey">
+                            <a href="{% url 'data_management:index' %}" role="menuitem">Research Data Management</a>
+                            <a href="#" role="menuitem">Share data</a>
+                            <a href="#" role="menuitem">Data repositories</a>
+                            <a href="#" role="menuitem">Data Sources</a>
+                            <a href="#" role="menuitem">Available datasets</a>
+                            <a href="#" role="menuitem">COVID-19 biobanks samples</a>
+                            <a href="{% url 'register_based_research:index' %}" role="menuitem">Register-based data</a>
+                            <a href="#" role="menuitem">Tools catalogue</a>
+                            <a href="#" role="menuitem">Services catalogue</a>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Outbreaks (direct) -->
                 <a href="{% url 'outbreaks:index' %}"
-                    class="text-pp-dark-blue font-medium hover:text-pp-teal transition-colors py-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2 rounded">Outbreaks</a>
+                    class="text-pp-dark-blue font-medium hover:text-pp-teal transition-colors
+                    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal
+                    focus-visible:ring-offset-2 focus-visible:rounded">
+                    Outbreaks
+                </a>
 
                 <!-- Topics (direct) -->
                 <a href="{% url 'topics:index' %}"
-                    class="text-pp-dark-blue font-medium hover:text-pp-teal transition-colors py-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2 rounded">Topics</a>
+                    class="text-pp-dark-blue font-medium hover:text-pp-teal transition-colors
+                    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal
+                    focus-visible:ring-offset-2 focus-visible:rounded">
+                    Topics
+                </a>
 
                 <!-- Research Efforts dropdown -->
                 <div class="relative group">
                     <button
-                        class="flex items-center gap-1 text-pp-dark-blue font-medium hover:text-pp-teal transition-colors py-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2 rounded"
+                        class="flex items-center gap-1 text-pp-dark-blue font-medium hover:text-pp-teal
+                        transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal
+                        focus-visible:ring-offset-2 focus-visible:rounded"
                         aria-expanded="false"
                         aria-haspopup="true"
                         aria-controls="research-efforts-menu"
@@ -88,26 +92,27 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
                     </button>
-                    <div
-                        id="research-efforts-menu"
-                        role="menu"
-                        class="absolute left-0 mt-2 w-56 bg-white border border-gray-200 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible [.group:focus-within_&]:opacity-100 [.group:focus-within_&]:visible transition-all">
-                        <a href="#"
-                            role="menuitem"
-                            class="block px-4 py-3 text-pp-mid-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2 focus-visible:bg-pp-pale-grey">SciLifeLab PLP program</a>
-                        <a href="{% url 'publications:index' %}"
-                            role="menuitem"
-                            class="block px-4 py-3 text-pp-mid-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2 focus-visible:bg-pp-pale-grey">Publications</a>
-                        <a href="{% url 'articles:index' %}"
-                            role="menuitem"
-                            class="block px-4 py-3 text-pp-mid-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2 focus-visible:bg-pp-pale-grey">Data Highlights & Editorials</a>
+                    <div id="research-efforts-menu" role="menu"
+                        class="absolute left-0 pt-2 w-56 opacity-0 invisible group-hover:opacity-100
+                        group-hover:visible [.group:focus-within_&]:opacity-100
+                        [.group:focus-within_&]:visible transition-all">
+                        <div class="flex flex-col bg-white border border-gray-200 rounded-lg p-2 shadow-lg
+                             *:p-2 *:text-pp-mid-blue *:hover:bg-pp-pale-grey/20 *:hover:text-pp-teal
+                             *:transition-colors *:focus-visible:outline-none *:focus-visible:ring-2
+                             *:focus-visible:ring-offset-2 *:focus-visible:bg-pp-pale-grey">
+                            <a href="#" role="menuitem">SciLifeLab PLP program</a>
+                            <a href="{% url 'publications:index' %}" role="menuitem">Publications</a>
+                            <a href="{% url 'articles:index' %}" role="menuitem">Data Highlights & Editorials</a>
+                        </div>
                     </div>
                 </div>
 
                 <!-- About dropdown -->
                 <div class="relative group">
                     <button
-                        class="flex items-center gap-1 text-pp-dark-blue font-medium hover:text-pp-teal transition-colors py-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2 rounded"
+                        class="flex items-center gap-1 text-pp-dark-blue font-medium hover:text-pp-teal
+                        transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal
+                        focus-visible:ring-offset-2 focus-visible:rounded"
                         aria-expanded="false"
                         aria-haspopup="true"
                         aria-controls="about-menu"
@@ -117,22 +122,19 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
                     </button>
-                    <div
-                        id="about-menu"
-                        role="menu"
-                        class="absolute left-0 mt-2 min-w-48 bg-white border border-gray-200 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible [.group:focus-within_&]:opacity-100 [.group:focus-within_&]:visible transition-all">
-                        <a href="{% url 'about:index' %}"
-                            role="menuitem"
-                            class="block px-4 py-3 text-pp-mid-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2 focus-visible:bg-pp-pale-grey">About Swedish Pathogens Portal</a>
-                        <a href="{% url 'about:funders' %}"
-                            role="menuitem"
-                            class="block px-4 py-3 text-pp-mid-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2 focus-visible:bg-pp-pale-grey">Funders</a>
-                        <a href="{% url 'about:partners' %}"
-                            role="menuitem"
-                            class="block px-4 py-3 text-pp-mid-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2 focus-visible:bg-pp-pale-grey">Partners</a>
-                        <a href="{% url 'contact:contact' %}"
-                            role="menuitem"
-                            class="block px-4 py-3 text-pp-mid-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2 focus-visible:bg-pp-pale-grey">Contact Us</a>
+                    <div id="about-menu" role="menu"
+                        class="absolute left-0 pt-2 min-w-48 opacity-0 invisible group-hover:opacity-100
+                        group-hover:visible [.group:focus-within_&]:opacity-100
+                        [.group:focus-within_&]:visible transition-all">
+                        <div class="flex flex-col bg-white border border-gray-200 rounded-lg p-2 shadow-lg
+                             *:p-2 *:text-pp-mid-blue *:hover:bg-pp-pale-grey/20 *:hover:text-pp-teal
+                             *:transition-colors *:focus-visible:outline-none *:focus-visible:ring-2
+                             *:focus-visible:ring-offset-2 *:focus-visible:bg-pp-pale-grey">
+                            <a href="{% url 'about:index' %}" role="menuitem">About Swedish Pathogens Portal</a>
+                            <a href="{% url 'about:funders' %}" role="menuitem">Funders</a>
+                            <a href="{% url 'about:partners' %}" role="menuitem">Partners</a>
+                            <a href="{% url 'contact:contact' %}" role="menuitem">Contact Us</a>
+                        </div>
                     </div>
                 </div>
             </nav>
@@ -141,7 +143,8 @@
             <div class="lg:hidden ml-auto lg:pr-0 shrink-0">
                 <button
                     id="mobile-menu-button"
-                    class="text-pp-dark-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2 rounded py-2 pr-0 pl-2"
+                    class="text-pp-dark-blue focus-visible:outline-none focus-visible:ring-2
+                    focus-visible:ring-offset-2 focus-visible:rounded py-2 pr-0 pl-2"
                     aria-label="Open navigation menu"
                     aria-expanded="false"
                     aria-controls="mobile-menu"
@@ -151,10 +154,6 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M4 6h16M4 12h16M4 18h16"></path>
                     </svg>
-                    <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
                 </button>
             </div>
         </div>
@@ -162,95 +161,123 @@
 
     <!-- Mobile Menu (agreed structure: mirrors desktop); scrollable when content overflows -->
     <nav id="mobile-menu"
-         class="lg:hidden hidden fixed inset-0 z-40 bg-white overflow-y-auto overflow-x-hidden text-base pt-4 lg:pt-20 min-h-0 [-webkit-overflow-scrolling:touch] [overscroll-behavior-y:contain]"
+         class="lg:hidden hidden fixed inset-0 z-40 bg-white overflow-y-auto overflow-x-hidden pt-4 lg:pt-20
+         min-h-0 [-webkit-overflow-scrolling:touch] overscroll-y-contain"
          role="navigation"
          aria-label="Mobile navigation">
-        <div class="container mx-auto max-w-7xl lg:px-6 py-4 pb-8">
+        <div class="container p-6">
             <!-- Close menu button (visible inside overlay) -->
-            <div class="flex justify-end">
-                <button
-                    type="button"
-                    onclick="toggleMobileMenu()"
-                    class="flex items-center gap-2 min-h-[44px] px-4 py-3 text-pp-dark-blue font-medium hover:bg-pp-pale-grey hover:text-pp-teal rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2"
-                    aria-label="Close navigation menu">
-                    <span>Close menu</span>
-                    <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
-            </div>
+            <button
+                type="button"
+                onclick="toggleMobileMenu()"
+                class="flex items-center gap-2 ml-auto text-pp-dark-blue font-medium focus-visible:rounded
+                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+                aria-label="Close navigation menu">
+                <span>Close menu</span>
+                <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+            <hr class="my-4 border-pp-pale-grey">
             <!-- Direct links: Dashboards, Outbreaks, Topics (touch targets ≥44px) -->
-            <ul class="space-y-1 mb-4" aria-label="Main links">
-                <li>
+            <div class="flex flex-col gap-4" aria-label="Main links">
+
+                <!-- Dashboards -->
+                <div>
                     <a href="{% url 'dashboards:index' %}"
-                        class="flex items-center min-h-[44px] px-4 py-3 text-pp-mid-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2">Dashboards</a>
-                </li>
-                <li>
+                    class="text-pp-dark-blue font-medium uppercase tracking-wider focus-visible:rounded
+                    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2">
+                    Dashboards
+                    </a>
+                </div>
+
+                <!-- Data Management (collapsible) -->
+                <div role="group" aria-label="Data Management">
+                    <details class="group/details">
+                        <summary class="flex items-center text-pp-dark-blue font-medium uppercase tracking-wider
+                        list-none focus-visible:rounded focus-visible:outline-none focus-visible:ring-2
+                        focus-visible:ring-offset-2 [&::-webkit-details-marker]:hidden">
+                            <span>Data Management</span>
+                            <svg class="w-4 h-4 ml-2 transition-transform group-open/details:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </summary>
+                        <ul class="flex flex-col gap-3 border-l-2 border-pp-pale-grey mt-2 ml-4 pl-4
+                           *:text-pp-mid-blue *:focus-visible:outline-none *:focus-visible:ring-2
+                            *:focus-visible:ring-offset-2 *:focus-visible:rounded">
+                            <li><a href="{% url 'data_management:index' %}">Research Data Management</a></li>
+                            <li><a href="#">Share data</a></li>
+                            <li><a href="#">Data repositories</a></li>
+                            <li><a href="#">Data Sources</a></li>
+                            <li><a href="#">Available datasets</a></li>
+                            <li><a href="#">COVID-19 biobanks samples</a></li>
+                            <li><a href="{% url 'register_based_research:index' %}">Register-based data</a></li>
+                            <li><a href="#">Tools catalogue</a></li>
+                            <li><a href="#">Services catalogue</a></li>
+                        </ul>
+                    </details>
+                </div>
+
+                <!-- Outbreaks -->
+                <div>
                     <a href="{% url 'outbreaks:index' %}"
-                        class="flex items-center min-h-[44px] px-4 py-3 text-pp-mid-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2">Outbreaks</a>
-                </li>
-                <li>
+                        class="text-pp-dark-blue font-medium uppercase tracking-wider focus-visible:rounded
+                        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2">
+                        Outbreaks
+                    </a>
+                </div>
+
+                <!-- Topics -->
+                <div>
                     <a href="{% url 'topics:index' %}"
-                        class="flex items-center min-h-[44px] px-4 py-3 text-pp-mid-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2">Topics</a>
-                </li>
-            </ul>
+                        class="text-pp-dark-blue font-medium uppercase tracking-wider focus-visible:rounded
+                        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2">
+                        Topics
+                    </a>
+                </div>
+    
+                <!-- Research Efforts (collapsible) -->
+                <div role="group" aria-label="Research Efforts">
+                    <details class="group/details">
+                        <summary class="flex items-center text-pp-dark-blue font-medium uppercase tracking-wider
+                        list-none focus-visible:rounded focus-visible:outline-none focus-visible:ring-2
+                        focus-visible:ring-offset-2 [&::-webkit-details-marker]:hidden">
+                            <span>Research Efforts</span>
+                            <svg class="w-4 h-4 ml-2 transition-transform group-open/details:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </summary>
+                        <ul class="flex flex-col gap-3 border-l-2 border-pp-pale-grey mt-2 ml-4 pl-4
+                           *:text-pp-mid-blue *:focus-visible:outline-none *:focus-visible:ring-2
+                            *:focus-visible:ring-offset-2 *:focus-visible:rounded">
+                            <li><a href="#">SciLifeLab PLP program</a></li>
+                            <li><a href="{% url 'publications:index' %}">Publications</a></li>
+                            <li><a href="{% url 'articles:index' %}">Data Highlights & Editorials</a></li>
+                        </ul>
+                    </details>
+                </div>
 
-            <!-- About (collapsible): About, Contact, Funders, Partners -->
-            <div class="mb-4" role="group" aria-label="About">
-                <details class="group/details">
-                    <summary class="flex items-center min-h-[44px] px-4 py-3 font-bold text-pp-dark-blue uppercase tracking-wider list-none cursor-pointer hover:bg-pp-pale-grey hover:text-pp-teal rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2 [&::-webkit-details-marker]:hidden">
-                        <span>About</span>
-                        <svg class="w-4 h-4 ml-2 transition-transform group-open/details:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                        </svg>
-                    </summary>
-                    <ul class="mt-1 ml-2 space-y-1 border-l-2 border-pp-pale-grey pl-4">
-                        <li><a href="{% url 'about:index' %}" class="flex items-center min-h-[44px] px-2 py-2 text-pp-mid-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2">About Swedish Pathogens Portal</a></li>
-                        <li><a href="{% url 'about:funders' %}" class="flex items-center min-h-[44px] px-2 py-2 text-pp-mid-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2">Funders</a></li>
-                        <li><a href="{% url 'about:partners' %}" class="flex items-center min-h-[44px] px-2 py-2 text-pp-mid-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2">Partners</a></li>
-                        <li><a href="{% url 'contact:contact' %}" class="flex items-center min-h-[44px] px-2 py-2 text-pp-mid-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2">Contact Us</a></li>
-                    </ul>
-                </details>
-            </div>
-
-            <!-- Data Management (collapsible) -->
-            <div class="mb-4" role="group" aria-label="Data Management">
-                <details class="group/details">
-                    <summary class="flex items-center min-h-[44px] px-4 py-3 font-bold text-pp-dark-blue uppercase tracking-wider list-none cursor-pointer hover:bg-pp-pale-grey hover:text-pp-teal rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2 [&::-webkit-details-marker]:hidden">
-                        <span>Data Management</span>
-                        <svg class="w-4 h-4 ml-2 transition-transform group-open/details:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                        </svg>
-                    </summary>
-                    <ul class="mt-1 ml-2 space-y-1 border-l-2 border-pp-pale-grey pl-4">
-                        <li><a href="{% url 'data_management:index' %}" class="flex items-center min-h-[44px] px-2 py-2 text-pp-mid-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2">Research Data Management</a></li>
-                        <li><a href="#" class="flex items-center min-h-[44px] px-2 py-2 text-pp-mid-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2">Share data</a></li>
-                        <li><a href="#" class="flex items-center min-h-[44px] px-2 py-2 text-pp-mid-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2">Data repositories</a></li>
-                        <li><a href="#" class="flex items-center min-h-[44px] px-2 py-2 text-pp-mid-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2">Data Sources</a></li>
-                        <li><a href="#" class="flex items-center min-h-[44px] px-2 py-2 text-pp-mid-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2">Available datasets</a></li>
-                        <li><a href="#" class="flex items-center min-h-[44px] px-2 py-2 text-pp-mid-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2">COVID-19 biobanks samples</a></li>
-                        <li><a href="{% url 'register_based_research:index' %}" class="flex items-center min-h-[44px] px-2 py-2 text-pp-mid-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2">Register-based data</a></li>
-                        <li><a href="#" class="flex items-center min-h-[44px] px-2 py-2 text-pp-mid-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2">Tools catalogue</a></li>
-                        <li><a href="#" class="flex items-center min-h-[44px] px-2 py-2 text-pp-mid-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2">Services catalogue</a></li>
-                    </ul>
-                </details>
-            </div>
-
-            <!-- Research Efforts (collapsible) -->
-            <div class="mb-4" role="group" aria-label="Research Efforts">
-                <details class="group/details">
-                    <summary class="flex items-center min-h-[44px] px-4 py-3 font-bold text-pp-dark-blue uppercase tracking-wider list-none cursor-pointer hover:bg-pp-pale-grey hover:text-pp-teal rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2 [&::-webkit-details-marker]:hidden">
-                        <span>Research Efforts</span>
-                        <svg class="w-4 h-4 ml-2 transition-transform group-open/details:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                        </svg>
-                    </summary>
-                    <ul class="mt-1 ml-2 space-y-1 border-l-2 border-pp-pale-grey pl-4">
-                        <li><a href="#" class="flex items-center min-h-[44px] px-2 py-2 text-pp-mid-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2">SciLifeLab PLP program</a></li>
-                        <li><a href="{% url 'publications:index' %}" class="flex items-center min-h-[44px] px-2 py-2 text-pp-mid-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2">Publications</a></li>
-                        <li><a href="{% url 'articles:index' %}" class="flex items-center min-h-[44px] px-2 py-2 text-pp-mid-blue hover:bg-pp-pale-grey hover:text-pp-teal transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2">Data Highlights & Editorials</a></li>
-                    </ul>
-                </details>
+                <!-- About (collapsible): About, Contact, Funders, Partners -->
+                <div role="group" aria-label="About">
+                    <details class="group/details">
+                        <summary class="flex items-center text-pp-dark-blue font-medium uppercase tracking-wider
+                        list-none focus-visible:rounded focus-visible:outline-none focus-visible:ring-2
+                        focus-visible:ring-offset-2 [&::-webkit-details-marker]:hidden">
+                            <span>About</span>
+                            <svg class="w-4 h-4 ml-2 transition-transform group-open/details:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </summary>
+                        <ul class="flex flex-col gap-3 border-l-2 border-pp-pale-grey mt-2 ml-4 pl-4
+                           *:text-pp-mid-blue *:focus-visible:outline-none *:focus-visible:ring-2
+                            *:focus-visible:ring-offset-2 *:focus-visible:rounded">
+                            <li><a href="{% url 'about:index' %}">About Swedish Pathogens Portal</a></li>
+                            <li><a href="{% url 'about:funders' %}">Funders</a></li>
+                            <li><a href="{% url 'about:partners' %}">Partners</a></li>
+                            <li><a href="{% url 'contact:contact' %}">Contact Us</a></li>
+                        </ul>
+                    </details>
+                </div>
             </div>
         </div>
     </nav>
@@ -260,7 +287,6 @@
             const menu = document.getElementById('mobile-menu');
             const button = document.getElementById('mobile-menu-button');
             const menuIcon = document.getElementById('menu-icon');
-            const closeIcon = document.getElementById('close-icon');
             const body = document.body;
             const isExpanded = button.getAttribute('aria-expanded') === 'true';
 
@@ -269,7 +295,6 @@
                 button.setAttribute('aria-expanded', 'false');
                 button.setAttribute('aria-label', 'Open navigation menu');
                 menuIcon.classList.remove('hidden');
-                closeIcon.classList.add('hidden');
                 // Re-enable body scrolling
                 body.style.overflow = '';
             } else {
@@ -277,23 +302,10 @@
                 button.setAttribute('aria-expanded', 'true');
                 button.setAttribute('aria-label', 'Close navigation menu');
                 menuIcon.classList.add('hidden');
-                closeIcon.classList.remove('hidden');
                 // Prevent body scrolling when menu is open
                 body.style.overflow = 'hidden';
             }
         }
-
-        // Close menu when clicking outside or on a link
-        document.addEventListener('click', function(event) {
-            const menu = document.getElementById('mobile-menu');
-            const button = document.getElementById('mobile-menu-button');
-            
-            if (!menu.contains(event.target) && !button.contains(event.target)) {
-                if (!menu.classList.contains('hidden')) {
-                    toggleMobileMenu();
-                }
-            }
-        });
 
         // Close menu on Escape key
         document.addEventListener('keydown', function(event) {
