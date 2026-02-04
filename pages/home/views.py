@@ -1,6 +1,10 @@
 """Views for the home page."""
 
+import structlog
+
 from utils.views import BaseTemplateView
+
+logger = structlog.get_logger(__name__)
 
 
 class Home(BaseTemplateView):
@@ -8,3 +12,5 @@ class Home(BaseTemplateView):
 
     template_name = "home/index.html"
     title = "Swedish Pathogens Portal: supporting pandemic preparedness"
+
+    logger.info("Home view initialized")

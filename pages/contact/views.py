@@ -7,12 +7,13 @@ Django's email backend.
 
 from __future__ import annotations
 
-import logging
 import os
 import secrets
 import time
 from typing import Any
 
+# logger = logging.getLogger("pages.contact.views")
+import structlog
 from django.conf import settings
 from django.contrib import messages
 from django.core.mail import EmailMessage
@@ -22,7 +23,8 @@ from django.views.generic.edit import FormView
 
 from .forms import CONTACT_TS_SIGNER, ContactForm
 
-logger = logging.getLogger("pages.contact.views")
+logger = structlog.get_logger(__name__)
+logger.info("Contact views module loaded")
 
 
 class ContactFormView(FormView):
@@ -50,6 +52,8 @@ class ContactFormView(FormView):
         Sets the signed timestamp and double-submit token as hidden fields and
         sets a HttpOnly cookie (`contact_dsc`).
         """
+
+        logger.info("HHEEELLOOOOO")
         form = self.get_form()
         signed_ts, dsc_token = self._generate_tokens()
         form.initial.update(
@@ -132,6 +136,7 @@ class ContactFormView(FormView):
 
     def form_invalid(self, form: ContactForm) -> HttpResponse:
         """Log a reason code without personal information and re-render the form."""
+        logger.info("HHEEELLOOOOO INVALID")
         reason = getattr(form, "_blocked_reason", None) or "VALIDATION_ERROR"
         self.logger.warning("event=contact_submit outcome=blocked reason=%s", reason)
         # Re-issue tokens and cookie so user can retry without reload

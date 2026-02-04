@@ -179,10 +179,19 @@ LOGGING = {
             "formatter": "plain_console",
         },
         "json_file": {
-            "class": "logging.TimedRotatingFileHandler",
+            "class": "logging.handlers.TimedRotatingFileHandler",
             "formatter": "json_formatter",
-            "filename": BASE_DIR / "logs" / "app.log",
+            "filename": str(BASE_DIR / "app.log"),
+            "when": "M",
+            "interval": 1,
+            "backupCount": 10,
+            "delay": True,
         },
+    },
+    "root": {
+        "handlers": ["console", "json_file"],
+        "level": "INFO",
+        "propagate": False,
     },
     "loggers": {
         "django_structlog": {
