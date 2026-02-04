@@ -13,11 +13,7 @@
 </p>
 
 {% if no_filter_input_context %}
-    <div class="py-4 bg-pp-pale-grey text-center" role="alert">
-        Problem loading filter options, please try again later.<br>
-        If the problem persists, <a href="{% url 'contact:index' %}">contact</a>
-        the portal team.
-    </div>
+    {% include "dashboards/partials/plot_loading_error.html" with missing_data="Filter input data" %}
 {% else %}
     <div id="plot-filters" class="grid grid-cols-3 justify-evenly pb-4 my-6 bg-gray-50 max-lg:hidden">
         
@@ -80,22 +76,28 @@
 {% endif %}
 
 <!-- Quantitative plot -->
-<div id="quant-virus-plot"
-    {% with active_slug=active|slugify %}
-    hx-get="{% url "dashboards:slu_"|add:active_slug %}"
-    {% endwith %}
-    hx-trigger="load once, input from:#plot-filters delay:200ms"
-    hx-include="#plot-filters input, #plot-filters select"
-    hx-target="#quant-virus-plot"
-    hx-swap="innerHTML"
-    hx-on::before-request="this.classList.add('opacity-40')"
-    hx-on::after-settle="this.classList.remove('opacity-40')"
-    >
-    <!-- Place holder loading message, HTMX will replace it with plot -->
-    <div id='plot-loading' class='min-h-[450px] content-center text-center'>
-        Loading plot...
+{% if no_raw_data %}
+    {% include "dashboards/partials/plot_loading_error.html" with missing_data="Plot data" %}
+{% elif no_filter_input_context %}
+    {% include "dashboards/partials/plot_loading_error.html" with missing_data="Filter input data" %}
+{% else %}
+    <div id="quant-virus-plot"
+        {% with active_slug=active|slugify %}
+        hx-get="{% url "dashboards:slu_"|add:active_slug %}"
+        {% endwith %}
+        hx-trigger="load once, input from:#plot-filters delay:200ms"
+        hx-include="#plot-filters input, #plot-filters select"
+        hx-target="#quant-virus-plot"
+        hx-swap="innerHTML"
+        hx-on::before-request="this.classList.add('opacity-40')"
+        hx-on::after-settle="this.classList.remove('opacity-40')"
+        >
+        <!-- Place holder loading message, HTMX will replace it with plot -->
+        <div id='plot-loading' class='min-h-[450px] content-center text-center'>
+            Loading plot...
+        </div>
     </div>
-</div>
+{% endif %}
 
 <h4>Qualitative data and individual samples</h4>
 <p>

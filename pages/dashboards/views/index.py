@@ -25,7 +25,7 @@ class DashboardsIndex(BaseTemplateView):
                 "url": reverse_lazy("dashboards:slu_overview"),
                 "description": (
                     "Explore pathogens levels in wastewater across Sweden. Weekly data from "
-                    "SLU-SEEC tracks pathogens trends, covering a significanFt portion of the "
+                    "SLU-SEEC tracks pathogens trends, covering a significant portion of the "
                     "population, and assists in predicting potential outbreaks."
                 ),
             },

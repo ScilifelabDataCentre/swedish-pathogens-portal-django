@@ -65,6 +65,7 @@ class SluWasteWater(View):
 
         dashboard_data = dashboard_data.data if dashboard_data is not None else {}
         raw_data = dashboard_data.get("raw_data")
+        context["no_raw_data"] = raw_data is None
 
         # handling overview page
         if self.active_page == "Overview":
@@ -83,17 +84,17 @@ class SluWasteWater(View):
                 logger.warning("No recent data info found for SLU wastewater dashboard.")
 
             # get filter input context
-            filter_intput_context = dashboard_data.get("filter_input_context")
-            if filter_intput_context:
-                context.update(**filter_intput_context)
+            filter_input_context = dashboard_data.get("filter_input_context")
+            if filter_input_context:
+                context.update(**filter_input_context)
             else:
                 context["no_filter_input_context"] = True
                 logger.warning("No filter input context found for SLU wastewater dashboard.")
 
             # get static pre-compiled overview qualitative plot
-            qual_orverview_plot = dashboard_data.get("qual_overview_plot")
-            if qual_orverview_plot:
-                context["qual_plot_html"] = plot_html_from_json(qual_orverview_plot)
+            qual_overview_plot = dashboard_data.get("qual_overview_plot")
+            if qual_overview_plot:
+                context["qual_plot_html"] = plot_html_from_json(qual_overview_plot)
             else:
                 logger.warning("No qualitative overview plot found for SLU wastewater dashboard.")
 
@@ -127,9 +128,9 @@ class SluWasteWater(View):
                 return HttpResponse(quant_plot_html)
 
             # get filter input context
-            filter_intput_context = dashboard_data.get("filter_input_context")
-            if filter_intput_context:
-                context.update(**filter_intput_context)
+            filter_input_context = dashboard_data.get("filter_input_context")
+            if filter_input_context:
+                context.update(**filter_input_context)
             else:
                 context["no_filter_input_context"] = True
                 logger.warning("No filter input context found for SLU wastewater dashboard.")
@@ -145,7 +146,7 @@ class SluWasteWater(View):
 
 
 # TODO: The following is a temp workaround, it should be removed
-# and the data sync lagic will be couple with researcher data
+# and the data sync logic will be couple with researcher data
 # upload page and related views
 from django.contrib.auth.mixins import LoginRequiredMixin  # noqa: E402, F401
 
@@ -162,7 +163,7 @@ class SLUsync(LoginRequiredMixin, View):
 
     # Dashboard related values
     dashboard = "slu_wastewater"
-    data_url = "https://blobserver.dc.scilifelab.se/blob/slu_test_data.csv"
+    data_url = "https://blobserver.dc.scilifelab.se/blob/new_slu_ww_data.csv"
 
     def get(self, request: HttpRequest) -> HttpResponse:
         """To serve the temp data sync frontend page."""

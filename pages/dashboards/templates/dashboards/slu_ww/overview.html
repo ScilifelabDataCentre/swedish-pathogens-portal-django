@@ -23,9 +23,7 @@
         Recent data summary
     </summary>
     {% if no_recent_data_info %}
-        <div class="py-4 text-center" role="alert">
-            No recent data info available
-        </div>
+        {% include "dashboards/partials/plot_loading_error.html" with missing_data="Recent data info" %}
     {% else %}
         <div class="md:flex gap-4 bg-gray-100 px-6 py-3">
             <div class="md:flex-2 flex flex-col gap-3 pr-2 max-md:mb-3 md:border-r md:border-gray-300">
@@ -80,22 +78,28 @@
 </p>
 
 <!-- Plot area -->
-<div id="quant-overview-plot"
-    hx-get="{% url 'dashboards:slu_overview' %}"
-    hx-trigger="load once, input from:#plot-filters delay:300ms, click from:#siteSelector>span delay:300ms"
-    hx-include="#plot-filters input, #plot-filters select"
-    hx-target="#quant-overview-plot"
-    hx-swap="innerHTML"
-    hx-on::before-request="this.classList.add('opacity-40')"
-    hx-on::after-settle="this.classList.remove('opacity-40')"
-    >
-    <!-- Place holder loading message, HTMX will replace it with plot -->
-    <div id='plot-loading' class='min-h-[450px] content-center text-center'>
-        Loading plot...
+{% if no_raw_data %}
+    {% include "dashboards/partials/plot_loading_error.html" with missing_data="Plot data" %}
+{% elif no_filter_input_context %}
+    {% include "dashboards/partials/plot_loading_error.html" with missing_data="Filter input data" %}
+{% else %}
+    <div id="quant-overview-plot"
+        hx-get="{% url 'dashboards:slu_overview' %}"
+        hx-trigger="load once, input from:#plot-filters delay:300ms, click from:#siteSelector>span delay:300ms"
+        hx-include="#plot-filters input, #plot-filters select"
+        hx-target="#quant-overview-plot"
+        hx-swap="innerHTML"
+        hx-on::before-request="this.classList.add('opacity-40')"
+        hx-on::after-settle="this.classList.remove('opacity-40')"
+        >
+        <!-- Place holder loading message, HTMX will replace it with plot -->
+        <div id='plot-loading' class='min-h-[450px] content-center text-center'>
+            Loading plot...
+        </div>
     </div>
-</div>
+{% endif %}
 
-<!-- Fliter section -->
+<!-- Filter section -->
 <details class="group my-6 bg-gray-50 max-lg:hidden">
     <summary class="bg-gray-200 px-5 py-2 marker:text-gray-600 cursor-pointer
                 after:text-xs
@@ -105,9 +109,7 @@
     </summary>
     {% if no_filter_input_context %}
         <div class="py-4 text-center" role="alert">
-            Problem loading filter options, please try again later.<br>
-            If the problem persists, <a href="{% url 'contact:index' %}">contact</a>
-            the portal team.
+            {% include "dashboards/partials/plot_loading_error.html" with missing_data="Filter input data" %}
         </div>
     {% else %}
         <p class="px-5">Use the filters below to update the above plot.</p>
