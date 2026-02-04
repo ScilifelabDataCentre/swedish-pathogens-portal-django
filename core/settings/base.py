@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 
 import environ
+import structlog
 
 # ENVIRONMENT
 # ------------------------------------------------------------------------------
@@ -45,6 +46,7 @@ DJANGO_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.sitemaps",  # provides sitemap class and sitemap view
+    "django_structlog",
 ]
 
 THIRD_PARTY_APPS = [
@@ -81,6 +83,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django_htmx.middleware.HtmxMiddleware",
+    "django_structlog.middlewares.RequestMiddleware",
 ]
 
 
@@ -152,3 +155,62 @@ STATICFILES_DIRS = [
 # ------------------------------------------------------------------------------
 EUROPE_PMC_API_URL = env("EUROPE_PMC_API_URL")
 EUROPE_PMC_WEB_URL = env("EUROPE_PMC_WEB_URL")
+
+
+# Logging
+# ------------------------------------------------------------------------------
+
+LOGGING = {
+    "version": 1,  # only version 1 is supported, but required
+    "disable_existing_loggers": False,  # keep loggers alive
+    "formatters": {
+        "plain_console": {
+            "()": structlog.stdlib.ProcessorFormatter,
+            "processor": structlog.dev.ConsoleRenderer(),
+        },
+        "json_formatter": {
+            "()": structlog.stdlib.ProcessorFormatter,
+            "processor": structlog.processors.JSONRenderer(),
+        },
+    },
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "plain_console",
+        },
+        "json_file": {
+            "class": "logging.TimedRotatingFileHandler",
+            "formatter": "json_formatter",
+            "filename": BASE_DIR / "logs" / "app.log",
+        },
+    },
+    "loggers": {
+        "django_structlog": {
+            "handlers": ["console", "json_file"],
+            "level": "INFO",
+            "propagate": False,
+        },
+        "spp_logger": {
+            "handlers": ["console", "json_file"],
+            "level": "INFO",
+            "propagate": False,
+        },
+    },
+}
+
+structlog.configure(
+    processors=[
+        structlog.contextvars.merge_contextvars,
+        structlog.stdlib.filter_by_level,
+        structlog.processors.TimeStamper(fmt="iso"),
+        structlog.stdlib.add_logger_name,
+        structlog.stdlib.add_log_level,
+        structlog.stdlib.PositionalArgumentsFormatter(),
+        structlog.processors.StackInfoRenderer(),
+        structlog.processors.format_exc_info,
+        structlog.processors.UnicodeDecoder(),
+        structlog.stdlib.ProcessorFormatter.wrap_for_formatter,
+    ],
+    logger_factory=structlog.stdlib.LoggerFactory(),
+    cache_logger_on_first_use=True,
+)

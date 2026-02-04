@@ -1,5 +1,5 @@
 version = 1
-revision = 2
+revision = 3
 requires-python = ">=3.13"
 
 [[package]]
@@ -109,6 +109,33 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/34/f2/8c3e28a5eed8e5226835c762892bfef74eda7e8629c65b49c186098eb303/django_htmx-1.27.0.tar.gz", hash = "sha256:036e5da801bfdf5f1ca815f21592cfb9f004a898f330c842f15e55c70e301a75", size = 65362, upload-time = "2025-11-28T23:18:55.049Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/23/ac/25d28489dc43224e260f4ebee7565f7ef1efe12af0f284a89500c19f75e2/django_htmx-1.27.0-py3-none-any.whl", hash = "sha256:13e1e13b87d39b57f95aae6e4987cb3df056d0b1373a41f4a94504a00298ffd8", size = 62126, upload-time = "2025-11-28T23:18:53.57Z" },
+]
+
+[[package]]
+name = "django-ipware"
+version = "7.0.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "python-ipware" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/23/64/c7e4791edf01ba483cce444770b3e6a930ba12195ba1eeb37b5bf6dce8a8/django-ipware-7.0.1.tar.gz", hash = "sha256:d9ec43d2bf7cdf216fed8d494a084deb5761a54860a53b2e74346a4f384cff47", size = 6827, upload-time = "2024-04-19T20:02:49.257Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/11/33/bf539925b102d68200da5b1d3eacb8aa5d5d9a065972e8b8724d0d53bb0d/django_ipware-7.0.1-py2.py3-none-any.whl", hash = "sha256:db16bbee920f661ae7f678e4270460c85850f03c6761a4eaeb489bdc91f64709", size = 6425, upload-time = "2024-04-19T20:02:47.469Z" },
+]
+
+[[package]]
+name = "django-structlog"
+version = "10.0.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "asgiref" },
+    { name = "django" },
+    { name = "django-ipware" },
+    { name = "structlog" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/72/a9/102f316fb60dbec46642168979c4f57c9d8140fe43624ddca1ca6106274a/django_structlog-10.0.0.tar.gz", hash = "sha256:4e3fa4a930697fb9b649470e389419bb73b916a1ecf4f4bf2f8727f5cbfdb002", size = 23054, upload-time = "2025-10-22T21:20:21.14Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/6c/83/d7245a2a2bb46ae65ecff00686181d632553b131ea0c5cbfcbdb8f89c190/django_structlog-10.0.0-py3-none-any.whl", hash = "sha256:4f9db3cb7b308df6aa4afe1353d9c19d5bac757022ddbbb5c24f3d0d6a91a240", size = 18159, upload-time = "2025-10-22T21:20:19.804Z" },
 ]
 
 [[package]]
@@ -400,6 +427,15 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/66/ca/823d5c74a73d6b8b08e1f5aea12468ef334f0732c65cbb18df2a7f285c87/pygraphviz-1.14.tar.gz", hash = "sha256:c10df02377f4e39b00ae17c862f4ee7e5767317f1c6b2dfd04cea6acc7fc2bea", size = 106003, upload-time = "2024-09-29T18:31:12.471Z" }
 
 [[package]]
+name = "python-ipware"
+version = "3.0.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/9e/60/da4426c3e9aee56f08b24091a9e85a0414260f928f97afd0013dfbd0332f/python_ipware-3.0.0.tar.gz", hash = "sha256:9117b1c4dddcb5d5ca49e6a9617de2fc66aec2ef35394563ac4eecabdf58c062", size = 16609, upload-time = "2024-04-19T20:00:58.938Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/08/bd/ccd7416fdb30f104ddf6cfd8ee9f699441c7d9880a26f9b3089438adee05/python_ipware-3.0.0-py3-none-any.whl", hash = "sha256:fc936e6e7ec9fcc107f9315df40658f468ac72f739482a707181742882e36b60", size = 10761, upload-time = "2024-04-19T20:00:57.171Z" },
+]
+
+[[package]]
 name = "pyyaml"
 version = "6.0.3"
 source = { registry = "https://pypi.org/simple" }
@@ -471,6 +507,15 @@ wheels = [
 ]
 
 [[package]]
+name = "structlog"
+version = "25.5.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/ef/52/9ba0f43b686e7f3ddfeaa78ac3af750292662284b3661e91ad5494f21dbc/structlog-25.5.0.tar.gz", hash = "sha256:098522a3bebed9153d4570c6d0288abf80a031dfdb2048d59a49e9dc2190fc98", size = 1460830, upload-time = "2025-10-27T08:28:23.028Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/a8/45/a132b9074aa18e799b891b91ad72133c98d8042c70f6240e4c5f9dabee2f/structlog-25.5.0-py3-none-any.whl", hash = "sha256:a8453e9b9e636ec59bd9e79bbd4a72f025981b3ba0f5837aebf48f02f37a7f9f", size = 72510, upload-time = "2025-10-27T08:28:21.535Z" },
+]
+
+[[package]]
 name = "swedish-pathogens-portal"
 version = "0.1.0"
 source = { virtual = "." }
@@ -478,6 +523,7 @@ dependencies = [
     { name = "django" },
     { name = "django-environ" },
     { name = "django-htmx" },
+    { name = "django-structlog" },
     { name = "fastexcel" },
     { name = "markdown" },
     { name = "pillow" },
@@ -517,6 +563,7 @@ requires-dist = [
     { name = "django", specifier = ">=5.2.8" },
     { name = "django-environ", specifier = ">=0.12.0" },
     { name = "django-htmx", specifier = ">=1.27.0" },
+    { name = "django-structlog", specifier = ">=10.0.0" },
     { name = "fastexcel", specifier = ">=0.18.0" },
     { name = "markdown", specifier = ">=3.5.0" },
     { name = "pillow", specifier = ">=10.0.0" },
