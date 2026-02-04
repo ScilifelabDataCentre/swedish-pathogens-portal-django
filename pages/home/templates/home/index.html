@@ -37,13 +37,17 @@
     <div class="lg:col-span-9 space-y-12">
         <!-- Dashboards Section -->
         <section>
-            <div class="flex items-center justify-between mb-6">
+            <div class="flex items-center justify-between mb-2">
                 <h2 class="text-2xl font-bold text-pp-dark-blue m-0">Dashboards</h2>
                 <a href="{% url 'dashboards:index' %}"
                     class="font-bold focus-visible:rounded focus-visible:outline-none
                     focus-visible:ring-2 focus-visible:ring-offset-2"
                     aria-label="View all dashboards">View all &rarr;</a>
             </div>
+            <p class="text-pp-dark-grey mb-6 max-w-3xl">
+                Interactive visualisations of pathogen surveillance and research data. Explore trends, compare
+                datasets, and access up-to-date summaries from Swedish and international sources.
+            </p>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {% for dashboard in dashboards %}
                 <a href="{{ dashboard.url }}" class="group no-underline hover:no-underline rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2"
@@ -73,13 +77,17 @@
 
         <!-- Articles Section -->
         <section>
-            <div class="flex items-center justify-between mb-6">
+            <div class="flex items-center justify-between mb-2">
                 <h2 class="text-2xl font-bold text-pp-dark-blue m-0">Data Highlights & Editorials</h2>
                 <a href="{% url 'articles:index' %}"
                     class="font-bold focus-visible:rounded focus-visible:outline-none
                     focus-visible:ring-2 focus-visible:ring-offset-2"
                     aria-label="View all articles">View all &rarr;</a>
             </div>
+            <p class="text-pp-dark-grey mb-6 max-w-3xl">
+                Curated data highlights and editorials from the pathogen research community. Stay informed
+                about new findings, methods, and perspectives in pandemic preparedness.
+            </p>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {% for article in articles %}
                 <a href="{% url 'articles:detail' article.slug %}" class="group no-underline hover:no-underline rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2"
@@ -123,13 +131,17 @@
 
         <!-- Topics Section -->
         <section>
-            <div class="flex items-center justify-between mb-6">
+            <div class="flex items-center justify-between mb-2">
                 <h2 class="text-2xl font-bold text-pp-dark-blue m-0">Explore Topics</h2>
                 <a href="{% url 'topics:index' %}"
                     class="font-bold focus-visible:rounded focus-visible:outline-none
                     focus-visible:ring-2 focus-visible:ring-offset-2"
                     aria-label="View all topics">View all &rarr;</a>
             </div>
+            <p class="text-pp-dark-grey mb-6 max-w-3xl">
+                Browse research areas and pathogen themes. Each topic brings together datasets, guidance, and
+                resources to support your work in surveillance, identification, and investigation.
+            </p>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {% for topic in topics %}
                 <a href="{% url 'topics:topic_detail' topic.slug %}" class="group no-underline hover:no-underline rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2"
