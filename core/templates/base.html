@@ -3,38 +3,45 @@
 <!DOCTYPE html>
 <html lang="en">
     {% include "html_head_tag.html" %}
+
     <body id="document-body">
+        <!-- Skip to main content link -->
+        <a href="#main-content"
+            class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4
+            focus:py-2 focus:bg-pp-teal focus:text-white focus:rounded-lg focus:font-bold focus:shadow-lg
+            focus:outline-none focus:ring-2 focus:ring-pp-teal focus:ring-offset-2">
+            Skip to main content
+        </a>
+
+        <!-- page header -->
         {% include "header.html" %}
 
-        <main>
-            <div class="container">
+        <!-- main content -->
+        <main id="main-content">
+            {% block full_width_content %}{% endblock %}
+            <div class="container py-6">
                 {% block content %}{% endblock %}
             </div>
         </main>
-
-        {% include "footer.html" %}
 
         <!-- Back to top button -->
         <a href="#document-body" 
             title="Back to top" 
             aria-label="Back to top"
-            class="
-                back-to-top
-                fixed right-5 bottom-5 z-50 
-                inline-flex items-center justify-center
-                w-10 h-10 rounded-lg 
-                text-white shadow-sm no-underline
-                opacity-0 pointer-events-none translate-y-2
-                transition-all duration-200   
-                hover:opacity-90 
-                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2
-                bg-pp-teal
-                text-xl leading-none
-            ">
-              ↑
+            class="back-to-top
+            sticky bottom-10 mr-10 ml-auto inline-flex items-center justify-center w-10 h-10 rounded-lg
+            text-white bg-pp-teal shadow-sm no-underline opacity-0 pointer-events-none translate-y-2
+            transition-all duration-200 hover:opacity-90 focus-visible:outline-none focus-visible:ring-2
+            focus-visible:ring-pp-teal focus-visible:ring-offset-2 text-xl leading-none"
+            >
+                ↑
         </a>
+
+        <!-- page footer -->
+        {% include "footer.html" %}
 
         <!-- Load the back to top functionality after HTML loaded -->
         <script src="{% static 'js/back_to_top.js' %}" defer></script>
     </body>
+
 </html>
