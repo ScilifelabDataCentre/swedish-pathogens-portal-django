@@ -61,6 +61,48 @@ def _is_homepage(request: HttpRequest) -> bool:
     return request.path == "/"
 
 
+def _path_to_segments(path: str) -> list[str]:
+    """Return non-empty path segments (e.g. '/topics/covid-19/' -> ['topics', 'covid-19'])."""
+    return [seg for seg in path.split("/") if seg]
+
+
+def _build_home_item() -> BreadcrumbItem:
+    """Build the Home breadcrumb item (first in trail)."""
+    try:
+        url = reverse("home:index")
+    except NoReverseMatch:
+        url = "/"
+    return BreadcrumbItem(name="Home", url=url, is_active=False)
+
+
+def _segment_to_item(
+    path: str,
+    path_segments: list[str],
+    i: int,
+    segment: str,
+    current_path: str,
+    request: HttpRequest,
+) -> BreadcrumbItem:
+    """Build a single breadcrumb item for one path segment."""
+    is_active = i == len(path_segments) - 1
+    try:
+        resolved = resolve(current_path)
+        name = _get_breadcrumb_name(resolved, segment, request if is_active else None)
+        try:
+            full_url_name = (
+                f"{resolved.namespace}:{resolved.url_name}"
+                if resolved.namespace
+                else resolved.url_name
+            )
+            url = reverse(full_url_name, args=resolved.args, kwargs=resolved.kwargs)
+        except (NoReverseMatch, KeyError):
+            url = current_path + "/"
+    except Resolver404:
+        name = _format_segment_name(segment)
+        url = current_path + "/" if i < len(path_segments) - 1 else (path if path.endswith("/") else current_path)
+    return BreadcrumbItem(name=name, url=url, is_active=is_active)
+
+
 def get_breadcrumbs(request: HttpRequest) -> list[BreadcrumbItem]:
     """Generate breadcrumbs based on current request.
 
@@ -68,98 +110,31 @@ def get_breadcrumbs(request: HttpRequest) -> list[BreadcrumbItem]:
     items. Always includes home as first item (except on homepage).
     Automatically handles nested paths and URL names.
 
-    The function:
-    - Returns empty list for homepage
-    - Parses URL path segments to build breadcrumb trail
-    - Resolves URL names to get display names
-    - Handles namespaced URLs (e.g., "topics:index")
-    - Marks the last item as active
-
     Args:
         request: The current HTTP request object containing path information.
 
     Returns:
         List of BreadcrumbItem objects representing the breadcrumb trail.
         Empty list for homepage.
-
-    Example:
-        For URL "/topics/covid-19/":
-
-        .. code-block:: python
-
-            breadcrumbs = get_breadcrumbs(request)
-            # Returns:
-            # [
-            #     BreadcrumbItem(name="Home", url="/", is_active=False),
-            #     BreadcrumbItem(name="Topics", url="/topics/", is_active=False),
-            #     BreadcrumbItem(name="COVID-19", url="/topics/covid-19/", is_active=True)
-            # ]
     """
     if _is_homepage(request):
         return []
 
     path = request.path
-    breadcrumbs_list: list[BreadcrumbItem] = []
+    items: list[BreadcrumbItem] = [_build_home_item()]
 
-    # Always start with Home (except on homepage, which we already handled)
-    try:
-        home_url = reverse("home:index")
-        breadcrumbs_list.append(
-            BreadcrumbItem(name="Home", url=home_url, is_active=False)
-        )
-    except NoReverseMatch:
-        # Fallback if home URL can't be resolved
-        breadcrumbs_list.append(BreadcrumbItem(name="Home", url="/", is_active=False))
-
-    # Parse path segments
-    path_segments = [seg for seg in path.split("/") if seg]
-
+    path_segments = _path_to_segments(path)
     if not path_segments:
-        # If no segments after home, we're done
-        return breadcrumbs_list
+        return items
 
-    # Build breadcrumbs for each path segment
     current_path = ""
     for i, segment in enumerate(path_segments):
         current_path += f"/{segment}"
-
-        # Try to resolve the URL to get better name and correct URL
-        try:
-            resolved = resolve(current_path)
-            # For the last segment (current page), try to get object name if it's a detail view
-            is_active = i == len(path_segments) - 1
-            if is_active:
-                name = _get_breadcrumb_name(resolved, segment, request)
-            else:
-                name = _get_breadcrumb_name(resolved, segment, None)
-            # Try to reverse the URL to get the canonical URL
-            try:
-                full_url_name = (
-                    f"{resolved.namespace}:{resolved.url_name}"
-                    if resolved.namespace
-                    else resolved.url_name
-                )
-                url = reverse(full_url_name, args=resolved.args, kwargs=resolved.kwargs)
-            except (NoReverseMatch, KeyError):
-                # Fallback to constructed path with trailing slash for list views
-                url = current_path + "/"
-        except Resolver404:
-            # If can't resolve, use segment as name
-            name = _format_segment_name(segment)
-            # For unresolved paths, preserve original path structure
-            # Add trailing slash for intermediate segments, use original for last
-            if i < len(path_segments) - 1:
-                url = current_path + "/"
-            else:
-                # Use original path to preserve trailing slash if present
-                url = path if path.endswith("/") else current_path
-            is_active = i == len(path_segments) - 1
-
-        breadcrumbs_list.append(
-            BreadcrumbItem(name=name, url=url, is_active=is_active)
+        items.append(
+            _segment_to_item(path, path_segments, i, segment, current_path, request)
         )
 
-    return breadcrumbs_list
+    return items
 
 
 def _get_breadcrumb_name(resolved, segment: str, request: Optional[HttpRequest] = None) -> str:
