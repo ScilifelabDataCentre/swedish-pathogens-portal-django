@@ -20,6 +20,8 @@
     --color-pp-pale-grey: #d8d8d8;
     --color-pp-dark-grey: #55585a;
     --color-pp-almost-black: #1a1c1a;
+    /* Soft tint for breadcrumb bar (teal at 6% for a light branded strip) */
+    --color-pp-breadcrumb-bg: #f0f5f4;
 }
 
 /* Site's default element level styling */

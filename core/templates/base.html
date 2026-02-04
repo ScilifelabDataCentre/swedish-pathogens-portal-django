@@ -16,6 +16,9 @@
         <!-- page header -->
         {% include "header.html" %}
 
+        <!-- breadcrumbs: outside header, grey bar under nav -->
+        {% include "partials/breadcrumbs.html" %}
+
         <!-- main content -->
         <main id="main-content">
             {% block full_width_content %}{% endblock %}
@@ -42,6 +45,7 @@
 
         <!-- Load the back to top functionality after HTML loaded -->
         <script src="{% static 'js/back_to_top.js' %}" defer></script>
+        <script src="{% static 'js/breadcrumbs.js' %}" defer></script>
     </body>
 
 </html>

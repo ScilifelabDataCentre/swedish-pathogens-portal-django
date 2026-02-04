@@ -1,41 +1,44 @@
 {% comment %}
     Breadcrumbs navigation component (partial).
 
-    Displays a breadcrumb trail showing the user's location within the site.
-    Only renders when breadcrumbs are available (not on homepage).
+    Renders below the header on a branded bar. Only outputs when breadcrumbs
+    are available (not on homepage). Use in base.html after the header.
 
-    Usage:
-        {% include "partials/breadcrumbs.html" %}
-
-    Accessibility:
-        - Uses semantic <nav> element with aria-label
-        - Uses ordered list (<ol>) for breadcrumb trail
-        - Marks current page with aria-current="page"
-        - Hides decorative separators from screen readers with aria-hidden
+    Design: PATHOGENS visual identity — teal accent, soft grey strip,
+    clear hierarchy and hover states. Accessibility: nav/ol/li, aria-current, aria-hidden.
 {% endcomment %}
 
 {% if breadcrumbs %}
-<nav aria-label="Breadcrumb" class="container py-2">
-    <ol class="flex flex-wrap items-center gap-2 text-sm">
-        {% for item in breadcrumbs %}
-        <li class="flex items-center">
-            {% if not item.is_active %}
-            <a href="{{ item.url }}"
-               class="text-pp-mid-blue hover:text-pp-dark-blue hover:underline
-                      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2
-                      rounded transition-colors duration-150">
-                {{ item.name }}
-            </a>
-            {% else %}
-            <span class="text-pp-dark-grey" aria-current="page">
-                {{ item.name }}
-            </span>
-            {% endif %}
-            {% if not forloop.last %}
-            <span class="mx-2 text-pp-dark-grey" aria-hidden="true">/</span>
-            {% endif %}
-        </li>
-        {% endfor %}
-    </ol>
-</nav>
+<div id="breadcrumb-bar"
+     class="sticky top-16 lg:top-20 z-40 border-t-2 border-pp-teal bg-pp-breadcrumb-bg shadow-sm
+            transition-transform duration-300 ease-out">
+    <nav aria-label="Breadcrumb" class="container">
+        <ol class="flex flex-wrap items-center gap-x-1.5 gap-y-1 py-3 text-sm min-h-[2.75rem]">
+            {% for item in breadcrumbs %}
+            <li class="flex items-center gap-1.5 min-w-0 max-w-full">
+                {% if not item.is_active %}
+                <a href="{{ item.url }}"
+                   class="text-pp-mid-blue hover:text-pp-teal font-medium no-underline
+                          hover:underline underline-offset-2 rounded px-1 -mx-1
+                          focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal
+                          focus-visible:ring-offset-2 focus-visible:rounded transition-colors duration-200">
+                    {{ item.name }}
+                </a>
+                {% else %}
+                <span class="text-pp-almost-black font-semibold truncate px-0.5" aria-current="page">
+                    {{ item.name }}
+                </span>
+                {% endif %}
+                {% if not forloop.last %}
+                <span class="shrink-0 flex items-center text-pp-dark-grey/70" aria-hidden="true">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                </span>
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ol>
+    </nav>
+</div>
 {% endif %}
