@@ -49,23 +49,8 @@
                 datasets, and access up-to-date summaries from Swedish and international sources.
             </p>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {% for dashboard in dashboards %}
-                <a href="{{ dashboard.url }}" class="group no-underline hover:no-underline rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2"
-                    aria-label="View {{ dashboard.name }} dashboard">
-                    <div
-                        class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all h-full flex flex-col">
-                        <div class="h-40 overflow-hidden bg-gray-100 relative">
-                            <img src="{% static dashboard.image %}" alt="{{ dashboard.name }}"
-                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
-                        </div>
-                        <div class="p-5 flex-1 flex flex-col">
-                            <h3
-                                class="text-lg font-bold text-pp-dark-blue mb-2 group-hover:text-pp-teal transition-colors">
-                                {{ dashboard.name }}</h3>
-                            <p class="text-pp-dark-grey text-sm flex-1">{{ dashboard.description }}</p>
-                        </div>
-                    </div>
-                </a>
+                {% for card in dashboard_cards %}
+                    {% include "components/content_card.html#content_card" %}
                 {% empty %}
                 <div
                     class="col-span-3 text-center py-8 bg-pp-pale-grey border-2 border-dashed border-gray-300 rounded-xl">

@@ -127,19 +127,19 @@
         @apply shadow-md;
     }
     .content-card__image-area {
-        @apply p-4 overflow-hidden bg-pp-pale-grey relative border-b border-pp-pale-grey;
+        @apply overflow-hidden relative border-b border-pp-pale-grey;
     }
     .content-card__image {
-        @apply w-full h-40 object-cover rounded-lg transition-transform duration-300;
+        @apply w-full h-40 object-cover transition-transform duration-300;
     }
     .group:hover .content-card__image {
         @apply scale-105;
     }
     .content-card__placeholder {
-        @apply w-full h-40 rounded-lg flex items-center justify-center bg-linear-to-br from-pp-mid-blue to-pp-teal;
+        @apply w-full h-40 flex items-center justify-center bg-linear-to-br from-pp-mid-blue to-pp-teal;
     }
     .content-card__date-badge-row {
-        @apply absolute bottom-2 left-4 right-4 flex items-center justify-between text-xs;
+        @apply absolute bottom-2 left-2 right-2 flex items-center justify-between text-xs;
     }
     .content-card__date {
         @apply text-white drop-shadow-md;
@@ -157,7 +157,7 @@
         @apply p-5 flex-1 flex flex-col;
     }
     .content-card__title {
-        @apply text-lg font-bold text-pp-dark-blue mb-2 transition-colors line-clamp-2;
+        @apply mt-0 text-lg font-bold text-pp-dark-blue mb-0 transition-colors line-clamp-2;
     }
     .group:hover .content-card__title {
         @apply text-pp-teal;

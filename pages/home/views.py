@@ -4,6 +4,7 @@ import logging
 
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
+from django.templatetags.static import static
 from django.urls import reverse_lazy
 from django.views import View
 
@@ -43,8 +44,8 @@ class Home(View):
 
         context = {"title": self.title, "description": self.description}
 
-        # Fetch active dashboards with thumbnails
-        context["dashboards"] = [
+        # Fetch active dashboards as card-shaped dicts for the content_card partial
+        dashboards_data = [
             {
                 "name": "SLU-SEEC Wastewater Surveillance",
                 "image": "dashboards/thumbnails/slu_wastewater.jpg",
@@ -75,6 +76,15 @@ class Home(View):
                     "Profiling unit."
                 ),
             },
+        ]
+        context["dashboard_cards"] = [
+            {
+                "url": str(d["url"]),
+                "image": static(d["image"]),
+                "title": d["name"],
+                "description": d["description"],
+            }
+            for d in dashboards_data
         ]
 
         context["topics"] = Topic.objects.filter(is_active=True)[:3]
