@@ -158,24 +158,26 @@ EUROPE_PMC_WEB_URL = env("EUROPE_PMC_WEB_URL")
 
 
 # Logging
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------
 #
 # This project uses django-structlog for structured logging.
 # https://django-structlog.readthedocs.io/
 #
-#
+# Usage in app code (module level logger):
+#   LOGGER = structlog.get_logger(__name__)
+#   LOGGER.info("Example of an info level log")
 
 
 LOGGING = {
-    # --------------------------------------------------------------------------
+    # --------------------------------------------------------------------------------------------
     # General config
     #
     # - Version is required, but only version 1 is supported
     # - disable_existing_loggers: False keeps the default Django loggers alive
-    # --------------------------------------------------------------------------
+    # --------------------------------------------------------------------------------------------
     "version": 1,
     "disable_existing_loggers": False,
-    # --------------------------------------------------------------------------
+    # --------------------------------------------------------------------------------------------
     # Formatters
     #
     # Define how the logs should be formatted.
@@ -186,7 +188,7 @@ LOGGING = {
     #   Without it: different formats for structlog and django/lib logs
     # - ConsoleRenderer produces structured logs as easily readable for console
     # - JSONRenderer produces structured logs as JSON
-    # --------------------------------------------------------------------------
+    # --------------------------------------------------------------------------------------------
     "formatters": {
         "plain_console": {
             "()": structlog.stdlib.ProcessorFormatter,
@@ -197,7 +199,7 @@ LOGGING = {
             "processor": structlog.processors.JSONRenderer(),
         },
     },
-    # --------------------------------------------------------------------------
+    # --------------------------------------------------------------------------------------------
     # Handlers
     #
     # Define what happens to the log messages
@@ -209,7 +211,7 @@ LOGGING = {
     #     > New file created every (interval 1) Monday (W0)
     #     > Total 11 files kept: 10 old (backupCount 10) and current
     #     > Delay=False means file is opened immediately, not on first write
-    # --------------------------------------------------------------------------
+    # --------------------------------------------------------------------------------------------
     "handlers": {
         "console": {
             "class": "logging.StreamHandler",
@@ -225,7 +227,7 @@ LOGGING = {
             "delay": False,
         },
     },
-    # --------------------------------------------------------------------------
+    # --------------------------------------------------------------------------------------------
     # Loggers
     #
     # Different parts of the application log to different loggers.
@@ -235,9 +237,10 @@ LOGGING = {
     # - django_structlog and werkzeug loggers are used by the packages called
     #   exactly that
     # - propagate set as False to prevent logs from being passed to parent loggers
-    # - werkzeug logger only uses the console handler to avoid excessive logging
-    #   and duplicates, and propagate being False avoids writing to JSON file as well
-    # --------------------------------------------------------------------------
+    # - werkzeug logger produces access logs
+    #     > only uses the console handler to avoid excessive logging and duplicates
+    #     > propagate being False avoids werkzeug logs also going to root (--> json file)
+    # --------------------------------------------------------------------------------------------
     "root": {
         "handlers": ["console", "json_file"],
         "level": "INFO",
@@ -256,6 +259,27 @@ LOGGING = {
     },
 }
 
+# ------------------------------------------------------------------------------------------------
+# Structlog configuration
+#
+# Processors:
+# - structlog.contextvars.merge_contextvars pulls request context from middleware
+# - structlog.stdlib.filter_by_level ignores logs below the logger's level
+# - structlog.processors.TimeStamper(fmt="iso") gives human readable timestamps
+#     example: YYYY-MM-DDTHH:MM:SS.sssZ instead of e.g. 1770289147.3015254
+# - structlog.stdlib.add_logger_name includes the logger's name
+# - structlog.stdlib.add_log_level includes the log level
+# - structlog.stdlib.PositionalArgumentsFormatter() allows %-style formatting in logging
+# - structlog.processors.StackInfoRenderer() allows stack_info=True in logging calls and
+#     could potentially be used for debugging
+# - structlog.processors.format_exc_info formats exception info if exc_info=True is used
+# - structlog.processors.UnicodeDecoder decodes all byte strings to unicode
+# - structlog.stdlib.ProcessorFormatter.wrap_for_formatter is needed when using ProcessorFormatter
+#
+# logger_factory:
+# - structlog.stdlib.LoggerFactory() is needed so that structlog.get_logger(...) returns a logger
+#     that is backed by Python’s standard logging system.
+# ------------------------------------------------------------------------------------------------
 structlog.configure(
     processors=[
         structlog.contextvars.merge_contextvars,
