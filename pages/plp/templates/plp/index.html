@@ -4,7 +4,6 @@
 
 {% comment %}
     TODO: rework in phase 2
-        - replace URL placeholder with real Django path once it exists
         - homogenise table with other pages
 {% endcomment %}
 
@@ -156,11 +155,8 @@
             </tbody>
         </table>
     </div>
-    {% comment %}
-    TODO replace URL placeholder with real Django path once it exists
-    {% endcomment %}
     <p class="px-3">To view any current funding available from PLP, view our
-        <a href="#">funding page.</a>
+        <a href="{% url 'about:funders' %}">funding page.</a>
     </p>
     </div>
 </details>
