@@ -1,7 +1,6 @@
 /**
- * Breadcrumb bar: hide when scrolling down, show when scrolling up.
- * Keeps the bar visible when near the top of the page.
- * Uses Tailwind -translate-y-full (no custom CSS).
+ * Hides the breadcrumb bar when the user scrolls down, shows it when they scroll up.
+ * Bar stays visible when the page is near the top (within TOP_ZONE_PX).
  */
 (() => {
   const bar = document.getElementById("breadcrumb-bar");

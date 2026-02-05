@@ -1,17 +1,10 @@
-"""URL name → breadcrumb display name mapping for the portal.
+"""URL name → breadcrumb display name mapping.
 
-This module is the single source of truth for mapping URL names (e.g. from
-Django's resolve()) to human-readable breadcrumb labels. Detail views use
-None so the breadcrumb utility can substitute the object's name instead.
-
-To add a new URL name:
-    1. Add an entry to BREADCRUMB_NAME_MAPPING: key is the full URL name
-       (e.g. "app:view_name"), value is the display string or None for
-       detail views (object name will be used).
-    2. No changes needed in utils.breadcrumbs; it imports BREADCRUMB_NAME_MAPPING.
+Keys are full URL names (e.g. "app:view_name"); values are the label string
+or None for detail views (breadcrumb utility uses the object's name instead).
 """
 
-# URL name (namespace:name or name) → display name, or None for detail views
+# URL name → display name, or None for detail views
 BREADCRUMB_NAME_MAPPING: dict[str, str | None] = {
     # Home
     "home:index": "Home",
@@ -21,7 +14,7 @@ BREADCRUMB_NAME_MAPPING: dict[str, str | None] = {
     # Articles
     "articles:index": "Articles",
     "articles:detail": None,  # detail: use object name
-    # Dashboards (exact titles from pages/dashboards/views)
+    # Dashboards
     "dashboards:index": "Data dashboards",
     "dashboards:lineage_competition": "SARS-CoV-2 Variant Competition",
     "dashboards:multidisease_serology": "Multi-disease serology",

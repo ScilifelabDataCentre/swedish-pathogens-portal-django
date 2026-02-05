@@ -1,15 +1,6 @@
 {% comment %}
-    Breadcrumbs navigation component (partial).
-
-    Renders below the header on a branded bar. Only outputs when breadcrumbs
-    are available (not on homepage). Use in base.html after the header.
-
-    Design: PATHOGENS visual identity — teal accent, soft grey strip,
-    clear hierarchy and hover states. Accessibility: nav/ol/li, aria-current, aria-hidden.
-
-    Efficiency: Link colour and underline come from base.css (global a / a:hover).
-    Only breadcrumb-specific overrides are inline: hover:text-pp-teal, focus ring, hit area.
-    Reuses .container and @theme colours from base.css; no extra CSS added there.
+    Breadcrumb trail: nav with ol/li, current page has aria-current="page",
+    separators have aria-hidden="true". Renders only when breadcrumbs is non-empty.
 {% endcomment %}
 
 {% if breadcrumbs %}
