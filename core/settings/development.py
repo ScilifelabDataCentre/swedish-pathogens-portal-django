@@ -37,27 +37,6 @@ MEDIA_ROOT = BASE_DIR / "media"  # noqa: F405
 MEDIA_URL = "media/"
 
 
-# # LOGGING (https://django-extensions.readthedocs.io/en/latest/runserver_plus.html#configuration)
-# # ------------------------------------------------------------------------------
-# LOGGING = {
-#     "version": 1,
-#     "disable_existing_loggers": False,
-#     "handlers": {
-#         "console": {
-#             "level": "DEBUG",
-#             "class": "logging.StreamHandler",
-#         },
-#     },
-#     "loggers": {
-#         "werkzeug": {
-#             "handlers": ["console"],
-#             "level": "DEBUG",
-#             "propagate": True,
-#         },
-#     },
-# }
-
-
 # EMAIL (Development defaults, override via .env if needed)
 # ------------------------------------------------------------------------------
 EMAIL_BACKEND = env(
