@@ -12,7 +12,6 @@ import secrets
 import time
 from typing import Any
 
-# logger = logging.getLogger("pages.contact.views")
 import structlog
 from django.conf import settings
 from django.contrib import messages
@@ -23,8 +22,7 @@ from django.views.generic.edit import FormView
 
 from .forms import CONTACT_TS_SIGNER, ContactForm
 
-logger = structlog.get_logger(__name__)
-logger.info("Contact views module loaded")
+LOGGER = structlog.get_logger(__name__)
 
 
 class ContactFormView(FormView):
@@ -34,7 +32,6 @@ class ContactFormView(FormView):
     form_class = ContactForm
     success_url = reverse_lazy("contact:contact")
     title = "Contact and suggestions form"
-    logger = logger
 
     def get_form_kwargs(self) -> dict[str, Any]:
         """Inject request into the form for cookie access.
@@ -53,7 +50,6 @@ class ContactFormView(FormView):
         sets a HttpOnly cookie (`contact_dsc`).
         """
 
-        logger.info("HHEEELLOOOOO")
         form = self.get_form()
         signed_ts, dsc_token = self._generate_tokens()
         form.initial.update(
@@ -114,7 +110,7 @@ class ContactFormView(FormView):
             )
             email.send(fail_silently=False)
             duration_ms = int((time.time() - start) * 1000)
-            self.logger.info("event=contact_submit outcome=success duration_ms=%s", duration_ms)
+            LOGGER.info("event=contact_submit outcome=success duration_ms=%s", duration_ms)
             messages.success(
                 self.request,
                 "Thanks! Your message was sent, we’ll get back to you soon.",
@@ -124,7 +120,7 @@ class ContactFormView(FormView):
 
         except Exception:  # noqa: BLE001
             duration_ms = int((time.time() - start) * 1000)
-            self.logger.error(
+            LOGGER.error(
                 "event=contact_submit outcome=error reason=EMAIL_SEND_ERROR duration_ms=%s",
                 duration_ms,
                 exc_info=True,
@@ -136,9 +132,8 @@ class ContactFormView(FormView):
 
     def form_invalid(self, form: ContactForm) -> HttpResponse:
         """Log a reason code without personal information and re-render the form."""
-        logger.info("HHEEELLOOOOO INVALID")
         reason = getattr(form, "_blocked_reason", None) or "VALIDATION_ERROR"
-        self.logger.warning("event=contact_submit outcome=blocked reason=%s", reason)
+        LOGGER.warning("event=contact_submit outcome=blocked reason=%s", reason)
         # Re-issue tokens and cookie so user can retry without reload
         signed_ts, dsc_token = self._generate_tokens()
         # Update both instance-level initial and bound data so rendered hidden inputs
@@ -152,7 +147,7 @@ class ContactFormView(FormView):
             form.data = data
         except Exception as err:  # noqa: BLE001
             # If form.data is not a QueryDict (unlikely), continue with initial values only
-            logger.warning(err)
+            LOGGER.warning(err)
 
         response = super().form_invalid(form)
         self._set_dsc_cookie(response, dsc_token)
