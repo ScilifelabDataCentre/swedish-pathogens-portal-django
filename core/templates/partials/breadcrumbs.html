@@ -6,6 +6,10 @@
 
     Design: PATHOGENS visual identity — teal accent, soft grey strip,
     clear hierarchy and hover states. Accessibility: nav/ol/li, aria-current, aria-hidden.
+
+    Efficiency: Link colour and underline come from base.css (global a / a:hover).
+    Only breadcrumb-specific overrides are inline: hover:text-pp-teal, focus ring, hit area.
+    Reuses .container and @theme colours from base.css; no extra CSS added there.
 {% endcomment %}
 
 {% if breadcrumbs %}
@@ -18,8 +22,7 @@
             <li class="flex items-center gap-1.5 min-w-0 max-w-full">
                 {% if not item.is_active %}
                 <a href="{{ item.url }}"
-                   class="text-pp-mid-blue hover:text-pp-teal font-medium no-underline
-                          hover:underline underline-offset-2 rounded px-1 -mx-1
+                   class="font-medium rounded px-1 -mx-1 hover:text-pp-teal
                           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal
                           focus-visible:ring-offset-2 focus-visible:rounded transition-colors duration-200">
                     {{ item.name }}
