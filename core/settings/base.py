@@ -44,6 +44,7 @@ DJANGO_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.sitemaps",  # provides sitemap class and sitemap view
 ]
 
 THIRD_PARTY_APPS = [
@@ -61,12 +62,12 @@ LOCAL_APPS = [
     "pages.news",
     "pages.outbreaks",
     "pages.plp",
+    "pages.portal_data",
     "pages.privacy",
     "pages.publications",
     "pages.register_based_research",
     "pages.topics",
 ]
-
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
@@ -120,6 +121,9 @@ DATABASES = {
 }
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# DATASETS ROOT variable used for portal data storage
+DATASETS_ROOT = env("DATASETS_ROOT", default="/datasets")
 
 
 # PASSWORDS (https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators)

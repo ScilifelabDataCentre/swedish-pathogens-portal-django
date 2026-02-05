@@ -30,7 +30,7 @@ class ContactFormTests(TestCase):
     def setUp(self) -> None:
         """Initialise test client for each test."""
         self.client = Client()
-        self.url = reverse("contact:contact")
+        self.url = reverse("contact:index")
 
     def _get_tokens_from_response(self, response: HttpResponse) -> tuple[str | None, str | None]:
         """Extract hidden anti-spam token values from rendered HTML.

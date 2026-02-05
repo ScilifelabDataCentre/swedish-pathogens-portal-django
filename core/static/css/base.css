@@ -82,7 +82,7 @@
     }
 
     p {
-        @apply my-4 wrap-break-word hyphens-auto text-pretty;
+        @apply my-4 wrap-break-word hyphens-none text-pretty;
     }
 }
 
@@ -92,6 +92,18 @@
        after that max-width is fixed to 80rem */
     .container {
         @apply mx-auto max-w-[80%] 2xl:max-w-7xl;
+    }
+
+    /* Screen reader only - visually hidden but accessible to assistive technologies */
+    .sr-only {
+        @apply absolute w-px h-px p-0 -m-px overflow-hidden whitespace-nowrap border-0;
+        clip: rect(0,0,0,0);
+    }
+
+    /* Remove sr-only on focus */
+    .focus\:not-sr-only:focus {
+        @apply static w-auto h-auto p-[inherit] m-[inherit] overflow-visible whitespace-normal;
+        clip: auto;
     }
 }
 
