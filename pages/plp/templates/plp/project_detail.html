@@ -19,13 +19,6 @@
         </span>
     </p>
 
-    <!-- Featured Image -->
-    <figure class="float-none md:float-right mx-0 md:ml-6 mb-6 md:mb-4 w-full md:w-96">
-        <img src="{{ project.featured_image.url }}" 
-             alt="{{ project.title }}" 
-             class="w-full h-auto rounded border border-pp-pale-grey block shadow-sm">
-    </figure>
-
     <!-- Project Content -->
     <div class="max-w-none mb-8">
         {{ project.rendered_content|safe }}
