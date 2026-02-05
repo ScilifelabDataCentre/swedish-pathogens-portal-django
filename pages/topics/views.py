@@ -1,6 +1,9 @@
 """Views for topics page."""
 
+from typing import Any
+
 from django.urls import reverse
+
 from utils.views import BaseDetailView, BaseListView
 
 from .models import Topic
@@ -26,7 +29,7 @@ class TopicListView(BaseListView):
     title = "Topics"
     ordering = "name"  # Topics are sorted alphabetically by name
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
         """Add topic_cards for the content_card partial."""
         context = super().get_context_data(**kwargs)
         topics = context["topics"]

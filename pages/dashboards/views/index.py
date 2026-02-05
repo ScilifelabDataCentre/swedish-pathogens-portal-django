@@ -1,5 +1,7 @@
 """Views for dashboards index page."""
 
+from typing import Any
+
 from django.templatetags.static import static
 from django.urls import reverse_lazy
 
@@ -205,11 +207,11 @@ class DashboardsIndex(BaseTemplateView):
         ],
     }
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
         """Add dashboard card lists for the content_card partial."""
         context = super().get_context_data(**kwargs)
 
-        def make_cards(dashboards):
+        def make_cards(dashboards: list[dict[str, Any]]) -> list[dict[str, Any]]:
             return [
                 {
                     "url": str(d["url"]),

@@ -2,7 +2,9 @@
 
 from typing import Any
 
+from django.db.models import QuerySet
 from django.urls import reverse
+
 from utils.views import BaseDetailView, BaseListView
 
 from .models import Outbreak
@@ -49,18 +51,23 @@ class OutbreakListView(BaseListView):
         context["current_outbreaks"] = current
         context["historical_outbreaks"] = historical
 
-        def make_cards(outbreaks):
-            return [
-                {
-                    "url": reverse("outbreaks:detail", kwargs={"slug": o.slug}),
-                    "image": o.thumbnail_image.url if o.thumbnail_image else "",
-                    "title": o.name,
-                    "description": f"{o.description} Location: {o.location}." if o.location and o.location.strip() else o.description,
-                    "date": o.updated_at,
-                    "cta_text": "Read more \u2192",
-                }
-                for o in outbreaks
-            ]
+        def make_cards(outbreaks: QuerySet[Outbreak]) -> list[dict[str, Any]]:
+            cards = []
+            for o in outbreaks:
+                desc = o.description
+                if o.location and o.location.strip():
+                    desc = f"{o.description} Location: {o.location.strip()}."
+                cards.append(
+                    {
+                        "url": reverse("outbreaks:detail", kwargs={"slug": o.slug}),
+                        "image": o.thumbnail_image.url if o.thumbnail_image else "",
+                        "title": o.name,
+                        "description": desc,
+                        "date": o.updated_at,
+                        "cta_text": "Read more \u2192",
+                    }
+                )
+            return cards
 
         context["current_outbreak_cards"] = make_cards(current)
         context["historical_outbreak_cards"] = make_cards(historical)

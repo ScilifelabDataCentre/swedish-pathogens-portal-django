@@ -2,8 +2,10 @@
 
 from typing import Any
 
+from django.db.models import QuerySet
 from django.urls import reverse
 from django.utils.html import strip_tags
+
 from utils.views import BaseDetailView, BaseListView
 
 from .models import Article
@@ -31,7 +33,7 @@ class ArticleListView(BaseListView):
     title = "Articles"
     ordering = "-created_at"
 
-    def get_queryset(self):
+    def get_queryset(self) -> QuerySet[Article]:
         """Prefetch topics for article cards."""
         return super().get_queryset().prefetch_related("topics")
 
@@ -45,21 +47,26 @@ class ArticleListView(BaseListView):
         for article in articles:
             search_parts = [article.title.lower(), strip_tags(article.summary).lower()]
             search_parts.extend(t.name.lower() for t in article.topics.all())
-            cards.append({
-                "url": reverse("articles:detail", kwargs={"slug": article.slug}),
-                "image": article.featured_image.url if article.featured_image else "",
-                "title": article.title,
-                "description": strip_tags(article.summary),
-                "date": article.created_at,
-                "badge_text": article.get_type_display(),
-                "badge_variant": article.type,
-                "topics": [
-                    {"name": t.name, "url": reverse("topics:topic_detail", kwargs={"slug": t.slug})}
-                    for t in article.topics.all()
-                ],
-                "cta_text": "Read more",
-                "search_text": " ".join(search_parts),
-            })
+            cards.append(
+                {
+                    "url": reverse("articles:detail", kwargs={"slug": article.slug}),
+                    "image": article.featured_image.url if article.featured_image else "",
+                    "title": article.title,
+                    "description": strip_tags(article.summary),
+                    "date": article.created_at,
+                    "badge_text": article.get_type_display(),
+                    "badge_variant": article.type,
+                    "topics": [
+                        {
+                            "name": t.name,
+                            "url": reverse("topics:topic_detail", kwargs={"slug": t.slug}),
+                        }
+                        for t in article.topics.all()
+                    ],
+                    "cta_text": "Read more",
+                    "search_text": " ".join(search_parts),
+                }
+            )
         context["article_cards"] = cards
         return context
 
