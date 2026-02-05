@@ -44,6 +44,7 @@ DJANGO_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.sitemaps",  # provides sitemap class and sitemap view
 ]
 
 THIRD_PARTY_APPS = [
@@ -60,11 +61,13 @@ LOCAL_APPS = [
     "pages.home",
     "pages.news",
     "pages.outbreaks",
+    "pages.portal_data",
     "pages.privacy",
+    "pages.publications",
+    "pages.register_based_research",
     "pages.share_data",
     "pages.topics",
 ]
-
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
@@ -119,6 +122,9 @@ DATABASES = {
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+# DATASETS ROOT variable used for portal data storage
+DATASETS_ROOT = env("DATASETS_ROOT", default="/datasets")
+
 
 # PASSWORDS (https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators)
 # ------------------------------------------------------------------------------
@@ -146,3 +152,8 @@ STATIC_URL = "static/"
 STATICFILES_DIRS = [
     BASE_DIR / "core" / "static",
 ]
+
+# Publications settings
+# ------------------------------------------------------------------------------
+EUROPE_PMC_API_URL = env("EUROPE_PMC_API_URL")
+EUROPE_PMC_WEB_URL = env("EUROPE_PMC_WEB_URL")

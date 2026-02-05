@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% load django_htmx %}
+
+{% block content %}
+
+<p>
+    This page shows recent research from Sweden on multiple different pandemic preparedness topics.
+    The page makes use of the Europe PMC REST API. The underlying code for this search is available
+    on the <a href="https://github.com/ScilifelabDataCentre/node-pathogens-portal" target="_blank"
+    rel="noopener noreferrer" >Pathogens Portal Node (PPN) Toolbox</a>. Please note that the
+    publications list is not manually curated.
+</p>
+
+<p>
+    A fully curated list of Swedish publications for SARS-CoV-2 and COVID-19 was generated between
+    May 2020 and May 2025, this dataset is <a href="https://doi.org/10.17044/scilifelab.14124014"
+    target="_blank" rel="noopener noreferrer">openly available on the SciLifeLab Data Repository</a>.
+</p>
+
+<div class="lg:flex lg:gap-4 mt-6">
+    <div>
+        <h5 class="px-4 py-2 m-0 bg-pp-pale-grey">Categories</h5>
+        <nav id="categories-nav" class="px-4 py-3 border border-pp-pale-grey
+        *:text-pp-dark-blue *:font-medium *:has-[.active]:text-gray-500
+        *:has-[.active]:pointer-events-none"
+        >
+            {% for pathogen in pathogens %}
+            <div id="{{ pathogen.name|slugify }}">
+                <span class="cursor-pointer hover:underline hover:underline-offset-3
+                {% if pathogen.name == active_pathogen %}active{% endif %}"
+                hx-get="{% url 'publications:index' %}"
+                hx-vals='{"pathogen": "{{ pathogen.name }}"}'
+                hx-trigger="click"
+                hx-target="#publications-list"
+                hx-swap="innerHTML"
+                >
+                    {{ pathogen.name }}
+                </span>
+            </div>
+            {% endfor %}
+        </nav>
+    </div>
+    <div class="lg:flex-1"
+    hx-get="{% url 'publications:index' %}"
+    hx-vals='{"pathogen": "{{ active_pathogen }}"}'
+    hx-trigger="load once"
+    hx-target="#publications-list"
+    hx-swap="innerHTML"
+    >
+        <h5 class="bg-pp-pale-grey mt-6 lg:mt-0 px-3 py-2">Recent publications</h5>
+        {% if no_query_pathogen %}
+        <div class="text-center text-red-500 mt-8">
+            Pathogen <b>'{{ no_query_pathogen }}'</b> is not in our database.<br>
+            Kindly try selecting a different pathogen from the list on the left.
+        </div>
+        {% else %}
+        <div id="loading-status" class="mt-4 min-h-60 text-lg
+        text-gray-600 text-center content-center hidden"
+        >
+            Loading publications...
+        </div>
+
+        <div id="publications-list">
+            <!-- The publications list will be loaded lazily by HTMX -->
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% htmx_script %}
+<script>
+    document.body.addEventListener('htmx:beforeRequest', (event) => {
+        // Update active class on category nav items
+        if (event.target.getAttribute('hx-trigger') == 'click') {
+            document.querySelectorAll('#categories-nav span').forEach((elm) => {
+                elm.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+        
+        // Show loading indicator and remove currently displayed publications
+        document.getElementById('loading-status').classList.remove('hidden');
+        document.getElementById('publications-list').innerHTML = '';
+    });
+
+    document.body.addEventListener('htmx:afterRequest', (event) => {
+        // Hide loading indicator
+        document.getElementById('loading-status').classList.add('hidden');
+    });
+</script>
+{% endblock content %}

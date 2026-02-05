@@ -20,6 +20,16 @@ class DashboardsIndex(BaseTemplateView):
         # a list of ACTIVE dashboards
         "active_dashboards": [
             {
+                "name": "Register-based vaccination (RECOVAC)",
+                "image": "dashboards/thumbnails/recovac.png",
+                "url": reverse_lazy("dashboards:recovac"),
+                "description": (
+                    "Dedicated to the work of the register-based large-scale national "
+                    "population study to monitor COVID-19 vaccination effectiveness and "
+                    "safety (RECOVAC) project."
+                ),
+            },
+            {
                 "name": "SARS-CoV-2 Variant Competition",
                 "image": "dashboards/thumbnails/lineage_competition.jpg",
                 "url": reverse_lazy("dashboards:lineage_competition"),
@@ -49,6 +59,16 @@ class DashboardsIndex(BaseTemplateView):
                     "positive/negative tests over time are shown."
                 ),
             },
+            {
+                "name": "Multi-disease serology",
+                "image": "dashboards/thumbnails/multidisease_serology.jpg",
+                "url": reverse_lazy("dashboards:multidisease_serology"),
+                "description": (
+                    "A summary of the progress in developing a multi-disease serology "
+                    "assay, a key component of pandemic preparedness. Information "
+                    "about externally produced antigens is also provided. "
+                ),
+            },
         ],
         # a list of HISTORIC dashboards
         "historic_dashboards": [
@@ -75,6 +95,15 @@ class DashboardsIndex(BaseTemplateView):
                 ),
             },
             {
+                "name": "Historic influenza virus in wastewater (SLU)",
+                "image": "dashboards/thumbnails/historic_influenza.jpg",
+                "url": reverse_lazy("dashboards:historic_influenza"),
+                "description": (
+                    "Historic data of Influenza A and B virus levels in wastewater "
+                    "across Sweden from SLU-SEEC."
+                ),
+            },
+            {
                 "name": "Post COVID-19 condition",
                 "image": "dashboards/thumbnails/post_covid.jpg",
                 "url": reverse_lazy("dashboards:post_covid"),
@@ -97,6 +126,16 @@ class DashboardsIndex(BaseTemplateView):
                 ),
             },
             {
+                "name": "Swedish COVID-19 publications over 5 years",
+                "image": "dashboards/thumbnails/historic_covid_publications.jpg",
+                "url": reverse_lazy("dashboards:historic_covid_publications"),
+                "description": (
+                    "A summary of the COVID-19 and SARS-CoV-2 publications produced involving at "
+                    "least one contributor from a Swedish university or research institute. Shows "
+                    "publications over time and key words/phrases within them."
+                ),
+            },
+            {
                 "name": "Vaccine administration: COVID-19",
                 "image": "dashboards/thumbnails/vaccines.jpg",
                 "url": reverse_lazy("dashboards:vaccines"),
@@ -105,6 +144,19 @@ class DashboardsIndex(BaseTemplateView):
                     "and information related to COVID-19 in Sweden. Visualisations "
                     "are shown on multiple aspects of vaccination coverage, like "
                     "coverage in different counties."
+                ),
+            },
+            {
+                "name": "Amount of SARS-CoV-2 in wastewater (GU)",
+                "image": "dashboards/thumbnails/covid_quantification_kth.png",
+                "url": reverse_lazy("dashboards:historic_covid_quantification_gu"),
+                "description": (
+                    "This project is led by Professor Helene Norder (University of Gothenburg, "
+                    "GU), and supported by co-workers from the University of Gothenburg and "
+                    "Sahlgrenska University Hospital (Hao Wang, Marianela Patzi Churqui, Timur "
+                    "Tunovic, Fredy Saguti, and Kristina Nyström). The wastewater sample "
+                    "collections were performed by Lucica Enache at Ryaverket, "
+                    "Gryaab AB, Gothenburg."
                 ),
             },
             {
@@ -126,6 +178,17 @@ class DashboardsIndex(BaseTemplateView):
                 "description": (
                     "Historic SARS-CoV-2 wastewater data from SEEC-SLU, including "
                     "nationwide sites plus Umeå and Örebro visualisations."
+                ),
+            },
+            {
+                "name": "Wastewater: Enteric Virus Quantification (GU)",
+                "image": "dashboards/thumbnails/wastewater_enteric_virus.png",
+                "url": reverse_lazy("dashboards:historic_enteric_quantification_gu"),
+                "description": (
+                    "Enteric virus levels in Gothenburg's wastewater, including "
+                    "norovirus and adenovirus. Data from the Norder group's weekly "
+                    "analysis at Ryaverket WWTP helps predict outbreaks and includes "
+                    "samples from surrounding municipalities."
                 ),
             },
         ],

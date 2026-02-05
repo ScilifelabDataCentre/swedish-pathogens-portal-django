@@ -20,13 +20,21 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
+from django.contrib.sitemaps.views import sitemap
 from django.urls import include, path
 
 # Local imports
+from core.sitemaps import sitemaps
 from core.views import healthz
 
-urlpatterns = [
+# not part of public scan - skipping namespace
+core_urls = [
     path(settings.ADMIN_URL, admin.site.urls, name="admin"),
+    path("healthz/", healthz, name="healthz"),
+    path("sitemap.xml", sitemap, {"sitemaps": sitemaps}, name="sitemap"),
+]
+
+page_urls = [
     path("", include("pages.home.urls")),
     path("articles/", include("pages.articles.urls")),
     path("about/", include("pages.about.urls")),
@@ -34,13 +42,17 @@ urlpatterns = [
     path("contact/", include("pages.contact.urls")),
     path("dashboards/", include("pages.dashboards.urls")),
     path("data-management/", include("pages.data_management.urls")),
-    path("healthz/", healthz, name="healthz"),
     path("news/", include("pages.news.urls")),
     path("outbreaks/", include("pages.outbreaks.urls")),
+    path("portal-data/", include("pages.portal_data.urls")),
     path("privacy/", include("pages.privacy.urls")),
+    path("publications/", include("pages.publications.urls")),
+    path("register-based-research/", include("pages.register_based_research.urls")),
     path("share-data/", include("pages.share_data.urls")),
     path("topics/", include("pages.topics.urls")),
 ]
+
+urlpatterns = core_urls + page_urls
 
 # Auto browser reload addition for local development
 if settings.DEBUG:
