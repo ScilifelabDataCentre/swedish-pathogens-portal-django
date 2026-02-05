@@ -28,18 +28,18 @@ class PlpProject(models.Model):
     """
 
     CATEGORY_CHOICES = [
-        ("plp1", "PLP1"),
         ("tdp", "TDP"),
-        ("plp2", "PLP2"),
-        ("test", "PLP-Test"),
         ("pmt", "PM TDP"),
+        ("test", "PLP-Test"),
+        ("plp2", "PLP2"),
+        ("plp1", "PLP1"),
     ]
     CATEGORY_GROUP_LABELS = {
-        "plp1": "Pandemic Laboratory Preparedness Capabilities round 1",
         "tdp": "Technology Development Projects",
-        "plp2": "Pandemic Laboratory Preparedness Capabilities round 2 2022",
-        "test": "Testing PLP Capabilities",
         "pmt": "Precision Medicine Technology Development Projects",
+        "test": "Testing PLP Capabilities",
+        "plp2": "Pandemic Laboratory Preparedness Capabilities round 2 2022",
+        "plp1": "Pandemic Laboratory Preparedness Capabilities round 1",
     }
 
     title = models.CharField(
