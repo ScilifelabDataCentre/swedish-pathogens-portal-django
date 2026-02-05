@@ -68,7 +68,8 @@ class DashboardsIndex(BaseTemplateView):
                     "assay, a key component of pandemic preparedness. Information "
                     "about externally produced antigens is also provided. "
                 ),
-            },{
+            },
+            {
                 "name": "SvarmIT: interactive resistance monitoring",
                 "image": "dashboards/thumbnails/external/sva_logo.png",
                 "url": "https://www.sva.se/djurhaelsa/antibiotika/oevervakning/svarmit-interaktivt-resistensoevervakningsverktyg/",
@@ -91,9 +92,7 @@ class DashboardsIndex(BaseTemplateView):
                 "name": "Campylobacter in broiler chickens",
                 "image": "dashboards/thumbnails/external/sva_logo.png",
                 "url": "https://svastatichosting.z6.web.core.windows.net/maps/campy_graph/barchart.html",
-                "description": (
-                    "Surveillance dedicated to monitor campylobacter in chickens."
-                ),
+                "description": ("Surveillance dedicated to monitor campylobacter in chickens."),
             },
             {
                 "name": "Covid-19 – Confirmed cases in Sweden",
@@ -178,7 +177,7 @@ class DashboardsIndex(BaseTemplateView):
                     "SARS-CoV-2 diversity and spread. "
                 ),
             },
-             {
+            {
                 "name": "SARS-CoV-2 phylogeny",
                 "image": "dashboards/thumbnails/external/nextstrain_logo.png",
                 "url": "https://nextstrain.org/groups/neherlab/ncov/sweden?c=clade_membership&f_country=Sweden&p=grid&r=division",
