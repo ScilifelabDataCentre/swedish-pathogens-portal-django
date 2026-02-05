@@ -1,5 +1,6 @@
 """Views for dashboards index page."""
 
+from django.templatetags.static import static
 from django.urls import reverse_lazy
 
 from utils.views import BaseTemplateView
@@ -203,3 +204,24 @@ class DashboardsIndex(BaseTemplateView):
             },
         ],
     }
+
+    def get_context_data(self, **kwargs):
+        """Add dashboard card lists for the content_card partial."""
+        context = super().get_context_data(**kwargs)
+
+        def make_cards(dashboards):
+            return [
+                {
+                    "url": str(d["url"]),
+                    "image": static(d["image"]),
+                    "title": d["name"],
+                    "description": d["description"],
+                    "cta_text": "Read more \u2192",
+                }
+                for d in dashboards
+            ]
+
+        context["active_dashboard_cards"] = make_cards(context["active_dashboards"])
+        context["historic_dashboard_cards"] = make_cards(context["historic_dashboards"])
+
+        return context
