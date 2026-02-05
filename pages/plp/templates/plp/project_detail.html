@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% comment %}
+    TODO: rework in phase 2
+        - allow inline images within content (see https://github.com/ScilifelabDataCentre/swedish-pathogens-portal/pull/74#discussion_r2712113446)
+{% endcomment %}
+
+<!-- Main Content -->
+<div class="py-8">
+    <!-- Title and Category -->
+    <h1 class="text-3xl mb-2">
+        {{ project.title }}
+    </h1>
+
+    <!-- Project Content -->
+    <div class="max-w-none mb-8">
+        {{ project.rendered_content|safe }}
+    </div>
+
+    <div class="mt-12 pt-6 border-t border-pp-pale-grey">
+        <a href="{% url 'plp:index' %}" class="group inline-flex items-center text-pp-dark-blue font-medium no-underline">
+            <svg class="w-4 h-4 mr-1 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+            </svg>
+            Back to PLP Overview
+        </a>
+    </div>
+</div>
+
+{% endblock %}

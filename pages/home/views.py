@@ -46,12 +46,13 @@ class Home(View):
         # Fetch active dashboards with thumbnails
         context["dashboards"] = [
             {
-                "name": "SARS-CoV-2 Variant Competition",
-                "image": "dashboards/thumbnails/lineage_competition.jpg",
-                "url": reverse_lazy("dashboards:lineage_competition"),
+                "name": "SLU-SEEC Wastewater Surveillance",
+                "image": "dashboards/thumbnails/slu_wastewater.jpg",
+                "url": reverse_lazy("dashboards:slu_overview"),
                 "description": (
-                    "Estimates of SARS-CoV-2 variant frequencies and growth rate "
-                    "advantages from global SARS-CoV-2 genotype sequencing data."
+                    "Explore pathogens levels in wastewater across Sweden. Weekly data from "
+                    "SLU-SEEC tracks pathogens trends, covering a significant portion of the "
+                    "population, and assists in predicting potential outbreaks."
                 ),
             },
             {
