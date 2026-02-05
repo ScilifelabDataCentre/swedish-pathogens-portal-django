@@ -1,5 +1,6 @@
 """Views for topics page."""
 
+from django.urls import reverse
 from utils.views import BaseDetailView, BaseListView
 
 from .models import Topic
@@ -24,6 +25,23 @@ class TopicListView(BaseListView):
     context_object_name = "topics"
     title = "Topics"
     ordering = "name"  # Topics are sorted alphabetically by name
+
+    def get_context_data(self, **kwargs):
+        """Add topic_cards for the content_card partial."""
+        context = super().get_context_data(**kwargs)
+        topics = context["topics"]
+        context["topic_cards"] = [
+            {
+                "url": reverse("topics:topic_detail", kwargs={"slug": t.slug}),
+                "image": t.thumbnail_image.url if t.thumbnail_image else "",
+                "title": t.name,
+                "description": t.description,
+                "date": t.updated_at,
+                "cta_text": "Read more \u2192",
+            }
+            for t in topics
+        ]
+        return context
 
 
 class TopicDetailView(BaseDetailView):

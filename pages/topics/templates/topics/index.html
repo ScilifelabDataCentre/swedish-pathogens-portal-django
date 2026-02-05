@@ -13,36 +13,10 @@
     </div>
 
     <!-- Topics Grid -->
-    {% if topics %}
+    {% if topic_cards %}
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
-            {% for topic in topics %}
-                <div class="bg-white border border-pp-pale-grey rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
-                    <!-- Topic Image -->
-                    <div class="relative">
-                        <img 
-                            src="{{ topic.display_image|safe }}" 
-                            alt="{{ topic.name }}"
-                            class="w-full h-48 object-cover rounded-t-lg"
-                        />
-                    </div>
-                    
-                    <!-- Topic Content -->
-                    <div class="p-4">
-                        <h6 class="text-lg font-semibold text-pp-dark-blue mb-3">
-                            <a 
-                                href="{% url 'topics:topic_detail' topic.slug %}" 
-                                class="hover:text-pp-teal transition-colors duration-200"
-                            >
-                                {{ topic.name }}
-                            </a>
-                        </h6>
-                        
-                        <!-- Topic Description -->
-                        <p class="text-pp-dark-grey text-sm leading-relaxed mb-4">
-                            {{ topic.description|truncatewords:25 }}
-                        </p>
-                    </div>
-                </div>
+            {% for card in topic_cards %}
+                {% include "components/content_card.html#content_card" %}
             {% endfor %}
         </div>
     {% else %}
