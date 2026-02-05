@@ -157,7 +157,7 @@
         @apply p-5 flex-1 flex flex-col;
     }
     .content-card__title {
-        @apply mt-0 text-lg font-bold text-pp-dark-blue mb-0 transition-colors line-clamp-2;
+        @apply mt-0 mb-2 text-lg font-bold text-pp-dark-blue transition-colors line-clamp-2;
     }
     .group:hover .content-card__title {
         @apply text-pp-teal;

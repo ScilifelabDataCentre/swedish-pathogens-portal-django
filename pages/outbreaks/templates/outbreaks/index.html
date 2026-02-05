@@ -16,99 +16,31 @@
     <!-- Current Outbreaks Section -->
     <div class="mb-12">
         <h2 class="text-2xl font-bold text-pp-dark-blue mb-6">Current Outbreaks</h2>
-        {% if current_outbreaks %}
+        {% if current_outbreak_cards %}
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
-                {% for outbreak in current_outbreaks %}
-                    <div class="group bg-white border border-pp-pale-grey rounded-lg shadow-sm hover:shadow-lg transition-all duration-300">
-                        <!-- Outbreak Image -->
-                        <div class="relative h-48 overflow-hidden rounded-t-lg">
-                            {% if outbreak.thumbnail_image %}
-                                <img 
-                                    src="{{ outbreak.display_image|safe }}" 
-                                    alt="{{ outbreak.name }}"
-                                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                />
-                            {% else %}
-                                <div class="w-full h-full bg-pp-pale-grey flex items-center justify-center">
-                                    <svg class="w-10 h-10 text-pp-dark-grey/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                                    </svg>
-                                </div>
-                            {% endif %}
-                        </div>
-                        
-                        <!-- Outbreak Content -->
-                        <div class="px-5 py-1">
-                            <h6 class="text-lg font-semibold text-pp-dark-blue mb-1">
-                                <a 
-                                    href="{% url 'outbreaks:detail' outbreak.slug %}" 
-                                    class="hover:text-pp-teal transition-colors duration-200"
-                                >
-                                    {{ outbreak.name }}
-                                </a>
-                            </h6>
-                            
-                            <!-- Outbreak Description -->
-                            <p class="text-pp-dark-grey text-sm leading-relaxed line-clamp-3">
-                                {{ outbreak.description }}
-                            </p>
-                        </div>
-                    </div>
+                {% for card in current_outbreak_cards %}
+                    {% include "components/content_card.html#content_card" %}
                 {% endfor %}
             </div>
-            {% else %}
-                <p class="text-pp-dark-grey">There are currently no ongoing outbreaks.</p>
-            {% endif %}
-        </div>
+        {% else %}
+            <p class="text-pp-dark-grey">There are currently no ongoing outbreaks.</p>
+        {% endif %}
+    </div>
 
     <!-- Historical Outbreaks Section -->
-    {% if historical_outbreaks %}
+    {% if historical_outbreak_cards %}
         <div class="mb-12">
             <h2 class="text-2xl font-bold text-pp-dark-blue mb-6">Historical Outbreaks</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
-                {% for outbreak in historical_outbreaks %}
-                    <div class="group bg-white border border-pp-pale-grey rounded-lg shadow-sm hover:shadow-lg transition-all duration-300">
-                        <!-- Outbreak Image -->
-                        <div class="relative h-48 overflow-hidden rounded-t-lg">
-                            {% if outbreak.thumbnail_image %}
-                                <img 
-                                    src="{{ outbreak.display_image|safe }}" 
-                                    alt="{{ outbreak.name }}"
-                                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                />
-                            {% else %}
-                                <div class="w-full h-full bg-pp-pale-grey flex items-center justify-center">
-                                    <svg class="w-10 h-10 text-pp-dark-grey/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                                    </svg>
-                                </div>
-                            {% endif %}
-                        </div>
-                        
-                        <!-- Outbreak Content -->
-                        <div class="px-5 py-1">
-                            <h6 class="text-lg font-semibold text-pp-dark-blue mb-1">
-                                <a 
-                                    href="{% url 'outbreaks:detail' outbreak.slug %}" 
-                                    class="hover:text-pp-teal transition-colors duration-200"
-                                >
-                                    {{ outbreak.name }}
-                                </a>
-                            </h6>
-                            
-                            <!-- Outbreak Description -->
-                            <p class="text-pp-dark-grey text-sm leading-relaxed line-clamp-3">
-                                {{ outbreak.description }}
-                            </p>
-                        </div>
-                    </div>
+                {% for card in historical_outbreak_cards %}
+                    {% include "components/content_card.html#content_card" %}
                 {% endfor %}
             </div>
         </div>
     {% endif %}
 
     <!-- No Outbreaks Message -->
-    {% if not current_outbreaks and not historical_outbreaks %}
+    {% if not current_outbreak_cards and not historical_outbreak_cards %}
         <div class="text-center py-16">
             <div class="max-w-md mx-auto">
                 <div class="w-20 h-20 bg-pp-pale-grey rounded-full flex items-center justify-center mx-auto mb-4">

@@ -42,7 +42,7 @@
       <h3 class="content-card__title">
         {{ card.title }}
       </h3>
-      <p class="content-card__description">{{ card.description }}</p>
+      <p class="content-card__description">{{ card.description|truncatewords:40|safe }}</p>
       {% if card.topics %}
         <div class="content-card__topics">
           {% for t in card.topics %}
