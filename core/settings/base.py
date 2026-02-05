@@ -159,10 +159,34 @@ EUROPE_PMC_WEB_URL = env("EUROPE_PMC_WEB_URL")
 
 # Logging
 # ------------------------------------------------------------------------------
+#
+# This project uses django-structlog for structured logging.
+# https://django-structlog.readthedocs.io/
+#
+#
+
 
 LOGGING = {
-    "version": 1,  # only version 1 is supported, but required
-    "disable_existing_loggers": False,  # keep loggers alive
+    # --------------------------------------------------------------------------
+    # General config
+    #
+    # - Version is required, but only version 1 is supported
+    # - disable_existing_loggers: False keeps the default Django loggers alive
+    # --------------------------------------------------------------------------
+    "version": 1,
+    "disable_existing_loggers": False,
+    # --------------------------------------------------------------------------
+    # Formatters
+    #
+    # Define how the logs should be formatted.
+    # This config defines two formatters: one for console output and one for JSON
+    #
+    # - "()" specifies a callable that returns a formatter instance
+    # - ProcessorFormatter is used to integrate structlog with standard logging
+    #   Without it: different formats for structlog and django/lib logs
+    # - ConsoleRenderer produces structured logs as easily readable for console
+    # - JSONRenderer produces structured logs as JSON
+    # --------------------------------------------------------------------------
     "formatters": {
         "plain_console": {
             "()": structlog.stdlib.ProcessorFormatter,
@@ -173,6 +197,19 @@ LOGGING = {
             "processor": structlog.processors.JSONRenderer(),
         },
     },
+    # --------------------------------------------------------------------------
+    # Handlers
+    #
+    # Define what happens to the log messages
+    # This config defines two handlers: one to output to console and one to write
+    # to a JSON file.
+    #
+    # - StreamHandler writes logs to stdout
+    # - TimedRotatingFileHandler writes logs to a file
+    #     > New file created every (interval 1) Monday (W0)
+    #     > Total 11 files kept: 10 old (backupCount 10) and current
+    #     > Delay=False means file is opened immediately, not on first write
+    # --------------------------------------------------------------------------
     "handlers": {
         "console": {
             "class": "logging.StreamHandler",
@@ -182,16 +219,28 @@ LOGGING = {
             "class": "logging.handlers.TimedRotatingFileHandler",
             "formatter": "json_formatter",
             "filename": str(BASE_DIR / "app.log"),
-            "when": "M",
+            "when": "W0",
             "interval": 1,
             "backupCount": 10,
-            "delay": True,
+            "delay": False,
         },
     },
+    # --------------------------------------------------------------------------
+    # Loggers
+    #
+    # Different parts of the application log to different loggers.
+    #
+    # - The "root" logger is the default logger (entire application)
+    #     > Placement of root key is required - inside loggers key not allowed
+    # - django_structlog and werkzeug loggers are used by the packages called
+    #   exactly that
+    # - propagate set as False to prevent logs from being passed to parent loggers
+    # - werkzeug logger only uses the console handler to avoid excessive logging
+    #   and duplicates, and propagate being False avoids writing to JSON file as well
+    # --------------------------------------------------------------------------
     "root": {
         "handlers": ["console", "json_file"],
         "level": "INFO",
-        "propagate": False,
     },
     "loggers": {
         "django_structlog": {
@@ -199,8 +248,8 @@ LOGGING = {
             "level": "INFO",
             "propagate": False,
         },
-        "spp_logger": {
-            "handlers": ["console", "json_file"],
+        "werkzeug": {
+            "handlers": ["console"],
             "level": "INFO",
             "propagate": False,
         },

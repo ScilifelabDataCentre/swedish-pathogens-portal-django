@@ -49,7 +49,7 @@ class ContactFormView(FormView):
         Sets the signed timestamp and double-submit token as hidden fields and
         sets a HttpOnly cookie (`contact_dsc`).
         """
-
+        LOGGER.info("hello hello")
         form = self.get_form()
         signed_ts, dsc_token = self._generate_tokens()
         form.initial.update(
