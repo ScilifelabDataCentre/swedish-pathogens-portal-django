@@ -165,12 +165,14 @@
     .content-card__description {
         @apply text-pp-dark-grey text-sm flex-1 line-clamp-3 my-0 mb-2;
     }
+    .content-card__footer {
+        @apply flex flex-wrap items-center justify-between gap-2 px-5 pb-5 pt-0;
+    }
     .content-card__topics {
-        @apply mt-2 flex flex-wrap gap-1;
+        @apply flex flex-wrap gap-1;
     }
     .content-card__cta-wrap {
-        @apply mt-0;
-        text-align: right;
+        @apply shrink-0 no-underline hover:no-underline;
     }
     .content-card__cta {
         @apply text-pp-mid-blue font-bold text-sm;
@@ -179,6 +181,6 @@
         @apply underline;
     }
     .content-card__link {
-        @apply block no-underline hover:no-underline rounded-xl h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2;
+        @apply block no-underline hover:no-underline rounded-xl h-full flex flex-col flex-1 min-h-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2;
     }
 }

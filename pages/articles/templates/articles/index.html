@@ -27,66 +27,12 @@
                aria-label="Search">
     </div>
     
-    {% if articles %}
+    {% if article_cards %}
         <div id="articles_container" 
-             class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-3">
-            {% for article in articles %}
-                <div class="data-highlight" 
-                     data-search-text="{{ article.title|lower }} 
-                                      {{ article.summary|lower }} 
-                                      {% for topic in article.topics.all %}
-                                          {{ topic.name|lower }} 
-                                      {% endfor %}">
-                    <div class="h-full px-2.5 py-3 rounded-sm bg-pp-pale-grey hover:shadow-[0px_0px_3px_#55585a] relative">
-                        <!-- Content Type Badge -->
-                        <div class="absolute top-2 right-2 px-2 py-1 text-xs font-semibold rounded shadow-sm z-10 {% if article.type == 'editorial' %}bg-pp-dark-blue text-white{% else %}bg-pp-teal text-white{% endif %}">
-                            {{ article.get_type_display }}
-                        </div>
-                        
-                        <!-- Featured Image -->
-                        {% if article.featured_image %}
-                            <div aria-hidden="true">
-                                <a href="{% url 'articles:detail' article.slug %}">
-                                    <img class="w-full h-48 rounded-t-sm object-cover" 
-                                         src="{{ article.featured_image.url }}" 
-                                         alt="{{ article.title }}">
-                                </a>
-                            </div>
-                        {% endif %}
-                        
-                        <!-- Date -->
-                        <div class="mt-2">
-                            <small class="text-pp-dark-grey text-sm">{{ article.created_at|date:"F j, Y" }}</small>
-                        </div>
-                        
-                        <!-- Title -->
-                        <div>
-                            <h6 class="my-1">
-                                <a class="text-pp-dark-blue hover:text-pp-teal transition-colors duration-200" 
-                                   href="{% url 'articles:detail' article.slug %}">
-                                    {{ article.title }}
-                                </a>
-                            </h6>
-                        </div>
-                        
-                        <!-- Summary and Topics -->
-                        <div>
-                            <p class="text-pp-dark-grey text-sm leading-relaxed mb-2">{{ article.summary|safe }}</p>
-                            
-                            <!-- Topics -->
-                            {% if article.topics.exists %}
-                                <div class="mt-1">
-                                    {% for topic in article.topics.all %}
-                                        <span class="badge badge-topic">
-                                            <a href="{% url 'topics:topic_detail' topic.slug %}">
-                                                {{ topic.name }}
-                                            </a>
-                                        </span>
-                                    {% endfor %}
-                                </div>
-                            {% endif %}
-                        </div>
-                    </div>
+             class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+            {% for card in article_cards %}
+                <div class="data-highlight" data-search-text="{{ card.search_text }}">
+                    {% include "components/content_card.html#content_card" %}
                 </div>
             {% endfor %}
         </div>

@@ -8,8 +8,8 @@
   Date and badge: same row below image, above title (date left, badge right); border between image and body.
 #}
 {% partialdef content_card %}
-<a href="{{ card.url }}" class="group content-card__link" aria-label="{{ card.title }}">
-  <div class="content-card">
+<div class="group content-card">
+  <a href="{{ card.url }}" class="content-card__link" aria-label="{{ card.title }}">
     <div class="content-card__image-area">
       {% if card.image %}
         <img src="{{ card.image }}"
@@ -42,20 +42,24 @@
       <h3 class="content-card__title">
         {{ card.title }}
       </h3>
-      <p class="content-card__description">{{ card.description|truncatewords:30|safe }}</p>
-      {% if card.topics %}
-        <div class="content-card__topics">
+      <p class="content-card__description">{{ card.description|truncatewords:25 }}</p>
+    </div>
+  </a>
+  {% if card.topics or card.cta_text %}
+    <div class="content-card__footer">
+      <div class="content-card__topics">
+        {% if card.topics %}
           {% for t in card.topics %}
             <span class="badge badge-topic"><a href="{{ t.url }}">{{ t.name }}</a></span>
           {% endfor %}
-        </div>
-      {% endif %}
+        {% endif %}
+      </div>
       {% if card.cta_text %}
-        <div class="content-card__cta-wrap">
+        <a href="{{ card.url }}" class="content-card__cta-wrap" aria-label="{{ card.title }}">
           <span class="content-card__cta">{{ card.cta_text }}</span>
-        </div>
+        </a>
       {% endif %}
     </div>
-  </div>
-</a>
+  {% endif %}
+</div>
 {% endpartialdef %}

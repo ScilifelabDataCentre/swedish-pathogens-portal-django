@@ -2,6 +2,8 @@
 
 from typing import Any
 
+from django.urls import reverse
+from django.utils.html import strip_tags
 from utils.views import BaseDetailView, BaseListView
 
 from .models import Article
@@ -28,6 +30,38 @@ class ArticleListView(BaseListView):
     context_object_name = "articles"
     title = "Articles"
     ordering = "-created_at"
+
+    def get_queryset(self):
+        """Prefetch topics for article cards."""
+        return super().get_queryset().prefetch_related("topics")
+
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
+        """Add article_cards for the content_card partial and search."""
+        context = super().get_context_data(**kwargs)
+        # Use full queryset so all articles are shown (no pagination)
+        articles = self.get_queryset()
+
+        cards = []
+        for article in articles:
+            search_parts = [article.title.lower(), strip_tags(article.summary).lower()]
+            search_parts.extend(t.name.lower() for t in article.topics.all())
+            cards.append({
+                "url": reverse("articles:detail", kwargs={"slug": article.slug}),
+                "image": article.featured_image.url if article.featured_image else "",
+                "title": article.title,
+                "description": strip_tags(article.summary),
+                "date": article.created_at,
+                "badge_text": article.get_type_display(),
+                "badge_variant": article.type,
+                "topics": [
+                    {"name": t.name, "url": reverse("topics:topic_detail", kwargs={"slug": t.slug})}
+                    for t in article.topics.all()
+                ],
+                "cta_text": "Read more",
+                "search_text": " ".join(search_parts),
+            })
+        context["article_cards"] = cards
+        return context
 
 
 class ArticleDetailView(BaseDetailView):
