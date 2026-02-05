@@ -87,7 +87,17 @@ class Home(View):
             for d in dashboards_data
         ]
 
-        context["topics"] = Topic.objects.filter(is_active=True)[:3]
+        topics = Topic.objects.filter(is_active=True)[:3]
+        context["topic_cards"] = [
+            {
+                "url": reverse("topics:topic_detail", kwargs={"slug": topic.slug}),
+                "image": topic.thumbnail_image.url if topic.thumbnail_image else "",
+                "title": topic.name,
+                "description": topic.description,
+                "cta_text": "Read more \u2192",
+            }
+            for topic in topics
+        ]
         articles = Article.objects.filter(is_active=True).order_by("-created_at")[:3]
         context["articles"] = articles
         context["article_cards"] = [
@@ -97,7 +107,7 @@ class Home(View):
                 "title": article.title,
                 "description": article.summary,
                 "date": article.created_at,
-                "cta_text": "Read article \u2192",
+                "cta_text": "Read more \u2192",
             }
             for article in articles
         ]

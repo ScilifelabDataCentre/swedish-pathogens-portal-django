@@ -99,36 +99,8 @@
                 resources to support your work in surveillance, identification, and investigation.
             </p>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {% for topic in topics %}
-                <a href="{% url 'topics:topic_detail' topic.slug %}" class="group no-underline hover:no-underline rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2"
-                    aria-label="Learn more about {{ topic.title }}">
-                    <div
-                        class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all h-full flex flex-col">
-                        <div class="h-40 overflow-hidden bg-gray-100 relative">
-                            {% if topic.thumbnail_image %}
-                            <img src="{{ topic.thumbnail_image.url }}" alt="{{ topic.title }}"
-                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
-                            {% else %}
-                            <div
-                                class="w-full h-full bg-linear-to-br from-pp-teal to-pp-lime-green flex items-center justify-center">
-                                <svg class="w-12 h-12 text-white shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-                                </svg>
-                            </div>
-                            {% endif %}
-                        </div>
-                        <div class="p-5 flex-1 flex flex-col">
-                            <h3
-                                class="text-lg font-bold text-pp-dark-blue mb-2 group-hover:text-pp-teal transition-colors">
-                                {{ topic.title }}</h3>
-                            <p class="text-pp-dark-grey text-sm line-clamp-3 flex-1">{{ topic.description }}</p>
-                            <div class="mt-3">
-                                <span class="text-pp-mid-blue font-bold text-sm group-hover:underline">Learn more
-                                    &rarr;</span>
-                            </div>
-                        </div>
-                    </div>
-                </a>
+                {% for card in topic_cards %}
+                    {% include "components/content_card.html#content_card" %}
                 {% empty %}
                 <div
                     class="col-span-3 text-center py-8 bg-pp-pale-grey border-2 border-dashed border-gray-300 rounded-xl">
