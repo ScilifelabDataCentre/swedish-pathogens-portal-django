@@ -2,10 +2,10 @@
 {# Django 6 partial: render with {% partial "components/content_card.html#content_card" %} #}
 {#
   Context: card (required: url, image, title, description).
-  Optional: image_alt, date (British j F Y at bottom of image), badge_text, badge_variant (editorial|data_highlight),
+  Optional: image_alt, date (British j F Y below image), badge_text, badge_variant (editorial|data_highlight),
   topics (list of { name, url }), cta_text.
   Image: required; pass URL or leave empty/None for placeholder.
-  Date and badge: same row at bottom of image area (date left, badge right).
+  Date and badge: same row below image, above title (date left, badge right); border between image and body.
 #}
 {% partialdef content_card %}
 <a href="{{ card.url }}" class="group content-card__link" aria-label="{{ card.title }}">
@@ -23,6 +23,8 @@
           </svg>
         </div>
       {% endif %}
+    </div>
+    <div class="content-card__body">
       {% if card.date or card.badge_text %}
         <div class="content-card__date-badge-row">
           {% if card.date %}
@@ -37,8 +39,6 @@
           {% endif %}
         </div>
       {% endif %}
-    </div>
-    <div class="content-card__body">
       <h3 class="content-card__title">
         {{ card.title }}
       </h3>

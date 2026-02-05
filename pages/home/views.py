@@ -5,7 +5,7 @@ import logging
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.templatetags.static import static
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.views import View
 
 from pages.articles.models import Article
@@ -88,7 +88,19 @@ class Home(View):
         ]
 
         context["topics"] = Topic.objects.filter(is_active=True)[:3]
-        context["articles"] = Article.objects.filter(is_active=True).order_by("-created_at")[:3]
+        articles = Article.objects.filter(is_active=True).order_by("-created_at")[:3]
+        context["articles"] = articles
+        context["article_cards"] = [
+            {
+                "url": reverse("articles:detail", kwargs={"slug": article.slug}),
+                "image": article.featured_image.url if article.featured_image else "",
+                "title": article.title,
+                "description": article.summary,
+                "date": article.created_at,
+                "cta_text": "Read article \u2192",
+            }
+            for article in articles
+        ]
         context["news"] = News.objects.filter(is_active=True).order_by("-created_at")[:5]
 
         return render(request, self.template_name, context)

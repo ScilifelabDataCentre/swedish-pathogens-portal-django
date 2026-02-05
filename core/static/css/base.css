@@ -127,7 +127,7 @@
         @apply shadow-md;
     }
     .content-card__image-area {
-        @apply overflow-hidden relative border-b border-pp-pale-grey;
+        @apply overflow-hidden border-b border-pp-pale-grey;
     }
     .content-card__image {
         @apply w-full h-40 object-cover transition-transform duration-300;
@@ -139,10 +139,10 @@
         @apply w-full h-40 flex items-center justify-center bg-linear-to-br from-pp-mid-blue to-pp-teal;
     }
     .content-card__date-badge-row {
-        @apply absolute bottom-2 left-2 right-2 flex items-center justify-between text-xs;
+        @apply flex items-center justify-between text-xs mb-2;
     }
     .content-card__date {
-        @apply text-white drop-shadow-md;
+        @apply text-pp-dark-grey;
     }
     .content-card__badge {
         @apply px-2 py-1 font-semibold rounded shadow-sm;
@@ -163,13 +163,14 @@
         @apply text-pp-teal;
     }
     .content-card__description {
-        @apply text-pp-dark-grey text-sm flex-1 line-clamp-3;
+        @apply text-pp-dark-grey text-sm flex-1 line-clamp-3 my-0 mb-2;
     }
     .content-card__topics {
         @apply mt-2 flex flex-wrap gap-1;
     }
     .content-card__cta-wrap {
-        @apply mt-3;
+        @apply mt-0;
+        text-align: right;
     }
     .content-card__cta {
         @apply text-pp-mid-blue font-bold text-sm;
