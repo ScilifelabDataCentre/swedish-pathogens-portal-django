@@ -6,6 +6,7 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.templatetags.static import static
 from django.urls import reverse, reverse_lazy
+from django.utils.html import strip_tags
 from django.views import View
 
 from pages.articles.models import Article
@@ -94,20 +95,34 @@ class Home(View):
                 "image": topic.thumbnail_image.url if topic.thumbnail_image else "",
                 "title": topic.name,
                 "description": topic.description,
+                "date": topic.updated_at,
                 "cta_text": "Read more \u2192",
             }
             for topic in topics
         ]
-        articles = Article.objects.filter(is_active=True).order_by("-created_at")[:3]
+        articles = (
+            Article.objects.filter(is_active=True)
+            .order_by("-updated_at")
+            .prefetch_related("topics")[:3]
+        )
         context["articles"] = articles
         context["article_cards"] = [
             {
                 "url": reverse("articles:detail", kwargs={"slug": article.slug}),
                 "image": article.featured_image.url if article.featured_image else "",
                 "title": article.title,
-                "description": article.summary,
-                "date": article.created_at,
-                "cta_text": "Read more \u2192",
+                "description": strip_tags(article.summary),
+                "date": article.updated_at,
+                "badge_text": article.get_type_display(),
+                "badge_variant": article.type,
+                "topics": [
+                    {
+                        "name": t.name,
+                        "url": reverse("topics:topic_detail", kwargs={"slug": t.slug}),
+                    }
+                    for t in article.topics.all()
+                ],
+                "cta_text": "Read more",
             }
             for article in articles
         ]
