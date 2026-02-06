@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+    {% comment %}
+    TODO: re-evaluate and optimise as needed in second phase.
+    - Add "topics".
+    - Update layout as needed
+    - When 'partials' available in stable release, make use of it 
+    {% endcomment %}
+
+    <h4>External dashboards</h4>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+        {% for dashboard in external_dashboards %}
+        <div class="border border-pp-dark-blue hover:shadow-md">
+            <div>
+                <a href="{{ dashboard.url }}" target="_blank" rel="noopener noreferrer">
+                    <img src="{% static dashboard.image %}"
+                    alt="Thumbnail for {{ dashboard.name }}"
+                    loading="lazy"
+                    >
+                </a>
+            </div>
+            <div class="px-4 py-3 font-medium text-lg *:text-white bg-pp-dark-blue">
+                <a href="{{ dashboard.url }}" target="_blank" rel="noopener noreferrer">
+                    {{ dashboard.name }}
+                </a>
+            </div>
+            <div class="p-4">
+                {{ dashboard.description }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+
+{% endblock %}

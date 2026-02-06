@@ -6,6 +6,7 @@ from django.utils.text import slugify
 from .views import (
     CovidQuantificationKth,
     CrushCovid,
+    ExternalDashboards,
     DashboardsIndex,
     HistoricCovidPublications,
     HistoricCovidQuantificationGu,
@@ -29,6 +30,7 @@ app_name = "dashboards"
 
 urlpatterns = [
     path("", DashboardsIndex.as_view(), name="index"),
+    path("external-dashboards", ExternalDashboards.as_view(), name="external_dashboards"),
     path(
         "lineage-competition/",
         LineageCompetition.as_view(),
