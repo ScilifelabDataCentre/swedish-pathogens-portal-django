@@ -6,8 +6,8 @@ from django.utils.text import slugify
 from .views import (
     CovidQuantificationKth,
     CrushCovid,
-    ExternalDashboards,
     DashboardsIndex,
+    ExternalDashboards,
     HistoricCovidPublications,
     HistoricCovidQuantificationGu,
     HistoricEntericQuantificationGu,

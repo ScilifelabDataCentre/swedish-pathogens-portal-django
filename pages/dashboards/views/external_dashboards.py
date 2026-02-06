@@ -1,7 +1,5 @@
 """Views for dashboards index page."""
 
-from django.urls import reverse_lazy
-
 from utils.views import BaseTemplateView
 
 

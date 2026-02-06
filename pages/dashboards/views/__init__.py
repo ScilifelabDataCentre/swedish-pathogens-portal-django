@@ -27,8 +27,8 @@ from .variants_region_uppsala import VariantsRegionUppsala
 __all__ = [
     "CovidQuantificationKth",
     "CrushCovid",
-    "ExternalDashboards"
     "DashboardsIndex",
+    "ExternalDashboards",
     "HistoricCovidPublications",
     "HistoricCovidQuantificationGu",
     "HistoricEntericQuantificationGu",
