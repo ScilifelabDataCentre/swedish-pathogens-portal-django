@@ -1,17 +1,24 @@
 {% comment %}
     A common snippet that can be included in the template
-    when plot html is not available
+    to display a standardized plot loading error message.
 
     Usage:
-        {% include "dashboards/partials/plot_loading_error.html" %}
-    
-    TODO: change href url after contact page implemented
+      - {% include "dashboards/partials/plot_loading_error.html" %}
+      - {% include "dashboards/partials/plot_loading_error.html" with missing_data="Raw data" %}
+      - {% include "dashboards/partials/plot_loading_error.html" with message="Custom error message." %}
 {% endcomment %}
 
 <div class="my-6 min-h-30 bg-pp-pale-grey text-center content-center" role="alert">
     <span>
-        Problem loading the plot, please try again later.<br>
-        If the problem persists, <a href="/contact">contact</a>
+        {% if message %}
+        {{ message }}
+        {% elif missing_data %}
+        '{{ missing_data }}' not found, please try again later.
+        {% else %}
+        Problem loading the plot, please try again later.
+        {% endif %}
+
+        <br>If the problem persists, <a href="{% url 'contact:index' %}">contact</a>
         the portal team.
     </span>
 </div>

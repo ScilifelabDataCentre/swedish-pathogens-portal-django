@@ -63,6 +63,8 @@ LOCAL_APPS = [
     "pages.home",
     "pages.news",
     "pages.outbreaks",
+    "pages.plp",
+    "pages.portal_data",
     "pages.privacy",
     "pages.publications",
     "pages.register_based_research",
@@ -122,6 +124,9 @@ DATABASES = {
 }
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# DATASETS ROOT variable used for portal data storage
+DATASETS_ROOT = env("DATASETS_ROOT", default="/datasets")
 
 
 # PASSWORDS (https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators)
