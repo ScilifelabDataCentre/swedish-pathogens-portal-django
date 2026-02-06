@@ -220,7 +220,7 @@ LOGGING = {
         "json_file": {
             "class": "logging.handlers.TimedRotatingFileHandler",
             "formatter": "json_formatter",
-            "filename": str(BASE_DIR / "app.log"),
+            "filename": str(BASE_DIR / "logs" / "spp_structlog.json"),
             "when": "W0",
             "interval": 1,
             "backupCount": 10,
