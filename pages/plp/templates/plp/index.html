@@ -1,0 +1,221 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% comment %}
+    TODO: rework in phase 2
+        - homogenise table with other pages
+{% endcomment %}
+
+<h3>Overview of Pandemic Preparedness Program</h3>
+
+<h4>Background</h4>
+<p>
+    The Science for Life Laboratory (SciLifeLab) research community has been actively engaged in
+    national and international COVID-19 research efforts since early 2020. Access to the wide-ranging
+    expertise within that community, and to previously established SciLifeLab infrastructure, expedited
+    COVID-19 research at the molecular, cellular, patient, population, and environmental levels.
+</p>
+
+<p>
+    SciLifeLab was quick to respond to the pandemic, and established multiple efforts to accelerate
+    and support research throughout. The first program established to support research efforts was
+    the
+    <a href="https://www.scilifelab.se/capabilities/pandemic-laboratory-preparedness/pandemic-response/national-program/"
+       target="_blank" rel="noopener noreferrer">
+      The SciLifeLab/KAW National COVID-19 Research Program</a>, which was established in April 2020 and
+    co-funded by the <a href="https://kaw.wallenberg.org/en" target="_blank" rel="noopener noreferrer">
+      Knut and Alice Wallenberg Foundation (KAW)</a>.
+    When the focus of the global research community started to shift towards pandemic preparedness,
+    SciLifeLab was commissioned to establish a program to support pandemic preparedness in general.
+    This resulted in SciLifeLab's Pandemic Laboratory Preparedness (PLP) program.
+</p>
+
+<details
+    class="group bg-white rounded-lg border border-pp-pale-grey/30 shadow-sm overflow-hidden
+    transition-all duration-300">
+    <summary
+        class="p-4 font-bold text-lg cursor-pointer flex items-center justify-between list-none hover:bg-pp-pale-grey/10
+        transition-colors">
+        Timeline of the program
+        <span class="transition-transform duration-300 group-open:rotate-180">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+        </span>
+    </summary>
+    <div class="border-t border-pp-pale-grey/20">
+        <div class="overflow-x-auto shadow-sm ring-1 ring-pp-pale-grey/20">
+            <table class="min-w-full text-sm text-left table-fixed [&_th]:px-4 [&_th]:py-4 [&_th]:font-bold [&_th]:whitespace-nowrap [&_td]:align-top [&_td]:px-4 [&_td]:py-3 [&_td]:whitespace-normal [&_td]:break-normal"
+                aria-label="Timeline of the PLP program">
+            <thead class="bg-pp-dark-blue text-white text-xs uppercase tracking-wider sticky top-0">
+                <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Milestone</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Status</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-pp-pale-grey/20 [&>tr]:odd:bg-white [&>tr]:even:bg-pp-pale-grey/10 [&>tr:hover]:bg-pp-pale-grey/20 [&>tr]:transition-colors [&>tr]:duration-150">
+                <tr>
+                    <td>2025-06-01</td>
+                    <td>
+                        <a href="https://www.scilifelab.se/news/call-for-grants-for-technology-development-projects-within-pandemic-laboratory-preparedness-plp-tdp/"
+                            target="_blank" rel="noopener noreferrer">PLPTDP25 Call</a>
+                    </td>
+                    <td>Launch of new TDP funding to drive
+                        diagnostics and host response innovation that will support during outbreaks.</td>
+                    <td>Call open (as of Jun 2025)</td>
+                </tr>
+                <tr>
+                    <td>2024-02-01</td>
+                    <td>PM TDP Call</td>
+                    <td>Call for clinical tech development
+                        in collaboration with Precision Medicine to address healthcare needs.</td>
+                    <td>Call closed (Apr 2024)</td>
+                </tr>
+                <tr>
+                    <td>2023-09-01</td>
+                    <td>
+                        <a href="https://www.scilifelab.se/news/grants-for-testing-of-plp-capabilities-plp-test/"
+                            target="_blank" rel="noopener noreferrer">PLP-Test Call</a>
+                    </td>
+                    <td>Support up to 9 projects to test
+                        and improve PLP capabilities.</td>
+                    <td>Ongoing</td>
+                </tr>
+                <tr>
+                    <td>2023-02-01</td>
+                    <td>
+                        <a href="https://anubis.scilifelab.se/call/REPLPCM" target="_blank" rel="noopener noreferrer">
+                            REPLPCM Call
+                        </a>
+                    </td>
+                    <td>Extend funding for TDP projects
+                        until 2025.</td>
+                    <td>Ongoing (until 2025)</td>
+                </tr>
+                <tr>
+                    <td>2022-09-01</td>
+                    <td>
+                        <a href="https://anubis.scilifelab.se/call/REPLP1" target="_blank" rel="noopener noreferrer">
+                            REPLP-1 Call
+                        </a>
+                    </td>
+                    <td>Extend funding for PLP1 projects
+                        until 2025.</td>
+                    <td>Ongoing (until 2025)</td>
+                </tr>
+                <tr>
+                    <td>2022-04-01</td>
+                    <td>PLP2 Call</td>
+                    <td>To create nationally significant
+                        infrastructure capabilities with a functional expectation within a year.</td>
+                    <td>Completed</td>
+                </tr>
+                <tr>
+                    <td>2021-12-01</td>
+                    <td>TDP Funding Call</td>
+                    <td>The intention with this call was to
+                        build closer connections between clinical microbiology laboratories in Sweden and to develop
+                        capabilities in major clinical microbiology labs in Sweden.</td>
+                    <td>Completed</td>
+                </tr>
+                <tr>
+                    <td>2021-07-01</td>
+                    <td>PLP1: First 8 Capabilities Selected</td>
+                    <td>Focused on BSL3, biobanking,
+                        environmental detection, immunomonitoring, serology, sequencing.</td>
+                    <td>Completed</td>
+                </tr>
+                <tr>
+                    <td>2021-02-01</td>
+                    <td>PLP National Open Call</td>
+                    <td>Call for letters of intent to
+                        detect/monitor COVID-19 and future pandemics.</td>
+                    <td>Completed</td>
+                </tr>
+                <tr>
+                    <td>2020-12-01</td>
+                    <td>
+                    <a href="https://www.regeringen.se/rattsliga-dokument/proposition/2020/12/forskning-frihet-framtid--kunskap-och-innovation-for-sverige/"
+                            target="_blank" rel="noopener noreferrer">
+                            Swedish government commissioned SciLifeLab
+                        </a>
+                    </td>
+                    <td>
+                        The assignment broadly involved supporting research related to infectious diseases (e.g. in
+                        diagnostics, analysis of infection, immunity, and the development of resistance to therapies in
+                        pathogens), and developing competence and technologies related to pandemic research (e.g. in
+                        sequencing, genetic analysis, immunology, and big data).
+                    </td>
+                    <td>Completed</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <p class="px-3">To view any current funding available from PLP, view our
+        <a href="{% url 'about:funders' %}">funding page.</a>
+    </p>
+    </div>
+</details>
+
+<h4>Pandemic Preparedness Capabilities</h4>
+<p>
+    The COVID-19 pandemic placed enormous strain on society and healthcare systems worldwide, but rapid
+    action and unprecedented scientific collaboration helped reduce its impact. To ensure an even faster
+    and more effective response to future pandemics, the scientific community emphasises the need for
+    proactive investment in preparedness. This includes maintaining and updating the resources developed
+    during COVID-19 so they can be quickly deployed again. The
+    <a href="https://www.scilifelab.se/capabilities/pandemic-laboratory-preparedness/" target="_blank"
+        rel="noopener noreferrer">
+        Pandemic Laboratory Preparedness (PLP) program at SciLifeLab
+    </a> contributes to this effort by establishing a national network of laboratory capabilities.
+</p>
+<p>
+    This section lists the capabilities related to pandemic preparedness (i.e. services or resources
+    that can be used in current and future pandemics).
+    The pages for each capability are regularly updated with new information as it becomes available.
+</p>
+
+{% if category_groups %}
+    {% for group in category_groups %}
+    <section class="mt-8 first:mt-0" id="category-{{ group.value }}">
+        <div class="flex items-baseline justify-between mb-4">
+            <h5 class="m-0">
+                {{ group.label }}
+            </h5>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+            {% for project in group.projects %}
+            <div class="project-card group">
+                <div
+                    class="h-full flex flex-col bg-white rounded-lg border border-pp-pale-grey/40 shadow-sm
+                    hover:shadow-md transition-all duration-300 relative overflow-hidden">
+                    <!-- Featured image -->
+                    <div class="h-48 w-full overflow-hidden bg-pp-pale-grey/10" aria-hidden="true">
+                        <a href="{{ project.get_absolute_url }}" class="block h-full">
+                            <img src="{{ project.featured_image.url }}" alt="{{ project.title }}"
+                                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                        </a>
+                    </div>
+                    <!-- Title -->
+                    <div class="p-5 flex flex-col grow">
+                        <h6 class="mt-0 mb-2 font-bold">
+                            <a href="{{ project.get_absolute_url }}">
+                                {{ project.title }}
+                            </a>
+                        </h5>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endfor %}
+{% else %}
+    <p class="text-center py-8 text-pp-dark-grey italic">No projects to display</p>
+{% endif %}
+
+{% endblock %}

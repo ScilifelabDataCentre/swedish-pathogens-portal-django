@@ -1,12 +1,15 @@
 """URL configurations for dashboards page."""
 
 from django.urls import path
+from django.utils.text import slugify
 
 from .views import (
     CovidQuantificationKth,
     CrushCovid,
     DashboardsIndex,
     HistoricCovidPublications,
+    HistoricCovidQuantificationGu,
+    HistoricEntericQuantificationGu,
     HistoricInfluenza,
     HistoricSarsCov2Wastewater,
     LineageCompetition,
@@ -15,6 +18,8 @@ from .views import (
     PostCovid,
     Recovac,
     SerologyStatistics,
+    SLUsync,
+    SluWasteWater,
     SymptomStudySweden,
     Vaccines,
     VariantsRegionUppsala,
@@ -50,6 +55,11 @@ urlpatterns = [
         name="historic_covid_publications",
     ),
     path(
+        "historic-covid-quantification-gu/",
+        HistoricCovidQuantificationGu.as_view(),
+        name="historic_covid_quantification_gu",
+    ),
+    path(
         "covid-quantification-kth/",
         CovidQuantificationKth.as_view(),
         name="covid_quantification_kth",
@@ -58,6 +68,11 @@ urlpatterns = [
         "crush-covid/",
         CrushCovid.as_view(),
         name="crush_covid",
+    ),
+    path(
+        "historic-enteric-quantification-gu/",
+        HistoricEntericQuantificationGu.as_view(),
+        name="historic_enteric_quantification_gu",
     ),
     path(
         "historic-sarscov2-wastewater/",
@@ -95,3 +110,22 @@ urlpatterns = [
         name="vaccines",
     ),
 ]
+
+# SLU wastewater URLs
+for page in SluWasteWater.pages:
+    urlpatterns.append(
+        path(
+            "slu-wastewater/" + ("" if page == "Overview" else f"{slugify(page)}/"),
+            SluWasteWater.as_view(active_page=page),
+            name=f"slu_{slugify(page)}",
+        )
+    )
+
+# temp workaround, it should be removed when researcher data upload page is ready
+urlpatterns.append(
+    path(
+        "slu-wastewater/data-sync",
+        SLUsync.as_view(),
+        name="slu_data_sync",
+    )
+)
