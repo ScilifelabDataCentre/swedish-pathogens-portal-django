@@ -5,7 +5,6 @@ from django.contrib.postgres.validators import ArrayMinLengthValidator
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from django.db import models
-from django.utils.text import slugify
 
 
 def validate_contact_emails(value: str) -> None:
@@ -58,11 +57,6 @@ class ExternalResource(models.Model):
         unique=True,
         help_text="Name of the resource",
     )
-    slug = models.SlugField(
-        max_length=160,
-        unique=True,
-        help_text="URL-friendly version of the name (auto-generated from name)",
-    )
     link = models.URLField(
         help_text="External link to the resource",
     )
@@ -114,9 +108,7 @@ class ExternalResource(models.Model):
         return self.name
 
     def save(self, *args, **kwargs) -> None:
-        """Save the resource, auto-generating slug if missing."""
-        if not self.slug:
-            self.slug = slugify(self.name)
+        """Save the resource."""
         super().save(*args, **kwargs)
 
     @property
