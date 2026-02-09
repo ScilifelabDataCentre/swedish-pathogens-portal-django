@@ -11,6 +11,7 @@
     {% endcomment %}
 
     <h4>Active dashboards</h4>
+    <p>Dashboards created by the Swedish Pathogens Portal containing data that is actively updated by associated research efforts.</p>
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
         {% for dashboard in active_dashboards %}
         <div class="border border-pp-dark-blue hover:shadow-md">
@@ -35,8 +36,9 @@
     </div>
 
     <h4>Historic dashboards</h4>
+    <p>Dashboards created by the Swedish Pathogens Portal that are no longer updated by associated research efforts.</p>
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
-        {% for dashboard in historic_dashboards %}
+        {% for dashboard in historic_dashboards|dictsort:"name" %}
         <div class="border border-pp-dark-blue hover:shadow-md">
             <div>
                 <a href="{{ dashboard.url }}">

@@ -11,8 +11,9 @@
     {% endcomment %}
 
     <h4>External dashboards</h4>
+    <p>Below is a list of dashboards created by other organisations that show infectious disease-related data from Sweden.</p>
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
-        {% for dashboard in external_dashboards %}
+        {% for dashboard in external_dashboards|dictsort:"name" %}
         <div class="border border-pp-dark-blue hover:shadow-md">
             <div>
                 <a href="{{ dashboard.url }}" target="_blank" rel="noopener noreferrer">
