@@ -2,7 +2,7 @@
 {# Django 6 partial: render with {% partial "components/content_card.html#content_card" %} #}
 {#
   Context: card (required: url, image, title, description).
-  Optional: image_alt, date (British j F Y below image), badge_text, badge_variant (editorial|data_highlight),
+  Optional: image_alt, date (British j F Y below image), badge_text (badge uses teal style),
   topics (list of { name, url }), cta_text.
   Image: required; pass URL or leave empty/None for placeholder.
   Date and badge: same row below image, above title (date left, badge right); border between image and body.
@@ -35,7 +35,7 @@
             <span></span>
           {% endif %}
           {% if card.badge_text %}
-            <span class="px-2 py-1 font-semibold rounded shadow-sm {% if card.badge_variant == 'editorial' %}bg-pp-dark-blue text-white{% else %}bg-pp-teal text-white{% endif %}">
+            <span class="px-2 py-1 font-semibold rounded shadow-sm bg-pp-teal text-white">
               {{ card.badge_text }}
             </span>
           {% endif %}
