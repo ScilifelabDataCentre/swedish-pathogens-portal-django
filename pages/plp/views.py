@@ -44,11 +44,21 @@ class PlpListView(BaseListView):
         category_groups = []
         for value, _label in PlpProject.CATEGORY_CHOICES:
             if value in category_map:
+                projects = category_map[value]
                 category_groups.append(
                     {
                         "value": value,
-                        "label": category_map[value][0].get_category_group_label(),
-                        "projects": category_map[value],
+                        "label": projects[0].get_category_group_label(),
+                        "projects": projects,
+                        "project_cards": [
+                            {
+                                "url": p.get_absolute_url(),
+                                "image": p.featured_image.url if p.featured_image else "",
+                                "title": p.title,
+                                "description": "",
+                            }
+                            for p in projects
+                        ],
                     }
                 )
 
