@@ -9,8 +9,12 @@ from .models import Catalogue
 
 
 class CatalogueAdminForm(forms.ModelForm):
-    """Admin form for Catalogue with multi-select data types."""
+    """Admin form for Catalogue with multi-select fields."""
 
+    category = forms.MultipleChoiceField(
+        choices=Catalogue.CategoryChoices.choices,
+        widget=forms.CheckboxSelectMultiple,
+    )
     data_type = forms.MultipleChoiceField(
         choices=Catalogue.DataTypeChoices.choices,
         widget=forms.CheckboxSelectMultiple,
@@ -30,6 +34,32 @@ class CatalogueAdminForm(forms.ModelForm):
             "thumbnail_image",
             "is_active",
         ]
+
+
+class CategoryListFilter(admin.SimpleListFilter):
+    """Human-readable category filter for ArrayField values."""
+
+    title = "category"
+    parameter_name = "category"
+
+    def lookups(
+        self,
+        request: HttpRequest,
+        model_admin: admin.ModelAdmin,
+    ) -> list[tuple[str, str]]:
+        """Return readable category choices."""
+        return Catalogue.CategoryChoices.choices
+
+    def queryset(
+        self,
+        request: HttpRequest,
+        queryset: QuerySet[Catalogue],
+    ) -> QuerySet[Catalogue]:
+        """Filter queryset by selected category."""
+        value = self.value()
+        if not value:
+            return queryset
+        return queryset.filter(category__contains=[value])
 
 
 class DataTypeListFilter(admin.SimpleListFilter):
@@ -67,8 +97,8 @@ class CatalogueAdmin(admin.ModelAdmin):
     """
 
     form = CatalogueAdminForm
-    list_display = ["name", "category", "data_types_label", "is_active", "created_at"]
-    list_filter = ["category", DataTypeListFilter, "is_active", "created_at"]
+    list_display = ["name", "categories_label", "data_types_label", "is_active", "created_at"]
+    list_filter = [CategoryListFilter, DataTypeListFilter, "is_active", "created_at"]
     search_fields = ["name", "description", "keywords"]
     readonly_fields = ["created_at", "updated_at"]
     actions = ["activate_projects", "deactivate_projects"]
@@ -83,6 +113,11 @@ class CatalogueAdmin(admin.ModelAdmin):
             {"fields": ("created_at", "updated_at"), "classes": ("collapse",)},
         ),
     )
+
+    @admin.display(description="Categories")
+    def categories_label(self, obj: Catalogue) -> str:
+        """Return a comma-separated list of categories."""
+        return obj.category_display
 
     @admin.display(description="Data types")
     def data_types_label(self, obj: Catalogue) -> str:

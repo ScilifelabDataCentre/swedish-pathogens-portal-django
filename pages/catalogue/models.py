@@ -56,10 +56,13 @@ class Catalogue(models.Model):
         blank=True,
         help_text="Optional keywords for the resource, separated by commas",
     )
-    category = models.CharField(
-        max_length=50,
-        choices=CategoryChoices.choices,
-        help_text="Which page should display this resource",
+    category = ArrayField(
+        models.CharField(
+            max_length=50,
+            choices=CategoryChoices.choices,
+        ),
+        validators=[ArrayMinLengthValidator(1)],
+        help_text="Which page(s) should display this resource (select one or more)",
     )
     is_active = models.BooleanField(
         default=True,
@@ -87,6 +90,14 @@ class Catalogue(models.Model):
     def display_image(self) -> str:
         """Return the URL of the thumbnail image."""
         return self.thumbnail_image.url
+
+    @property
+    def category_display(self) -> str:
+        """Return categories as a readable comma-separated string."""
+        if not self.category:
+            return ""
+        label_map = dict(self.CategoryChoices.choices)
+        return ", ".join(label_map.get(c, c) for c in self.category)
 
     @property
     def data_type_display(self) -> str:
