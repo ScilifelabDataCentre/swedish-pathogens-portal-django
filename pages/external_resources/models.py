@@ -2,30 +2,7 @@
 
 from django.contrib.postgres.fields import ArrayField
 from django.contrib.postgres.validators import ArrayMinLengthValidator
-from django.core.exceptions import ValidationError
-from django.core.validators import validate_email
 from django.db import models
-
-
-def validate_contact_emails(value: str) -> None:
-    """Validate one or more email addresses in a string."""
-    if not value:
-        return
-
-    raw_items = [item.strip() for item in value.replace("\n", ",").split(",")]
-    email_items = [item for item in raw_items if item]
-
-    invalid_emails = []
-    for email in email_items:
-        try:
-            validate_email(email)
-        except ValidationError:
-            invalid_emails.append(email)
-
-    if invalid_emails:
-        raise ValidationError(
-            "Enter valid email address(es) separated by commas.",
-        )
 
 
 class ExternalResource(models.Model):
@@ -63,11 +40,6 @@ class ExternalResource(models.Model):
     thumbnail_image = models.ImageField(
         upload_to="external_resources/images/",
         help_text="Thumbnail image for the resource card",
-    )
-    contact = models.TextField(
-        blank=True,
-        validators=[validate_contact_emails],
-        help_text="Optional contact email(s), separated by commas",
     )
     description = models.TextField(
         help_text="Description for the resource card",
