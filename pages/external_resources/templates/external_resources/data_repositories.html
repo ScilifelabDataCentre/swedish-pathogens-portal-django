@@ -6,6 +6,6 @@
         <h1>{{ title }}</h1>
         <p>Resources where users can both access and submit data.</p>
     </div>
-    {% include "external_resources/partials/resource_grid.html" with empty_title="No data repositories available" empty_message="There are currently no data repositories listed. Please check back later." %}
+    {% include "external_resources/partials/resource_grid.html" with type="data repositories" %}
 </div>
 {% endblock %}

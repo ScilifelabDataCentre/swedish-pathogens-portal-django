@@ -6,6 +6,6 @@
         <h1>{{ title }}</h1>
         <p>A collection of tools relevant to infectious disease research.</p>
     </div>
-    {% include "external_resources/partials/resource_grid.html" with empty_title="No tools available" empty_message="There are currently no tools listed. Please check back later." %}
+    {% include "external_resources/partials/resource_grid.html" with type="tools" %}
 </div>
 {% endblock %}

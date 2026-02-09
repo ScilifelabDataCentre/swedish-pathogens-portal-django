@@ -6,6 +6,6 @@
         <h1>{{ title }}</h1>
         <p>Resources where users can access data.</p>
     </div>
-    {% include "external_resources/partials/resource_grid.html" with empty_title="No data sources available" empty_message="There are currently no data sources listed. Please check back later." %}
+    {% include "external_resources/partials/resource_grid.html" with type="data sources" %}
 </div>
 {% endblock %}
