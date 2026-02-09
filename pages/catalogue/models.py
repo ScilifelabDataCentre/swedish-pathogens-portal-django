@@ -11,23 +11,23 @@ class Catalogue(models.Model):
     class DataTypeChoices(models.TextChoices):
         """Allowed data types for catalogue entries."""
 
-        BIOCHEMISTRY = "Biochemistry", "Biochemistry"
-        DRUG_DISCOVERY = "Drug discovery", "Drug discovery"
-        GENOMICS_TRANSCRIPTOMICS = "Genomics & transcriptomics", "Genomics & transcriptomics"
-        HEALTH = "Health", "Health"
-        IMAGING = "Imaging", "Imaging"
-        OTHER = "Other", "Other"
-        PROTEIN = "Protein", "Protein"
-        PUBLIC_HEALTH = "Public health", "Public health"
-        SEROLOGY = "Serology", "Serology"
-        SOCIAL_SCIENCE_HUMANITIES = "Social science and humanities", "Social science and humanities"
+        BIOCHEMISTRY = "Biochemistry"
+        DRUG_DISCOVERY = "Drug discovery"
+        GENOMICS_TRANSCRIPTOMICS = "Genomics & transcriptomics"
+        HEALTH = "Health"
+        IMAGING = "Imaging"
+        OTHER = "Other"
+        PROTEIN = "Protein"
+        PUBLIC_HEALTH = "Public health"
+        SEROLOGY = "Serology"
+        SOCIAL_SCIENCE_HUMANITIES = "Social science and humanities"
 
     class CategoryChoices(models.TextChoices):
         """Page categories for catalogue entries."""
 
-        TOOLS_CATALOGUE = "tools_catalogue", "Tools catalogue"
-        DATA_REPOSITORIES = "data_repositories", "Data repositories"
-        DATA_SOURCES = "data_sources", "Data sources"
+        TOOLS_CATALOGUE = "Tools catalogue"
+        DATA_REPOSITORIES = "Data repositories"
+        DATA_SOURCES = "Data sources"
 
     name = models.CharField(
         max_length=150,
@@ -82,10 +82,6 @@ class Catalogue(models.Model):
         """Return resource name for string representation."""
         return self.name
 
-    def save(self, *args, **kwargs) -> None:
-        """Save the resource."""
-        super().save(*args, **kwargs)
-
     @property
     def display_image(self) -> str:
         """Return the URL of the thumbnail image."""
@@ -104,20 +100,5 @@ class Catalogue(models.Model):
         """Return data types as a readable comma-separated string."""
         if not self.data_type:
             return ""
-        if isinstance(self.data_type, (list, tuple)):
-            cleaned_parts = []
-            for item in self.data_type:
-                raw_item = str(item).strip()
-                if raw_item.startswith("{") and raw_item.endswith("}"):
-                    raw_item = raw_item[1:-1]
-                split_parts = [
-                    part.strip().strip('"') for part in raw_item.split(",") if part.strip()
-                ]
-                cleaned_parts.extend(split_parts or [raw_item])
-            return ", ".join(cleaned_parts)
-
-        raw_value = str(self.data_type).strip()
-        if raw_value.startswith("{") and raw_value.endswith("}"):
-            raw_value = raw_value[1:-1]
-        parts = [part.strip().strip('"') for part in raw_value.split(",") if part.strip()]
-        return ", ".join(parts)
+        label_map = dict(self.DataTypeChoices.choices)
+        return ", ".join(label_map.get(dt, dt) for dt in self.data_type)

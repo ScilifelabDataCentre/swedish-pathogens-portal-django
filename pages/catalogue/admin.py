@@ -36,56 +36,48 @@ class CatalogueAdminForm(forms.ModelForm):
         ]
 
 
-class CategoryListFilter(admin.SimpleListFilter):
-    """Human-readable category filter for ArrayField values."""
+class ArrayFieldListFilter(admin.SimpleListFilter):
+    """Reusable list filter for ArrayField values."""
+
+    choices_class = None
+    array_field_name = None
+
+    def lookups(
+        self,
+        request: HttpRequest,
+        model_admin: admin.ModelAdmin,
+    ) -> list[tuple[str, str]]:
+        """Return readable choices for the filter."""
+        return self.choices_class.choices
+
+    def queryset(
+        self,
+        request: HttpRequest,
+        queryset: QuerySet[Catalogue],
+    ) -> QuerySet[Catalogue]:
+        """Filter queryset by selected value using array containment."""
+        value = self.value()
+        if not value:
+            return queryset
+        return queryset.filter(**{f"{self.array_field_name}__contains": [value]})
+
+
+class CategoryListFilter(ArrayFieldListFilter):
+    """Filter catalogue entries by category."""
 
     title = "category"
     parameter_name = "category"
-
-    def lookups(
-        self,
-        request: HttpRequest,
-        model_admin: admin.ModelAdmin,
-    ) -> list[tuple[str, str]]:
-        """Return readable category choices."""
-        return Catalogue.CategoryChoices.choices
-
-    def queryset(
-        self,
-        request: HttpRequest,
-        queryset: QuerySet[Catalogue],
-    ) -> QuerySet[Catalogue]:
-        """Filter queryset by selected category."""
-        value = self.value()
-        if not value:
-            return queryset
-        return queryset.filter(category__contains=[value])
+    choices_class = Catalogue.CategoryChoices
+    array_field_name = "category"
 
 
-class DataTypeListFilter(admin.SimpleListFilter):
-    """Human-readable data type filter for ArrayField values."""
+class DataTypeListFilter(ArrayFieldListFilter):
+    """Filter catalogue entries by data type."""
 
     title = "data type"
     parameter_name = "data_type"
-
-    def lookups(
-        self,
-        request: HttpRequest,
-        model_admin: admin.ModelAdmin,
-    ) -> list[tuple[str, str]]:
-        """Return readable data type choices."""
-        return Catalogue.DataTypeChoices.choices
-
-    def queryset(
-        self,
-        request: HttpRequest,
-        queryset: QuerySet[Catalogue],
-    ) -> QuerySet[Catalogue]:
-        """Filter queryset by selected data type."""
-        value = self.value()
-        if not value:
-            return queryset
-        return queryset.filter(data_type__contains=[value])
+    choices_class = Catalogue.DataTypeChoices
+    array_field_name = "data_type"
 
 
 @admin.register(Catalogue)
@@ -101,7 +93,7 @@ class CatalogueAdmin(admin.ModelAdmin):
     list_filter = [CategoryListFilter, DataTypeListFilter, "is_active", "created_at"]
     search_fields = ["name", "description", "keywords"]
     readonly_fields = ["created_at", "updated_at"]
-    actions = ["activate_projects", "deactivate_projects"]
+    actions = ["activate_entries", "deactivate_entries"]
 
     fieldsets = (
         ("Basic Information", {"fields": ("name", "category", "data_type")}),
@@ -124,20 +116,18 @@ class CatalogueAdmin(admin.ModelAdmin):
         """Return a comma-separated list of data types."""
         return obj.data_type_display
 
-    def activate_projects(self, request: HttpRequest, queryset: QuerySet[Catalogue]) -> None:
-        """Activate selected projects."""
+    @admin.action(description="Activate selected entries")
+    def activate_entries(self, request: HttpRequest, queryset: QuerySet[Catalogue]) -> None:
+        """Activate selected entries."""
         updated = queryset.update(is_active=True)
         self.message_user(
-            request, f"Successfully activated {updated} project(s).", messages.SUCCESS
+            request, f"Successfully activated {updated} entry/entries.", messages.SUCCESS
         )
 
-    activate_projects.short_description = "Activate selected projects"
-
-    def deactivate_projects(self, request: HttpRequest, queryset: QuerySet[Catalogue]) -> None:
-        """Deactivate selected projects."""
+    @admin.action(description="Deactivate selected entries")
+    def deactivate_entries(self, request: HttpRequest, queryset: QuerySet[Catalogue]) -> None:
+        """Deactivate selected entries."""
         updated = queryset.update(is_active=False)
         self.message_user(
-            request, f"Successfully deactivated {updated} project(s).", messages.SUCCESS
+            request, f"Successfully deactivated {updated} entry/entries.", messages.SUCCESS
         )
-
-    deactivate_projects.short_description = "Deactivate selected projects"
