@@ -2,33 +2,33 @@
     TODO: update cards styling once https://github.com/ScilifelabDataCentre/swedish-pathogens-portal/pull/102 is merged
 {% endcomment %}
 
-{% if resources %}
+{% if catalogue_entries %}
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
-        {% for resource in resources %}
+        {% for item in catalogue_entries %}
             <div class="bg-white border border-pp-pale-grey rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
                 <div class="relative">
                     <img
-                        src="{{ resource.display_image }}"
-                        alt="{{ resource.name }}"
+                        src="{{ item.thumbnail_image.url }}"
+                        alt="{{ item.name }}"
                         class="w-full h-48 object-cover rounded-t-lg"
                     />
                 </div>
                 <div class="p-4">
                     <h6 class="text-lg font-semibold mb-2">
                         <a
-                            href="{{ resource.link }}"
+                            href="{{ item.link }}"
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            {{ resource.name }}
+                            {{ item.name }}
                         </a>
                     </h6>
                     <p class="text-pp-dark-grey text-sm leading-relaxed mb-3">
-                        {{ resource.description }}
+                        {{ item.description }}
                     </p>
                     <div class="text-pp-dark-grey text-xs mb-2">
                         <span class="font-semibold">Data type:</span>
-                        <span>{{ resource.data_type_display }}</span>
+                        <span>{{ item.data_type_display }}</span>
                     </div>
                 </div>
             </div>
