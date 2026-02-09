@@ -8,46 +8,48 @@
   Date and badge: same row below image, above title (date left, badge right); border between image and body.
 #}
 {% partialdef content_card %}
-<div class="group content-card">
-  <a href="{{ card.url }}" class="content-card__link" aria-label="{{ card.title }}">
-    <div class="content-card__image-area">
+<div class="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all h-full flex flex-col">
+  <a href="{{ card.url }}"
+     class="block no-underline hover:no-underline rounded-xl h-full flex flex-col flex-1 min-h-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2"
+     aria-label="{{ card.title }}">
+    <div class="overflow-hidden border-b border-pp-pale-grey">
       {% if card.image %}
         <img src="{{ card.image }}"
              alt="{{ card.image_alt|default:card.title }}"
-             class="content-card__image"
+             class="w-full h-40 object-cover transition-transform duration-300 group-hover:scale-105"
              loading="lazy">
       {% else %}
-        <div class="content-card__placeholder" aria-hidden="true">
+        <div class="w-full h-40 flex items-center justify-center bg-linear-to-br from-pp-mid-blue to-pp-teal" aria-hidden="true">
           <svg class="w-12 h-12 text-white shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
           </svg>
         </div>
       {% endif %}
     </div>
-    <div class="content-card__body">
+    <div class="p-5 flex-1 flex flex-col">
       {% if card.date or card.badge_text %}
-        <div class="content-card__date-badge-row">
+        <div class="flex items-center justify-between text-xs mb-2">
           {% if card.date %}
-            <span class="content-card__date" aria-hidden="true">{{ card.date|date:"j F Y" }}</span>
+            <span class="text-pp-dark-grey" aria-hidden="true">{{ card.date|date:"j F Y" }}</span>
           {% else %}
             <span></span>
           {% endif %}
           {% if card.badge_text %}
-            <span class="content-card__badge {% if card.badge_variant == 'editorial' %}content-card__badge--editorial{% else %}content-card__badge--data-highlight{% endif %}">
+            <span class="px-2 py-1 font-semibold rounded shadow-sm {% if card.badge_variant == 'editorial' %}bg-pp-dark-blue text-white{% else %}bg-pp-teal text-white{% endif %}">
               {{ card.badge_text }}
             </span>
           {% endif %}
         </div>
       {% endif %}
-      <h3 class="content-card__title">
+      <h3 class="mt-0 mb-2 text-lg font-bold text-pp-dark-blue group-hover:text-pp-teal transition-colors line-clamp-2">
         {{ card.title }}
       </h3>
-      <p class="content-card__description">{{ card.description|truncatewords:25 }}</p>
+      <p class="text-pp-dark-grey text-sm flex-1 line-clamp-3 my-0 mb-2">{{ card.description|truncatewords:25 }}</p>
     </div>
   </a>
   {% if card.topics or card.cta_text %}
-    <div class="content-card__footer">
-      <div class="content-card__topics">
+    <div class="flex flex-wrap items-center justify-between gap-2 px-5 pb-5 pt-0">
+      <div class="flex flex-wrap gap-1">
         {% if card.topics %}
           {% for t in card.topics %}
             <span class="badge badge-topic"><a href="{{ t.url }}">{{ t.name }}</a></span>
@@ -55,8 +57,8 @@
         {% endif %}
       </div>
       {% if card.cta_text %}
-        <a href="{{ card.url }}" class="content-card__cta-wrap" aria-label="{{ card.title }}">
-          <span class="content-card__cta">{{ card.cta_text }}</span>
+        <a href="{{ card.url }}" class="shrink-0 no-underline hover:no-underline" aria-label="{{ card.title }}">
+          <span class="text-pp-mid-blue font-bold text-sm group-hover:underline">{{ card.cta_text }}</span>
         </a>
       {% endif %}
     </div>
