@@ -1,10 +1,10 @@
-"""URLs for external resources pages."""
+"""URLs for catalogue pages."""
 
 from django.urls import path
 
 from . import views
 
-app_name = "external_resources"
+app_name = "catalogue"
 
 urlpatterns = [
     path("tools-catalogue/", views.ToolsCatalogueListView.as_view(), name="tools_catalogue"),

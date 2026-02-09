@@ -1,15 +1,15 @@
-"""Models for external resources."""
+"""Models for catalogue."""
 
 from django.contrib.postgres.fields import ArrayField
 from django.contrib.postgres.validators import ArrayMinLengthValidator
 from django.db import models
 
 
-class ExternalResource(models.Model):
-    """External resource entry for tools and data sources and repositories."""
+class Catalogue(models.Model):
+    """Catalogue for tools, data sources, and data repositories."""
 
     class DataTypeChoices(models.TextChoices):
-        """Allowed data types for external resources."""
+        """Allowed data types for catalogue entries."""
 
         BIOCHEMISTRY = "Biochemistry", "Biochemistry"
         DRUG_DISCOVERY = "Drug discovery", "Drug discovery"
@@ -23,7 +23,7 @@ class ExternalResource(models.Model):
         SOCIAL_SCIENCE_HUMANITIES = "Social science and humanities", "Social science and humanities"
 
     class CategoryChoices(models.TextChoices):
-        """Page categories for external resources."""
+        """Page categories for catalogue entries."""
 
         TOOLS_CATALOGUE = "tools_catalogue", "Tools catalogue"
         DATA_REPOSITORIES = "data_repositories", "Data repositories"
@@ -38,7 +38,7 @@ class ExternalResource(models.Model):
         help_text="External link to the resource",
     )
     thumbnail_image = models.ImageField(
-        upload_to="external_resources/images/",
+        upload_to="catalogue/images/",
         help_text="Thumbnail image for the resource card",
     )
     description = models.TextField(
@@ -69,11 +69,11 @@ class ExternalResource(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        """Metadata for ExternalResource model."""
+        """Metadata for Catalogue model."""
 
         ordering = ["name"]
-        verbose_name = "External resource"
-        verbose_name_plural = "External resources"
+        verbose_name = "Catalogue entry"
+        verbose_name_plural = "Catalogue entries"
 
     def __str__(self) -> str:
         """Return resource name for string representation."""

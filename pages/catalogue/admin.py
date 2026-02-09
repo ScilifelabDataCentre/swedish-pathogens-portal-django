@@ -1,25 +1,25 @@
-"""Admin configuration for external resources."""
+"""Admin configuration for catalogue."""
 
 from django import forms
 from django.contrib import admin, messages
 from django.db.models import QuerySet
 from django.http import HttpRequest
 
-from .models import ExternalResource
+from .models import Catalogue
 
 
-class ExternalResourceAdminForm(forms.ModelForm):
-    """Admin form for ExternalResource with multi-select data types."""
+class CatalogueAdminForm(forms.ModelForm):
+    """Admin form for Catalogue with multi-select data types."""
 
     data_type = forms.MultipleChoiceField(
-        choices=ExternalResource.DataTypeChoices.choices,
+        choices=Catalogue.DataTypeChoices.choices,
         widget=forms.CheckboxSelectMultiple,
     )
 
     class Meta:
         """Form metadata."""
 
-        model = ExternalResource
+        model = Catalogue
         fields = [
             "name",
             "slug",
@@ -46,13 +46,13 @@ class DataTypeListFilter(admin.SimpleListFilter):
         model_admin: admin.ModelAdmin,
     ) -> list[tuple[str, str]]:
         """Return readable data type choices."""
-        return ExternalResource.DataTypeChoices.choices
+        return Catalogue.DataTypeChoices.choices
 
     def queryset(
         self,
         request: HttpRequest,
-        queryset: QuerySet[ExternalResource],
-    ) -> QuerySet[ExternalResource]:
+        queryset: QuerySet[Catalogue],
+    ) -> QuerySet[Catalogue]:
         """Filter queryset by selected data type."""
         value = self.value()
         if not value:
@@ -60,15 +60,15 @@ class DataTypeListFilter(admin.SimpleListFilter):
         return queryset.filter(data_type__contains=[value])
 
 
-@admin.register(ExternalResource)
-class ExternalResourceAdmin(admin.ModelAdmin):
-    """Admin interface for external resources.
+@admin.register(Catalogue)
+class CatalogueAdmin(admin.ModelAdmin):
+    """Admin interface for catalogue entries.
 
-    Provides a comprehensive admin interface for managing external resources
+    Provides a comprehensive admin interface for managing catalogue entries
     with organised fieldsets, search functionality, filtering, and bulk actions.
     """
 
-    form = ExternalResourceAdminForm
+    form = CatalogueAdminForm
     list_display = ["name", "category", "data_types_label", "is_active", "created_at"]
     list_filter = ["category", DataTypeListFilter, "is_active", "created_at"]
     search_fields = ["name", "description", "contact", "keywords"]
@@ -88,11 +88,11 @@ class ExternalResourceAdmin(admin.ModelAdmin):
     )
 
     @admin.display(description="Data types")
-    def data_types_label(self, obj: ExternalResource) -> str:
+    def data_types_label(self, obj: Catalogue) -> str:
         """Return a comma-separated list of data types."""
         return obj.data_type_display
 
-    def activate_projects(self, request: HttpRequest, queryset: QuerySet[ExternalResource]) -> None:
+    def activate_projects(self, request: HttpRequest, queryset: QuerySet[Catalogue]) -> None:
         """Activate selected projects."""
         updated = queryset.update(is_active=True)
         self.message_user(
@@ -101,9 +101,7 @@ class ExternalResourceAdmin(admin.ModelAdmin):
 
     activate_projects.short_description = "Activate selected projects"
 
-    def deactivate_projects(
-        self, request: HttpRequest, queryset: QuerySet[ExternalResource]
-    ) -> None:
+    def deactivate_projects(self, request: HttpRequest, queryset: QuerySet[Catalogue]) -> None:
         """Deactivate selected projects."""
         updated = queryset.update(is_active=False)
         self.message_user(

@@ -1,1 +1,0 @@
-"""External resources app package."""

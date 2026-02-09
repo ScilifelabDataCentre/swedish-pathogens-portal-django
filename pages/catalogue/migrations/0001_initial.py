@@ -2,7 +2,7 @@
 
 import django.contrib.postgres.fields
 import django.contrib.postgres.validators
-import pages.external_resources.models
+import pages.catalogue.models
 from django.db import migrations, models
 
 
@@ -44,7 +44,7 @@ class Migration(migrations.Migration):
                     "thumbnail_image",
                     models.ImageField(
                         help_text="Thumbnail image for the resource card",
-                        upload_to="external_resources/images/",
+                        upload_to="catalogue/images/",
                     ),
                 ),
                 (
@@ -53,7 +53,7 @@ class Migration(migrations.Migration):
                         blank=True,
                         help_text="Optional contact email(s), separated by commas",
                         validators=[
-                            pages.external_resources.models.validate_contact_emails
+                            pages.catalogue.models.validate_contact_emails
                         ],
                     ),
                 ),
