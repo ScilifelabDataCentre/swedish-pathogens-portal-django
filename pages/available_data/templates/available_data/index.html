@@ -1,7 +1,138 @@
 {% extends "base.html" %}
 
+{% load humanize %}
+
 {% block content %}
 <h1 class="text-pp-almost-black text-2xl font-semibold">Data query links</h1>
-<p class="mt-2 text-pp-dark-grey">Available Data page.</p>
-<p class="mt-2 text-pp-dark-grey">Outbreaks total: {{ outbreak_total }}.</p>
+
+<h2 class="mt-4 text-xl font-medium text-pp-almost-black">Region based accessible data</h2>
+<h3 class="mt-2 text-lg text-pp-dark-grey">Results for Sweden</h3>
+<p class="mt-3 text-pp-dark-grey">
+    <a href="https://www.pathogensportal.org/"
+       target="_blank"
+       rel="noopener noreferrer"
+       class="text-pp-mid-blue hover:text-pp-teal">Central Pathogens Portal</a>
+    is developed and hosted by
+    <a href="https://www.ebi.ac.uk/"
+       target="_blank"
+       rel="noopener noreferrer"
+       class="text-pp-mid-blue hover:text-pp-teal">EMBL-EBI</a>
+    and serves as a public data repository for infectious diseases and epidemics.
+    This page consists of query links to different kinds of data like sequences, samples and outbreaks in the Central Pathogens Portal.
+    Clicking a link will take you to the Central Pathogens Portal page, where the relevant hits are listed for the corresponding category.
+</p>
+
+<section class="mt-6" aria-labelledby="outbreaks-heading">
+    <h2 id="outbreaks-heading" class="bg-pp-pale-grey p-2 mb-3 text-lg font-medium text-pp-almost-black">Outbreaks</h2>
+    <ul class="list-none space-y-2">
+        <li>
+            <a href="https://www.pathogensportal.org/priority-pathogens?db=priorityPathogens&amp;query=(country:%22Sweden%22)"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="text-pp-mid-blue hover:text-pp-teal">
+                View all {{ outbreak_total|intcomma }} results in Outbreaks
+            </a>
+        </li>
+        <li>
+            <a href="https://www.pathogensportal.org/priority-pathogens?db=embl-pathogen&amp;query=(country:%22Sweden%22)"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="text-pp-mid-blue hover:text-pp-teal">
+                View all {{ outbreak_sequences|intcomma }} results in Sequences
+            </a>
+        </li>
+        <li>
+            <a href="https://www.pathogensportal.org/priority-pathogens?db=sra-analysis&amp;query=(country:%22Sweden%22)"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="text-pp-mid-blue hover:text-pp-teal">
+                View all {{ outbreak_analysis|intcomma }} results in Analysis
+            </a>
+        </li>
+        <li>
+            <a href="https://www.pathogensportal.org/priority-pathogens?db=sra-experiment&amp;query=(country:%22Sweden%22)"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="text-pp-mid-blue hover:text-pp-teal">
+                View all {{ outbreak_reads|intcomma }} results in Raw reads
+            </a>
+        </li>
+        <li>
+            <a href="https://www.pathogensportal.org/priority-pathogens?db=sra-sample&amp;query=(country:%22Sweden%22)"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="text-pp-mid-blue hover:text-pp-teal">
+                View all {{ outbreak_samples|intcomma }} results in Samples
+            </a>
+        </li>
+        <li>
+            <a href="https://www.pathogensportal.org/priority-pathogens?db=genome_assembly&amp;query=(country:%22Sweden%22)"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="text-pp-mid-blue hover:text-pp-teal">
+                View all {{ outbreak_assembly|intcomma }} results in Assembly
+            </a>
+        </li>
+    </ul>
+</section>
+
+<section class="mt-6" aria-labelledby="pathogens-heading">
+    <h2 id="pathogens-heading" class="bg-pp-pale-grey p-2 mb-3 text-lg font-medium text-pp-almost-black">Pathogens Sequences</h2>
+    <ul class="list-none space-y-2">
+        <li>
+            <a href="https://www.pathogensportal.org/sequences?db=sequences&amp;query=(country:%22Sweden%22)"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="text-pp-mid-blue hover:text-pp-teal">
+                View all {{ pathogens_total|intcomma }} results in Pathogens sequences
+            </a>
+        </li>
+        <li>
+            <a href="https://www.pathogensportal.org/sequences?db=embl-pathogen&amp;query=(country:%22Sweden%22)"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="text-pp-mid-blue hover:text-pp-teal">
+                View all {{ pathogens_sequence|intcomma }} results in Sequences
+            </a>
+        </li>
+        <li>
+            <a href="https://www.pathogensportal.org/sequences?db=sra-analysis&amp;query=(country:%22Sweden%22)"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="text-pp-mid-blue hover:text-pp-teal">
+                View all {{ pathogens_analysis|intcomma }} results in Analysis
+            </a>
+        </li>
+        <li>
+            <a href="https://www.pathogensportal.org/sequences?db=sra-experiment&amp;query=(country:%22Sweden%22)"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="text-pp-mid-blue hover:text-pp-teal">
+                View all {{ pathogens_reads|intcomma }} results in Raw reads
+            </a>
+        </li>
+        <li>
+            <a href="https://www.pathogensportal.org/sequences?db=genome_assembly&amp;query=(country:%22Sweden%22)"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="text-pp-mid-blue hover:text-pp-teal">
+                View all {{ pathogens_assembly|intcomma }} results in Assembly
+            </a>
+        </li>
+    </ul>
+</section>
+
+<section class="mt-6" aria-labelledby="samples-heading">
+    <h2 id="samples-heading" class="bg-pp-pale-grey p-2 mb-3 text-lg font-medium text-pp-almost-black">Samples</h2>
+    <ul class="list-none space-y-2">
+        <li>
+            <a href="https://www.pathogensportal.org/samples?db=samples&amp;query=(country:%22Sweden%22)"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="text-pp-mid-blue hover:text-pp-teal">
+                View all {{ samples_total|intcomma }} results in Samples
+            </a>
+        </li>
+    </ul>
+</section>
 {% endblock %}

@@ -44,6 +44,7 @@ DJANGO_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.humanize",  # intcomma and other number/date filters
     "django.contrib.sitemaps",  # provides sitemap class and sitemap view
 ]
 
