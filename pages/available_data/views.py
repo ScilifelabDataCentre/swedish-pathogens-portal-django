@@ -3,6 +3,7 @@
 import json
 import logging
 import urllib.request
+from typing import Any
 
 from django.core.cache import cache
 from django.utils.text import slugify
@@ -14,7 +15,7 @@ logger = logging.getLogger(__name__)
 # EBI EBIsearch REST API base and Sweden filter (URL-encoded).
 # Full URL: BASE_URL + path + SUFFIX; path already contains query params.
 EBI_BASE_URL = "https://www.ebi.ac.uk/ebisearch/ws/rest/"
-EBI_SUFFIX = " %20((country%3A%22Sweden%22))&size=0&format=JSON&facetcount=0"
+EBI_SUFFIX = "%20((country%3A%22Sweden%22))&size=0&format=JSON&facetcount=0"
 CACHE_TTL_SECONDS = 6 * 60 * 60  # 6 hours, same as legacy JS
 
 # EBI path strings for hit-count requests (from legacy query_data.html).
@@ -47,6 +48,26 @@ class AvailableDataView(BaseTemplateView):
 
     template_name = "available_data/index.html"
     title = "Data query links"
+
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
+        """Add EBI hit counts to template context."""
+        context = super().get_context_data(**kwargs)
+        for key, path in EBI_QUERY_PATHS.items():
+            context[key] = self._fetch_ebi_hit_count(path)
+        context["outbreak_total"] = (
+            context["outbreak_sequences"]
+            + context["outbreak_analysis"]
+            + context["outbreak_reads"]
+            + context["outbreak_samples"]
+            + context["outbreak_assembly"]
+        )
+        context["pathogens_total"] = (
+            context["pathogens_sequence"]
+            + context["pathogens_analysis"]
+            + context["pathogens_reads"]
+            + context["pathogens_assembly"]
+        )
+        return context
 
     def _fetch_ebi_hit_count(self, path: str) -> int:
         """Fetch hit count from EBI EBIsearch API for the given query path.
