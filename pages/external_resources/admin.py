@@ -1,7 +1,7 @@
 """Admin configuration for external resources."""
 
 from django import forms
-from django.contrib import admin
+from django.contrib import admin, messages
 from django.db.models import QuerySet
 from django.http import HttpRequest
 
@@ -62,7 +62,11 @@ class DataTypeListFilter(admin.SimpleListFilter):
 
 @admin.register(ExternalResource)
 class ExternalResourceAdmin(admin.ModelAdmin):
-    """Admin interface for external resources."""
+    """Admin interface for external resources.
+
+    Provides a comprehensive admin interface for managing external resources
+    with organised fieldsets, search functionality, filtering, and bulk actions.
+    """
 
     form = ExternalResourceAdminForm
     list_display = ["name", "category", "data_types_label", "is_active", "created_at"]
@@ -70,6 +74,7 @@ class ExternalResourceAdmin(admin.ModelAdmin):
     search_fields = ["name", "description", "contact", "keywords"]
     prepopulated_fields = {"slug": ("name",)}
     readonly_fields = ["created_at", "updated_at"]
+    actions = ["activate_projects", "deactivate_projects"]
 
     fieldsets = (
         ("Basic Information", {"fields": ("name", "slug", "category", "data_type")}),
@@ -86,3 +91,23 @@ class ExternalResourceAdmin(admin.ModelAdmin):
     def data_types_label(self, obj: ExternalResource) -> str:
         """Return a comma-separated list of data types."""
         return obj.data_type_display
+
+    def activate_projects(self, request: HttpRequest, queryset: QuerySet[ExternalResource]) -> None:
+        """Activate selected projects."""
+        updated = queryset.update(is_active=True)
+        self.message_user(
+            request, f"Successfully activated {updated} project(s).", messages.SUCCESS
+        )
+
+    activate_projects.short_description = "Activate selected projects"
+
+    def deactivate_projects(
+        self, request: HttpRequest, queryset: QuerySet[ExternalResource]
+    ) -> None:
+        """Deactivate selected projects."""
+        updated = queryset.update(is_active=False)
+        self.message_user(
+            request, f"Successfully deactivated {updated} project(s).", messages.SUCCESS
+        )
+
+    deactivate_projects.short_description = "Deactivate selected projects"
