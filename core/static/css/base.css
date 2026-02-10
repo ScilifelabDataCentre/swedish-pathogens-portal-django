@@ -118,4 +118,38 @@
     .badge-topic {
         @apply text-white *:text-white bg-pp-dark-blue text-xs;
     }
+
+    /* Query link buttons (e.g. Available Data page) – blue button with 3D shadow and press feedback */
+    .query-link-btn {
+        @apply inline-block bg-pp-dark-blue text-white no-underline font-normal py-2 px-4 rounded cursor-pointer
+            hover:bg-pp-teal hover:no-underline
+            focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-pp-dark-blue
+            active:bg-pp-teal;
+        box-shadow: 2px 2px 0 0 #1a3d5c;
+        transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+    }
+
+    .query-link-btn:hover {
+        box-shadow: 3px 3px 0 0 #2a6d5c;
+        transform: translateY(-2px);
+    }
+
+    .query-link-btn:active {
+        box-shadow: 0 0 0 0 #1a3d5c;
+        transform: translateY(1px);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .query-link-btn {
+            transition: background-color 0.2s ease;
+        }
+        .query-link-btn:hover,
+        .query-link-btn:active {
+            transform: none;
+            box-shadow: 2px 2px 0 0 #1a3d5c;
+        }
+        .query-link-btn:hover {
+            box-shadow: 2px 2px 0 0 #2a6d5c;
+        }
+    }
 }
