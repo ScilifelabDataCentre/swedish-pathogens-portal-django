@@ -2,6 +2,7 @@
 
 import markdown
 from django.db import models
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.safestring import mark_safe
 from django.utils.text import slugify
@@ -15,10 +16,10 @@ class Outbreak(models.Model):
     detailed background information in markdown format.
 
     Attributes:
-        name (str): Display name of the outbreak (max 255 chars, unique).
-        slug (str): URL-friendly version of name (auto-generated).
+        title (str): Display name of the outbreak (max 255 chars, unique).
+        slug (str): URL-friendly version of title (auto-generated).
         status (str): "current" or "historical" - determines listing section.
-        thumbnail_image (ImageField, optional): Thumbnail image for cards.
+        image (ImageField, optional): Thumbnail image for cards.
         description (str): Brief description for card display.
         content (str): Rich text content in markdown format (displayed on detail page).
         location (str, optional): Geographic location.
@@ -32,8 +33,9 @@ class Outbreak(models.Model):
         .. code-block:: python
 
             outbreak = Outbreak.objects.create(
-                name="Hepatitis A (September 2025)",
+                title="Hepatitis A (September 2025)",
                 status="current",
+                image="path/to/image.jpg",
                 description="Brief description for card display",
                 content="## Background\n\nFull markdown content...",
                 location="Sweden"
@@ -47,10 +49,11 @@ class Outbreak(models.Model):
         ("historical", "Historical"),
     ]
 
-    name = models.CharField(
+    # Basic fields
+    title = models.CharField(
         max_length=255,
         unique=True,
-        help_text="Name of the outbreak (e.g., 'Hepatitis A (September 2025)')",
+        help_text="Title of the outbreak (e.g., 'Hepatitis A (September 2025)')",
     )
     slug = models.SlugField(
         max_length=255,
@@ -64,30 +67,32 @@ class Outbreak(models.Model):
         default="current",
         help_text="Whether this is a current or historical outbreak",
     )
-    thumbnail_image = models.ImageField(
-        upload_to="outbreaks/images/",
-        blank=True,
-        null=True,
-        help_text="Thumbnail image for the outbreak card display (optional)",
-    )
-
     description = models.TextField(
         help_text="Brief description of the outbreak to display in cards"
     )
+
+    # Media field
+    image = models.ImageField(
+        upload_to="outbreaks/images/",
+        help_text="Thumbnail image for the outbreak card display",
+    )
+
+    # Content fields
     content = models.TextField(
         help_text="Rich text content in markdown format (displayed on detail page)"
     )
-
     location = models.CharField(
         max_length=255,
         blank=True,
         help_text="Geographic location (e.g., 'Sweden', 'International')",
     )
 
+    # Status field
     is_active = models.BooleanField(
         default=True, help_text="Whether this outbreak is active and visible"
     )
 
+    # Timestamps
     created_at = models.DateTimeField(
         default=timezone.now, help_text="Creation date (defaults to current date if not provided)"
     )
@@ -101,21 +106,23 @@ class Outbreak(models.Model):
         verbose_name_plural = "Outbreaks"
 
     def __str__(self) -> str:
-        """Return the outbreak name for string representation."""
-        return self.name
+        """Return the outbreak title for string representation."""
+        return self.title
 
     def save(self, *args: tuple, **kwargs: dict) -> None:
         """Save the outbreak, auto-generating slug if not provided."""
         if not self.slug:
-            self.slug = slugify(self.name)
+            self.slug = slugify(self.title)
         super().save(*args, **kwargs)
 
+    def get_absolute_url(self) -> str:
+        """Return the URL to access a detail page for this outbreak."""
+        return reverse("outbreaks:detail", kwargs={"slug": self.slug})
+
     @property
-    def display_image(self) -> str:
-        """Return the URL of the thumbnail image or a placeholder."""
-        if self.thumbnail_image and hasattr(self.thumbnail_image, "url"):
-            return self.thumbnail_image.url
-        return "/static/images/outbreak-placeholder.svg"
+    def image_url(self) -> str:
+        """Return the URL of the image."""
+        return self.image.url
 
     @property
     def rendered_content(self) -> str:

@@ -15,16 +15,16 @@ class OutbreakAdmin(admin.ModelAdmin):
     with organized fieldsets, search functionality, filtering, and bulk actions.
 
     Features:
-        - List display with name, status, location, and timestamps
+        - List display with title, status, location, and timestamps
         - Filtering by status, active status, and location
-        - Search by name, description, content, and location
-        - Auto-populated slug field from name
+        - Search by title, description, content, and location
+        - Auto-populated slug field from title
         - Bulk actions for activating/deactivating outbreaks
         - Organized fieldsets for better UX
     """
 
     list_display = [
-        "name",
+        "title",
         "status",
         "location",
         "is_active",
@@ -32,17 +32,18 @@ class OutbreakAdmin(admin.ModelAdmin):
         "updated_at",
     ]
     list_filter = ["status", "is_active", "location", "created_at", "updated_at"]
-    search_fields = ["name", "description", "content", "location"]
-    prepopulated_fields = {"slug": ("name",)}
+    search_fields = ["title", "description", "content", "location"]
+    prepopulated_fields = {"slug": ("title",)}
     readonly_fields = ["created_at", "updated_at"]
     actions = ["activate_outbreaks", "deactivate_outbreaks"]
 
     fieldsets = (
         (
             "Basic Information",
-            {"fields": ("name", "slug", "status", "thumbnail_image", "location")},
+            {"fields": ("title", "slug", "status", "description", "location")},
         ),
-        ("Content", {"fields": ("description", "content")}),
+        ("Media", {"fields": ("image",)}),
+        ("Content", {"fields": ("content",)}),
         ("Status", {"fields": ("is_active",)}),
         ("Timestamps", {"fields": ("created_at", "updated_at"), "classes": ("collapse",)}),
     )
