@@ -1,0 +1,348 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h4>Share Data</h4> 
+
+<p>
+    This page provides access to guidance on best practices in sharing infectious disease and pandemic
+    preparedness data. Overall, data should be made as open as possible and as closed as necesssary
+    (see 
+    <a href="https://www.vr.se/english/analysis/reports/our-reports/2023-08-24-national-guidelines-for-open-science-in-sweden.html" 
+    target="_blank" rel="noopener noreferrer">national guidelines on Open Science</a>).
+    <a href="{% url 'contact:index' %}">Contact our helpdesk</a> to get 
+    tailored support for sharing your data.
+</p>
+
+<h4>Where to share data</h4> 
+
+<p>
+    Data should be shared in well-established, data-type specific repositories wherever possible. 
+    This not only makes it more findable, it also ensures that any relevant metadata standards and 
+    recommended file formatting will be applied, which will increase the reuse of the data.
+    <p>
+        <i>Locating a suitable repository:</i>
+      </p>
+    <ul class="list-disc list-inside">
+        <li>The <a href="/catalogues/data-repositories" target="_blank" rel="noopener noreferrer">
+            data repositories page</a> lists where infectious disease data can be deposited, 
+            according to data type.
+        <li>The <a href=
+            "https://www.covid19dataportal.org/submit-data" target="_blank" rel="noopener noreferrer">
+            interactive data submission tool on the European COVID-19 Data Portal</a> suggests which 
+            repository to use, based on information about your data.
+        </li>
+        <li><a href="https://www.re3data.org/" target="_blank" rel="noopener noreferrer">
+            Re3data.org</a> lists research data repositories available for use.
+    </ul>
+</p>
+
+<p>
+    In the event that there is no data-type specific repository available, or you're unsure where to share 
+    your data, <a href="{% url 'contact:index' %}">contact our helpdesk</a> for support. Alternatively, 
+    you can deposit data in a non-data type specific repository. For example, the 
+    <a href="https://scilifelab.se/data/repository" target="_blank" rel="noopener noreferrer">
+        SciLifeLab Data Repository</a> accepts life science data from Swedish researchers. Data can also 
+    be stored using services such as <a href="https://data.scilifelab.se/services/fairstorage/" target="_blank" rel="noopener noreferrer">
+        SciLifeLab FAIR Storage</a>, which provides Swedish researchers with secure, high-performance
+        storage designed for large-scale life science datasets.
+</p>
+
+<h4>Standards for data sharing</h4> 
+
+<h5>Locating advice</h5> 
+
+<p>
+    Infection biology research often involves sensitive, complex, and large-scale data. It can be difficult 
+    to understand the ramifications of sharing particular data types, and how data of different types should be shared. Getting 
+    tailored guidance is possible through the <a href="{% url 'contact:index' %}">Swedish Pathogens Portal helpdesk</a>. However,
+    multiple resources have also been generated to aid with sharing data releated to infectious disease and pandemic preparedness.
+</p>
+
+<p>
+    The <a href="https://www.infectious-diseases-toolkit.org/" target="_blank" rel="noopener noreferrer">
+    Infectious Disease Toolkit (IDTk)</a> was created to collate information on best practices in data management 
+    from across infectious disease research. It covers topics such as biosafety, ethical considerations, and data flows 
+    for handling sensitive pathogen and patient-derived data. IDTk also links to tools, repositories, and policies relevant 
+    to Sweden, making it directly applicable for researchers based in Sweden.
+</p>
+
+<p>
+    In many cases, general research data management (RDM) also applies to infectious disease research.
+    To access advice on RDM relevant to Swedish research, visit
+    <a href="https://data-guidelines.scilifelab.se/" target="_blank" rel="noopener noreferrer">
+    SciLifeLab Research Data Management Guidelines</a>, which includes information on how to submit data to 
+    potentially relevant repositories. See, for example, the <a href="https://data-guidelines.scilifelab.se/topics/ena-submission-tutorial/"
+    target="_blank" rel="noopener noreferrer"> ENA submission tutorial</a>.
+</p>
+
+
+
+<h5>Metadata Standards </h5>
+<p> 
+    When sharing data, it is important to follow relevant metadata standards to ensure that your data is reusable.
+    Metadata standards are often outlined by data repositories. The following table provides an overview of some key metadata 
+    standards separated by data type.  
+</p>
+
+<table class="table-auto min-w-full p-2 sm:p-4 [&_th]:py-2 [&_th]:font-bold [&_td]:px-4 [&_td]:py-2
+    [&_tr]:border-b [&_tr]:border-pp-dark-grey/30"
+    aria-label="Metadata standards for life science data types">
+    <thead class="bg-pp-dark-blue text-white text-xs uppercase tracking-wider sticky top-0">
+        <tr>
+            <th>Data Type</th>
+            <th>Standards</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td rowspan="4" class="text-lg" >Genomics</td>
+            <td>
+                <a href="https://genomicsstandardsconsortium.github.io/mixs/"  target="_blank" rel="noopener noreferrer">
+                MIxS (Minimum Information about any 'x' Sequence)</a>
+            </td>
+            <td>
+                Developed by <a href="https://www.gensc.org/" target="_blank" rel="noopener noreferrer">Genomic Standards Consortium</a>
+                ; used for describing sequences from different environments (e.g., host-associated, environmental).
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://zenodo.org/records/5706412" target="_blank" rel="noopener noreferrer">
+                MINSEQE (Minimum Information about a High-Throughput Nucleotide Sequencing Experiment)</a>
+            </td>
+            <td>
+                Recommended by<a href="https://www.fged.org/projects/minseqe/" target="_blank" rel="noopener noreferrer">
+                FGED</a> for RNA-seq and other sequencing metadata.
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://www.ebi.ac.uk/ena/browser/checklists"  target="_blank" rel="noopener noreferrer">
+                ENA Checklists</a>
+            </td>
+            <td>
+                Specific checklists for submission to <a href="https://www.ebi.ac.uk/ena/browser/home" target="_blank"
+                rel="noopener noreferrer">European Nucleotide Archive</a> (e.g., pathogen, human, metagenome).
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://isa-specs.readthedocs.io/en/latest/isatab.html" target="_blank" rel="noopener noreferrer">ISA-Tab</a> /
+                <a href="https://isa-specs.readthedocs.io/en/latest/isajson.html" target="_blank" rel="noopener noreferrer">ISA-JSON</a>
+            </td>
+            <td>Framework for describing experimental metadata, often used with bioinformatics tools and databases.</td>
+        </tr>
+        <tr>
+            <td rowspan="3" class="text-lg">Proteomics</td>
+            <td>
+                <a href="https://www.psidev.info/miape" target="_blank" rel="noopener noreferrer">
+                MIAPE (Minimum Information About a Proteomics Experiment)</a>
+            </td>
+            <td>
+                Developed by <a href="https://www.psidev.info/about-the-hupo-proteomics-standards-initiative-psi" target="_blank"
+                rel="noopener noreferrer">HUPO-PSI</a>; covers mass spectrometry, sample processing, informatics.
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://github.com/HUPO-PSI/miXML/wiki"  target="_blank" rel="noopener noreferrer">PSI-MI XML</a> /
+                <a href="https://psicquic.github.io/MITAB28Format.html"  target="_blank" rel="noopener noreferrer">MITAB</a>
+            </td>
+            <td>
+                <a href="https://psicquic.github.io/" target="_blank" rel="noopener noreferrer">For molecular interaction</a>
+                data formats (used in interaction databases).
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://sbeams.systemsbiology.net/tmp/mzML1.0.0.html" target="_blank" rel="noopener noreferrer">mzML</a> /
+                <a href="https://www.psidev.info/mzidentml" target="_blank" rel="noopener noreferrer">mzIdentML</a> /
+                <a href="https://www.psidev.info/mztab-specifications" target="_blank" rel="noopener noreferrer">mzTab</a>
+            </td>
+            <td>
+                Standard formats for raw data, identifications, vocabulary and quantification results in the
+                field of  mass spectrometry-based proteomics.
+            </td>
+        </tr>
+        <tr>
+            <td rowspan="3" class="text-lg">Imaging</td>
+            <td>
+                <a href="https://docs.openmicroscopy.org/ome-model/5.6.3/ome-tiff/specification.html#ome-xml-metadata"
+                target="_blank" rel="noopener noreferrer">OME-TIFF / OME-XML</a>
+            </td>
+            <td>
+                Developed by<a href="https://www.openmicroscopy.org/" target="_blank" rel="noopener noreferrer">
+                Open Microscopy Environment</a>; widely used for storing microscopy images and associated metadata.
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://www.nature.com/articles/s41592-021-01166-8" target="_blank" rel="noopener noreferrer">
+                REMBI (Recommended Metadata for Biological Images)</a>
+            </td>
+            <td>Designed to enable reproducibility and data reuse for imaging datasets.</td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://www.dicomstandard.org/current" target="_blank" rel="noopener noreferrer">
+                DICOM (Digital Imaging and Communications in Medicine)</a>
+            </td>
+            <td>
+                Standard for handling, storing, and transmitting medical imaging information (e.g., CT, MRI).
+            </td>
+        </tr>
+        <tr>
+            <td rowspan="3" class="text-lg">Bioassays / Experimental Data</td>
+            <td>
+                <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5031183/" target="_blank" rel="noopener noreferrer">
+                MIACA (Minimum Information About a Cellular Assay)</a></td>
+            <td>For reporting cellular assays, including experimental context and protocols.</td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://www.nature.com/articles/nrd3503" target="_blank" rel="noopener noreferrer">
+                MIABE (Minimum Information About a Bioactive Entity)</a>
+            </td>
+            <td>For small molecule screening and bioactivity reporting.</td>
+        </tr>
+        <tr>
+            <td>
+                <a href="http://bioassayontology.org/bioassayontology/" target="_blank" rel="noopener noreferrer">
+                BAO (BioAssay Ontology)</a>
+            </td>
+            <td>Ontology that enables uniform annotation of bioassays and protocols.</td>
+        </tr>
+        <tr>
+            <td rowspan="5" class="text-lg" >Clinical &amp; Health Data</td>
+            <td>
+                <a href="https://www.cdisc.org/standards/foundational" target="_blank" rel="noopener noreferrer">CDISC standards</a>
+                (e.g.,<a href="https://learnstore.cdisc.org/catalog?pagename=SDTM" target="_blank" rel="noopener noreferrer">
+                SDTM</a>, ADaM, SEND)
+            </td>
+            <td>Industry standards for clinical trial data exchange and analysis.</td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://confluence.hl7.org/spaces/FHIR/overview" target="_blank" rel="noopener noreferrer">
+                HL7 / FHIR (Fast Healthcare Interoperability Resources)</a>
+            </td>
+            <td>Widely adopted in EHR systems for structured health data.</td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://loinc.org/" target="_blank" rel="noopener noreferrer">LOINC</a> /
+                <a href="https://www.snomed.org/" target="_blank" rel="noopener noreferrer">SNOMED CT</a> /
+                <a href="https://icd.who.int/browse10/2019/en" target="_blank" rel="noopener noreferrer">ICD-10</a>
+            </td>
+            <td>Controlled vocabularies for lab tests, symptoms, diagnoses.</td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://physionet.org/news/post/mimic-derived-datasets-models"  target="_blank"
+                rel="noopener noreferrer">MIMIC-IV Metadata Guidelines</a>
+            </td>
+            <td>For structured ICU/clinical datasets in open research.</td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://www.dublincore.org/" target="_blank" rel="noopener noreferrer">Dublin Core</a> /
+                <a href="https://docs.dataportal.se/dcat/sv/" target="_blank" rel="noopener noreferrer">DCAT-AP-SE</a>
+            </td>
+            <td>Metadata cataloging for health data in national repositories.</td>
+        </tr>
+        <tr>
+            <td rowspan="3" class="text-lg">Omics Imaging (e.g., Spatial Transcriptomics, Multi-modal)</td>
+            <td>
+                <a href="https://db.cngb.org/stomics/mosta/" target="_blank" rel="noopener noreferrer">STOMIC</a>
+                (Spatial Transcriptomics Open Metadata and Image Convention)
+            </td>
+            <td>A proposed standard for organizing spatial omics data.</td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://isa-specs.readthedocs.io/en/latest/isatab.html" target="_blank" rel="noopener noreferrer">ISA-Tab</a> /
+                <a href="https://docs.openmicroscopy.org/ome-model/5.6.3/ome-xml/" target="_blank" rel="noopener noreferrer">OME-XML</a>
+            </td>
+            <td>For integrating omics and imaging data.</td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://hupo.org/B/D-HPP" target="_blank" rel="noopener noreferrer">HUPO-B/D Standards</a>
+            </td>
+            <td>For multimodal single-cell data and proteogenomics metadata.</td>
+        </tr>
+        <tr>
+            <td rowspan="2" class="text-lg">Metabolomics Data</td>
+            <td>
+                <a href="https://isa-specs.readthedocs.io/en/latest/isatab.html" target="_blank" rel="noopener noreferrer">ISA-Tab</a> /
+                <a href="https://isa-specs.readthedocs.io/en/latest/isajson.html" target="_blank" rel="noopener noreferrer">ISA-JSON</a>
+            </td>
+            <td>Describes experimental design, sample preparation, and data files.</td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://github.com/MSI-Metabolomics-Standards-Initiative/CIMR" target="_blank"
+                rel="noopener noreferrer">Metabolomics Standards Initiative (MSI)</a>
+            </td>
+            <td>Offers domain-specific guidelines for metadata and reporting.</td>
+        </tr>
+    </tbody>
+</table>
+
+<h4>Licensing</h4>
+<p>
+   Selecting the correct licence when sharing data is important for enabling data reuse 
+   whilst protecting your rights as the data creator.
+</p>
+
+<p><i>What does a licence do?:</i></p>
+<ul class="list-disc list-inside">
+    <li>Defines how others may access, use, and distribute your data.</li>
+    <li>Ensures you receive proper credit and attribution for your work.</li>
+    <li>
+        Supports <a href="https://www.go-fair.org/fair-principles/" target="_blank" rel="noopener noreferrer">
+        <em>FAIR</em></a> principles, making data <strong>F</strong>indable, <strong>A</strong>ccessible, 
+        <strong>I</strong>nteroperable, and <strong>R</strong>eusable.
+    </li>
+    <li>Reduces legal uncertainty for both creators and users.</li>
+</ul>
+
+<p><i>Before selecting a licence, check:</i></p>
+<ul class="list-disc list-inside">
+    <li>
+        Institutional or funder requirements (e.g., EU Horizon, SciLifeLab, or 
+        Swedish Research Council mandates).</li>
+    <li>
+        Whether your data includes sensitive, personal, or third-party components 
+        that cannot be made fully open.
+    </li>
+    <li>Any journal or repository-specific policies (<a href="https://www.re3data.org/"
+         target="_blank" rel="noopener noreferrer">Re3data.org</a> lists repositories and their licensing policies).</li>
+</ul>
+
+<p>
+  <i>What else to consider:</i>
+</p>
+<ul class="list-disc list-inside">
+    <li>Include a clear licence statement in your metadata and documentation.</li>
+    <li>When in doubt, consult your institutional data steward or legal team before assigning a licence.</li>
+</ul>
+
+<p><i>Other useful information on licensing</i></p>
+<ul class="list-disc list-inside">
+    <li>
+        <a href="https://creativecommons.org/choose/" target="_blank" rel="noopener noreferrer">
+        Creative Commons License Chooser</a>
+    </li>
+    <li>
+        <a href="https://opendatacommons.org/licenses/" target="_blank" rel="noopener noreferrer">
+        Open Data Commons Licenses</a></li>
+    <li>
+        <a href="https://www.scilifelab.se/wp-content/uploads/2023/10/Data-Policy.pdf" target="_blank" rel="noopener noreferrer">
+        SciLifeLab Data Policy</a>
+    </li>
+</ul>
+
+{% endblock %}

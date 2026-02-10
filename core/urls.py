@@ -40,7 +40,6 @@ page_urls = [
     path("citation/", include("pages.citation.urls")),
     path("contact/", include("pages.contact.urls")),
     path("dashboards/", include("pages.dashboards.urls")),
-    path("data-management/", include("pages.data_management.urls")),
     path("highlights-and-editorials/", include("pages.highlights_and_editorials.urls")),
     path("news/", include("pages.news.urls")),
     path("outbreaks/", include("pages.outbreaks.urls")),
@@ -49,6 +48,7 @@ page_urls = [
     path("privacy/", include("pages.privacy.urls")),
     path("publications/", include("pages.publications.urls")),
     path("register-based-research/", include("pages.register_based_research.urls")),
+    path("share-data/", include("pages.share_data.urls")),
     path("topics/", include("pages.topics.urls")),
 ]
 

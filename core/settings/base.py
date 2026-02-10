@@ -56,7 +56,6 @@ LOCAL_APPS = [
     "pages.citation",
     "pages.contact",
     "pages.dashboards",
-    "pages.data_management",
     "pages.home",
     "pages.highlights_and_editorials",
     "pages.news",
@@ -66,6 +65,7 @@ LOCAL_APPS = [
     "pages.privacy",
     "pages.publications",
     "pages.register_based_research",
+    "pages.share_data",
     "pages.topics",
 ]
 

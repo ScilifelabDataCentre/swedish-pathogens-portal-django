@@ -57,7 +57,6 @@ class SPPAutoSitemap(Sitemap):
         "citation",
         "contact",
         "dashboards",
-        "data_management",
         "home",
         "news",
         "outbreaks",
