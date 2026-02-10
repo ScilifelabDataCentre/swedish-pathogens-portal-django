@@ -25,13 +25,13 @@ class CatalogueAdminForm(forms.ModelForm):
 
         model = Catalogue
         fields = [
-            "name",
+            "title",
             "category",
             "data_type",
             "description",
             "keywords",
             "link",
-            "thumbnail_image",
+            "image",
             "is_active",
         ]
 
@@ -89,16 +89,16 @@ class CatalogueAdmin(admin.ModelAdmin):
     """
 
     form = CatalogueAdminForm
-    list_display = ["name", "categories_label", "data_types_label", "is_active", "created_at"]
+    list_display = ["title", "categories_label", "data_types_label", "is_active", "created_at"]
     list_filter = [CategoryListFilter, DataTypeListFilter, "is_active", "created_at"]
-    search_fields = ["name", "description", "keywords"]
+    search_fields = ["title", "description", "keywords"]
     readonly_fields = ["created_at", "updated_at"]
     actions = ["activate_entries", "deactivate_entries"]
 
     fieldsets = (
-        ("Basic Information", {"fields": ("name", "category", "data_type")}),
+        ("Basic Information", {"fields": ("title", "category", "data_type")}),
         ("Content", {"fields": ("description", "keywords", "link")}),
-        ("Visual", {"fields": ("thumbnail_image",)}),
+        ("Visual", {"fields": ("image",)}),
         ("Status", {"fields": ("is_active",)}),
         (
             "Timestamps",

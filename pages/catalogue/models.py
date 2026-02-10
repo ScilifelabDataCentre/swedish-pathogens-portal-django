@@ -29,15 +29,15 @@ class Catalogue(models.Model):
         DATA_REPOSITORIES = "Data repositories"
         DATA_SOURCES = "Data sources"
 
-    name = models.CharField(
+    title = models.CharField(
         max_length=150,
         unique=True,
         help_text="Name of the resource",
     )
     link = models.URLField(
-        help_text="External link to the resource",
+        help_text="Link to the resource",
     )
-    thumbnail_image = models.ImageField(
+    image = models.ImageField(
         upload_to="catalogue/images/",
         help_text="Thumbnail image for the resource card",
     )
@@ -74,7 +74,7 @@ class Catalogue(models.Model):
     class Meta:
         """Metadata for Catalogue model."""
 
-        ordering = ["name"]
+        ordering = ["title"]
         verbose_name = "Catalogue entry"
         verbose_name_plural = "Catalogue entries"
 
@@ -83,9 +83,9 @@ class Catalogue(models.Model):
         return self.name
 
     @property
-    def display_image(self) -> str:
-        """Return the URL of the thumbnail image."""
-        return self.thumbnail_image.url
+    def image_url(self) -> str:
+        """Return the URL of the catalogue entry's thumbnail image."""
+        return self.image.url
 
     @property
     def category_display(self) -> str:

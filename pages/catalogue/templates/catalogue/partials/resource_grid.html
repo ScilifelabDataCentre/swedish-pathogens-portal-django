@@ -8,8 +8,8 @@
             <div class="bg-white border border-pp-pale-grey rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
                 <div class="relative">
                     <img
-                        src="{{ item.thumbnail_image.url }}"
-                        alt="{{ item.name }}"
+                        src="{{ item.image_url }}"
+                        alt="{{ item.title }}"
                         class="w-full h-48 object-cover rounded-t-lg"
                     />
                 </div>
@@ -20,7 +20,7 @@
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            {{ item.name }}
+                            {{ item.title }}
                         </a>
                     </h6>
                     <p class="text-pp-dark-grey text-sm leading-relaxed mb-3">

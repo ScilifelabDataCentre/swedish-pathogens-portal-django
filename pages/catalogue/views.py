@@ -12,7 +12,7 @@ class ToolsCatalogueListView(BaseListView):
     template_name = "catalogue/tools_catalogue.html"
     context_object_name = "catalogue_entries"
     title = "Tools catalogue"
-    ordering = "name"
+    ordering = "title"
     filter_category__contains = [Catalogue.CategoryChoices.TOOLS_CATALOGUE]
 
 
@@ -23,7 +23,7 @@ class DataRepositoriesListView(BaseListView):
     template_name = "catalogue/data_repositories.html"
     context_object_name = "catalogue_entries"
     title = "Data repositories"
-    ordering = "name"
+    ordering = "title"
     filter_category__contains = [Catalogue.CategoryChoices.DATA_REPOSITORIES]
 
 
@@ -34,5 +34,5 @@ class DataSourcesListView(BaseListView):
     template_name = "catalogue/data_sources.html"
     context_object_name = "catalogue_entries"
     title = "Data sources"
-    ordering = "name"
+    ordering = "title"
     filter_category__contains = [Catalogue.CategoryChoices.DATA_SOURCES]
