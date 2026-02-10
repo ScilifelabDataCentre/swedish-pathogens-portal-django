@@ -11,7 +11,7 @@
             Data highlights showcase recent Swedish publications sharing data, whilst editorials are short opinion-style 
             pieces discussing the current thinking in a given area.</p>
         <p>
-            Use the tags or search bar to find data highlights or editorials of potential interest. 
+            Use the keywords or search bar to find data highlights or editorials of potential interest. 
             If you are interested in having your work featured, please <a href="/contact/">contact us</a>.
         </p>
     </div>
@@ -33,7 +33,7 @@
             {% for article in articles %}
                 <div class="data-highlight" 
                      data-search-text="{{ article.title|lower }} 
-                                      {{ article.summary|lower }} 
+                                      {{ article.description|lower }} 
                                       {% for topic in article.topics.all %}
                                           {{ topic.name|lower }} 
                                       {% endfor %}">
@@ -44,11 +44,11 @@
                         </div>
                         
                         <!-- Featured Image -->
-                        {% if article.featured_image %}
+                        {% if article.image %}
                             <div aria-hidden="true">
-                                <a href="{% url 'highlights_and_editorials:detail' article.slug %}">
+                                <a href="{{ article.get_absolute_url }}">
                                     <img class="w-full h-48 rounded-t-sm object-cover" 
-                                         src="{{ article.featured_image.url }}" 
+                                         src="{{ article.image_url }}" 
                                          alt="{{ article.title }}">
                                 </a>
                             </div>
@@ -63,23 +63,25 @@
                         <div>
                             <h6 class="my-1">
                                 <a class="text-pp-dark-blue hover:text-pp-teal transition-colors duration-200" 
-                                   href="{% url 'highlights_and_editorials:detail' article.slug %}">
+                                   href="{{ article.get_absolute_url }}">
                                     {{ article.title }}
                                 </a>
                             </h6>
                         </div>
                         
-                        <!-- Summary and Topics -->
+                        <!-- Description and Topics -->
                         <div>
-                            <p class="text-pp-dark-grey text-sm leading-relaxed mb-2">{{ article.summary|safe }}</p>
+                            <p class="text-pp-dark-grey text-sm leading-relaxed mb-2">
+                                {{ article.description|safe }}
+                            </p>
                             
                             <!-- Topics -->
                             {% if article.topics.exists %}
                                 <div class="mt-1">
                                     {% for topic in article.topics.all %}
                                         <span class="badge badge-topic">
-                                            <a href="{% url 'topics:topic_detail' topic.slug %}">
-                                                {{ topic.name }}
+                                            <a href="{{ topic.get_absolute_url }}">
+                                                {{ topic.title }}
                                             </a>
                                         </span>
                                     {% endfor %}

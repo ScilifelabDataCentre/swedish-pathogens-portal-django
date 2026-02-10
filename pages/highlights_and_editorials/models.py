@@ -2,6 +2,7 @@
 
 import markdown
 from django.db import models
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.safestring import mark_safe
 from django.utils.text import slugify
@@ -20,13 +21,13 @@ class HighlightsAndEditorials(models.Model):
         type (str): Content type - either "Editorial" or "Data Highlight".
         title (str): Display title of the article (max 255 chars, unique).
         slug (str): URL-friendly version of title (auto-generated from title).
-        summary (str): Brief summary displayed in article cards.
+        description (str): Brief description displayed in article cards.
+        image (ImageField): Primary image displayed with the article.
+        image_caption (str, optional): Descriptive caption for the featured image.
         content (str): Full markdown content displayed on detail pages.
         announcement (str, optional): Prominent announcement message for articles.
-        tags (str, optional): Comma-separated tags for content matching and search.
+        keywords (str, optional): Comma-separated keywords for content matching and search.
         author (str, optional): Author name or names for the article.
-        featured_image (ImageField): Primary image displayed with the article.
-        figure_caption (str, optional): Descriptive caption for the featured image.
         topics (ManyToMany, optional): Research topics associated with this article.
         is_active (bool): Whether article is visible to users (default: True).
         created_at (datetime): Timestamp when article was created (editable in admin).
@@ -40,9 +41,9 @@ class HighlightsAndEditorials(models.Model):
             article = HighlightsAndEditorials.objects.create(
                 type="data_highlight",
                 title="Novel Pathogen Discovery in Swedish Waters",
-                summary="Researchers discovered a new bacterial species...",
+                description="Researchers discovered a new bacterial species...",
                 content="# Research Findings\n\nDetailed findings...",
-                featured_image="pathogen_discovery.jpg"
+                image="pathogen_discovery.jpg"
             )
             # slug automatically generated as "novel-pathogen-discovery-in-swedish-waters"
 
@@ -54,7 +55,7 @@ class HighlightsAndEditorials(models.Model):
         ("editorial", "Editorial"),
     ]
 
-    # Required fields
+    # Basic fields
     type = models.CharField(
         max_length=50,
         choices=CONTENT_TYPE_CHOICES,
@@ -67,9 +68,19 @@ class HighlightsAndEditorials(models.Model):
         unique=True,
         help_text="URL-friendly version of the title (auto-generated from title)",
     )
+    description = models.TextField(
+        help_text="Brief description of the article for display in cards"
+    )
+
+    # Media fields
+    image = models.ImageField(
+        upload_to="highlights_and_editorials/images/", help_text="Featured image for the article"
+    )
+    image_caption = models.TextField(
+        blank=True, help_text="Caption for the featured image (optional)"
+    )
 
     # Content fields
-    summary = models.TextField(help_text="Brief summary of the article for display in cards")
     content = models.TextField(help_text="Full content in markdown format displayed on detail page")
     announcement = models.TextField(
         blank=True,
@@ -77,9 +88,9 @@ class HighlightsAndEditorials(models.Model):
             "Optional announcement message in markdown format displayed at the top of the article"
         ),
     )
-    tags = models.TextField(
+    keywords = models.TextField(
         blank=True,
-        help_text="Comma-separated tags for related content matching and search",
+        help_text="Comma-separated keywords for related content matching and search",
     )
     author = models.CharField(
         max_length=255,
@@ -87,19 +98,10 @@ class HighlightsAndEditorials(models.Model):
         help_text="Author name or names for the article (optional)",
     )
 
-    # Media fields
-    featured_image = models.ImageField(
-        upload_to="articles/images/", help_text="Featured image for the article"
-    )
-    figure_caption = models.TextField(
-        blank=True, help_text="Caption for the featured image (optional)"
-    )
-
-    # Relationships
+    # Related topics
     topics = models.ManyToManyField(
         "topics.Topic",
-        blank=True,
-        help_text="Research topics associated with this article (optional)",
+        help_text="Research topics associated with this article",
     )
 
     # Status field
@@ -131,6 +133,15 @@ class HighlightsAndEditorials(models.Model):
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
 
+    def get_absolute_url(self) -> str:
+        """Return the URL to access a detail page for this article."""
+        return reverse("highlights_and_editorials:detail", kwargs={"slug": self.slug})
+
+    @property
+    def image_url(self) -> str:
+        """Return the URL of the article's image."""
+        return self.image.url
+
     @property
     def rendered_content(self) -> str:
         """Return content rendered as HTML from markdown."""
@@ -146,18 +157,18 @@ class HighlightsAndEditorials(models.Model):
         return ""
 
     @property
-    def tag_list(self) -> list[str]:
-        """Return tags as a list of cleaned strings."""
-        if not self.tags:
+    def keyword_list(self) -> list[str]:
+        """Return keywords as a list of cleaned strings."""
+        if not self.keywords.strip():
             return []
-        return [tag.strip().lower() for tag in self.tags.split(",") if tag.strip()]
+        return [tag.strip().lower() for tag in self.keywords.split(",") if tag.strip()]
 
     def get_related_articles(
         self, limit: int = 4, threshold: float = 0.1
     ) -> list["HighlightsAndEditorials"]:
-        """Get related articles based on tag similarity.
+        """Get related articles based on keyword similarity.
 
-        Finds articles with similar tags using Jaccard similarity algorithm.
+        Finds articles with similar keywords using Jaccard similarity algorithm.
         Only considers articles of the same type (Data Highlight or Editorial).
         Considers all related articles regardless of creation date (past and future).
         Results are ordered by similarity score (highest first).
@@ -179,7 +190,7 @@ class HighlightsAndEditorials(models.Model):
                     print(related_article.title)
 
         """
-        if not self.tag_list:
+        if not self.keyword_list:
             return HighlightsAndEditorials.objects.none()
 
         # Get all active articles of the same type, excluding current article
@@ -194,19 +205,18 @@ class HighlightsAndEditorials(models.Model):
 
         # Calculate similarity scores efficiently
         related_articles = []
-        current_tags = set(self.tag_list)
+        current_keywords = set(self.keyword_list)
 
         # Process articles in batches to avoid memory issues
         for article in candidate_articles.iterator(chunk_size=50):
-            if not article.tags:  # Skip articles without tags
+            if not article.keywords:  # Skip articles without keywords
                 continue
 
-            article_tags = set(article.tag_list)
+            article_keywords = set(article.keyword_list)
 
             # Calculate Jaccard similarity (intersection over union)
-            intersection = len(current_tags.intersection(article_tags))
-            union = len(current_tags.union(article_tags))
-
+            intersection = len(current_keywords.intersection(article_keywords))
+            union = len(current_keywords.union(article_keywords))
             if union == 0:
                 continue
 
