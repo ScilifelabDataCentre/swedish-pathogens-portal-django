@@ -20,6 +20,12 @@
         <main id="main-content">
             {% block full_width_content %}{% endblock %}
             <div class="container py-6">
+                {% comment %}Main page heading (H1). Uses page_heading if set, else title. Override this block to hide or customise (e.g. home page).{% endcomment %}
+                {% block page_heading %}
+                {% if title or page_heading %}
+                <h1>{{ page_heading|default:title }}</h1>
+                {% endif %}
+                {% endblock %}
                 {% block content %}{% endblock %}
             </div>
         </main>
