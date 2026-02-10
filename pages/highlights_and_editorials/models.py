@@ -145,14 +145,16 @@ class HighlightsAndEditorials(models.Model):
     @property
     def rendered_content(self) -> str:
         """Return content rendered as HTML from markdown."""
-        return mark_safe(markdown.markdown(self.content, extensions=["extra", "codehilite"]))
+        return mark_safe(
+            markdown.markdown(self.content, extensions=["extra", "codehilite", "nl2br"])
+        )
 
     @property
     def rendered_announcement(self) -> str:
         """Return announcement rendered as HTML from markdown."""
         if self.announcement:
             return mark_safe(
-                markdown.markdown(self.announcement, extensions=["extra", "codehilite"])
+                markdown.markdown(self.announcement, extensions=["extra", "codehilite", "nl2br"])
             )
         return ""
 

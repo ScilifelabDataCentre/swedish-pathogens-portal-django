@@ -128,5 +128,5 @@ class Outbreak(models.Model):
     def rendered_content(self) -> str:
         """Return content rendered as HTML from markdown."""
         return mark_safe(  # noqa: S308
-            markdown.markdown(self.content, extensions=["extra", "codehilite", "tables", "nl2br"])
+            markdown.markdown(self.content, extensions=["extra", "codehilite", "nl2br"])
         )

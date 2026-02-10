@@ -99,4 +99,6 @@ class News(models.Model):
     @property
     def rendered_content(self) -> str:
         """Return content rendered as HTML from markdown."""
-        return mark_safe(markdown.markdown(self.content, extensions=["extra", "codehilite"]))
+        return mark_safe(
+            markdown.markdown(self.content, extensions=["extra", "codehilite", "nl2br"])
+        )
