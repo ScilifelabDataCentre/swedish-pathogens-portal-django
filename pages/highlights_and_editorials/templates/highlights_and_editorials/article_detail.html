@@ -107,7 +107,7 @@
                             <!-- Featured Image -->
                             {% if related.featured_image %}
                                 <div aria-hidden="true">
-                                    <a href="{% url 'articles:detail' related.slug %}">
+                                    <a href="{% url 'highlights_and_editorials:detail' related.slug %}">
                                         <img class="w-full h-48 rounded-t-sm object-cover" 
                                              src="{{ related.featured_image.url }}" 
                                              alt="{{ related.title }}">
@@ -126,11 +126,11 @@
                             <div>
                                 <h6 class="my-1">
                                     <a class="text-pp-dark-blue hover:text-pp-teal transition-colors duration-200" 
-                                       href="{% url 'articles:detail' related.slug %}">
+                                       href="{% url 'highlights_and_editorials:detail' related.slug %}">
                                         {{ related.title }}
                                     </a>
                                 </h6>
-                            </div>                               
+                            </div>
                         </div>
                     </div>
                 {% endfor %}

@@ -7,8 +7,8 @@ from django.utils.safestring import mark_safe
 from django.utils.text import slugify
 
 
-class Article(models.Model):
-    r"""Article model for showcasing research findings and editorial content.
+class HighlightsAndEditorials(models.Model):
+    r"""Highlights and editorials model for showcasing research findings and editorial content.
 
     Represents articles (data highlights and editorials) that showcase important
     scientific findings, data insights, and editorial content for the Swedish
@@ -37,7 +37,7 @@ class Article(models.Model):
 
         .. code-block:: python
 
-            article = Article.objects.create(
+            article = HighlightsAndEditorials.objects.create(
                 type="data_highlight",
                 title="Novel Pathogen Discovery in Swedish Waters",
                 summary="Researchers discovered a new bacterial species...",
@@ -115,7 +115,7 @@ class Article(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        """Metadata for Article model."""
+        """Metadata for HighlightsAndEditorials model."""
 
         ordering = ["-created_at"]
         verbose_name = "Article"
@@ -152,7 +152,9 @@ class Article(models.Model):
             return []
         return [tag.strip().lower() for tag in self.tags.split(",") if tag.strip()]
 
-    def get_related_articles(self, limit: int = 4, threshold: float = 0.1) -> list["Article"]:
+    def get_related_articles(
+        self, limit: int = 4, threshold: float = 0.1
+    ) -> list["HighlightsAndEditorials"]:
         """Get related articles based on tag similarity.
 
         Finds articles with similar tags using Jaccard similarity algorithm.
@@ -178,17 +180,17 @@ class Article(models.Model):
 
         """
         if not self.tag_list:
-            return Article.objects.none()
+            return HighlightsAndEditorials.objects.none()
 
         # Get all active articles of the same type, excluding current article
         candidate_articles = (
-            Article.objects.filter(is_active=True, type=self.type)
+            HighlightsAndEditorials.objects.filter(is_active=True, type=self.type)
             .exclude(id=self.id)
             .order_by("-created_at")
         )
 
         if not candidate_articles.exists():
-            return Article.objects.none()
+            return HighlightsAndEditorials.objects.none()
 
         # Calculate similarity scores efficiently
         related_articles = []

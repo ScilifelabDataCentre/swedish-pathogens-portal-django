@@ -46,7 +46,7 @@
                         <!-- Featured Image -->
                         {% if article.featured_image %}
                             <div aria-hidden="true">
-                                <a href="{% url 'articles:detail' article.slug %}">
+                                <a href="{% url 'highlights_and_editorials:detail' article.slug %}">
                                     <img class="w-full h-48 rounded-t-sm object-cover" 
                                          src="{{ article.featured_image.url }}" 
                                          alt="{{ article.title }}">
@@ -63,7 +63,7 @@
                         <div>
                             <h6 class="my-1">
                                 <a class="text-pp-dark-blue hover:text-pp-teal transition-colors duration-200" 
-                                   href="{% url 'articles:detail' article.slug %}">
+                                   href="{% url 'highlights_and_editorials:detail' article.slug %}">
                                     {{ article.title }}
                                 </a>
                             </h6>

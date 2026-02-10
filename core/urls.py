@@ -36,12 +36,12 @@ core_urls = [
 
 page_urls = [
     path("", include("pages.home.urls")),
-    path("articles/", include("pages.articles.urls")),
     path("about/", include("pages.about.urls")),
     path("citation/", include("pages.citation.urls")),
     path("contact/", include("pages.contact.urls")),
     path("dashboards/", include("pages.dashboards.urls")),
     path("data-management/", include("pages.data_management.urls")),
+    path("highlights-and-editorials/", include("pages.highlights_and_editorials.urls")),
     path("news/", include("pages.news.urls")),
     path("outbreaks/", include("pages.outbreaks.urls")),
     path("plp-program/", include("pages.plp.urls")),

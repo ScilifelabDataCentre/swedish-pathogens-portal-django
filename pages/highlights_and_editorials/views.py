@@ -4,11 +4,11 @@ from typing import Any
 
 from utils.views import BaseDetailView, BaseListView
 
-from .models import Article
+from .models import HighlightsAndEditorials
 
 
-class ArticleListView(BaseListView):
-    """Display a list of all active articles.
+class HighlightsAndEditorialsListView(BaseListView):
+    """Display a list of all active highlights and editorials.
 
     Shows all active articles (data highlights and editorials) in a grid layout
     with featured images, titles, summaries, and publication information.
@@ -23,15 +23,15 @@ class ArticleListView(BaseListView):
         ordering: Field to sort articles by (newest first).
     """
 
-    model = Article
-    template_name = "articles/index.html"
+    model = HighlightsAndEditorials
+    template_name = "highlights_and_editorials/index.html"
     context_object_name = "articles"
-    title = "Articles"
+    title = "Highlights and Editorials"
     ordering = "-created_at"
 
 
-class ArticleDetailView(BaseDetailView):
-    """Display detailed information about a specific article.
+class HighlightsAndEditorialsDetailView(BaseDetailView):
+    """Display detailed information about a specific highlights and editorials article.
 
     Shows the full article content including summary, markdown content,
     and publication details. Uses slug-based URL lookup and includes related
@@ -43,8 +43,8 @@ class ArticleDetailView(BaseDetailView):
         context_object_name: Name for article in template context.
     """
 
-    model = Article
-    template_name = "articles/article_detail.html"
+    model = HighlightsAndEditorials
+    template_name = "highlights_and_editorials/article_detail.html"
     context_object_name = "article"
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
