@@ -4,12 +4,12 @@ from django.contrib import admin, messages
 from django.db.models import QuerySet
 from django.http import HttpRequest
 
-from .models import Article
+from .models import HighlightsAndEditorials
 
 
-@admin.register(Article)
-class ArticleAdmin(admin.ModelAdmin):
-    """Admin interface for Article model.
+@admin.register(HighlightsAndEditorials)
+class HighlightsAndEditorialsAdmin(admin.ModelAdmin):
+    """Admin interface for HighlightsAndEditorials model.
 
     Provides a comprehensive admin interface for managing articles
     (data highlights and editorials) with organised fieldsets, search

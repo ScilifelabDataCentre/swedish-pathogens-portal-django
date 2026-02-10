@@ -52,13 +52,13 @@ THIRD_PARTY_APPS = [
 ]
 
 LOCAL_APPS = [
-    "pages.articles",
     "pages.about",
     "pages.citation",
     "pages.contact",
     "pages.dashboards",
     "pages.data_management",
     "pages.home",
+    "pages.highlights_and_editorials",
     "pages.news",
     "pages.outbreaks",
     "pages.plp",
