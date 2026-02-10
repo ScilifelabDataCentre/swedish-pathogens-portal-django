@@ -59,7 +59,7 @@ class Outbreak(models.Model):
         max_length=255,
         unique=True,
         blank=True,
-        help_text="URL-friendly version of the name (auto-generated from name)",
+        help_text="URL-friendly version of the name (auto-generated from title)",
     )
     status = models.CharField(
         max_length=20,

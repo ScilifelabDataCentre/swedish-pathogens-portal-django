@@ -16,7 +16,7 @@ class TopicAdmin(admin.ModelAdmin):
         - List display with title, slug, status, and creation date
         - Filtering by active status and creation date
         - Search by title and description
-        - Auto-populated slug field from name
+        - Auto-populated slug field from title
         - Organized fieldsets for better UX
     """
 

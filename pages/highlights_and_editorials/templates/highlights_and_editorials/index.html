@@ -32,10 +32,10 @@
              class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-3">
             {% for article in articles %}
                 <div class="data-highlight" 
-                     data-search-text="{{ article.title|lower }} 
-                                      {{ article.description|lower }} 
+                     data-search-text="{{ article.title|lower }}
+                                      {{ article.description|lower }}
                                       {% for topic in article.topics.all %}
-                                          {{ topic.name|lower }} 
+                                          {{ topic.title|lower }}
                                       {% endfor %}">
                     <div class="h-full px-2.5 py-3 rounded-sm bg-pp-pale-grey hover:shadow-[0px_0px_3px_#55585a] relative">
                         <!-- Content Type Badge -->
