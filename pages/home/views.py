@@ -7,7 +7,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import View
 
-from pages.articles.models import Article
+from pages.highlights_and_editorials.models import HighlightsAndEditorials
 from pages.news.models import News
 from pages.topics.models import Topic
 
@@ -78,7 +78,9 @@ class Home(View):
         ]
 
         context["topics"] = Topic.objects.filter(is_active=True)[:3]
-        context["articles"] = Article.objects.filter(is_active=True).order_by("-created_at")[:3]
+        context["articles"] = HighlightsAndEditorials.objects.filter(is_active=True).order_by(
+            "-created_at"
+        )[:3]
         context["news"] = News.objects.filter(is_active=True).order_by("-created_at")[:5]
 
         return render(request, self.template_name, context)
