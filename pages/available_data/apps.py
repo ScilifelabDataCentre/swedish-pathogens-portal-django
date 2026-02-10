@@ -4,11 +4,10 @@ from django.apps import AppConfig
 
 
 class AvailableDataConfig(AppConfig):
-    """Configuration for the available_data app.
+    """App config for the Available Data page.
 
-    This app provides the Available Data (query links) page, showing
-    how many Swedish datasets there are in the Central Pathogens Portal
-    and linking to query results on pathogensportal.org.
+    Shows Swedish dataset counts from the Central Pathogens Portal (EMBL-EBI)
+    and links to filtered results on pathogensportal.org.
     """
 
     default_auto_field = "django.db.models.BigAutoField"

@@ -1,4 +1,4 @@
-"""Views for the Available Data (query links) page."""
+"""Views for the Available Data page (dataset counts and query links)."""
 
 import json
 import logging
@@ -12,14 +12,15 @@ from utils.views import BaseTemplateView
 
 logger = logging.getLogger(__name__)
 
-# EBI EBIsearch REST API base and Sweden filter (URL-encoded).
-# Full URL: BASE_URL + path + SUFFIX; path already contains query params.
+# EMBL-EBI EBIsearch REST API base URL and Sweden filter (URL-encoded).
+# Request URL is built as EBI_BASE_URL + path + EBI_SUFFIX; each path
+# includes its own query parameters.
 EBI_BASE_URL = "https://www.ebi.ac.uk/ebisearch/ws/rest/"
 EBI_SUFFIX = "%20((country%3A%22Sweden%22))&size=0&format=JSON&facetcount=0"
-CACHE_TTL_SECONDS = 6 * 60 * 60  # 6 hours, same as legacy JS
+CACHE_TTL_SECONDS = 6 * 60 * 60  # 6 hours
 
-# EBI path strings for hit-count requests (from legacy query_data.html).
-# Keys match context names used in templates.
+# EBI index paths used to fetch hit counts. Dictionary keys are the
+# context variable names passed to the template.
 EBI_QUERY_PATHS: dict[str, str] = {
     # Outbreaks (priority pathogens)
     "outbreak_sequences": "embl-pathogen/?query=(tag%3A(%22pathogen%3Apriority%22))",
@@ -44,13 +45,13 @@ EBI_QUERY_PATHS: dict[str, str] = {
 
 
 class AvailableDataView(BaseTemplateView):
-    """A template view that renders the Available Data (query links) page."""
+    """Renders the Available Data page with EBI hit counts and query links."""
 
     template_name = "available_data/index.html"
     title = "Data query links"
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
-        """Add EBI hit counts to template context."""
+        """Add EBI hit counts and aggregated totals to template context."""
         context = super().get_context_data(**kwargs)
         for key, path in EBI_QUERY_PATHS.items():
             context[key] = self._fetch_ebi_hit_count(path)
@@ -70,9 +71,10 @@ class AvailableDataView(BaseTemplateView):
         return context
 
     def _fetch_ebi_hit_count(self, path: str) -> int:
-        """Fetch hit count from EBI EBIsearch API for the given query path.
+        """Return hit count from EMBL-EBI EBIsearch API for the given path.
 
-        Uses Django cache with 6-hour TTL. Returns 0 on any error.
+        Results are cached for CACHE_TTL_SECONDS. Returns 0 on request
+        or parse errors.
         """
         cache_key = f"available_data_ebi_{slugify(path)}"
         cached = cache.get(cache_key)

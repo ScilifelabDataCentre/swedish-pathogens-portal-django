@@ -1,4 +1,4 @@
-"""URL configuration for the available_data app."""
+"""URL configuration for the Available Data page."""
 
 from django.urls import path
 
