@@ -20,8 +20,8 @@
                     <!-- Topic Image -->
                     <div class="relative">
                         <img 
-                            src="{{ topic.display_image|safe }}" 
-                            alt="{{ topic.name }}"
+                            src="{{ topic.image_url }}" 
+                            alt="{{ topic.title }}"
                             class="w-full h-48 object-cover rounded-t-lg"
                         />
                     </div>
@@ -30,10 +30,10 @@
                     <div class="p-4">
                         <h6 class="text-lg font-semibold text-pp-dark-blue mb-3">
                             <a 
-                                href="{% url 'topics:topic_detail' topic.slug %}" 
+                                href="{{ topic.get_absolute_url }}" 
                                 class="hover:text-pp-teal transition-colors duration-200"
                             >
-                                {{ topic.name }}
+                                {{ topic.title }}
                             </a>
                         </h6>
                         
