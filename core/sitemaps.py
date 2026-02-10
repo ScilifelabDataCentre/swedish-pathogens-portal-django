@@ -54,6 +54,7 @@ class SPPAutoSitemap(Sitemap):
     PUBLIC_APPS = [
         "about",
         "articles",
+        "available_data",
         "citation",
         "contact",
         "dashboards",
