@@ -7,6 +7,7 @@ from .views import (
     CovidQuantificationKth,
     CrushCovid,
     DashboardsIndex,
+    ExternalDashboards,
     HistoricCovidPublications,
     HistoricCovidQuantificationGu,
     HistoricEntericQuantificationGu,
@@ -29,6 +30,7 @@ app_name = "dashboards"
 
 urlpatterns = [
     path("", DashboardsIndex.as_view(), name="index"),
+    path("external-dashboards", ExternalDashboards.as_view(), name="external_dashboards"),
     path(
         "lineage-competition/",
         LineageCompetition.as_view(),

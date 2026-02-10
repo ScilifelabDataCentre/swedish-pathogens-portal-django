@@ -19,13 +19,35 @@
 
             <!-- Desktop Navigation (agreed menu structure) -->
             <nav class="hidden lg:flex items-center gap-6" aria-label="Main navigation">
-                <!-- Dashboards (direct) -->
-                <a href="{% url 'dashboards:index' %}"
-                    class="text-pp-dark-blue font-medium hover:text-pp-teal transition-colors
-                    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal
-                    focus-visible:ring-offset-2 focus-visible:rounded">
-                    Dashboards
-                </a>
+
+                <!-- Dashboards dropdown -->
+                <div class="relative group">
+                    <button
+                        class="flex items-center gap-1 text-pp-dark-blue font-medium hover:text-pp-teal
+                        transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal
+                        focus-visible:ring-offset-2 focus-visible:rounded"
+                        aria-expanded="false"
+                        aria-haspopup="true"
+                        aria-controls="dashboards-menu"
+                        type="button">
+                        Dashboards
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div id="dashboards-menu" role="menu"
+                        class="absolute left-0 pt-2 w-56 opacity-0 invisible group-hover:opacity-100
+                        group-hover:visible [.group:focus-within_&]:opacity-100
+                        [.group:focus-within_&]:visible transition-all">
+                        <div class="flex flex-col bg-white border border-gray-200 rounded-lg p-2 shadow-lg
+                             *:p-2 *:text-pp-mid-blue *:hover:bg-pp-pale-grey/20 *:hover:text-pp-teal
+                             *:transition-colors *:focus-visible:outline-none *:focus-visible:ring-2
+                             *:focus-visible:ring-offset-2 *:focus-visible:bg-pp-pale-grey">
+                            <a href="{% url 'dashboards:index' %}" role="menuitem">Our dashboards</a>
+                            <a href="{% url 'dashboards:external_dashboards' %}" role="menuitem">External dashboards   </a>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- Data Management dropdown -->
                 <div class="relative group">
@@ -182,13 +204,24 @@
             <!-- Direct links: Dashboards, Outbreaks, Topics (touch targets ≥44px) -->
             <div class="flex flex-col gap-4" aria-label="Main links">
 
-                <!-- Dashboards -->
-                <div>
-                    <a href="{% url 'dashboards:index' %}"
-                    class="text-pp-dark-blue font-medium uppercase tracking-wider focus-visible:rounded
-                    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2">
-                    Dashboards
-                    </a>
+                <!-- Dashboards (collapsible) -->
+                <div role="group" aria-label="Dashboards">
+                    <details class="group/details">
+                        <summary class="flex items-center text-pp-dark-blue font-medium uppercase tracking-wider
+                        list-none focus-visible:rounded focus-visible:outline-none focus-visible:ring-2
+                        focus-visible:ring-offset-2 [&::-webkit-details-marker]:hidden">
+                            <span>Dashboards</span>
+                            <svg class="w-4 h-4 ml-2 transition-transform group-open/details:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </summary>
+                        <ul class="flex flex-col gap-3 border-l-2 border-pp-pale-grey mt-2 ml-4 pl-4
+                           *:text-pp-mid-blue *:focus-visible:outline-none *:focus-visible:ring-2
+                            *:focus-visible:ring-offset-2 *:focus-visible:rounded">
+                            <li><a href="{% url 'dashboards:index' %}">Our dashboards</a></li>
+                            <li><a href="{% url 'dashboards:external_dashboards' %}">External dashboards</a></li>
+                        </ul>
+                    </details>
                 </div>
 
                 <!-- Data Management (collapsible) -->

@@ -6,6 +6,7 @@ URL configs and other modules.
 
 from .covid_quantification_kth import CovidQuantificationKth
 from .crush_covid import CrushCovid
+from .external_dashboards import ExternalDashboards
 from .historic_covid_publications import HistoricCovidPublications
 from .historic_covid_quantification_gu import HistoricCovidQuantificationGu
 from .historic_enteric_quantification_gu import HistoricEntericQuantificationGu
@@ -27,6 +28,7 @@ __all__ = [
     "CovidQuantificationKth",
     "CrushCovid",
     "DashboardsIndex",
+    "ExternalDashboards",
     "HistoricCovidPublications",
     "HistoricCovidQuantificationGu",
     "HistoricEntericQuantificationGu",
