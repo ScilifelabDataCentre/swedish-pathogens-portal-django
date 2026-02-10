@@ -57,7 +57,6 @@ LOCAL_APPS = [
     "pages.citation",
     "pages.contact",
     "pages.dashboards",
-    "pages.data_management",
     "pages.home",
     "pages.news",
     "pages.outbreaks",
