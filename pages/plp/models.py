@@ -21,7 +21,7 @@ class PlpProject(models.Model):
         slug (str): URL-friendly identifier.
         category (str): Project category (e.g. PLP1, PLP2, TDP).
         content (str): Full markdown content for the project detail page.
-        featured_image (ImageField): Featured image for the project.
+        image (ImageField): Featured image for the project.
         created_at (datetime): Creation timestamp (defaults to now).
         updated_at (datetime): Timestamp when project was last modified.
         is_active (bool): Toggle visibility without deleting the record.
@@ -42,6 +42,7 @@ class PlpProject(models.Model):
         "plp1": "Pandemic Laboratory Preparedness Capabilities round 1",
     }
 
+    # Basic fields
     title = models.CharField(
         max_length=255,
         unique=True,
@@ -57,18 +58,26 @@ class PlpProject(models.Model):
         choices=CATEGORY_CHOICES,
         help_text="Project category (e.g. PLP1, PLP2, TDP)",
     )
-    content = models.TextField(help_text="Full markdown content for the project detail page")
-    featured_image = models.ImageField(
+
+    # Media field
+    image = models.ImageField(
         upload_to="plp/projects/",
         help_text="Featured image for the project",
     )
+
+    # Content field
+    content = models.TextField(help_text="Full markdown content for the project detail page")
+
+    # Status field
+    is_active = models.BooleanField(
+        default=True, help_text="Toggle visibility without deleting the record"
+    )
+
+    # Timestamps
     created_at = models.DateTimeField(
         default=timezone.now, help_text="Creation timestamp (defaults to now)"
     )
     updated_at = models.DateTimeField(auto_now=True)
-    is_active = models.BooleanField(
-        default=True, help_text="Toggle visibility without deleting the record"
-    )
 
     class Meta:
         """Metadata for PLP project model."""
@@ -94,6 +103,11 @@ class PlpProject(models.Model):
     def get_category_group_label(self) -> str:
         """Return the display label for category group headings."""
         return self.CATEGORY_GROUP_LABELS.get(self.category, self.get_category_display())
+
+    @property
+    def image_url(self) -> str:
+        """Return the URL of the image."""
+        return self.image.url
 
     @property
     def rendered_content(self) -> str:

@@ -13,23 +13,23 @@ class TopicAdmin(admin.ModelAdmin):
     with organized fieldsets, search functionality, and filtering.
 
     Features:
-        - List display with name, slug, status, and creation date
+        - List display with title, slug, status, and creation date
         - Filtering by active status and creation date
-        - Search by name and description
-        - Auto-populated slug field from name
+        - Search by title and description
+        - Auto-populated slug field from title
         - Organized fieldsets for better UX
     """
 
-    list_display = ["name", "slug", "is_active", "created_at"]
+    list_display = ["title", "slug", "is_active", "created_at"]
     list_filter = ["is_active", "created_at"]
-    search_fields = ["name", "description"]
-    prepopulated_fields = {"slug": ("name",)}
+    search_fields = ["title", "description"]
+    prepopulated_fields = {"slug": ("title",)}
     readonly_fields = ["created_at", "updated_at"]
 
     fieldsets = (
-        ("Basic Information", {"fields": ("name", "slug", "description")}),
-        ("Content", {"fields": ("content", "alert_message")}),
-        ("Visual", {"fields": ("thumbnail_image",)}),
+        ("Basic Information", {"fields": ("title", "slug", "description")}),
+        ("Media", {"fields": ("image",)}),
+        ("Content", {"fields": ("content", "announcement")}),
         ("Status", {"fields": ("is_active",)}),
         (
             "Timestamps",

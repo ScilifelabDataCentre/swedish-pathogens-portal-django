@@ -27,8 +27,8 @@ class PlpProjectAdmin(admin.ModelAdmin):
             "Basic Information",
             {"fields": ("title", "slug", "category")},
         ),
+        ("Media", {"fields": ("image",)}),
         ("Content", {"fields": ("content",)}),
-        ("Media", {"fields": ("featured_image",)}),
         ("Status", {"fields": ("is_active",)}),
         (
             "Timestamps",

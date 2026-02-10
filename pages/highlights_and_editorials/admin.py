@@ -27,7 +27,7 @@ class HighlightsAndEditorialsAdmin(admin.ModelAdmin):
 
     list_display = ["title", "type", "slug", "is_active", "created_at", "updated_at"]
     list_filter = ["is_active", "type", "created_at", "updated_at", "topics"]
-    search_fields = ["title", "summary", "content", "announcement", "tags", "author"]
+    search_fields = ["title", "description", "content", "announcement", "tags", "author"]
     prepopulated_fields = {"slug": ("title",)}
     readonly_fields = ["updated_at"]
     filter_horizontal = ["topics"]
@@ -36,11 +36,11 @@ class HighlightsAndEditorialsAdmin(admin.ModelAdmin):
     fieldsets = (
         (
             "Basic Information",
-            {"fields": ("type", "title", "slug", "summary", "author")},
+            {"fields": ("type", "title", "slug", "description", "author")},
         ),
+        ("Media", {"fields": ("image", "image_caption")}),
         ("Content", {"fields": ("content", "announcement")}),
-        ("Categorization", {"fields": ("topics", "tags")}),
-        ("Media", {"fields": ("featured_image", "figure_caption")}),
+        ("Categorization", {"fields": ("topics", "keywords")}),
         ("Status", {"fields": ("is_active",)}),
         (
             "Timestamps",

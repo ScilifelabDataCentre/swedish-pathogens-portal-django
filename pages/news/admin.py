@@ -15,14 +15,14 @@ class NewsAdmin(admin.ModelAdmin):
     Features:
         - List display with title, slug, status, and creation date
         - Filtering by active status and creation date
-        - Search by title and summary
+        - Search by title and description
         - Auto-populated slug field from title
         - Organized fieldsets for better UX
     """
 
     list_display = ["title", "slug", "created_at", "is_active"]
     list_filter = ["is_active", "created_at"]
-    search_fields = ["title", "summary"]
+    search_fields = ["title", "description"]
     prepopulated_fields = {"slug": ("title",)}
     readonly_fields = ["updated_at"]
     date_hierarchy = "created_at"
@@ -31,13 +31,10 @@ class NewsAdmin(admin.ModelAdmin):
     fieldsets = (
         (
             "Basic Information",
-            {"fields": ("title", "slug", "summary")},
+            {"fields": ("title", "slug", "description")},
         ),
-        ("Content", {"fields": ("content",)}),
         ("Media", {"fields": ("image",)}),
+        ("Content", {"fields": ("content",)}),
         ("Status", {"fields": ("is_active",)}),
-        (
-            "Timestamps",
-            {"fields": ("created_at", "updated_at"), "classes": ("collapse",)},
-        ),
+        ("Timestamps", {"fields": ("created_at", "updated_at")}),
     )

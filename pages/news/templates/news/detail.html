@@ -6,7 +6,7 @@
 <article>
     <h3 class="font-medium">{{ news.title }}</h3>
     <p class="text-sm text-pp-dark-grey mb-6">{{ news.created_at|date:"F d, Y" }}</p>
-    <img src="{{ news.image.url }}" alt="{{ news.title }}" class="w-full h-64 sm:h-96 object-cover rounded-lg">
+    <img src="{{ news.image_url }}" alt="{{ news.title }}" class="w-full h-64 sm:h-96 object-cover rounded-lg">
 
     <div class="mt-6">
         {{ news.rendered_content|safe }}
