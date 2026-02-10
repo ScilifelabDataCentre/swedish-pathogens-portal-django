@@ -2,6 +2,7 @@
 
 import markdown
 from django.db import models
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.safestring import mark_safe
 from django.utils.text import slugify
@@ -16,7 +17,7 @@ class News(models.Model):
     Attributes:
         title (str): Display name of the News (max 200 chars, unique).
         slug (str): URL-friendly version of title (auto-generated).
-        summary (str): Brief summary to be displayed in news index page.
+        description (str): Brief description to be displayed in news index page.
         content (str): Rich markdown content for detail pages.
         image (ImageField): Image to be used in index and detail page.
         is_active (bool): Whether news is visible (default: True).
@@ -38,22 +39,31 @@ class News(models.Model):
 
     """
 
+    # Basic fields
     title = models.CharField(max_length=200, unique=True, help_text="Title of news item")
     slug = models.SlugField(
         max_length=200,
         unique=True,
         help_text="URL-friendly version of the title (auto-generated from Title)",
     )
-    summary = models.TextField(help_text="Short summary for news index page")
-    content = models.TextField(
-        help_text="Rich text content in markdown format (displayed on news detail page)"
-    )
+    description = models.TextField(help_text="Short description for news index page")
+
+    # Media field
     image = models.ImageField(
         upload_to="news/images/", help_text="Image to be used in index and detail page"
     )
+
+    # Content field
+    content = models.TextField(
+        help_text="Rich text content in markdown format (displayed on news detail page)"
+    )
+
+    # Status field
     is_active = models.BooleanField(
         default=True, help_text="Whether this news is active and visible"
     )
+
+    # Timestamps
     created_at = models.DateTimeField(
         default=timezone.now,
         help_text="Creation date (defaults to current date if not provided)",
@@ -76,6 +86,15 @@ class News(models.Model):
         if not self.slug:
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
+
+    def get_absolute_url(self) -> str:
+        """Return the URL to access a detail page for this news."""
+        return reverse("news:detail", kwargs={"slug": self.slug})
+
+    @property
+    def image_url(self) -> str:
+        """Return the URL of the news image."""
+        return self.image.url
 
     @property
     def rendered_content(self) -> str:
