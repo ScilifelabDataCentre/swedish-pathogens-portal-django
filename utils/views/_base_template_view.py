@@ -13,6 +13,7 @@ class BaseTemplateView(TemplateView):
     Attributes:
         title (str): Page title to add to context. Optional.
         description (str): Meta description to add to context. Optional.
+        page_heading (str): Main H1 heading for the page. If unset, base template uses title. Optional.
         extra_context (dict): Additional context data. Optional.
 
     Example:
@@ -29,10 +30,11 @@ class BaseTemplateView(TemplateView):
 
     title = ""
     description = ""
+    page_heading = ""
     extra_context = None
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
-        """Add title, description, and extra_context to template context."""
+        """Add title, description, page_heading, and extra_context to template context."""
         context = super().get_context_data(**kwargs)
 
         if self.title:
@@ -40,6 +42,9 @@ class BaseTemplateView(TemplateView):
 
         if self.description:
             context["description"] = self.description
+
+        if self.page_heading:
+            context["page_heading"] = self.page_heading
 
         if self.extra_context is not None and isinstance(self.extra_context, dict):
             context.update(self.extra_context)

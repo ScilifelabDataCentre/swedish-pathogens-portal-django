@@ -14,6 +14,7 @@ class DashboardsIndex(BaseTemplateView):
 
     template_name = "dashboards/index.html"
     title = "Data dashboards"
+    page_heading = "Dashboards"
 
     # This is a temporary workaround for the MVP, the following dict
     # might be removed and the info will be fetched from DB.
