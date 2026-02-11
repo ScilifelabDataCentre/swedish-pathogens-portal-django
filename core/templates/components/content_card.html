@@ -1,15 +1,24 @@
 {# Content card partial – reuse .badge, .badge-topic from base.css for topic tags; all other styling inline. #}
 {# Required: url, image, title, description. Optional: image_alt, date, badge_text, badge_variant, topics. British date: j F Y. #}
+{# image: full URL or static path (e.g. dashboards/thumbnails/foo.jpg); partial resolves static paths. #}
+{% load static %}
 {% partialdef content_card %}
 <a href="{{ url }}" class="group block no-underline hover:no-underline rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal focus-visible:ring-offset-2 h-full"
    aria-label="{{ title }}">
   <div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all h-full flex flex-col">
     <div class="p-4 overflow-hidden bg-pp-pale-grey relative border-b border-pp-pale-grey">
       {% if image %}
+        {% if image|slice:":5" == "https" or image|slice:":4" == "http" %}
         <img src="{{ image }}"
              alt="{{ image_alt|default:title }}"
              class="w-full h-40 object-cover rounded-lg group-hover:scale-105 transition-transform duration-300"
              loading="lazy">
+        {% else %}
+        <img src="{% static image %}"
+             alt="{{ image_alt|default:title }}"
+             class="w-full h-40 object-cover rounded-lg group-hover:scale-105 transition-transform duration-300"
+             loading="lazy">
+        {% endif %}
       {% else %}
         <div class="w-full h-40 rounded-lg bg-linear-to-br from-pp-mid-blue to-pp-teal flex items-center justify-center" aria-hidden="true">
           <svg class="w-12 h-12 text-white shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
