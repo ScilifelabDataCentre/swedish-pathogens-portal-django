@@ -16,33 +16,7 @@
     {% if topics %}
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
             {% for topic in topics %}
-                <div class="bg-white border border-pp-pale-grey rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
-                    <!-- Topic Image -->
-                    <div class="relative">
-                        <img 
-                            src="{{ topic.image_url }}" 
-                            alt="{{ topic.title }}"
-                            class="w-full h-48 object-cover rounded-t-lg"
-                        />
-                    </div>
-                    
-                    <!-- Topic Content -->
-                    <div class="p-4">
-                        <h6 class="text-lg font-semibold text-pp-dark-blue mb-3">
-                            <a 
-                                href="{{ topic.get_absolute_url }}" 
-                                class="hover:text-pp-teal transition-colors duration-200"
-                            >
-                                {{ topic.title }}
-                            </a>
-                        </h6>
-                        
-                        <!-- Topic Description -->
-                        <p class="text-pp-dark-grey text-sm leading-relaxed mb-4">
-                            {{ topic.description|truncatewords:25 }}
-                        </p>
-                    </div>
-                </div>
+                {% include "components/content_card.html#content_card" with url=topic.get_absolute_url image=topic.image_url title=topic.title description=topic.description only %}
             {% endfor %}
         </div>
     {% else %}

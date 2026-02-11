@@ -4,6 +4,7 @@ import logging
 
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
+from django.templatetags.static import static
 from django.urls import reverse_lazy
 from django.views import View
 
@@ -47,7 +48,7 @@ class Home(View):
         context["dashboards"] = [
             {
                 "name": "SLU-SEEC Wastewater Surveillance",
-                "image": "dashboards/thumbnails/slu_wastewater.jpg",
+                "image": static("dashboards/thumbnails/slu_wastewater.jpg"),
                 "url": reverse_lazy("dashboards:slu_overview"),
                 "description": (
                     "Explore pathogens levels in wastewater across Sweden. Weekly data from "
@@ -57,7 +58,7 @@ class Home(View):
             },
             {
                 "name": "SARS-CoV-2 whole genome sequencing (Region Uppsala)",
-                "image": "dashboards/thumbnails/variants_region_uppsala.jpg",
+                "image": static("dashboards/thumbnails/variants_region_uppsala.jpg"),
                 "url": reverse_lazy("dashboards:variants_region_uppsala"),
                 "description": (
                     "Surveillance of viral genome sequences is crucial in tracking "
@@ -67,7 +68,7 @@ class Home(View):
             },
             {
                 "name": "Serology tests for SARS-CoV-2 at SciLifeLab",
-                "image": "dashboards/thumbnails/serology_statistics.jpg",
+                "image": static("dashboards/thumbnails/serology_statistics.jpg"),
                 "url": reverse_lazy("dashboards:serology_statistics"),
                 "description": (
                     "The dashboard displays the SARS-CoV-2 serology tests completed "

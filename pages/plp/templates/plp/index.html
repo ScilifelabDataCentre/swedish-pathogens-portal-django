@@ -189,27 +189,7 @@
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {% for project in group.projects %}
-            <div class="project-card group">
-                <div
-                    class="h-full flex flex-col bg-white rounded-lg border border-pp-pale-grey/40 shadow-sm
-                    hover:shadow-md transition-all duration-300 relative overflow-hidden">
-                    <!-- Featured image -->
-                    <div class="h-48 w-full overflow-hidden bg-pp-pale-grey/10" aria-hidden="true">
-                        <a href="{{ project.get_absolute_url }}" class="block h-full">
-                            <img src="{{ project.image_url }}" alt="{{ project.title }}"
-                                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
-                        </a>
-                    </div>
-                    <!-- Title -->
-                    <div class="p-5 flex flex-col grow">
-                        <h6 class="mt-0 mb-2 font-bold">
-                            <a href="{{ project.get_absolute_url }}">
-                                {{ project.title }}
-                            </a>
-                        </h5>
-                    </div>
-                </div>
-            </div>
+                {% include "components/content_card.html#content_card" with url=project.get_absolute_url image=project.image_url title=project.title description="" only %}
             {% endfor %}
         </div>
     </section>

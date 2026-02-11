@@ -1,5 +1,7 @@
 """Views for dashboards index page."""
 
+from django.templatetags.static import static
+
 from utils.views import BaseTemplateView
 
 
@@ -19,7 +21,7 @@ class ExternalDashboards(BaseTemplateView):
         "external_dashboards": [
             {
                 "name": "SvarmIT: interactive resistance monitoring",
-                "image": "dashboards/thumbnails/external/sva_logo.png",
+                "image": static("dashboards/thumbnails/external/sva_logo.png"),
                 "url": "https://www.sva.se/djurhaelsa/antibiotika/oevervakning/svarmit-interaktivt-resistensoevervakningsverktyg/",
                 "description": (
                     "Interactive visualisation to show the occurrence of resistance "
@@ -28,7 +30,7 @@ class ExternalDashboards(BaseTemplateView):
             },
             {
                 "name": "Avian Influenza: infection status with map",
-                "image": "dashboards/thumbnails/external/sva_logo.png",
+                "image": static("dashboards/thumbnails/external/sva_logo.png"),
                 "url": "https://www.sva.se/djurhaelsa/djursjukdomar-a-oe/sjukdomar/faagelinfluensa/faagelinfluensa-smittlaege-med-karta/",
                 "description": (
                     "The transmission of avian influenza is variable "
@@ -38,13 +40,13 @@ class ExternalDashboards(BaseTemplateView):
             },
             {
                 "name": "Campylobacter in broiler chickens",
-                "image": "dashboards/thumbnails/external/sva_logo.png",
+                "image": static("dashboards/thumbnails/external/sva_logo.png"),
                 "url": "https://svastatichosting.z6.web.core.windows.net/maps/campy_graph/barchart.html",
                 "description": ("Surveillance dedicated to monitor campylobacter in chickens."),
             },
             {
                 "name": "Covid-19 – Confirmed cases in Sweden",
-                "image": "dashboards/thumbnails/external/fohm_logo.png",
+                "image": static("dashboards/thumbnails/external/fohm_logo.png"),
                 "url": "https://www.folkhalsomyndigheten.se/fall-covid-19/",
                 "description": (
                     "Shows an up-to-date interactive visualisation "
@@ -54,7 +56,7 @@ class ExternalDashboards(BaseTemplateView):
             },
             {
                 "name": "Covid-19 – Tested with PCR ",
-                "image": "dashboards/thumbnails/external/fohm_logo.png",
+                "image": static("dashboards/thumbnails/external/fohm_logo.png"),
                 "url": "https://www.folkhalsomyndigheten.se/PCR-covid-19/",
                 "description": (
                     "Visualisation of weekly PCR testing statistics for COVID-19 in Sweden, "
@@ -64,7 +66,7 @@ class ExternalDashboards(BaseTemplateView):
             },
             {
                 "name": "Covid-19 – Vaccinations ",
-                "image": "dashboards/thumbnails/external/fohm_logo.png",
+                "image": static("dashboards/thumbnails/external/fohm_logo.png"),
                 "url": "https://www.folkhalsomyndigheten.se/vaccination-covid-19/",
                 "description": (
                     "COVID-19 vaccination coverage in Sweden, showing numbers and "
@@ -74,7 +76,7 @@ class ExternalDashboards(BaseTemplateView):
             },
             {
                 "name": "Influenza – Confirmed cases in Sweden",
-                "image": "dashboards/thumbnails/external/fohm_logo.png",
+                "image": static("dashboards/thumbnails/external/fohm_logo.png"),
                 "url": "https://www.folkhalsomyndigheten.se/faktablad/fall-influensa/",
                 "description": (
                     "Laboratory confirmed influenza cases in Sweden over time, with options "
@@ -84,7 +86,7 @@ class ExternalDashboards(BaseTemplateView):
             },
             {
                 "name": "RS virus infection – Confirmed cases in Sweden",
-                "image": "dashboards/thumbnails/external/fohm_logo.png",
+                "image": static("dashboards/thumbnails/external/fohm_logo.png"),
                 "url": "https://www.folkhalsomyndigheten.se/faktablad/fall-RS-virus/",
                 "description": (
                     "Shows the statistics of the number of confirmed RS‑virus "
@@ -95,7 +97,7 @@ class ExternalDashboards(BaseTemplateView):
             },
             {
                 "name": "Real-time tracking of influenza A/H5N1 virus evolution",
-                "image": "dashboards/thumbnails/external/nextstrain_logo.png",
+                "image": static("dashboards/thumbnails/external/nextstrain_logo.png"),
                 "url": "https://nextstrain.org/avian-flu/h5n1/ha/2y?c=country&f_country=Sweden",
                 "description": (
                     "Phylogenetic visualisation of avian influenza A (H5N1) hemagglutinin (HA) "
@@ -106,7 +108,7 @@ class ExternalDashboards(BaseTemplateView):
             },
             {
                 "name": "Real-time tracking of influenza A/H3N2 evolution",
-                "image": "dashboards/thumbnails/external/nextstrain_logo.png",
+                "image": static("dashboards/thumbnails/external/nextstrain_logo.png"),
                 "url": "https://nextstrain.org/seasonal-flu/h3n2/ha/2y?c=country&f_country=Sweden",
                 "description": (
                     "Phylogenetic visualisation of the hemagglutinin (HA) "
@@ -116,7 +118,7 @@ class ExternalDashboards(BaseTemplateView):
             },
             {
                 "name": "Genomic epidemiology of SARS-CoV-2",
-                "image": "dashboards/thumbnails/external/nextstrain_logo.png",
+                "image": static("dashboards/thumbnails/external/nextstrain_logo.png"),
                 "url": "https://nextstrain.org/ncov/open/global/6m?c=country&f_country=Sweden",
                 "description": (
                     "Phylogenetic and temporal visualisation of global SARS-CoV-2 "
@@ -127,7 +129,7 @@ class ExternalDashboards(BaseTemplateView):
             },
             {
                 "name": "SARS-CoV-2 phylogeny",
-                "image": "dashboards/thumbnails/external/nextstrain_logo.png",
+                "image": static("dashboards/thumbnails/external/nextstrain_logo.png"),
                 "url": "https://nextstrain.org/groups/neherlab/ncov/sweden?c=clade_membership&f_country=Sweden&p=grid&r=division",
                 "description": (
                     "Genomic surveillance visualisation showing the phylogenetic relationships and "
@@ -138,7 +140,7 @@ class ExternalDashboards(BaseTemplateView):
             },
             {
                 "name": "Real-time tracking of measles N450 virus evolution",
-                "image": "dashboards/thumbnails/external/nextstrain_logo.png",
+                "image": static("dashboards/thumbnails/external/nextstrain_logo.png"),
                 "url": "https://nextstrain.org/measles/N450?c=country&f_country=Sweden",
                 "description": (
                     "Phylogenetic visualisation of measles N450 virus sequences, "
@@ -148,7 +150,7 @@ class ExternalDashboards(BaseTemplateView):
             },
             {
                 "name": "Real-time tracking of Mycobacterium tuberculosis full genome evolution",
-                "image": "dashboards/thumbnails/external/nextstrain_logo.png",
+                "image": static("dashboards/thumbnails/external/nextstrain_logo.png"),
                 "url": "https://nextstrain.org/tb/global?f_country=Sweden",
                 "description": (
                     "Mycobacterium tuberculosis genomic data, with Swedish isolates highlighted "
