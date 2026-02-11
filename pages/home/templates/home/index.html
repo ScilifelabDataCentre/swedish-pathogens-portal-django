@@ -50,7 +50,7 @@
             </p>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {% for dashboard in dashboards %}
-                {% include "components/content_card.html#content_card" with url=dashboard.url image=dashboard.image title=dashboard.name description=dashboard.description only %}
+                    {% include "components/content_card.html#content_card" with url=dashboard.url image=dashboard.image title=dashboard.name description=dashboard.description only %}
                 {% empty %}
                 <div
                     class="col-span-3 text-center py-8 bg-pp-pale-grey border-2 border-dashed border-gray-300 rounded-xl">
@@ -75,7 +75,7 @@
             </p>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {% for article in articles %}
-                {% include "components/content_card.html#content_card" with url=article.get_absolute_url image=article.image_url title=article.title description=article.description date=article.created_at badge_text=article.get_type_display topics=article.topics.all only %}
+                    {% include "components/content_card.html#content_card" with url=article.get_absolute_url image=article.image_url title=article.title description=article.description date=article.created_at badge_text=article.get_type_display topics=article.topics.all only %}
                 {% empty %}
                 <div
                     class="col-span-3 text-center py-8 bg-pp-pale-grey border-2 border-dashed border-gray-300 rounded-xl">
@@ -100,7 +100,7 @@
             </p>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {% for topic in topics %}
-                {% include "components/content_card.html#content_card" with url=topic.get_absolute_url image=topic.image_url title=topic.title description=topic.description only %}
+                    {% include "components/content_card.html#content_card" with url=topic.get_absolute_url image=topic.image_url title=topic.title description=topic.description only %}
                 {% empty %}
                 <div
                     class="col-span-3 text-center py-8 bg-pp-pale-grey border-2 border-dashed border-gray-300 rounded-xl">

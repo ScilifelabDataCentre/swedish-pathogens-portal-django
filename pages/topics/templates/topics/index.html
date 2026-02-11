@@ -16,7 +16,7 @@
     {% if topics %}
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
             {% for topic in topics %}
-            {% include "components/content_card.html#content_card" with url=topic.get_absolute_url image=topic.image_url title=topic.title description=topic.description only %}
+                {% include "components/content_card.html#content_card" with url=topic.get_absolute_url image=topic.image_url title=topic.title description=topic.description only %}
             {% endfor %}
         </div>
     {% else %}

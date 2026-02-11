@@ -1,5 +1,6 @@
 """Views for dashboards index page."""
 
+from django.templatetags.static import static
 from django.urls import reverse_lazy
 
 from utils.views import BaseTemplateView
@@ -21,7 +22,7 @@ class DashboardsIndex(BaseTemplateView):
         "active_dashboards": [
             {
                 "name": "SLU-SEEC Wastewater Surveillance",
-                "image": "dashboards/thumbnails/slu_wastewater.jpg",
+                "image": static("dashboards/thumbnails/slu_wastewater.jpg"),
                 "url": reverse_lazy("dashboards:slu_overview"),
                 "description": (
                     "Explore pathogens levels in wastewater across Sweden. Weekly data from "
@@ -31,7 +32,7 @@ class DashboardsIndex(BaseTemplateView):
             },
             {
                 "name": "Register-based vaccination (RECOVAC)",
-                "image": "dashboards/thumbnails/recovac.png",
+                "image": static("dashboards/thumbnails/recovac.png"),
                 "url": reverse_lazy("dashboards:recovac"),
                 "description": (
                     "Dedicated to the work of the register-based large-scale national "
@@ -41,7 +42,7 @@ class DashboardsIndex(BaseTemplateView):
             },
             {
                 "name": "SARS-CoV-2 Variant Competition",
-                "image": "dashboards/thumbnails/lineage_competition.jpg",
+                "image": static("dashboards/thumbnails/lineage_competition.jpg"),
                 "url": reverse_lazy("dashboards:lineage_competition"),
                 "description": (
                     "Estimates of SARS-CoV-2 variant frequencies and growth rate "
@@ -50,7 +51,7 @@ class DashboardsIndex(BaseTemplateView):
             },
             {
                 "name": "SARS-CoV-2 whole genome sequencing (Region Uppsala)",
-                "image": "dashboards/thumbnails/variants_region_uppsala.jpg",
+                "image": static("dashboards/thumbnails/variants_region_uppsala.jpg"),
                 "url": reverse_lazy("dashboards:variants_region_uppsala"),
                 "description": (
                     "Surveillance of viral genome sequences is crucial in tracking "
@@ -60,7 +61,7 @@ class DashboardsIndex(BaseTemplateView):
             },
             {
                 "name": "Serology tests for SARS-CoV-2 at SciLifeLab",
-                "image": "dashboards/thumbnails/serology_statistics.jpg",
+                "image": static("dashboards/thumbnails/serology_statistics.jpg"),
                 "url": reverse_lazy("dashboards:serology_statistics"),
                 "description": (
                     "The dashboard displays the SARS-CoV-2 serology tests completed "
@@ -71,7 +72,7 @@ class DashboardsIndex(BaseTemplateView):
             },
             {
                 "name": "Multi-disease serology",
-                "image": "dashboards/thumbnails/multidisease_serology.jpg",
+                "image": static("dashboards/thumbnails/multidisease_serology.jpg"),
                 "url": reverse_lazy("dashboards:multidisease_serology"),
                 "description": (
                     "A summary of the progress in developing a multi-disease serology "
@@ -84,7 +85,7 @@ class DashboardsIndex(BaseTemplateView):
         "historic_dashboards": [
             {
                 "name": "COVID Symptom Study Sweden (Partner)",
-                "image": "dashboards/thumbnails/symptom_study_sweden.jpg",
+                "image": static("dashboards/thumbnails/symptom_study_sweden.jpg"),
                 "url": reverse_lazy("dashboards:symptom_study_sweden"),
                 "description": (
                     "The COVID Symptom Study Sweden (CSSS) collects data on COVID-19 "
@@ -95,7 +96,7 @@ class DashboardsIndex(BaseTemplateView):
             },
             {
                 "name": "CRUSH Covid Uppsala (Partner)",
-                "image": "dashboards/thumbnails/crush_covid.jpg",
+                "image": static("dashboards/thumbnails/crush_covid.jpg"),
                 "url": reverse_lazy("dashboards:crush_covid"),
                 "description": (
                     "CRUSH Covid maps outbreaks in Uppsala County by visualising the "
@@ -106,7 +107,7 @@ class DashboardsIndex(BaseTemplateView):
             },
             {
                 "name": "Historic influenza virus in wastewater (SLU)",
-                "image": "dashboards/thumbnails/historic_influenza.jpg",
+                "image": static("dashboards/thumbnails/historic_influenza.jpg"),
                 "url": reverse_lazy("dashboards:historic_influenza"),
                 "description": (
                     "Historic data of Influenza A and B virus levels in wastewater "
@@ -115,7 +116,7 @@ class DashboardsIndex(BaseTemplateView):
             },
             {
                 "name": "Post COVID-19 condition",
-                "image": "dashboards/thumbnails/post_covid.jpg",
+                "image": static("dashboards/thumbnails/post_covid.jpg"),
                 "url": reverse_lazy("dashboards:post_covid"),
                 "description": (
                     "The Swedish Board of Health and Welfare (Socialstyrelsen) shares "
@@ -126,7 +127,7 @@ class DashboardsIndex(BaseTemplateView):
             },
             {
                 "name": "SARS-CoV-2 tests at National Pandemic Centre",
-                "image": "dashboards/thumbnails/npc_statistics.jpg",
+                "image": static("dashboards/thumbnails/npc_statistics.jpg"),
                 "url": reverse_lazy("dashboards:npc_statistics"),
                 "description": (
                     "The national Pandemic Centre (NPC) conducted testing related to "
@@ -137,7 +138,7 @@ class DashboardsIndex(BaseTemplateView):
             },
             {
                 "name": "Swedish COVID-19 publications over 5 years",
-                "image": "dashboards/thumbnails/historic_covid_publications.jpg",
+                "image": static("dashboards/thumbnails/historic_covid_publications.jpg"),
                 "url": reverse_lazy("dashboards:historic_covid_publications"),
                 "description": (
                     "A summary of the COVID-19 and SARS-CoV-2 publications produced involving at "
@@ -147,7 +148,7 @@ class DashboardsIndex(BaseTemplateView):
             },
             {
                 "name": "Vaccine administration: COVID-19",
-                "image": "dashboards/thumbnails/vaccines.jpg",
+                "image": static("dashboards/thumbnails/vaccines.jpg"),
                 "url": reverse_lazy("dashboards:vaccines"),
                 "description": (
                     "The Swedish Health Agency (Folkhälsomyndigheten) provide data "
@@ -158,7 +159,7 @@ class DashboardsIndex(BaseTemplateView):
             },
             {
                 "name": "Amount of SARS-CoV-2 in wastewater (GU)",
-                "image": "dashboards/thumbnails/covid_quantification_kth.png",
+                "image": static("dashboards/thumbnails/covid_quantification_kth.png"),
                 "url": reverse_lazy("dashboards:historic_covid_quantification_gu"),
                 "description": (
                     "This project is led by Professor Helene Norder (University of Gothenburg, "
@@ -171,7 +172,7 @@ class DashboardsIndex(BaseTemplateView):
             },
             {
                 "name": "Amount of SARS-CoV-2 in wastewater (SEEC-KTH)",
-                "image": "dashboards/thumbnails/covid_quantification_kth.png",
+                "image": static("dashboards/thumbnails/covid_quantification_kth.png"),
                 "url": reverse_lazy("dashboards:covid_quantification_kth"),
                 "description": (
                     "SEEC-KTH wastewater monitoring project led by associate professor "
@@ -183,7 +184,7 @@ class DashboardsIndex(BaseTemplateView):
             },
             {
                 "name": "Historic SARS-CoV-2 wastewater (SEEC-SLU)",
-                "image": "dashboards/thumbnails/covid_quantification_kth.png",
+                "image": static("dashboards/thumbnails/covid_quantification_kth.png"),
                 "url": reverse_lazy("dashboards:historic_sarscov2_wastewater"),
                 "description": (
                     "Historic SARS-CoV-2 wastewater data from SEEC-SLU, including "
@@ -192,7 +193,7 @@ class DashboardsIndex(BaseTemplateView):
             },
             {
                 "name": "Wastewater: Enteric Virus Quantification (GU)",
-                "image": "dashboards/thumbnails/wastewater_enteric_virus.png",
+                "image": static("dashboards/thumbnails/wastewater_enteric_virus.png"),
                 "url": reverse_lazy("dashboards:historic_enteric_quantification_gu"),
                 "description": (
                     "Enteric virus levels in Gothenburg's wastewater, including "
