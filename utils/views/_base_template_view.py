@@ -13,7 +13,7 @@ class BaseTemplateView(TemplateView):
     Attributes:
         title (str): Page title to add to context. Optional.
         description (str): Meta description to add to context. Optional.
-        page_heading (str): Main H1 heading for the page. If unset, base template uses title. Optional.
+        page_heading (str): Main H1 for the page; falls back to title if unset. Optional.
         extra_context (dict): Additional context data. Optional.
 
     Example:
