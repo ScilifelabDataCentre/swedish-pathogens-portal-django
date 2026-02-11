@@ -96,46 +96,14 @@
     
     <!-- Related Articles -->
     {% if related_articles %}
-        <div class="border-t border-pp-pale-grey pt-8">
-            <h3 class="text-2xl font-semibold text-pp-dark-blue mb-6">
-                Related articles
-            </h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {% for related in related_articles %}
-                    <div class="data-highlight">
-                        <div class="h-full px-2.5 py-3 rounded-sm bg-pp-pale-grey hover:shadow-[0px_0px_3px_#55585a]">
-                            <!-- Featured Image -->
-                            {% if related.image %}
-                                <div aria-hidden="true">
-                                    <a href="{{ related.get_absolute_url }}">
-                                        <img class="w-full h-48 rounded-t-sm object-cover" 
-                                             src="{{ related.image_url }}" 
-                                             alt="{{ related.title }}">
-                                    </a>
-                                </div>
-                            {% endif %}
-                            
-                            <!-- Date -->
-                            <div class="mt-2">
-                                <small class="text-pp-dark-grey text-sm">
-                                    {{ related.created_at|date:"F j, Y" }}
-                                </small>
-                            </div>
-                            
-                            <!-- Title -->
-                            <div>
-                                <h6 class="my-1">
-                                    <a class="text-pp-dark-blue hover:text-pp-teal transition-colors duration-200" 
-                                       href="{{ related.get_absolute_url }}">
-                                        {{ related.title }}
-                                    </a>
-                                </h6>
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
+    <div class="border-t border-pp-pale-grey">
+        <h3>Related Highlights & Editorials</h3>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 mt-7">
+        {% for article in related_articles %}
+            {% include "components/content_card.html#content_card" with url=article.get_absolute_url image=article.image_url title=article.title date=article.created_at badge_text=article.get_type_display only %}
+        {% endfor %}
         </div>
+    </div>
     {% endif %}
     
 </div>
