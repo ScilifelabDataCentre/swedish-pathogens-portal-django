@@ -47,7 +47,7 @@ EBI_QUERY_PATHS: dict[str, str] = {
 
 
 def _build_ebi_counts_context() -> dict[str, int]:
-    """Fetch EBI hit counts and return context dict for template (outbreak_*, pathogens_*, samples_total)."""
+    """Fetch EBI hit counts and return context dict for template."""
     view = _EBICountsMixin()
     counts: dict[str, int] = {}
     for key, path in EBI_QUERY_PATHS.items():
@@ -106,7 +106,9 @@ class AvailableDataView(BaseTemplateView):
     template_name = "available_data/index.html"
     title = "Available datasets"
 
-    def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
+    def get(
+        self, request: HttpRequest, *args: object, **kwargs: object
+    ) -> HttpResponse:
         """Return counts fragment for htmx when get_counts=true; otherwise full page."""
         if request.htmx and request.GET.get("get_counts"):
             context = _build_ebi_counts_context()
