@@ -31,10 +31,7 @@
       <p>
         As we move on from the pandemic, it is crucial that serological studies include more pathogens
         than just SARS‑CoV‑2. One of the capabilities that is part of
-        {% comment %}
-          TODO Use correct PLP index page url.
-        {% endcomment %}
-        <a href="">SciLifeLab's Pandemic Laboratory Preparedness (PLP) programme</a>,
+        <a href="{% url "plp:index" %}">SciLifeLab's Pandemic Laboratory Preparedness (PLP) programme</a>,
         named 'Multi‑disease serology' aims to create a sustainable, long‑term
         resource enabling a broad, frequent, and large‑scale surveillance of serostatus. They are working to
         create antibody repertoires that can be used to analyse thousands of samples on hundreds of antigens.
@@ -42,7 +39,7 @@
         {% comment %}
           TODO Change URL to django style once the page is created and the path exists
         {% endcomment %}
-        check out the <a href="/resources/serology/">pandemic preparedness resource page for this project</a>.
+        check out the <a href="#">pandemic preparedness resource page for this project</a>.
       </p>
 
       <h2 id="historical-background">Historical background</h2>
@@ -133,9 +130,9 @@
       <p>
         The project is also collaborating with another SciLifeLab PLP project
         {% comment %}
-          TODO Change to correct django style URL once set up.
+          TODO Change to PLP immunomonitoring resource once created.
         {% endcomment %}
-        <a href="/resources/immunomonitoring/">“Systems‑level immunomonitoring to unravel immune response to a novel
+        <a href="#">“Systems‑level immunomonitoring to unravel immune response to a novel
           pathogen”</a>, headed by Petter Brodin (Karolinska Institutet, KI) and Jochen Schwenk (KTH), to include a wide
         range of externally produced antigens representing a large part of the Swedish vaccination program, see list
         below.

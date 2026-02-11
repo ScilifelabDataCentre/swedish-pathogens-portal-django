@@ -28,7 +28,7 @@
     {% else %}
     <div class="text-center mt-8">
         There was some problem in fetching publications for this pathogen, please try again later.
-        <br> If the problem persists, please <a href="/contact">contact the support team</a>.
+        <br> If the problem persists, please <a href="{% url 'contact:index' %}">contact the support team</a>.
     </div>
     {% endif %}
 </div>
