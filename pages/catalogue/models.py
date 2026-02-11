@@ -79,8 +79,8 @@ class Catalogue(models.Model):
         verbose_name_plural = "Catalogue entries"
 
     def __str__(self) -> str:
-        """Return resource name for string representation."""
-        return self.name
+        """Return resource title for string representation."""
+        return self.title
 
     @property
     def image_url(self) -> str:

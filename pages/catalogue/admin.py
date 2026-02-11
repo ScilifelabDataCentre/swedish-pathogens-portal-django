@@ -97,8 +97,8 @@ class CatalogueAdmin(admin.ModelAdmin):
 
     fieldsets = (
         ("Basic Information", {"fields": ("title", "category", "data_type")}),
-        ("Content", {"fields": ("description", "keywords", "link")}),
-        ("Visual", {"fields": ("image",)}),
+        ("Media", {"fields": ("image",)}),
+        ("Content", {"fields": ("description", "link", "keywords")}),
         ("Status", {"fields": ("is_active",)}),
         (
             "Timestamps",
