@@ -37,6 +37,7 @@ core_urls = [
 page_urls = [
     path("", include("pages.home.urls")),
     path("about/", include("pages.about.urls")),
+    path("catalogue/", include("pages.catalogue.urls")),
     path("citation/", include("pages.citation.urls")),
     path("contact/", include("pages.contact.urls")),
     path("dashboards/", include("pages.dashboards.urls")),
