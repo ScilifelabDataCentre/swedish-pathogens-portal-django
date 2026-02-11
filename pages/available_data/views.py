@@ -48,7 +48,7 @@ class AvailableDataView(BaseTemplateView):
     """Renders the Available Data page with EBI hit counts and query links."""
 
     template_name = "available_data/index.html"
-    title = "Data query links"
+    title = "Available datasets"
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         """Add EBI hit counts and aggregated totals to template context."""
