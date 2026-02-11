@@ -14,24 +14,7 @@
     <p>Dashboards created by the Swedish Pathogens Portal containing data that is actively updated by associated research efforts.</p>
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
         {% for dashboard in active_dashboards %}
-        <div class="border border-pp-dark-blue hover:shadow-md">
-            <div>
-                <a href="{{ dashboard.url }}">
-                    <img src="{% static dashboard.image %}"
-                    alt="Thumbnail for {{ dashboard.name }}"
-                    loading="lazy"
-                    >
-                </a>
-            </div>
-            <div class="px-4 py-3 font-medium text-lg *:text-white bg-pp-dark-blue">
-                <a href="{{ dashboard.url }}">
-                    {{ dashboard.name }}
-                </a>
-            </div>
-            <div class="p-4">
-                {{ dashboard.description }}
-            </div>
-        </div>
+        {% include "components/content_card.html#content_card" with url=dashboard.url image=dashboard.image title=dashboard.name description=dashboard.description only %}
         {% endfor %}
     </div>
 
@@ -39,24 +22,7 @@
     <p>Dashboards created by the Swedish Pathogens Portal that are no longer updated by associated research efforts.</p>
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
         {% for dashboard in historic_dashboards|dictsort:"name" %}
-        <div class="border border-pp-dark-blue hover:shadow-md">
-            <div>
-                <a href="{{ dashboard.url }}">
-                    <img src="{% static dashboard.image %}"
-                    alt="Thumbnail for {{ dashboard.name }}"
-                    loading="lazy"
-                    >
-                </a>
-            </div>
-            <div class="px-4 py-3 font-medium text-lg *:text-white bg-pp-dark-blue">
-                <a href="{{ dashboard.url }}">
-                    {{ dashboard.name }}
-                </a>
-            </div>
-            <div class="p-4">
-                {{ dashboard.description }}
-            </div>
-        </div>
+        {% include "components/content_card.html#content_card" with url=dashboard.url image=dashboard.image title=dashboard.name description=dashboard.description only %}
         {% endfor %}
     </div>
 
