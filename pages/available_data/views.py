@@ -6,6 +6,8 @@ import urllib.request
 from typing import Any
 
 from django.core.cache import cache
+from django.http import HttpRequest, HttpResponse
+from django.shortcuts import render
 from django.utils.text import slugify
 
 from utils.views import BaseTemplateView
@@ -44,31 +46,30 @@ EBI_QUERY_PATHS: dict[str, str] = {
 }
 
 
-class AvailableDataView(BaseTemplateView):
-    """Renders the Available Data page with EBI hit counts and query links."""
+def _build_ebi_counts_context() -> dict[str, int]:
+    """Fetch EBI hit counts and return context dict for template (outbreak_*, pathogens_*, samples_total)."""
+    view = _EBICountsMixin()
+    counts: dict[str, int] = {}
+    for key, path in EBI_QUERY_PATHS.items():
+        counts[key] = view._fetch_ebi_hit_count(path)
+    counts["outbreak_total"] = (
+        counts["outbreak_sequences"]
+        + counts["outbreak_analysis"]
+        + counts["outbreak_reads"]
+        + counts["outbreak_samples"]
+        + counts["outbreak_assembly"]
+    )
+    counts["pathogens_total"] = (
+        counts["pathogens_sequence"]
+        + counts["pathogens_analysis"]
+        + counts["pathogens_reads"]
+        + counts["pathogens_assembly"]
+    )
+    return counts
 
-    template_name = "available_data/index.html"
-    title = "Available datasets"
 
-    def get_context_data(self, **kwargs) -> dict[str, Any]:
-        """Add EBI hit counts and aggregated totals to template context."""
-        context = super().get_context_data(**kwargs)
-        for key, path in EBI_QUERY_PATHS.items():
-            context[key] = self._fetch_ebi_hit_count(path)
-        context["outbreak_total"] = (
-            context["outbreak_sequences"]
-            + context["outbreak_analysis"]
-            + context["outbreak_reads"]
-            + context["outbreak_samples"]
-            + context["outbreak_assembly"]
-        )
-        context["pathogens_total"] = (
-            context["pathogens_sequence"]
-            + context["pathogens_analysis"]
-            + context["pathogens_reads"]
-            + context["pathogens_assembly"]
-        )
-        return context
+class _EBICountsMixin:
+    """Mixin that provides _fetch_ebi_hit_count for use when building counts context."""
 
     def _fetch_ebi_hit_count(self, path: str) -> int:
         """Return hit count from EMBL-EBI EBIsearch API for the given path.
@@ -97,3 +98,25 @@ class AvailableDataView(BaseTemplateView):
         except OSError as e:
             logger.warning("EBI request error for %s: %s", path[:50], e)
             return 0
+
+
+class AvailableDataView(BaseTemplateView):
+    """Renders the Available Data page; counts are loaded lazily via htmx."""
+
+    template_name = "available_data/index.html"
+    title = "Available datasets"
+
+    def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
+        """Return counts fragment for htmx when get_counts=true; otherwise full page."""
+        if request.htmx and request.GET.get("get_counts"):
+            context = _build_ebi_counts_context()
+            return render(
+                request,
+                "available_data/fragments/counts_sections.html",
+                context,
+            )
+        return super().get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
+        """Do not fetch EBI here; htmx loads counts via GET ?get_counts=true."""
+        return super().get_context_data(**kwargs)
