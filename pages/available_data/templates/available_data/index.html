@@ -3,6 +3,7 @@
 {% load humanize %}
 
 {% block content %}
+{% with query_btn_class="*:inline-block *:bg-pp-dark-blue *:text-white *:no-underline *:font-normal *:py-2 *:px-4 *:rounded *:cursor-pointer *:shadow-[2px_2px_0_0_#1a3d5c] *:transition-all *:duration-200 *:hover:bg-pp-teal *:hover:shadow-[3px_3px_0_0_#2a6d5c] *:hover:-translate-y-0.5 *:active:bg-pp-teal *:active:shadow-[0_0_0_0_#1a3d5c] *:active:translate-y-px *:focus-visible:outline-none *:focus-visible:ring-2 *:focus-visible:ring-white *:focus-visible:ring-offset-2 *:focus-visible:ring-offset-pp-dark-blue *:motion-reduce:transition-none *:motion-reduce:hover:transform-none *:motion-reduce:hover:shadow-[2px_2px_0_0_#2a6d5c] *:motion-reduce:active:transform-none *:motion-reduce:active:shadow-[2px_2px_0_0_#1a3d5c]" %}
 <h1>Datasets in Central Pathogens Portal</h1>
 
 <h3>Region based accessible data</h2>
@@ -25,51 +26,45 @@
 <section class="mt-8" aria-labelledby="outbreaks-heading">
     <h2 id="outbreaks-heading" class="pb-2 mb-4 border-b border-pp-pale-grey text-pp-almost-black font-semibold text-2xl">Outbreaks</h2>
     <ul class="list-none flex flex-wrap gap-3">
-        <li>
+        <li class="{{ query_btn_class }}">
             <a href="https://www.pathogensportal.org/priority-pathogens?db=priorityPathogens&amp;query=(country:%22Sweden%22)"
                target="_blank"
-               rel="noopener noreferrer"
-               class="query-link-btn">
+               rel="noopener noreferrer">
                 View all <strong>{{ outbreak_total|intcomma }}</strong> results in Outbreaks
             </a>
         </li>
-        <li>
+        <li class="{{ query_btn_class }}">
             <a href="https://www.pathogensportal.org/priority-pathogens?db=embl-pathogen&amp;query=(country:%22Sweden%22)"
                target="_blank"
-               rel="noopener noreferrer"
-               class="query-link-btn">
+               rel="noopener noreferrer">
                 View all <strong>{{ outbreak_sequences|intcomma }}</strong> results in Sequences
             </a>
         </li>
-        <li>
+        <li class="{{ query_btn_class }}">
             <a href="https://www.pathogensportal.org/priority-pathogens?db=sra-analysis&amp;query=(country:%22Sweden%22)"
                target="_blank"
-               rel="noopener noreferrer"
-               class="query-link-btn">
+               rel="noopener noreferrer">
                 View all <strong>{{ outbreak_analysis|intcomma }}</strong> results in Analysis
             </a>
         </li>
-        <li>
+        <li class="{{ query_btn_class }}">
             <a href="https://www.pathogensportal.org/priority-pathogens?db=sra-experiment&amp;query=(country:%22Sweden%22)"
                target="_blank"
-               rel="noopener noreferrer"
-               class="query-link-btn">
+               rel="noopener noreferrer">
                 View all <strong>{{ outbreak_reads|intcomma }}</strong> results in Raw reads
             </a>
         </li>
-        <li>
+        <li class="{{ query_btn_class }}">
             <a href="https://www.pathogensportal.org/priority-pathogens?db=sra-sample&amp;query=(country:%22Sweden%22)"
                target="_blank"
-               rel="noopener noreferrer"
-               class="query-link-btn">
+               rel="noopener noreferrer">
                 View all <strong>{{ outbreak_samples|intcomma }}</strong> results in Samples
             </a>
         </li>
-        <li>
+        <li class="{{ query_btn_class }}">
             <a href="https://www.pathogensportal.org/priority-pathogens?db=genome_assembly&amp;query=(country:%22Sweden%22)"
                target="_blank"
-               rel="noopener noreferrer"
-               class="query-link-btn">
+               rel="noopener noreferrer">
                 View all <strong>{{ outbreak_assembly|intcomma }}</strong> results in Assembly
             </a>
         </li>
@@ -79,43 +74,38 @@
 <section class="mt-8" aria-labelledby="pathogens-heading">
     <h2 id="pathogens-heading" class="pb-2 mb-4 border-b border-pp-pale-grey text-pp-almost-black font-semibold text-2xl">Pathogens Sequences</h2>
     <ul class="list-none flex flex-wrap gap-3">
-        <li>
+        <li class="{{ query_btn_class }}">
             <a href="https://www.pathogensportal.org/sequences?db=sequences&amp;query=(country:%22Sweden%22)"
                target="_blank"
-               rel="noopener noreferrer"
-               class="query-link-btn">
+               rel="noopener noreferrer">
                 View all <strong>{{ pathogens_total|intcomma }}</strong> results in Pathogens sequences
             </a>
         </li>
-        <li>
+        <li class="{{ query_btn_class }}">
             <a href="https://www.pathogensportal.org/sequences?db=embl-pathogen&amp;query=(country:%22Sweden%22)"
                target="_blank"
-               rel="noopener noreferrer"
-               class="query-link-btn">
+               rel="noopener noreferrer">
                 View all <strong>{{ pathogens_sequence|intcomma }}</strong> results in Sequences
             </a>
         </li>
-        <li>
+        <li class="{{ query_btn_class }}">
             <a href="https://www.pathogensportal.org/sequences?db=sra-analysis&amp;query=(country:%22Sweden%22)"
                target="_blank"
-               rel="noopener noreferrer"
-               class="query-link-btn">
+               rel="noopener noreferrer">
                 View all <strong>{{ pathogens_analysis|intcomma }}</strong> results in Analysis
             </a>
         </li>
-        <li>
+        <li class="{{ query_btn_class }}">
             <a href="https://www.pathogensportal.org/sequences?db=sra-experiment&amp;query=(country:%22Sweden%22)"
                target="_blank"
-               rel="noopener noreferrer"
-               class="query-link-btn">
+               rel="noopener noreferrer">
                 View all <strong>{{ pathogens_reads|intcomma }}</strong> results in Raw reads
             </a>
         </li>
-        <li>
+        <li class="{{ query_btn_class }}">
             <a href="https://www.pathogensportal.org/sequences?db=genome_assembly&amp;query=(country:%22Sweden%22)"
                target="_blank"
-               rel="noopener noreferrer"
-               class="query-link-btn">
+               rel="noopener noreferrer">
                 View all <strong>{{ pathogens_assembly|intcomma }}</strong> results in Assembly
             </a>
         </li>
@@ -125,14 +115,14 @@
 <section class="mt-8" aria-labelledby="samples-heading">
     <h2 id="samples-heading" class="pb-2 mb-4 border-b border-pp-pale-grey text-pp-almost-black font-semibold text-2xl">Samples</h2>
     <ul class="list-none flex flex-wrap gap-3">
-        <li>
+        <li class="{{ query_btn_class }}">
             <a href="https://www.pathogensportal.org/samples?db=samples&amp;query=(country:%22Sweden%22)"
                target="_blank"
-               rel="noopener noreferrer"
-               class="query-link-btn">
+               rel="noopener noreferrer">
                 View all <strong>{{ samples_total|intcomma }}</strong> results in Samples
             </a>
         </li>
     </ul>
 </section>
+{% endwith %}
 {% endblock %}
