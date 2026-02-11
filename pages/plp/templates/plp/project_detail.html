@@ -8,12 +8,6 @@
 {% endcomment %}
 
 <!-- Main Content -->
-<div class="py-8">
-    <!-- Title and Category -->
-    <h1 class="text-3xl mb-2">
-        {{ project.title }}
-    </h1>
-
     <!-- Project Content -->
     <div class="max-w-none mb-8">
         {{ project.rendered_content|safe }}
@@ -27,6 +21,5 @@
             Back to PLP Overview
         </a>
     </div>
-</div>
 
 {% endblock %}
