@@ -1,0 +1,35 @@
+{% load humanize %}
+
+{% for section_name, section_info in count_context.items %}
+    <section class="mt-8" aria-labelledby="{{ section_name }}-heading">
+        <h2 id="{{ section_name }}-heading" class="pb-2 mb-4 border-b border-pp-pale-grey text-pp-almost-black font-semibold text-2xl">
+            {{ section_name|title }}
+        </h2>
+        <ul class="list-none flex flex-wrap gap-3 [&_a]:inline-block [&_a]:bg-pp-dark-blue [&_a]:text-white
+            [&_a]:no-underline [&_a]:py-2 [&_a]:px-4 [&_a]:rounded [&_a]:shadow-[2px_2px_0_0_#1a3d5c]
+            [&_a]:transition-all [&_a]:duration-200 [&_a]:hover:bg-pp-teal [&_a]:hover:shadow-[3px_3px_0_0_#2a6d5c]
+            [&_a]:hover:-translate-y-0.5 [&_a]:active:bg-pp-teal [&_a]:active:shadow-[0_0_0_0_#1a3d5c]
+            [&_a]:active:translate-y-px [&_a]:focus-visible:outline-none [&_a]:focus-visible:ring-2
+            [&_a]:focus-visible:ring-pp-dark-blue [&_a]:focus-visible:ring-offset-2
+            [&_a]:focus-visible:ring-offset-white">
+            <li>
+                <a href="https://www.pathogensportal.org/{{ section_info.main_path }}?db={{ section_info.query_path }}&amp;query=(country:%22Sweden%22)"
+                    target="_blank"
+                    rel="noopener noreferrer">
+                    View all <strong>{{ section_info.total_count|intcomma }}</strong> results in {{ section_name|title }}
+                </a>
+            </li>
+            {% if section_info.counts|length > 1 %}
+                {% for category, category_info in section_info.counts.items %}
+                    <li>
+                        <a href="https://www.pathogensportal.org/{{ section_info.main_path }}?db={{ category_info.path }}&amp;query=(country:%22Sweden%22)"
+                            target="_blank"
+                            rel="noopener noreferrer">
+                            View all <strong>{{ category_info.count|intcomma }}</strong> results in {{ category|title }}
+                        </a>
+                    </li>
+                {% endfor %}
+            {% endif %}
+        </ul>
+    </section>
+{% endfor %}
