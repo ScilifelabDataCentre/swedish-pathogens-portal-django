@@ -13,7 +13,7 @@
     {% if current_outbreaks or historical_outbreaks %}
     <!-- Current Outbreaks Section -->
     {% if current_outbreaks %}
-    <h3>Current Outbreaks</h3>
+    <h4>Current Outbreaks</h4>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
         {% for outbreak in current_outbreaks %}
         {% include "components/content_card.html#content_card" with url=outbreak.get_absolute_url image=outbreak.image.url title=outbreak.title description=outbreak.description only %}
@@ -23,7 +23,7 @@
 
     <!-- Historical Outbreaks Section -->
     {% if historical_outbreaks %}
-    <h3>Historical Outbreaks</h3>
+    <h4>Historical Outbreaks</h4>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
         {% for outbreak in historical_outbreaks %}
         {% include "components/content_card.html#content_card" with url=outbreak.get_absolute_url image=outbreak.image.url title=outbreak.title description=outbreak.description only %}
