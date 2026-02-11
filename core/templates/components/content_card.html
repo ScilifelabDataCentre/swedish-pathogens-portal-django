@@ -1,6 +1,6 @@
 {# Content card partial #}
-{# Required: url, image, title, description. Optional: image_alt, date (British j F Y), badge_text (teal), topics, cta_text. #}
-{# image: full URL or static path; partial resolves static paths. #}
+{# Required: url, image, title, description. Optional: image_alt, date (British j F Y), badge_text (teal), topics. #}
+{# image: full URL (http/https), absolute path (/media/...), or static path (e.g. dashboards/thumbnails/foo.jpg). #}
 {% load static %}
 {% partialdef content_card %}
 <div class="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all h-full flex flex-col">
@@ -9,7 +9,7 @@
      aria-label="{{ title }}">
     <div class="overflow-hidden border-b border-pp-pale-grey">
       {% if image %}
-        {% if image|slice:":5" == "https" or image|slice:":4" == "http" %}
+        {% if image|slice:":5" == "https" or image|slice:":4" == "http" or image|slice:":1" == "/" %}
         <img src="{{ image }}"
              alt="{{ image_alt|default:title }}"
              class="w-full h-40 object-cover transition-transform duration-300 group-hover:scale-105"
@@ -46,23 +46,16 @@
       <h3 class="mt-0 mb-2 text-lg font-bold text-pp-dark-blue group-hover:text-pp-teal transition-colors line-clamp-2">
         {{ title }}
       </h3>
-      <p class="text-pp-dark-grey text-sm flex-1 line-clamp-3 my-0 mb-2">{{ description|truncatewords:25 }}</p>
+      <p class="text-pp-dark-grey text-sm flex-1 line-clamp-3 my-0 mb-2">{{ description }}</p>
     </div>
   </a>
-  {% if topics or cta_text %}
+  {% if topics %}
     <div class="flex flex-wrap items-center justify-between gap-2 px-5 pb-5 pt-0">
       <div class="flex flex-wrap gap-1">
-        {% if topics %}
-          {% for t in topics %}
-            <span class="badge badge-topic"><a href="{{ t.url }}">{{ t.name }}</a></span>
-          {% endfor %}
-        {% endif %}
+        {% for t in topics %}
+        <span class="badge badge-topic"><a href="{{ t.url|default:t.get_absolute_url }}">{{ t.title }}</a></span>
+        {% endfor %}
       </div>
-      {% if cta_text %}
-        <a href="{{ url }}" class="shrink-0 no-underline hover:no-underline" aria-label="{{ title }}">
-          <span class="text-pp-mid-blue font-bold text-sm group-hover:underline">{{ cta_text }}</span>
-        </a>
-      {% endif %}
     </div>
   {% endif %}
 </div>
