@@ -26,7 +26,7 @@ class HighlightsAndEditorialsListView(BaseListView):
     model = HighlightsAndEditorials
     template_name = "highlights_and_editorials/index.html"
     context_object_name = "articles"
-    title = "Highlights and Editorials"
+    title = "Data Highlights and Editorials"
     ordering = "-created_at"
 
 
