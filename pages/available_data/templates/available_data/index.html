@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load django_htmx %}
+
+{% block content %}
+
+<h3>Region based accessible data</h2>
+<h6 class="mt-3 text-pp-dark-grey">Results for Sweden</h6>
+<p>
+   <a href="https://www.pathogensportal.org/" target="_blank" rel="noopener noreferrer"> Central Pathogens Portal</a>
+   is developed and hosted by <a href="https://www.ebi.ac.uk/" target="_blank" rel="noopener noreferrer">EMBL-EBI</a>
+   and serves as a public data repository for infectious diseases and epidemics. This page consists of query links to
+   different kinds of data like sequences, samples and outbreaks in the Central Pathogens Portal. Clicking a link will
+   take you to the Central Pathogens Portal page, where the relevant hits are listed for the corresponding category.
+</p>
+
+<div id="available-data-counts"
+   hx-get="{% url 'available_data:index' %}?get_counts=true"
+   hx-trigger="load once"
+   hx-swap="innerHTML">
+   <p class="mt-8 text-pp-dark-grey" aria-live="polite">Loading dataset counts…</p>
+</div>
+{% htmx_script %}
+{% endblock %}
