@@ -106,9 +106,7 @@ class AvailableDataView(BaseTemplateView):
     template_name = "available_data/index.html"
     title = "Available datasets"
 
-    def get(
-        self, request: HttpRequest, *args: object, **kwargs: object
-    ) -> HttpResponse:
+    def get(self, request: HttpRequest, *args: object, **kwargs: object) -> HttpResponse:
         """Return counts fragment for htmx when get_counts=true; otherwise full page."""
         if request.htmx and request.GET.get("get_counts"):
             context = _build_ebi_counts_context()
