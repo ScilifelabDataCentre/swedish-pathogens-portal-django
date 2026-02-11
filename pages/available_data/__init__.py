@@ -1,1 +1,1 @@
-"""Available Data app package"""
+"""Available Data app package."""
