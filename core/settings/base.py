@@ -44,7 +44,9 @@ DJANGO_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.humanize",  # intcomma and other number/date filters
     "django.contrib.sitemaps",  # provides sitemap class and sitemap view
+    "django.contrib.postgres",
 ]
 
 THIRD_PARTY_APPS = [
@@ -53,6 +55,8 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     "pages.about",
+    "pages.available_data",
+    "pages.catalogue",
     "pages.citation",
     "pages.contact",
     "pages.dashboards",
