@@ -17,11 +17,13 @@ class NpcStatistics(View):
     Attributes:
         template_name: Template for rendering the dashboard.
         title: Title displayed in the rendered page's banner section.
+        page_heading: Heading for the page, shown in the banner.
         description: Description to be used in the HTML's head.
     """
 
     template_name = "dashboards/npc_statistics.html"
     title = "National Pandemic Centre SARS-CoV-2 (COVID-19) test statistics"
+    page_heading = "Dashboards"
     description = (
         "The national Pandemic Centre (NPC) conducted testing related to "
         "SARS-CoV-2 from the start of the pandemic. They show positive, "
@@ -38,7 +40,11 @@ class NpcStatistics(View):
         Returns:
             Rendered template with plot HTML strings in context.
         """
-        context = {"title": self.title, "description": self.description}
+        context = {
+            "title": self.title,
+            "description": self.description,
+            "page_heading": self.page_heading,
+        }
 
         # Map chart IDs to blobserver blob names
         plot_sources = {

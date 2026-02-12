@@ -23,6 +23,7 @@ class SymptomStudySweden(View):
 
     template_name = "dashboards/symptom_study_sweden.html"
     title = "COVID Symptom Study Sweden"
+    page_heading = "Dashboards"
     description = (
         "The COVID Symptom Study Sweden (CSSS) collects data on COVID-19 "
         "prevalence, symptoms, and vaccinations through a smart phone app with "
@@ -40,7 +41,11 @@ class SymptomStudySweden(View):
         Returns:
             Rendered template with plot HTML strings in context.
         """
-        context = {"title": self.title, "description": self.description}
+        context = {
+            "title": self.title,
+            "description": self.description,
+            "page_heading": self.page_heading,
+        }
 
         # Fetch prevalence map visualization
         blob_data = fetch_plot_json_blobserver("symptoms_map_english.json")

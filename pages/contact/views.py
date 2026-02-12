@@ -28,11 +28,14 @@ logger = logging.getLogger("pages.contact.views")
 class ContactFormView(FormView):
     """Contact form view with anti-spam token and email sending."""
 
-    template_name = "contact/contact_form.html"
+    template_name = "contact/index.html"
     form_class = ContactForm
     success_url = reverse_lazy("contact:index")
-    title = "Contact and suggestions form"
     logger = logger
+
+    extra_context = {
+        "title": "Contact and suggestions form",
+    }
 
     def get_form_kwargs(self) -> dict[str, Any]:
         """Inject request into the form for cookie access.

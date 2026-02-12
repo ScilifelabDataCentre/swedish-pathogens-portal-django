@@ -2,15 +2,11 @@
 {% load static %}
 
 {% block content %}
-
 <!-- Main Content -->
-<div class="py-8" id="content">
     <!-- Page Header -->
-    <div class="mb-8">
-        <p class="text-lg text-pp-dark-grey leading-relaxed">
-            The Swedish Pathogens Portal provides information about available datasets, resources, tools, and services related to pandemic preparedness in Sweden. We offer support to all those involved in pandemic preparedness research that are affiliated with a Swedish research institution or university.
-        </p>
-    </div>
+    <p class="pb-6">
+        The Swedish Pathogens Portal provides information about available datasets, resources, tools, and services related to pandemic preparedness in Sweden. We offer support to all those involved in pandemic preparedness research that are affiliated with a Swedish research institution or university.
+    </p>
 
     <!-- Topics Grid -->
     {% if topics %}
@@ -35,5 +31,4 @@
             </div>
         </div>
     {% endif %}
-</div>
 {% endblock %}

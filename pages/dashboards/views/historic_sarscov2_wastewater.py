@@ -16,11 +16,13 @@ class HistoricSarsCov2Wastewater(View):
     Attributes:
         template_name: Template for rendering the dashboard.
         title: Title displayed in the rendered page's banner section.
+        page_heading: Heading for the page, used in the banner and as the main heading.
         description: Description to be used in the HTML's head.
     """
 
     template_name = "dashboards/historic_sarscov2_wastewater.html"
     title = "Historic SARS-CoV-2 wastewater data (SEEC-SLU)"
+    page_heading = "Dashboards"
     description = (
         "Historic visualisations of SARS-CoV-2 levels in Swedish wastewater "
         "produced by SEEC-SLU, including combined national data and focused "
@@ -37,7 +39,11 @@ class HistoricSarsCov2Wastewater(View):
     def get(self, request: HttpRequest) -> HttpResponse:
         """Render the combined historic wastewater dashboard."""
 
-        context: dict[str, str] = {"title": self.title, "description": self.description}
+        context: dict[str, str] = {
+            "title": self.title,
+            "description": self.description,
+            "page_heading": self.page_heading,
+        }
 
         for context_key, (blob_name, height) in self.plot_blobs.items():
             blob_data = fetch_plot_json_blobserver(blob_name)

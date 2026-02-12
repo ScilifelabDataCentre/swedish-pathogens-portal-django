@@ -37,3 +37,4 @@ class NewsDetail(BaseDetailView):
     model = News
     template_name = "news/detail.html"
     context_object_name = "news"
+    page_heading = "News and Updates"

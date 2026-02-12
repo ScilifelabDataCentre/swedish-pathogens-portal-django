@@ -7,11 +7,8 @@
     TODO: re-evaluate and optimise as needed in second phase.
     - Add "topics".
     - Update layout as needed
-    - When 'partials' available in stable release, make use of it 
     {% endcomment %}
-
-    <h4>External dashboards</h4>
-    <p>Below is a list of dashboards created by other organisations that show infectious disease-related data from Sweden.</p>
+    <p>Explore a curated collection of external dashboards from a variety of organisations, providing unique perspectives and visualisations of infectious disease data relevant to Sweden.</p>
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
         {% for dashboard in external_dashboards|dictsort:"name" %}
             {% include "components/content_card.html#content_card" with url=dashboard.url image=dashboard.image title=dashboard.name description=dashboard.description only %}

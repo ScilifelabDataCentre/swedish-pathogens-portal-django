@@ -16,11 +16,13 @@ class Vaccines(View):
     Attributes:
         template_name: Template for rendering the dashboard.
         title: Title displayed in the rendered page's banner section.
+        page_heading: Heading to be used in the rendered page.
         description: Description to be used in the HTML's head.
     """
 
     template_name = "dashboards/vaccines.html"
     title = "The Administration and Study of COVID-19 Vaccines in Sweden"
+    page_heading = "Dashboards"
     description = (
         "The Swedish Health Agency (Folkhälsomyndigheten) provide data and information "
         "related to COVID-19 in Sweden. Visualisations are shown on multiple aspects "
@@ -29,7 +31,11 @@ class Vaccines(View):
 
     def get(self, request: HttpRequest) -> HttpResponse:
         """Fetch the compiled plot data (JSON) and generate plot html string."""
-        context = {"title": self.title, "description": self.description}
+        context = {
+            "title": self.title,
+            "description": self.description,
+            "page_heading": self.page_heading,
+        }
 
         vaccine_related_blobs = [
             "Total_vaccinated_barchart",

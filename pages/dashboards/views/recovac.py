@@ -17,6 +17,7 @@ class Recovac(View):
 
     template_name = "dashboards/recovac.html"
     title = "Register-based COVID-19 vaccination study (RECOVAC)"
+    page_heading = "Dashboards"
     description = (
         "Dedicated to the work of the register-based large-scale national "
         "population study to monitor COVID-19 vaccination effectiveness and "
@@ -32,6 +33,7 @@ class Recovac(View):
 
         context = {
             "title": self.title,
+            "page_heading": self.page_heading,
             "description": self.description,
         }
 

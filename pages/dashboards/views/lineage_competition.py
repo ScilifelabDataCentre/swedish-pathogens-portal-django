@@ -17,6 +17,7 @@ class LineageCompetition(BaseTemplateView):
 
     template_name = "dashboards/lineage_competition.html"
     title = "SARS-CoV-2 Variant Competition"
+    page_heading = "Dashboards"
     description = (
         "Estimates of SARS-CoV-2 variant frequencies and growth rate advantages from "
         "global SARS-CoV-2 genotype sequencing data"

@@ -71,3 +71,4 @@ class PlpProjectDetailView(BaseDetailView):
     model = PlpProject
     template_name = "plp/project_detail.html"
     context_object_name = "project"
+    page_heading = "Pandemic Laboratory Preparedness Program"

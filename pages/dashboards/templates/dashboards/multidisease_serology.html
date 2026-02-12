@@ -9,172 +9,172 @@
     - improve tables UX (pagination, search, etc.)
 {% endcomment %}
 
-  <a href="#content-start" class="sr-only focus:not-sr-only focus:outline-none focus:ring-2 focus:ring-pp-mid-blue px-3 py-2 bg-white">Skip to content</a>
-  <h1 class="sr-only">Multi-disease serology</h1>
-  <div id="content-start">
-    <div class="prose max-w-none space-y-6 mt-4">
-      {% comment %}
-      <div class="bg-pp-pale-grey/30 border-l-4 border-pp-mid-blue text-pp-dark-blue p-4" role="status" aria-live="polite" aria-atomic="true">
-        <p class="m-0"><strong>All data last updated:</strong> TODO</p>
-      </div>
-      {% endcomment %}
-
-      <h2 id="introduction">Introduction</h2>
-      <p>
-        The COVID-19 pandemic highlighted the importance of serological surveillance in tracking viral
-        transmission dynamics, understanding immune responses, guiding vaccination strategies, and assisting
-        in decisions related to public health. High‑throughput serological assays for SARS‑CoV‑2 were
-        developed very early in the pandemic at KTH and SciLifeLab to enable surveillance of populations
-        globally. For information about work done with SARS‑CoV‑2 during the pandemic, see the
-        <a href="#historical-background">historical background section</a>.
-      </p>
-      <p>
-        As we move on from the pandemic, it is crucial that serological studies include more pathogens
-        than just SARS‑CoV‑2. One of the capabilities that is part of
-        <a href="{% url "plp:index" %}">SciLifeLab's Pandemic Laboratory Preparedness (PLP) programme</a>,
-        named 'Multi‑disease serology' aims to create a sustainable, long‑term
-        resource enabling a broad, frequent, and large‑scale surveillance of serostatus. They are working to
-        create antibody repertoires that can be used to analyse thousands of samples on hundreds of antigens.
-        The project is led by Peter Nilsson at KTH Royal Institute of Technology and SciLifeLab. To learn more,
+    <a href="#content-start" class="sr-only focus:not-sr-only focus:outline-none focus:ring-2 focus:ring-pp-mid-blue px-3 py-2 bg-white">Skip to content</a>
+    <h1 class="sr-only">Multi-disease serology</h1>
+    <div id="content-start">
+        <div class="prose max-w-none space-y-6 mt-4">
         {% comment %}
-          TODO Change URL to django style once the page is created and the path exists
+        <div class="bg-pp-pale-grey/30 border-l-4 border-pp-mid-blue text-pp-dark-blue p-4" role="status" aria-live="polite" aria-atomic="true">
+            <p class="m-0"><strong>All data last updated:</strong> TODO</p>
+        </div>
         {% endcomment %}
-        check out the <a href="#">pandemic preparedness resource page for this project</a>.
-      </p>
 
-      <h2 id="historical-background">Historical background</h2>
-      <p>
-        During the pandemic, those working on the multi‑disease serology study created a high‑throughput
-        multiplex bead‑based serological assay for SARS‑CoV‑2 (see
-        <a href="https://doi.org/10.1002/cti2.1312" target="_blank" rel="noopener noreferrer">Hober <em>et&nbsp;al.</em> (2021) <span class="sr-only">(opens in a new tab)</span></a>
-        and the <a href="{% url "dashboards:serology_statistics" %}">Serology tests for SARS‑CoV‑2 at SciLifeLab Data Dashboard</a>
-        for details). As of July 2023, the assay had been used to analyse over 250,000 samples, and contributed to
-        <a href="https://publications.scilifelab.se/label/Autoimmunity%20and%20Serology%20Profiling" target="_blank" rel="noopener noreferrer">around 40 publications <span class="sr-only">(opens in a new tab)</span></a>,
-        including studies on seroprevalence and on vaccine efficacy in immunocompromised individuals and individuals
-        with autoimmune diseases. Following the pandemic, the group began to refocus their efforts towards pandemic
-        preparedness, and began work to extend the assay to provide a platform for parallelised multi‑disease
-        serological studies, including a wide range of antigens representing various infectious diseases. The bead‑based
-        setup enables a stepwise addition of new proteins, allowing a continuous implementation of pathogen‑representing
-        antigens.
-      </p>
+        <h2 id="multi-disease-serology">Multi-disease serology</h2>
+        <p>
+            The COVID-19 pandemic highlighted the importance of serological surveillance in tracking viral
+            transmission dynamics, understanding immune responses, guiding vaccination strategies, and assisting
+            in decisions related to public health. High‑throughput serological assays for SARS‑CoV‑2 were
+            developed very early in the pandemic at KTH and SciLifeLab to enable surveillance of populations
+            globally. For information about work done with SARS‑CoV‑2 during the pandemic, see the
+            <a href="#historical-background">historical background section</a>.
+        </p>
+        <p>
+            As we move on from the pandemic, it is crucial that serological studies include more pathogens
+            than just SARS‑CoV‑2. One of the capabilities that is part of
+            <a href="{% url "plp:index" %}">SciLifeLab's Pandemic Laboratory Preparedness (PLP) programme</a>,
+            named 'Multi‑disease serology' aims to create a sustainable, long‑term
+            resource enabling a broad, frequent, and large‑scale surveillance of serostatus. They are working to
+            create antibody repertoires that can be used to analyse thousands of samples on hundreds of antigens.
+            The project is led by Peter Nilsson at KTH Royal Institute of Technology and SciLifeLab. To learn more,
+            {% comment %}
+            TODO Change URL to django style once the page is created and the path exists
+            {% endcomment %}
+            check out the <a href="#">pandemic preparedness resource page for this project</a>.
+        </p>
 
-      <h2 id="current-methods-and-progress">Current methods and progress</h2>
-      <p>
-        The project has produced and evaluated many antigens. This includes a wide range of different variants of the
-        SARS‑CoV‑2 proteins, with a focus on the spike glycoprotein, also covering the majority of mutated variants.
-        They have also created spike representations of SARS, MERS, and the other four human coronaviruses causing
-        common cold (HKU1, OC43, NL63 and 229E). They have also produced influenza virus antigens representing the
-        glycoproteins haemagglutinin and neuraminidase. Here, they have initially focused on the variants present in the
-        trivalent vaccine for the season 2021–2022, which includes the A(H1N1)/Wisconsin, A(H3N2)/Cambodia, and
-        B(Victoria)/Washington strains. Furthermore, they have produced representations of Respiratory Syncytial Virus
-        (RSV), including two surface proteins (G and F) in two different strains. Antigens representing mpox have also
-        been generated and included in the current bead‑based antigen collection.
-      </p>
-      <p>
-        Other viral respiratory infections that are being monitored in Sweden include adenovirus, metapneumovirus, and
-        parainfluenza virus. These have also been added to the project. The project has designed representations of the
-        fibre protein of adenovirus B7, metapneumovirus proteins F and G of the strain CAN97‑83, and protein HN and F
-        for parainfluenza virus have been designed based on strain Washington/1957 and strain C39, respectively.
-      </p>
-      <p>
-        The proteins designed and produced created by the project to date are listed in the table below.
-      </p>
+        <h2 id="historical-background">Historical background</h2>
+        <p>
+            During the pandemic, those working on the multi‑disease serology study created a high‑throughput
+            multiplex bead‑based serological assay for SARS‑CoV‑2 (see
+            <a href="https://doi.org/10.1002/cti2.1312" target="_blank" rel="noopener noreferrer">Hober <em>et&nbsp;al.</em> (2021) <span class="sr-only">(opens in a new tab)</span></a>
+            and the <a href="{% url "dashboards:serology_statistics" %}">Serology tests for SARS‑CoV‑2 at SciLifeLab Data Dashboard</a>
+            for details). As of July 2023, the assay had been used to analyse over 250,000 samples, and contributed to
+            <a href="https://publications.scilifelab.se/label/Autoimmunity%20and%20Serology%20Profiling" target="_blank" rel="noopener noreferrer">around 40 publications <span class="sr-only">(opens in a new tab)</span></a>,
+            including studies on seroprevalence and on vaccine efficacy in immunocompromised individuals and individuals
+            with autoimmune diseases. Following the pandemic, the group began to refocus their efforts towards pandemic
+            preparedness, and began work to extend the assay to provide a platform for parallelised multi‑disease
+            serological studies, including a wide range of antigens representing various infectious diseases. The bead‑based
+            setup enables a stepwise addition of new proteins, allowing a continuous implementation of pathogen‑representing
+            antigens.
+        </p>
 
-      <h2 id="table-of-proteins-created-at-kth">Table of proteins created at KTH</h2>
-      <p>
-        Proteins designed, expressed, purified, and characterised at the
-        <a href="https://www.kth.se/pps" target="_blank" rel="noopener noreferrer">KTH node of Protein Production Sweden <span class="sr-only">(opens in a new tab)</span></a>,
-        a national research infrastructure funded by the Swedish Research Council. They have been expressed either in HEK
-        or CHO cells or in <em>E. coli</em>, with different affinity tags and either as fragments or full‑length proteins.
-      </p>
-      <div class="sm:hidden bg-pp-pale-grey/30 border-l-4 border-pp-mid-blue text-pp-dark-blue p-3" role="note">
-        Rotating your phone will improve the view of this table.
-      </div>
-      <div class="overflow-x-auto rounded-lg shadow ring-1 ring-gray-200">
-      {% comment %}
-        TODO Rework table generation to make it more ergonomic and better UX (htmx?)
-      {% endcomment %}
-        <table class="min-w-full text-sm text-left table-fixed" aria-labelledby="table-of-proteins-created-at-kth">
-          <caption class="sr-only">Proteins designed, expressed, purified, and characterised at KTH</caption>
-          <thead class="bg-pp-pale-grey text-pp-dark-grey text-xs uppercase tracking-wide sticky top-0">
-            <tr>
-              {% for header in kth_headers %}
-                <th scope="col" class="px-4 py-3 font-semibold whitespace-nowrap">{{ header }}</th>
-              {% endfor %}
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-gray-200">
-            {% if kth_rows %}
-              {% for row in kth_rows %}
-                <tr class="odd:bg-white even:bg-pp-pale-grey/20 hover:bg-pp-pale-grey/50">
-                  {% for cell in row %}
-                    <td class="px-4 py-3 whitespace-normal break-normal">{{ cell }}</td>
-                  {% endfor %}
-                </tr>
-              {% endfor %}
-            {% else %}
-              <tr>
-                <td class="px-4 py-3 text-pp-dark-grey" colspan="{{ kth_headers|length }}">No data available.</td>
-              </tr>
-            {% endif %}
-          </tbody>
-        </table>
-      </div>
+        <h2 id="current-methods-and-progress">Current methods and progress</h2>
+        <p>
+            The project has produced and evaluated many antigens. This includes a wide range of different variants of the
+            SARS‑CoV‑2 proteins, with a focus on the spike glycoprotein, also covering the majority of mutated variants.
+            They have also created spike representations of SARS, MERS, and the other four human coronaviruses causing
+            common cold (HKU1, OC43, NL63 and 229E). They have also produced influenza virus antigens representing the
+            glycoproteins haemagglutinin and neuraminidase. Here, they have initially focused on the variants present in the
+            trivalent vaccine for the season 2021–2022, which includes the A(H1N1)/Wisconsin, A(H3N2)/Cambodia, and
+            B(Victoria)/Washington strains. Furthermore, they have produced representations of Respiratory Syncytial Virus
+            (RSV), including two surface proteins (G and F) in two different strains. Antigens representing mpox have also
+            been generated and included in the current bead‑based antigen collection.
+        </p>
+        <p>
+            Other viral respiratory infections that are being monitored in Sweden include adenovirus, metapneumovirus, and
+            parainfluenza virus. These have also been added to the project. The project has designed representations of the
+            fibre protein of adenovirus B7, metapneumovirus proteins F and G of the strain CAN97‑83, and protein HN and F
+            for parainfluenza virus have been designed based on strain Washington/1957 and strain C39, respectively.
+        </p>
+        <p>
+            The proteins designed and produced created by the project to date are listed in the table below.
+        </p>
 
-      <h2 id="ongoing-work-and-collaborations">Ongoing work and collaborations</h2>
-      <p>
-        The work of the project is now expanding into the area of flavivirus (Tick‑borne encephalitis virus, Zika virus,
-        Dengue virus, West Nile virus, Yellow fever virus, Japanese encephalitis virus) and herpesvirus (Epstein–Barr
-        virus, Varicella zoster virus, Herpes simplex virus, Cytomegalovirus).
-      </p>
-      <p>
-        The project is also collaborating with another SciLifeLab PLP project
+        <h2 id="table-of-proteins-created-at-kth">Table of proteins created at KTH</h2>
+        <p>
+            Proteins designed, expressed, purified, and characterised at the
+            <a href="https://www.kth.se/pps" target="_blank" rel="noopener noreferrer">KTH node of Protein Production Sweden <span class="sr-only">(opens in a new tab)</span></a>,
+            a national research infrastructure funded by the Swedish Research Council. They have been expressed either in HEK
+            or CHO cells or in <em>E. coli</em>, with different affinity tags and either as fragments or full‑length proteins.
+        </p>
+        <div class="sm:hidden bg-pp-pale-grey/30 border-l-4 border-pp-mid-blue text-pp-dark-blue p-3" role="note">
+            Rotating your phone will improve the view of this table.
+        </div>
+        <div class="overflow-x-auto rounded-lg shadow ring-1 ring-gray-200">
         {% comment %}
-          TODO Change to PLP immunomonitoring resource once created.
+            TODO Rework table generation to make it more ergonomic and better UX (htmx?)
         {% endcomment %}
-        <a href="#">“Systems‑level immunomonitoring to unravel immune response to a novel
-          pathogen”</a>, headed by Petter Brodin (Karolinska Institutet, KI) and Jochen Schwenk (KTH), to include a wide
-        range of externally produced antigens representing a large part of the Swedish vaccination program, see list
-        below.
-      </p>
-      <p>
-        The multi‑disease serological assay is under constant development and will gradually be incorporated into two
-        SciLifeLab infrastructure units; <a href="https://www.scilifelab.se/units/affinity-proteomics/" target="_blank"
-        rel="noopener noreferrer">Autoimmunity and Serology Profiling</a> and
-        <a href="https://www.scilifelab.se/units/affinity-proteomics/" target="_blank" rel="noopener noreferrer">Affinity
-        Proteomics Stockholm</a>. The goal is to provide a flexible and quickly adaptable assay for high‑throughput
-        multiplex studies on seroprevalence, available to both the Public Health Agency of Sweden and researchers in
-        academia and industry.
-      </p>
-
-      <h2 id="externally-produced-antigens">Externally produced antigens</h2>
-      <div class="overflow-x-auto rounded-lg shadow ring-1 ring-gray-200">
-        <table class="min-w-full text-sm text-left table-fixed" aria-labelledby="externally-produced-antigens">
-          <caption class="sr-only">Externally produced antigens included in the multi‑disease serology assay</caption>
-          <thead class="bg-pp-pale-grey text-pp-dark-grey text-xs uppercase tracking-wide sticky top-0">
-            <tr>
-              {% for header in external_headers %}
-                <th scope="col" class="px-4 py-3 font-semibold whitespace-nowrap">{{ header }}</th>
-              {% endfor %}
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-gray-200">
-            {% if external_rows %}
-              {% for row in external_rows %}
-                <tr class="odd:bg-white even:bg-pp-pale-grey/20 hover:bg-pp-pale-grey/50">
-                  {% for cell in row %}
-                    <td class="px-4 py-3 whitespace-normal break-normal">{{ cell }}</td>
-                  {% endfor %}
+            <table class="min-w-full text-sm text-left table-fixed" aria-labelledby="table-of-proteins-created-at-kth">
+            <caption class="sr-only">Proteins designed, expressed, purified, and characterised at KTH</caption>
+            <thead class="bg-pp-pale-grey text-pp-dark-grey text-xs uppercase tracking-wide sticky top-0">
+                <tr>
+                {% for header in kth_headers %}
+                    <th scope="col" class="px-4 py-3 font-semibold whitespace-nowrap">{{ header }}</th>
+                {% endfor %}
                 </tr>
-              {% endfor %}
-            {% else %}
-              <tr>
-                <td class="px-4 py-3 text-pp-dark-grey" colspan="{{ external_headers|length }}">No data available.</td>
-              </tr>
-            {% endif %}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+                {% if kth_rows %}
+                {% for row in kth_rows %}
+                    <tr class="odd:bg-white even:bg-pp-pale-grey/20 hover:bg-pp-pale-grey/50">
+                    {% for cell in row %}
+                        <td class="px-4 py-3 whitespace-normal break-normal">{{ cell }}</td>
+                    {% endfor %}
+                    </tr>
+                {% endfor %}
+                {% else %}
+                <tr>
+                    <td class="px-4 py-3 text-pp-dark-grey" colspan="{{ kth_headers|length }}">No data available.</td>
+                </tr>
+                {% endif %}
+            </tbody>
+            </table>
+        </div>
+
+        <h2 id="ongoing-work-and-collaborations">Ongoing work and collaborations</h2>
+        <p>
+            The work of the project is now expanding into the area of flavivirus (Tick‑borne encephalitis virus, Zika virus,
+            Dengue virus, West Nile virus, Yellow fever virus, Japanese encephalitis virus) and herpesvirus (Epstein–Barr
+            virus, Varicella zoster virus, Herpes simplex virus, Cytomegalovirus).
+        </p>
+        <p>
+            The project is also collaborating with another SciLifeLab PLP project
+            {% comment %}
+            TODO Change to PLP immunomonitoring resource once created.
+            {% endcomment %}
+            <a href="#">“Systems‑level immunomonitoring to unravel immune response to a novel
+            pathogen”</a>, headed by Petter Brodin (Karolinska Institutet, KI) and Jochen Schwenk (KTH), to include a wide
+            range of externally produced antigens representing a large part of the Swedish vaccination program, see list
+            below.
+        </p>
+        <p>
+            The multi‑disease serological assay is under constant development and will gradually be incorporated into two
+            SciLifeLab infrastructure units; <a href="https://www.scilifelab.se/units/affinity-proteomics/" target="_blank"
+            rel="noopener noreferrer">Autoimmunity and Serology Profiling</a> and
+            <a href="https://www.scilifelab.se/units/affinity-proteomics/" target="_blank" rel="noopener noreferrer">Affinity
+            Proteomics Stockholm</a>. The goal is to provide a flexible and quickly adaptable assay for high‑throughput
+            multiplex studies on seroprevalence, available to both the Public Health Agency of Sweden and researchers in
+            academia and industry.
+        </p>
+
+        <h2 id="externally-produced-antigens">Externally produced antigens</h2>
+        <div class="overflow-x-auto rounded-lg shadow ring-1 ring-gray-200">
+            <table class="min-w-full text-sm text-left table-fixed" aria-labelledby="externally-produced-antigens">
+            <caption class="sr-only">Externally produced antigens included in the multi‑disease serology assay</caption>
+            <thead class="bg-pp-pale-grey text-pp-dark-grey text-xs uppercase tracking-wide sticky top-0">
+                <tr>
+                {% for header in external_headers %}
+                    <th scope="col" class="px-4 py-3 font-semibold whitespace-nowrap">{{ header }}</th>
+                {% endfor %}
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+                {% if external_rows %}
+                {% for row in external_rows %}
+                    <tr class="odd:bg-white even:bg-pp-pale-grey/20 hover:bg-pp-pale-grey/50">
+                    {% for cell in row %}
+                        <td class="px-4 py-3 whitespace-normal break-normal">{{ cell }}</td>
+                    {% endfor %}
+                    </tr>
+                {% endfor %}
+                {% else %}
+                <tr>
+                    <td class="px-4 py-3 text-pp-dark-grey" colspan="{{ external_headers|length }}">No data available.</td>
+                </tr>
+                {% endif %}
+            </tbody>
+            </table>
+        </div>
+        </div>
     </div>
-  </div>
 {% endblock %}
