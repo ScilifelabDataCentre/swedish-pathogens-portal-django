@@ -6,7 +6,6 @@ import urllib
 from datetime import datetime
 from typing import Any
 
-from django.conf import settings
 from django.core.cache import cache
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
@@ -16,6 +15,10 @@ from django.views import View
 from .models import PublicationPathogens
 
 logger = logging.getLogger(__name__)
+
+# EuroPMC base URLs for publications page
+EUROPE_PMC_API_BASE_URL = "https://www.ebi.ac.uk/europepmc/webservices/rest/search?sortBy=FIRST_PDATE_D+desc&resultType=core&format=json&pageSize=10"
+EUROPE_PMC_WEB_BASE_URL = "https://europepmc.org/search"
 
 
 class Publications(View):
@@ -62,8 +65,7 @@ class Publications(View):
         # Get publications for the active pathogen
         if active_pathogen:
             context["europe_pmc_full_list"] = (
-                f"{settings.EUROPE_PMC_WEB_URL}?"
-                f'query={active_pathogen.query_string} AND AFF:"Sweden"'
+                f'{EUROPE_PMC_WEB_BASE_URL}?query={active_pathogen.query_string} AND AFF:"Sweden"'
             )
             context["active_pathogen"] = active_pathogen.name
 
@@ -103,7 +105,7 @@ class Publications(View):
 
         # Try to fetch data from the Europe PMC API
         publications = []
-        europe_pmc_api_query_url = f"{settings.EUROPE_PMC_API_URL}&query={formatted_query}"
+        europe_pmc_api_query_url = f"{EUROPE_PMC_API_BASE_URL}&query={formatted_query}"
         try:
             # TODO: When a common HTTP utility is available, the following code should be replaced.
             with urllib.request.urlopen(europe_pmc_api_query_url, timeout=10) as response:  # noqa: S310
