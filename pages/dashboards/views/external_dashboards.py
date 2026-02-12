@@ -14,11 +14,13 @@ class ExternalDashboards(BaseTemplateView):
     template_name = "dashboards/external_dashboards.html"
     title = "Data dashboards"
     page_heading = "External Dashboards"
+
     # This is a temporary workaround for the MVP, the following dict
     # might be removed and the info will be fetched from DB.
-    extra_context = {
-        # a list of EXTERNAL dashboards
-        "external_dashboards": [
+    def get_context_data(self, **kwargs) -> dict:
+        """Add external dashboards info to context."""
+        context = super().get_context_data(**kwargs)
+        context["external_dashboards"] = [
             {
                 "name": "SvarmIT: interactive resistance monitoring",
                 "image": static("dashboards/thumbnails/external/sva_logo.png"),
@@ -158,5 +160,5 @@ class ExternalDashboards(BaseTemplateView):
                     "in the context of worldwide TB diversity. "
                 ),
             },
-        ],
-    }
+        ]
+        return context

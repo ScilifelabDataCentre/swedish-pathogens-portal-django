@@ -18,9 +18,10 @@ class DashboardsIndex(BaseTemplateView):
 
     # This is a temporary workaround for the MVP, the following dict
     # might be removed and the info will be fetched from DB.
-    extra_context = {
-        # a list of ACTIVE dashboards
-        "active_dashboards": [
+    def get_context_data(self, **kwargs) -> dict:
+        """Add dashboards info to context."""
+        context = super().get_context_data(**kwargs)
+        context["active_dashboards"] = [
             {
                 "name": "SLU-SEEC Wastewater Surveillance",
                 "image": static("dashboards/thumbnails/slu_wastewater.jpg"),
@@ -81,9 +82,9 @@ class DashboardsIndex(BaseTemplateView):
                     "about externally produced antigens is also provided. "
                 ),
             },
-        ],
+        ]
         # a list of HISTORIC dashboards
-        "historic_dashboards": [
+        context["historic_dashboards"] = [
             {
                 "name": "COVID Symptom Study Sweden (Partner)",
                 "image": static("dashboards/thumbnails/symptom_study_sweden.jpg"),
@@ -203,5 +204,5 @@ class DashboardsIndex(BaseTemplateView):
                     "samples from surrounding municipalities."
                 ),
             },
-        ],
-    }
+        ]
+        return context
