@@ -1,4 +1,4 @@
-{# Required: url, image, title, description. Optional: image_alt, date (j F Y), badge_text, topics. #}
+{# Required: url, image, title, description. Optional: image_alt, external_url, date (j F Y), badge_text, topics. #}
 
 {% load static %}
 
@@ -7,7 +7,8 @@
     <div class="group bg-white rounded-xl overflow-hidden transition-shadow h-full
     shadow-[0_1px_2px_0_rgb(0_0_0/0.1),0_-1px_2px_0_rgb(0_0_0/0.1)]
     hover:shadow-[0_4px_6px_-1px_rgb(0_0_0/0.1),0_2px_4px_-2px_rgb(0_0_0/0.1),0_-4px_6px_-1px_rgb(0_0_0/0.1),0_-2px_4px_-2px_rgb(0_0_0/0.1)]">
-        <a href="{{ url }}" class="no-underline hover:no-underline rounded-xl"
+        <a href="{{ url }}" {% if external_url %}target="_blank" rel="noopener noreferrer"{% endif %}
+        class="no-underline hover:no-underline rounded-xl"
         aria-label="{{ title }}">
             <!-- Image -->
             <div class="overflow-hidden border-b border-pp-pale-grey">
