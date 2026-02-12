@@ -18,12 +18,14 @@ class CovidQuantificationKth(View):
     Attributes:
         template_name: Template for rendering the dashboard.
         title: Title displayed in the rendered page's banner section.
+        page_heading: Heading displayed at the top of the page.
         description: Description to be used in the HTML's head.
 
     """
 
     template_name = "dashboards/covid_quantification_kth.html"
     title = "Amount of SARS-CoV-2 in wastewater (SEEC-KTH)"
+    page_heading = "Dashboards"
     description = (
         "SEEC-KTH wastewater monitoring project led by associate professor "
         "Zeynep Cetecioglu Gurol at KTH Royal Institute of Technology. "
@@ -41,7 +43,11 @@ class CovidQuantificationKth(View):
             Rendered template with plot HTML strings in context.
 
         """
-        context = {"title": self.title, "description": self.description}
+        context = {
+            "title": self.title,
+            "description": self.description,
+            "page_heading": self.page_heading,
+        }
 
         # Map chart IDs to blobserver blob names
         plot_sources = {

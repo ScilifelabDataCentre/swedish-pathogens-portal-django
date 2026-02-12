@@ -1,11 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div id="content">
-    <div class="mb-8">
-        <h1>{{ title }}</h1>
+    <div id="content">
         <p>A collection of tools relevant to infectious disease research.</p>
+        {% include "catalogue/partials/resource_grid.html" with type="tools" %}
     </div>
-    {% include "catalogue/partials/resource_grid.html" with type="tools" %}
-</div>
 {% endblock %}

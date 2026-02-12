@@ -41,3 +41,4 @@ class TopicDetailView(BaseDetailView):
     model = Topic
     template_name = "topics/topic_detail.html"
     context_object_name = "topic"
+    page_heading = "Topics"

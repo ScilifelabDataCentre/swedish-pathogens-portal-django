@@ -14,6 +14,7 @@ class BaseDetailView(DetailView):
 
     Attributes:
         title (str): Page title. If empty, uses object's string representation.
+        page_heading (str): Heading to be displayed on the page. Defaults to empty.
         slug_field (str): Model field for URL lookups. Defaults to "slug".
         slug_url_kwarg (str): URL keyword argument name. Defaults to "slug".
         extra_context (dict): Additional context data. Optional.
@@ -30,6 +31,7 @@ class BaseDetailView(DetailView):
                 template_name = "topics/topic_detail.html"
                 context_object_name = "topic"
                 title = "Topic Details"  # Custom title
+                page_heading = "Topic Information"
                 extra_context = {"show_related": True}
 
         For custom filtering:
@@ -55,6 +57,7 @@ class BaseDetailView(DetailView):
 
     # Explicit default values for clarity and consistency
     title = ""
+    page_heading = ""
     slug_field = "slug"
     slug_url_kwarg = "slug"
     extra_context = None
@@ -70,9 +73,12 @@ class BaseDetailView(DetailView):
         return self.model.objects.filter(is_active=True, **filter_args)
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
-        """Add title and extra_context to context."""
+        """Add title, page_heading and extra_context to context."""
         context = super().get_context_data(**kwargs)
         context["title"] = self.title or str(self.object)
+
+        if self.page_heading:
+            context["page_heading"] = self.page_heading
 
         # Add extra_context if defined
         if self.extra_context is not None and isinstance(self.extra_context, dict):

@@ -46,6 +46,7 @@ class HighlightsAndEditorialsDetailView(BaseDetailView):
     model = HighlightsAndEditorials
     template_name = "highlights_and_editorials/article_detail.html"
     context_object_name = "article"
+    page_heading = "Data Highlights and Editorials"
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         """Add related articles to the context.

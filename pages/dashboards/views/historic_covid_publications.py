@@ -15,17 +15,23 @@ class HistoricCovidPublications(View):
     Attributes:
         template_name: Template for rendering the dashboard.
         title: Title displayed in the rendered page's banner section.
+        page_heading: Heading for the page.
         description: Description to be used in the HTML's head.
     """
 
     template_name = "dashboards/historic_covid_publications.html"
     title = "Swedish COVID-19 publications over 5 years"
+    page_heading = "Dashboards"
     description = "A dashboard showcasing the trend of historic publications related to COVID-19."
 
     def get(self, request: HttpRequest) -> HttpResponse:
         """Render the COVID-19 publications dashboard."""
 
-        context = {"title": self.title, "description": self.description}
+        context = {
+            "title": self.title,
+            "description": self.description,
+            "page_heading": self.page_heading,
+        }
 
         blob_data = fetch_plot_json_blobserver("COVID_publication_count.json")
         context["publication_plot"] = plot_html_from_json(blob_data, height=600, skip_invalid=True)

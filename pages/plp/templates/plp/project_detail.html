@@ -1,15 +1,11 @@
 {% extends "base.html" %}
 
+<!-- Main Content -->
 {% block content %}
 
-{% comment %}
-    TODO: rework in phase 2
-        - allow inline images within content (see https://github.com/ScilifelabDataCentre/swedish-pathogens-portal/pull/74#discussion_r2712113446)
-{% endcomment %}
-
-<!-- Main Content -->
+    <h3>{{ project.title }}</h3>
     <!-- Project Content -->
-    <div class="max-w-none mb-8">
+    <div class="mb-6">
         {{ project.rendered_content|safe }}
     </div>
 
