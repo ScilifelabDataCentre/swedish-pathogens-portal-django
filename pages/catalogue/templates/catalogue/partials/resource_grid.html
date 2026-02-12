@@ -1,7 +1,7 @@
 {% if catalogue_entries %}
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
         {% for item in catalogue_entries %}
-            {% include "components/content_card.html#content_card" with title=item.title image=item.image_url description=item.description url=item.link %}
+            {% include "components/content_card.html#content_card" with title=item.title image=item.image_url description=item.description url=item.link external_url=True only %}
         {% endfor %}
     </div>
 {% else %}
