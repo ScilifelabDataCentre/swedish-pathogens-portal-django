@@ -21,6 +21,7 @@ class SerologyStatistics(View):
 
     template_name = "dashboards/serology_statistics.html"
     title = "SARS-CoV-2 serology tests by the SciLifeLab Autoimmunity and Serology Profiling unit"
+    page_heading = "Dashboards"
     description = (
         "A visualisation of the SARS-CoV-2 serology tests completed over "
         "time at the SciLifeLab Autoimmunology and Serology Profiling unit."
@@ -28,7 +29,11 @@ class SerologyStatistics(View):
 
     def get(self, request: HttpRequest) -> HttpResponse:
         """Fetch the compiled plot data (JSON) and generate plot html string."""
-        context = {"title": self.title, "description": self.description}
+        context = {
+            "title": self.title,
+            "description": self.description,
+            "page_heading": self.page_heading,
+        }
 
         for blob in ["weekly_serology_tests", "cumulative_serology_tests"]:
             # TODO: plot data to be fetch from DB

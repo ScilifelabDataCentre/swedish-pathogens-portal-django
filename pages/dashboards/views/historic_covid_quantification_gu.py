@@ -22,6 +22,7 @@ class HistoricCovidQuantificationGu(View):
 
     template_name = "dashboards/historic_covid_quantification_gu.html"
     title = "Amount of SARS-CoV-2 in wastewater (GU)"
+    page_heading = "Dashboards"
     description = (
         "This project is led by Professor Helene Norder (University of Gothenburg, "
         "GU), and supported by co-workers from the University of Gothenburg and "
@@ -36,6 +37,7 @@ class HistoricCovidQuantificationGu(View):
         context = {
             "title": self.title,
             "description": self.description,
+            "page_heading": self.page_heading,
         }
 
         wastewater_blobs = [

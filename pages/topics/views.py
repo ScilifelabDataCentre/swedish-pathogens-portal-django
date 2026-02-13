@@ -9,21 +9,21 @@ class TopicListView(BaseListView):
     """Display a list of all active topics.
 
     Shows all active topics in a grid layout with thumbnails,
-    names, and descriptions. Topics are sorted alphabetically.
+    titles, and descriptions. Topics are sorted alphabetically.
 
     Attributes:
         model: Topic model to display.
         template_name: Template for rendering the list.
         context_object_name: Name for topics in template context.
         title: Page title displayed in template.
-        ordering: Field to sort topics by (alphabetical by name).
+        ordering: Field to sort topics by (alphabetical by title).
     """
 
     model = Topic
     template_name = "topics/index.html"
     context_object_name = "topics"
     title = "Topics"
-    ordering = "name"  # Topics are sorted alphabetically by name
+    ordering = "title"  # Topics are sorted alphabetically by title
 
 
 class TopicDetailView(BaseDetailView):
@@ -41,3 +41,4 @@ class TopicDetailView(BaseDetailView):
     model = Topic
     template_name = "topics/topic_detail.html"
     context_object_name = "topic"
+    page_heading = "Topics"

@@ -13,7 +13,7 @@
          The data presented here is no longer updated but is kept for historical reference.
     </div>
 
-    <h4>Introduction</h4>
+    <h4>Amount of enteric virus in wastewater (GU)</h4>
     <p>
         Enteric viruses are a large group of viruses including, for example, calicivirus 
         (including norovirus and sapovirus), adenoviruses, and astroviruses. They are transmitted 
@@ -39,14 +39,11 @@
         that was used from week 20 (15th May) of 2023. This method was used in parallel with a 
         previous method until week 43 of 2023. Data produced using that previous method between 
         week 2 and week 43 of 2023 (i.e. 9th January and 23rd October 2023) are available on the 
-        page related to 
-
+        page related to
         {% comment %}
             TODO change URL with django URL when we will merge other dashboards
         {% endcomment %}
-        
-        <a href="">
-        historic enteric virus data from Gothenburg</a>.
+        <a href="#">historic enteric virus data from Gothenburg</a>.
     </p>
 
     <p>
@@ -57,13 +54,8 @@
 
     <p>
         The enteric virus monitoring by the Norder group was done alongside their ongoing 
-        monitoring of SARS-CoV-2 in wastewater, the data for which are 
-
-        {% comment %}
-            TODO change URL with django URL when we will merge other dashboards
-        {% endcomment %}
-
-        <a href="">also shared on this portal</a>.
+        monitoring of SARS-CoV-2 in wastewater, the data for which are
+        <a href="{% url "dashboards:historic_covid_quantification_gu" %}">also shared on this portal</a>.
     </p>
 
     <p>
@@ -264,7 +256,7 @@
             discussion what we decide to do about historic data
         {% endcomment %}
 
-        <a href="">
+        <a href="#">
         Historic enteric virus data from Gothenburg collected between week 2 and week 43 of 
         2023</a>
     </p>

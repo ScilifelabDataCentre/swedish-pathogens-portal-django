@@ -17,11 +17,13 @@ class PostCovid(View):
     Attributes:
         template_name: Template for rendering the dashboard.
         title: Title displayed in the rendered page's banner section.
+        page_heading: Heading for the page, used in the banner section.
         description: Description to be used in the HTML's head.
     """
 
     template_name = "dashboards/post_covid.html"
     title = "Post COVID-19 condition in Sweden: statistics and available data"
+    page_heading = "Dashboards"
     description = (
         "The Swedish Board of Health and Welfare (Socialstyrelsen) shares data "
         "on Post COVID-19 condition. Here, we show visualisations of data on "
@@ -37,7 +39,11 @@ class PostCovid(View):
         Returns:
             Rendered template with plot HTML strings in context.
         """
-        context = {"title": self.title, "description": self.description}
+        context = {
+            "title": self.title,
+            "description": self.description,
+            "page_heading": self.page_heading,
+        }
 
         # Map chart IDs to blobserver blob names
         plot_sources = {

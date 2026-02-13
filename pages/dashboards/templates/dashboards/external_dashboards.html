@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+    {% comment %}
+    TODO: re-evaluate and optimise as needed in second phase.
+    - Add "topics".
+    - Update layout as needed
+    {% endcomment %}
+    <p>Explore a curated collection of external dashboards from a variety of organisations, providing unique perspectives and visualisations of infectious disease data relevant to Sweden.</p>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+        {% for dashboard in external_dashboards|dictsort:"name" %}
+            {% include "components/content_card.html#content_card" with url=dashboard.url external_url=True image=dashboard.image title=dashboard.name description=dashboard.description only %}
+        {% endfor %}
+    </div>
+
+
+{% endblock %}

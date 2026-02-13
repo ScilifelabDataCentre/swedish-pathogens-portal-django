@@ -3,14 +3,9 @@
 
 {% block content %}
 <!-- Main Content -->
-<div class="py-8" id="content">
+<div id="content">
+    <h3>{{ outbreak.title }}</h3>
     <!-- Outbreak Content -->
-    {% if outbreak.content %}
-        <div class="mb-8">
-            <div class="text-pp-dark-grey leading-relaxed prose prose-sm max-w-none overflow-x-auto">
-                {{ outbreak.rendered_content|safe }}
-            </div>
-        </div>
-    {% endif %}
+    {{ outbreak.rendered_content|safe }}
 </div>
 {% endblock %}

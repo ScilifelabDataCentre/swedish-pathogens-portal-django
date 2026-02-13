@@ -67,3 +67,4 @@ class OutbreakDetailView(BaseDetailView):
     model = Outbreak
     template_name = "outbreaks/outbreak_detail.html"
     context_object_name = "outbreak"
+    page_heading = "Outbreaks"

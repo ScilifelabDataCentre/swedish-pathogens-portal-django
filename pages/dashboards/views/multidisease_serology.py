@@ -42,11 +42,13 @@ class MultiDiseaseSerology(View):
     Attributes:
         template_name: Template that renders the descriptive copy and tables.
         title: Page title that appears in the shared layout.
+        page_heading: Heading that appears in the shared layout.
 
     """
 
     template_name = "dashboards/multidisease_serology.html"
     title = "Multi-disease serology"
+    page_heading = "Dashboards"
 
     def get(self, request: HttpRequest, *args: object, **kwargs: object) -> HttpResponse:
         """Render the dashboard template with the computed serology context."""
@@ -69,6 +71,7 @@ class MultiDiseaseSerology(View):
         )
         return {
             "title": self.title,
+            "page_heading": self.page_heading,
             "kth_headers": KTH_HEADERS,
             "kth_rows": kth_rows_aligned,
             "external_headers": EXTERNAL_HEADERS,

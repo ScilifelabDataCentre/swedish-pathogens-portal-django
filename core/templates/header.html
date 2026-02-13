@@ -19,13 +19,35 @@
 
             <!-- Desktop Navigation (agreed menu structure) -->
             <nav class="hidden lg:flex items-center gap-6" aria-label="Main navigation">
-                <!-- Dashboards (direct) -->
-                <a href="{% url 'dashboards:index' %}"
-                    class="text-pp-dark-blue font-medium hover:text-pp-teal transition-colors
-                    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal
-                    focus-visible:ring-offset-2 focus-visible:rounded">
-                    Dashboards
-                </a>
+
+                <!-- Dashboards dropdown -->
+                <div class="relative group">
+                    <button
+                        class="flex items-center gap-1 text-pp-dark-blue font-medium hover:text-pp-teal
+                        transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pp-teal
+                        focus-visible:ring-offset-2 focus-visible:rounded"
+                        aria-expanded="false"
+                        aria-haspopup="true"
+                        aria-controls="dashboards-menu"
+                        type="button">
+                        Dashboards
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div id="dashboards-menu" role="menu"
+                        class="absolute left-0 pt-2 w-56 opacity-0 invisible group-hover:opacity-100
+                        group-hover:visible [.group:focus-within_&]:opacity-100
+                        [.group:focus-within_&]:visible transition-all">
+                        <div class="flex flex-col bg-white border border-gray-200 rounded-lg p-2 shadow-lg
+                             *:p-2 *:text-pp-mid-blue *:hover:bg-pp-pale-grey/20 *:hover:text-pp-teal
+                             *:transition-colors *:focus-visible:outline-none *:focus-visible:ring-2
+                             *:focus-visible:ring-offset-2 *:focus-visible:bg-pp-pale-grey">
+                            <a href="{% url 'dashboards:index' %}" role="menuitem">Our dashboards</a>
+                            <a href="{% url 'dashboards:external_dashboards' %}" role="menuitem">External dashboards   </a>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- Data Management dropdown -->
                 <div class="relative group">
@@ -48,14 +70,13 @@
                         [.group:focus-within_&]:visible transition-all">
                         <div class="flex flex-col bg-white border border-gray-200 rounded-lg p-2 shadow-lg
                              *:p-2 *:text-pp-mid-blue *:hover:bg-pp-pale-grey/20 *:hover:text-pp-teal *:transition-colors *:focus-visible:outline-none *:focus-visible:ring-2 *:focus-visible:ring-offset-2 *:focus-visible:bg-pp-pale-grey">
-                            <a href="{% url 'data_management:index' %}" role="menuitem">Research Data Management</a>
-                            <a href="#" role="menuitem">Share data</a>
-                            <a href="#" role="menuitem">Data repositories</a>
-                            <a href="#" role="menuitem">Data Sources</a>
-                            <a href="#" role="menuitem">Available datasets</a>
-                            <a href="#" role="menuitem">COVID-19 biobanks samples</a>
+                            <a href="{% url 'share_data:index' %}" role="menuitem">Share data</a>
+                            <a href="{% url 'catalogue:data_repositories' %}" role="menuitem">Data repositories</a>
+                            <a href="{% url 'catalogue:data_sources' %}" role="menuitem">Data Sources</a>
+                            <a href="{% url 'available_data:index' %}" role="menuitem">Available datasets</a>
+                            <a href="https://biobanks.pathogens.se" role="menuitem">COVID-19 biobanks samples</a>
                             <a href="{% url 'register_based_research:index' %}" role="menuitem">Register-based data</a>
-                            <a href="#" role="menuitem">Tools catalogue</a>
+                            <a href="{% url 'catalogue:tools_catalogue' %}" role="menuitem">Tools catalogue</a>
                             <a href="#" role="menuitem">Services catalogue</a>
                         </div>
                     </div>
@@ -102,7 +123,7 @@
                              *:focus-visible:ring-offset-2 *:focus-visible:bg-pp-pale-grey">
                             <a href="{% url 'plp:index' %}" role="menuitem">SciLifeLab PLP program</a>
                             <a href="{% url 'publications:index' %}" role="menuitem">Publications</a>
-                            <a href="{% url 'articles:index' %}" role="menuitem">Data Highlights & Editorials</a>
+                            <a href="{% url 'highlights_and_editorials:index' %}" role="menuitem">Data Highlights & Editorials</a>
                         </div>
                     </div>
                 </div>
@@ -133,6 +154,7 @@
                             <a href="{% url 'about:index' %}" role="menuitem">About Swedish Pathogens Portal</a>
                             <a href="{% url 'about:funders' %}" role="menuitem">Funders</a>
                             <a href="{% url 'about:partners' %}" role="menuitem">Partners</a>
+                            <a href="{% url 'about:nodes' %}" role="menuitem">Other National Nodes</a>
                             <a href="{% url 'contact:index' %}" role="menuitem">Contact Us</a>
                         </div>
                     </div>
@@ -182,13 +204,24 @@
             <!-- Direct links: Dashboards, Outbreaks, Topics (touch targets ≥44px) -->
             <div class="flex flex-col gap-4" aria-label="Main links">
 
-                <!-- Dashboards -->
-                <div>
-                    <a href="{% url 'dashboards:index' %}"
-                    class="text-pp-dark-blue font-medium uppercase tracking-wider focus-visible:rounded
-                    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2">
-                    Dashboards
-                    </a>
+                <!-- Dashboards (collapsible) -->
+                <div role="group" aria-label="Dashboards">
+                    <details class="group/details">
+                        <summary class="flex items-center text-pp-dark-blue font-medium uppercase tracking-wider
+                        list-none focus-visible:rounded focus-visible:outline-none focus-visible:ring-2
+                        focus-visible:ring-offset-2 [&::-webkit-details-marker]:hidden">
+                            <span>Dashboards</span>
+                            <svg class="w-4 h-4 ml-2 transition-transform group-open/details:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </summary>
+                        <ul class="flex flex-col gap-3 border-l-2 border-pp-pale-grey mt-2 ml-4 pl-4
+                           *:text-pp-mid-blue *:focus-visible:outline-none *:focus-visible:ring-2
+                            *:focus-visible:ring-offset-2 *:focus-visible:rounded">
+                            <li><a href="{% url 'dashboards:index' %}">Our dashboards</a></li>
+                            <li><a href="{% url 'dashboards:external_dashboards' %}">External dashboards</a></li>
+                        </ul>
+                    </details>
                 </div>
 
                 <!-- Data Management (collapsible) -->
@@ -205,14 +238,13 @@
                         <ul class="flex flex-col gap-3 border-l-2 border-pp-pale-grey mt-2 ml-4 pl-4
                            *:text-pp-mid-blue *:focus-visible:outline-none *:focus-visible:ring-2
                             *:focus-visible:ring-offset-2 *:focus-visible:rounded">
-                            <li><a href="{% url 'data_management:index' %}">Research Data Management</a></li>
-                            <li><a href="#">Share data</a></li>
-                            <li><a href="#">Data repositories</a></li>
-                            <li><a href="#">Data Sources</a></li>
-                            <li><a href="#">Available datasets</a></li>
-                            <li><a href="#">COVID-19 biobanks samples</a></li>
+                            <li><a href="{% url 'share_data:index' %}">Share data</a></li>
+                            <li><a href="{% url 'catalogue:data_repositories' %}">Data repositories</a></li>
+                            <li><a href="{% url 'catalogue:data_sources' %}">Data Sources</a></li>
+                            <li><a href="{% url 'available_data:index' %}">Available datasets</a></li>
+                            <li><a href="https://biobanks.pathogens.se">COVID-19 biobanks samples</a></li>
                             <li><a href="{% url 'register_based_research:index' %}">Register-based data</a></li>
-                            <li><a href="#">Tools catalogue</a></li>
+                            <li><a href="{% url 'catalogue:tools_catalogue' %}">Tools catalogue</a></li>
                             <li><a href="#">Services catalogue</a></li>
                         </ul>
                     </details>
@@ -252,7 +284,7 @@
                             *:focus-visible:ring-offset-2 *:focus-visible:rounded">
                             <li><a href="{% url 'plp:index' %}">SciLifeLab PLP program</a></li>
                             <li><a href="{% url 'publications:index' %}">Publications</a></li>
-                            <li><a href="{% url 'articles:index' %}">Data Highlights & Editorials</a></li>
+                            <li><a href="{% url 'highlights_and_editorials:index' %}">Data Highlights & Editorials</a></li>
                         </ul>
                     </details>
                 </div>
@@ -274,6 +306,7 @@
                             <li><a href="{% url 'about:index' %}">About Swedish Pathogens Portal</a></li>
                             <li><a href="{% url 'about:funders' %}">Funders</a></li>
                             <li><a href="{% url 'about:partners' %}">Partners</a></li>
+                            <li><a href="{% url 'about:nodes' %}">Other National Nodes</a></li>
                             <li><a href="{% url 'contact:index' %}">Contact Us</a></li>
                         </ul>
                     </details>

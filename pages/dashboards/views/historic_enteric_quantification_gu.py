@@ -16,11 +16,13 @@ class HistoricEntericQuantificationGu(View):
     Attributes:
         template_name: Template for rendering the dashboard.
         title: Title displayed in the rendered page's banner section.
+        page_heading: Heading for the page, shown in the banner section.
         description: Description to be used in the HTML's head.
     """
 
     template_name = "dashboards/historic_enteric_quantification_gu.html"
     title = "Amount of enteric virus in wastewater (GU)"
+    page_heading = "Dashboards"
     description = (
         "Enteric virus levels in Gothenburg's wastewater, including "
         "norovirus and adenovirus. Data from the Norder group's weekly "
@@ -34,6 +36,7 @@ class HistoricEntericQuantificationGu(View):
         context = {
             "title": self.title,
             "description": self.description,
+            "page_heading": self.page_heading,
         }
 
         enteric_quantification_gu_related_blobs = [

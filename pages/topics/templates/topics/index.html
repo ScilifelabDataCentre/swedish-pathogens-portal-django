@@ -2,47 +2,17 @@
 {% load static %}
 
 {% block content %}
-
 <!-- Main Content -->
-<div class="py-8" id="content">
     <!-- Page Header -->
-    <div class="mb-8">
-        <p class="text-lg text-pp-dark-grey leading-relaxed">
-            The Swedish Pathogens Portal provides information about available datasets, resources, tools, and services related to pandemic preparedness in Sweden. We offer support to all those involved in pandemic preparedness research that are affiliated with a Swedish research institution or university.
-        </p>
-    </div>
+    <p class="pb-6">
+        The Swedish Pathogens Portal provides information about available datasets, resources, tools, and services related to pandemic preparedness in Sweden. We offer support to all those involved in pandemic preparedness research that are affiliated with a Swedish research institution or university.
+    </p>
 
     <!-- Topics Grid -->
     {% if topics %}
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
             {% for topic in topics %}
-                <div class="bg-white border border-pp-pale-grey rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
-                    <!-- Topic Image -->
-                    <div class="relative">
-                        <img 
-                            src="{{ topic.display_image|safe }}" 
-                            alt="{{ topic.name }}"
-                            class="w-full h-48 object-cover rounded-t-lg"
-                        />
-                    </div>
-                    
-                    <!-- Topic Content -->
-                    <div class="p-4">
-                        <h6 class="text-lg font-semibold text-pp-dark-blue mb-3">
-                            <a 
-                                href="{% url 'topics:topic_detail' topic.slug %}" 
-                                class="hover:text-pp-teal transition-colors duration-200"
-                            >
-                                {{ topic.name }}
-                            </a>
-                        </h6>
-                        
-                        <!-- Topic Description -->
-                        <p class="text-pp-dark-grey text-sm leading-relaxed mb-4">
-                            {{ topic.description|truncatewords:25 }}
-                        </p>
-                    </div>
-                </div>
+                {% include "components/content_card.html#content_card" with url=topic.get_absolute_url image=topic.image_url title=topic.title description=topic.description only %}
             {% endfor %}
         </div>
     {% else %}
@@ -61,5 +31,4 @@
             </div>
         </div>
     {% endif %}
-</div>
 {% endblock %}

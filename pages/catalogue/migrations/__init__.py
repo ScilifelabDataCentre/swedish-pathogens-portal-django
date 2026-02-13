@@ -1,0 +1,1 @@
+"""Migrations for catalogue app."""

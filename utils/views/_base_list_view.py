@@ -13,6 +13,7 @@ class BaseListView(ListView):
 
     Attributes:
         title (str): Page title to add to context. Defaults to empty string.
+        page_heading (str): Heading to displayed on the page. Defaults to empty string.
         ordering (str): Field name to order results by. Optional.
         extra_context (dict): Additional context data. Optional.
         filter_* (any): Custom filter attributes. Any attribute starting with
@@ -28,6 +29,7 @@ class BaseListView(ListView):
                 template_name = "topics/index.html"
                 context_object_name = "topics"
                 title = "Research Topics"
+                page_heading = "All Research Topics"
                 ordering = "name"
                 extra_context = {"show_filters": True, "page_size": 20}
 
@@ -53,13 +55,16 @@ class BaseListView(ListView):
     """
 
     title = ""
+    page_heading = ""
     extra_context = None
 
     def get_queryset(self) -> QuerySet[Any]:
         """Return active items with custom filters applied, ordered by specified field."""
         # Get custom filter arguments from class attributes
         filter_args = {
-            k.replace("filter_", ""): v for k, v in vars(self).items() if k.startswith("filter_")
+            k.replace("filter_", ""): v
+            for k, v in vars(self.__class__).items()
+            if k.startswith("filter_")
         }
 
         # Always filter by is_active=True and apply any custom filters
@@ -72,10 +77,13 @@ class BaseListView(ListView):
         return queryset
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
-        """Add title and extra_context to context."""
+        """Add title, page_heading and extra_context to context."""
         context = super().get_context_data(**kwargs)
         if self.title:
             context["title"] = self.title
+
+        if self.page_heading:
+            context["page_heading"] = self.page_heading
 
         # Add extra_context if defined
         if self.extra_context is not None and isinstance(self.extra_context, dict):

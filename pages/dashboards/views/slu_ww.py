@@ -59,6 +59,7 @@ class SluWasteWater(View):
         # common context for all the pages
         context = {
             "title": "Virus surveillance in wastewater from SLU-SEEC",
+            "page_heading": "Dashboards",
             "tabs": self.pages,
             "active": self.active_page,
         }

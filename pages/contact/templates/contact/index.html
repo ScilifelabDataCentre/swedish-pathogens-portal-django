@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="py-6">
+  <div>
+    We welcome questions and suggestions regarding the <i>Swedish Pathogens Portal</i> and we can help
+    with your data management or data sharing question (or at least point you to where your question
+    can be answered). You can fill out the form below and the <a href="{% url 'about:index' %}">the team behind the Portal</a>
+    will be happy to help you find a good solution. Alternatively, you can send us an email:
+    <a href="mailto:pathogens@scilifelab.se">pathogens@scilifelab.se</a>.
+  </div>
+
+  <div class="mt-2">
+    Please fill out this form to make suggestions for the <i>Swedish Pathogens Portal</i> or to ask a
+    data management or data sharing question. Please provide your contact information if you would like
+    to receive a response. The data portal team will send you a response within the next couple of days.
+  </div>
+
+  {# Error summary #}
+  {% if form.errors %}
+    <div role="alert" aria-live="assertive" class="mt-4 rounded-md border border-red-200 bg-red-50 p-4 text-red-800">
+      <p class="font-medium">We couldn't submit the form. Please check the fields below.</p>
+    </div>
+  {% endif %}
+
+  {# Success and info messages #}
+  {% if messages %}
+    <div role="status" aria-live="polite" class="mt-4">
+      {% for message in messages %}
+        <div class="mb-3 rounded-md border border-green-200 bg-green-50 p-4 text-green-800">{{ message }}</div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <form method="post" action="" novalidate class="mt-6 space-y-6">
+    {% csrf_token %}
+
+    {# Hidden anti-spam fields #}
+    {{ form.website }}
+    {{ form.contact_ts }}
+    {{ form.contact_dsc }}
+
+    <div>
+      <label for="id_name" class="block text-sm font-medium text-gray-900">Name <span class="text-red-600">*</span></label>
+      <input type="text" name="name" id="id_name" value="{{ form.name.value|default_if_none:'' }}"
+             class="mt-1 block w-full rounded-md border {% if form.name.errors %}border-red-600{% else %}border-gray-300{% endif %} px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+             {% if form.name.errors %}aria-invalid="true" aria-describedby="id_name_error" autofocus{% endif %}
+             minlength="2" maxlength="100" required>
+      {% if form.name.errors %}
+        <p id="id_name_error" class="mt-1 text-sm text-red-600">{{ form.name.errors.0 }}</p>
+      {% endif %}
+      <p class="mt-1 text-sm text-gray-500">Please provide your name in case you would like to receive
+        a response from us. In other cases, name is not required.</p>
+    </div>
+
+    <div>
+      <label for="id_email" class="block text-sm font-medium text-gray-900">Email <span class="text-red-600">*</span></label>
+      <input type="email" name="email" id="id_email" value="{{ form.email.value|default_if_none:'' }}"
+             class="mt-1 block w-full rounded-md border {% if form.email.errors %}border-red-600{% else %}border-gray-300{% endif %} px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+             {% if form.email.errors %}aria-invalid="true" aria-describedby="id_email_error" autofocus{% endif %} required>
+      {% if form.email.errors %}
+        <p id="id_email_error" class="mt-1 text-sm text-red-600">{{ form.email.errors.0 }}</p>
+      {% endif %}
+      <p class="mt-1 text-sm text-gray-500">Please provide your email address in case you would like
+        to receive a response from us. In other cases, the email address is not required.</p>
+    </div>
+
+    <div>
+      <fieldset class="mt-0">
+        <legend class="block text-sm font-medium text-gray-900">What kind of a question or suggestion do you have?
+          <span class="text-red-600">*</span></legend>
+        <div class="mt-2 space-y-1">
+          {% for checkbox in form.category %}
+          <div>
+            <label class="inline-flex items-center gap-2 text-gray-900 cursor-pointer rounded-md px-2 py-1 hover:bg-teal-50 hover:shadow-md focus-within:ring-2 focus-within:ring-teal-500">
+              {{ checkbox.tag }}
+              <span>{{ checkbox.choice_label }}</span>
+            </label>
+          </div>
+          {% endfor %}
+        </div>
+      </fieldset>
+      {% if form.category.errors %}
+        <p class="mt-1 text-sm text-red-600">{{ form.category.errors.0 }}</p>
+      {% endif %}
+      <p class="mt-1 text-sm text-gray-500">You can ask a question or suggest one or more items using this form.</p>
+    </div>
+
+    <div>
+      <label for="id_message" class="block text-sm font-medium text-gray-900">Message</label>
+      <textarea name="message" id="id_message"
+                class="mt-1 block w-full rounded-md border {% if form.message.errors %}border-red-600{% else %}border-gray-300{% endif %} px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 min-h-40"
+                {% if form.message.errors %}aria-invalid="true" aria-describedby="id_message_error" autofocus{% endif %}
+                required minlength="20" maxlength="5000">{{ form.message.value|default_if_none:'' }}</textarea>
+      {% if form.message.errors %}
+        <p id="id_message_error" class="mt-1 text-sm text-red-600">{{ form.message.errors.0 }}</p>
+      {% endif %}
+      <p class="mt-1 text-sm text-gray-500">Please describe what you need help with (e.g., sharing your own dataset) or
+        provide link(s) and/or DOI(s) to your suggested dataset, project, publication, preprint, etc. and anything else
+        that we should know.</p>
+    </div>
+
+    <div>
+      <button type="submit" class="inline-flex items-center rounded-md bg-pp-teal px-4 py-2 text-white hover:bg-pp-dark-blue focus:outline-none focus:ring-2 focus:ring-teal-500 cursor-pointer">Send message</button>
+    </div>
+  </form>
+
+  <div class="mt-10">
+    <h3>Personal data policy</h3>
+    <p>
+      The personal data you provide in this form, your name and email address, will be used to process your suggestion of
+      added resource to the <a href="https://www.pathogens.se/">Swedish Pathogens Portal</a>. The Data Portal is a
+      service run by the SciLifeLab Data Centre on assignment from the Swedish Research Council (Vetenskapsrådet). It
+      serves to address <a href="https://www.regeringen.se/regeringsuppdrag/2020/05/uppdrag-om-svensk-samordning-och-deltagande-i-eu-kommissionens-covid-19-dataplattform/" target="_blank" rel="noopener noreferrer">
+        the government assignment to the Swedish Research Council</a>
+      to participate in the European open data platform for COVID-19 research.
+    </p>
+    <p>
+      The information you provide will be processed for research purposes, i.e. using the lawful basis of public interest
+      and in accordance with Regulation (EU) 2016/679 of the European Parliament and of the Council of 27 April 2016, the
+      General Data Protection Regulation.
+    </p>
+    <p>
+      The following parties will have access to processing your personal data: SciLifeLab Data Centre, Uppsala
+      University. Your personal data will be deleted when no longer needed, or when stipulated by the archival rules for
+      the university as a government authority. If you want to update or remove your personal data please contact the
+      controller SciLifeLab Data Centre at Uppsala University using <a href="mailto:datacentre@scilifelab.se">datacentre@scilifelab.se</a>.
+    </p>
+  </div>
+</div>
+{% endblock %}

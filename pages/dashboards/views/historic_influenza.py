@@ -16,11 +16,13 @@ class HistoricInfluenza(View):
     Attributes:
         template_name: Template for rendering the dashboard.
         title: Title displayed in the rendered page's banner section.
+        page_heading: Heading for the page, used in the banner section.
         description: Description to be used in the HTML's head.
     """
 
     template_name = "dashboards/historic_influenza.html"
     title = "Historic data of influenza virus in wastewater (SLU)"
+    page_heading = "Dashboards"
     description = (
         "Historic data of Influenza A and B virus levels in wastewater across Sweden from SLU-SEEC"
     )
@@ -28,7 +30,11 @@ class HistoricInfluenza(View):
     def get(self, request: HttpRequest) -> HttpResponse:
         """Handle GET requests to display the historic influenza dashboard."""
 
-        context = {"title": self.title, "description": self.description}
+        context = {
+            "title": self.title,
+            "description": self.description,
+            "page_heading": self.page_heading,
+        }
 
         blobs = [
             "wastewater_sluINFsites",

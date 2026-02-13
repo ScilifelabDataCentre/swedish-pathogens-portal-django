@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div id="content">
+        <p>Resources where users can both access and submit data.</p>
+        {% include "catalogue/partials/resource_grid.html" with type="data repositories" %}
+    </div>
+{% endblock %}
