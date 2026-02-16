@@ -2,6 +2,11 @@
 
 {% block content %}
 <div class="py-6">
+
+  <div class="bg-pp-teal/20 rounded-md p-4 mb-6">
+    <strong>NOTE:</strong> This page is work in progress, so form submission is not yet implemented.
+  </div>
+
   <div>
     We welcome questions and suggestions regarding the <i>Swedish Pathogens Portal</i> and we can help
     with your data management or data sharing question (or at least point you to where your question
@@ -100,9 +105,11 @@
         that we should know.</p>
     </div>
 
+    {% comment %}
     <div>
       <button type="submit" class="inline-flex items-center rounded-md bg-pp-teal px-4 py-2 text-white hover:bg-pp-dark-blue focus:outline-none focus:ring-2 focus:ring-teal-500 cursor-pointer">Send message</button>
     </div>
+    {% endcomment %}
   </form>
 
   <div class="mt-10">
