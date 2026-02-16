@@ -82,6 +82,6 @@ class Home(View):
         context["articles"] = HighlightsAndEditorials.objects.filter(is_active=True).order_by(
             "-created_at"
         )[:3]
-        context["news"] = News.objects.filter(is_active=True).order_by("-created_at")[:5]
+        context["news"] = News.objects.filter(is_active=True).order_by("-created_at")[:3]
 
         return render(request, self.template_name, context)
