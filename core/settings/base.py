@@ -160,11 +160,6 @@ STATICFILES_DIRS = [
     BASE_DIR / "core" / "static",
 ]
 
-# Publications settings
-# ------------------------------------------------------------------------------
-EUROPE_PMC_API_URL = env("EUROPE_PMC_API_URL")
-EUROPE_PMC_WEB_URL = env("EUROPE_PMC_WEB_URL")
-
 
 # Logging
 # -----------------------------------------------------------------------------------------------
