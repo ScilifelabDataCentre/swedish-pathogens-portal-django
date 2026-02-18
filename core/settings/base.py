@@ -47,12 +47,12 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.humanize",  # intcomma and other number/date filters
     "django.contrib.sitemaps",  # provides sitemap class and sitemap view
-    "django_structlog",
     "django.contrib.postgres",
 ]
 
 THIRD_PARTY_APPS = [
     "django_htmx",
+    "django_structlog",
 ]
 
 LOCAL_APPS = [
