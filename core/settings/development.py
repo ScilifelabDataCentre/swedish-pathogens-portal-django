@@ -4,7 +4,7 @@ These settings are intended for local development.
 """
 
 from .base import *  # noqa: F401,F403
-from .base import LOG_DIR, env
+from .base import env
 
 DEBUG = True
 
@@ -57,4 +57,4 @@ EMAIL_TIMEOUT = env.int("EMAIL_TIMEOUT", default=10)
 # ------------------------------------------------------------------------------
 # Create log directory if it doesn't exist
 
-LOG_DIR.mkdir(parents=True, exist_ok=True)
+LOG_DIR.mkdir(parents=True, exist_ok=True)  # noqa: F405
