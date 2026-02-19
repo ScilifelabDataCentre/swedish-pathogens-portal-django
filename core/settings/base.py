@@ -171,7 +171,7 @@ STATICFILES_DIRS = [
 #   LOGGER = structlog.get_logger(__name__)
 #   LOGGER.info("Example of an info level log")
 
-LOG_DIR = LOG_DIR = Path(env("LOG_DIR", default=BASE_DIR / "logs"))
+LOG_DIR = Path(env("LOG_DIR", default=BASE_DIR / "logs"))
 
 LOGGING = {
     # --------------------------------------------------------------------------------------------
