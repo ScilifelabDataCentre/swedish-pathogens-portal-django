@@ -171,6 +171,7 @@ STATICFILES_DIRS = [
 #   LOGGER = structlog.get_logger(__name__)
 #   LOGGER.info("Example of an info level log")
 
+LOG_DIR = LOG_DIR = Path(env("LOG_DIR", default=BASE_DIR / "logs"))
 
 LOGGING = {
     # --------------------------------------------------------------------------------------------
@@ -224,7 +225,7 @@ LOGGING = {
         "json_file": {
             "class": "logging.handlers.TimedRotatingFileHandler",
             "formatter": "json_formatter",
-            "filename": str(BASE_DIR / "logs" / "spp_structlog.jsonl"),
+            "filename": str(LOG_DIR / "spp_structlog.jsonl"),
             "when": "W0",
             "interval": 1,
             "backupCount": 10,

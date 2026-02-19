@@ -61,3 +61,6 @@ Thumbs.db
 .cursor
 .cursorignore
 .cursorignorerules
+
+# Logging 
+*logs/
