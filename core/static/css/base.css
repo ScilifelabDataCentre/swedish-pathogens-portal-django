@@ -136,6 +136,19 @@ https://daisyui.com/docs/utilities/#theme-css-variables
     p {
         @apply my-4 wrap-break-word hyphens-none text-pretty;
     }
+
+    /* Default list styling */
+    ul {
+        @apply list-disc;
+    }
+
+    ol {
+        @apply list-decimal;
+    }
+
+    ul, ol {
+        @apply my-4 pl-8 space-y-2;
+    }
 }
 
 /* Site's custom component styling */
