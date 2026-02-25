@@ -10,6 +10,9 @@
 @import "tailwindcss/preflight.css" layer(reboot);
 @import "tailwindcss/utilities.css" layer(tw-utilities);
 
+/* Daisy UI, downloaded to path specified during build time */
+@plugin "./daisyui.mjs";
+
 /* Custom variable and styling values */
 @theme {
     /* Pathogens portal visual identity colours */

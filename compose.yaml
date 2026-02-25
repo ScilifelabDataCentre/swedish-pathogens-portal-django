@@ -54,10 +54,10 @@ services:
     init: true
     pull_policy: never
     entrypoint: >
-      tailwindcss
-        --input core/static/css/base.css
-        --output core/static/css/portal.css
-        --watch=always
+      sh -c "
+        cp /usr/local/bin/daisyui.mjs core/static/css/daisyui.mjs &&
+        exec tailwindcss --input core/static/css/base.css --output core/static/css/portal.css --watch=always
+      "
     container_name: spp_tailwind_watch
     working_dir: /app/local
     volumes:

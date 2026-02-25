@@ -25,6 +25,9 @@ staticfiles/
 # Tailwind CSS (ignore the locally generated CSS, it will be at build time)
 core/static/css/portal.css
 
+# DaisyUI (ignore the locally existing JS, it will be downloaded during build time)
+daisyui.mjs
+
 # Unit test / coverage reports
 htmlcov/
 .coverage
