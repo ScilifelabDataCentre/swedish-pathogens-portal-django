@@ -26,7 +26,7 @@ RUN apt-get update --quiet --assume-yes \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Retrieve standalone Tailwind CLI into PATH (pin version)
+# Retrieve standalone Tailwind CLI into PATH (pin version) and DaisyUI components
 ARG TARGETARCH
 RUN case "${TARGETARCH}" in \
         "amd64") TAILWIND_ARCH="x64" ;; \
@@ -34,8 +34,10 @@ RUN case "${TARGETARCH}" in \
         *) echo "Unsupported architecture: ${TARGETARCH}"; exit 1 ;; \
     esac; \
     curl --fail --silent --show-error --location --output /usr/local/bin/tailwindcss \
-        "https://github.com/tailwindlabs/tailwindcss/releases/download/v4.1.11/tailwindcss-linux-${TAILWIND_ARCH}" \
- && chmod +x /usr/local/bin/tailwindcss
+        "https://github.com/tailwindlabs/tailwindcss/releases/download/v4.2.1/tailwindcss-linux-${TAILWIND_ARCH}" \
+ && chmod +x /usr/local/bin/tailwindcss \
+ && curl --fail --silent --show-error --location --output /usr/local/lib/daisyui.mjs https://github.com/saadeghi/daisyui/releases/download/v5.5.19/daisyui.mjs \
+ && curl --fail --silent --show-error --location --output /usr/local/lib/daisyui-theme.mjs https://github.com/saadeghi/daisyui/releases/download/v5.5.19/daisyui-theme.mjs
 
 # Retrieve `uv` from the third-party image (pin version)
 COPY --from=ghcr.io/astral-sh/uv:0.8.10 /uv /usr/local/bin/uv
@@ -115,11 +117,21 @@ RUN --mount=type=cache,target=/root/.cache \
         --no-install-project \
         --group prod
 
-# Mount the source code to compile the final CSS using Tailwind
+# Mount the source code to generate the final CSS using Tailwind CSS.
+# 'daisyui.mjs' and 'daisyui-theme.mjs' must reside next to 'base.css',
+# so mount 'base.css' at '/' and also copy the 'daisyui' file there
+# and then run Tailwind to produce 'portal.css'.
+#
+# NOTE: 'daisyui' files are not copied directly to '/app/core/static/css'
+# is to avoid copying them to host machine during build time.
 RUN --mount=type=bind,source=./,target=/app \
-    tailwindcss \
-        --input core/static/css/base.css \
+    --mount=type=bind,source=./core/static/css/base.css,target=/base.css \
+    cp /usr/local/lib/daisyui.mjs /daisyui.mjs \
+    && cp /usr/local/lib/daisyui-theme.mjs /daisyui-theme.mjs \
+    && tailwindcss \
+        --input /base.css \
         --output /portal.css \
+        --no-cache \
         --minify
 
 # TODO: investigate static files serving

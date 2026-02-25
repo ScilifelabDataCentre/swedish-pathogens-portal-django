@@ -53,11 +53,16 @@ services:
     image: swedish_pathogens_portal
     init: true
     pull_policy: never
-    entrypoint: >
-      tailwindcss
-        --input core/static/css/base.css
-        --output core/static/css/portal.css
-        --watch=always
+    entrypoint:
+      - sh
+      - -c
+      - |
+        cp /usr/local/lib/daisyui.mjs core/static/css/daisyui.mjs
+        cp /usr/local/lib/daisyui-theme.mjs core/static/css/daisyui-theme.mjs
+        exec tailwindcss \
+          --input core/static/css/base.css \
+          --output core/static/css/portal.css \
+          --watch=always
     container_name: spp_tailwind_watch
     working_dir: /app/local
     volumes:
