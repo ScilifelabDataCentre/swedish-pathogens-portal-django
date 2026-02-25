@@ -27,6 +27,7 @@ core/static/css/portal.css
 
 # DaisyUI (ignore the locally existing JS, it will be downloaded during build time)
 daisyui.mjs
+daisyui-theme.mjs
 
 # Unit test / coverage reports
 htmlcov/

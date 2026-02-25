@@ -13,6 +13,13 @@
 /* Daisy UI, downloaded to path specified during build time */
 @plugin "./daisyui.mjs";
 
+/* Register pathogens portal theme for DaisyUI */
+@plugin "./daisyui-theme.mjs" {
+    name: "pathogens-portal";
+    default: false;
+    /* TO BE ADDED */
+}
+
 /* Custom variable and styling values */
 @theme {
     /* Pathogens portal visual identity colours */
