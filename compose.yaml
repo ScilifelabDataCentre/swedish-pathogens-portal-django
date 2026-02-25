@@ -57,8 +57,8 @@ services:
       - sh
       - -c
       - |
-        cp /usr/local/bin/daisyui.mjs core/static/css/daisyui.mjs
-        cp /usr/local/bin/daisyui-theme.mjs core/static/css/daisyui-theme.mjs
+        cp /usr/local/lib/daisyui.mjs core/static/css/daisyui.mjs
+        cp /usr/local/lib/daisyui-theme.mjs core/static/css/daisyui-theme.mjs
         exec tailwindcss \
           --input core/static/css/base.css \
           --output core/static/css/portal.css \
