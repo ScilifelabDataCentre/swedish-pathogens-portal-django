@@ -49,14 +49,14 @@ https://daisyui.com/docs/utilities/#theme-css-variables
     --color-accent-content: var(--color-pp-almost-black);
     --color-neutral: var(--color-pp-dark-grey);
     --color-neutral-content: #ffffff;
-    --color-info: var(--color-pp-teal);
-    --color-info-content: var(--color-pp-almost-black);
-    --color-success: var(--color-pp-teal);
-    --color-success-content: var(--color-pp-almost-black);
-    --color-warning: #fcb700;
-    --color-warning-content: #793205;
-    --color-error: #ff627d;
-    --color-error-content: #4d0218;
+    --color-info: #d1f0e9;
+    --color-info-content: #143e35;
+    --color-success: #64ceb7;
+    --color-success-content: #0f2f28;
+    --color-warning: #f3b153;
+    --color-warning-content: #511e01;
+    --color-error: #eb7270;
+    --color-error-content: #470b0b;
 
     /* Border radius for components */
     --radius-box: 0.75rem;
