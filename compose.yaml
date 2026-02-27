@@ -34,7 +34,7 @@ services:
         condition: service_started
   # Postgresql DB
   db:
-    image: postgres:17.8-trixie
+    image: postgres:17.9-trixie
     container_name: spp_db
     env_file:
       - .env
