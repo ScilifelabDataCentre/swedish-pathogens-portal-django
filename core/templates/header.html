@@ -43,8 +43,8 @@
                              *:p-2 *:text-pp-mid-blue *:hover:bg-pp-pale-grey/20 *:hover:text-pp-teal
                              *:transition-colors *:focus-visible:outline-none *:focus-visible:ring-2
                              *:focus-visible:ring-offset-2 *:focus-visible:bg-pp-pale-grey">
-                            <a href="{% url 'dashboards:index' %}" role="menuitem">Our dashboards</a>
-                            <a href="{% url 'dashboards:external_dashboards' %}" role="menuitem">External dashboards   </a>
+                             <a href="{% url 'dashboards:index' %}" role="menuitem">Our Dashboards</a>
+                             <a href="{% url 'dashboards:external_dashboards' %}" role="menuitem">External Dashboards</a>
                         </div>
                     </div>
                 </div>
@@ -70,14 +70,14 @@
                         [.group:focus-within_&]:visible transition-all">
                         <div class="flex flex-col bg-white border border-gray-200 rounded-lg p-2 shadow-lg
                              *:p-2 *:text-pp-mid-blue *:hover:bg-pp-pale-grey/20 *:hover:text-pp-teal *:transition-colors *:focus-visible:outline-none *:focus-visible:ring-2 *:focus-visible:ring-offset-2 *:focus-visible:bg-pp-pale-grey">
-                            <a href="{% url 'share_data:index' %}" role="menuitem">Share data</a>
-                            <a href="{% url 'catalogue:data_repositories' %}" role="menuitem">Data repositories</a>
-                            <a href="{% url 'catalogue:data_sources' %}" role="menuitem">Data Sources</a>
-                            <a href="{% url 'available_data:index' %}" role="menuitem">Available datasets</a>
-                            <a href="https://biobanks.pathogens.se" role="menuitem">COVID-19 biobanks samples</a>
-                            <a href="{% url 'register_based_research:index' %}" role="menuitem">Register-based data</a>
-                            <a href="{% url 'catalogue:tools_catalogue' %}" role="menuitem">Tools catalogue</a>
-                            <a href="#" role="menuitem">Services catalogue</a>
+                             <a href="{% url 'available_data:index' %}" role="menuitem">Available Datasets</a>
+                             <a href="https://biobanks.pathogens.se" role="menuitem">COVID-19 Biobanks Samples</a>
+                             <a href="{% url 'catalogue:data_repositories' %}" role="menuitem">Data Repositories</a>
+                             <a href="{% url 'catalogue:data_sources' %}" role="menuitem">Data Sources</a>
+                             <a href="{% url 'register_based_research:index' %}" role="menuitem">Register-based Data</a>
+                             {% comment %} <a href="#" role="menuitem">Services Catalogue</a> {% endcomment %}
+                             <a href="{% url 'share_data:index' %}" role="menuitem">Share Data</a>
+                             <a href="{% url 'catalogue:tools_catalogue' %}" role="menuitem">Tools Catalogue</a>
                         </div>
                     </div>
                 </div>
@@ -121,9 +121,9 @@
                              *:p-2 *:text-pp-mid-blue *:hover:bg-pp-pale-grey/20 *:hover:text-pp-teal
                              *:transition-colors *:focus-visible:outline-none *:focus-visible:ring-2
                              *:focus-visible:ring-offset-2 *:focus-visible:bg-pp-pale-grey">
-                            <a href="{% url 'plp:index' %}" role="menuitem">SciLifeLab PLP program</a>
-                            <a href="{% url 'publications:index' %}" role="menuitem">Publications</a>
-                            <a href="{% url 'highlights_and_editorials:index' %}" role="menuitem">Data Highlights & Editorials</a>
+                             <a href="{% url 'highlights_and_editorials:index' %}" role="menuitem">Data Highlights & Editorials</a>
+                             <a href="{% url 'publications:index' %}" role="menuitem">Publications</a>
+                             <a href="{% url 'plp:index' %}" role="menuitem">SciLifeLab PLP Program</a>
                         </div>
                     </div>
                 </div>
@@ -152,10 +152,10 @@
                              *:transition-colors *:focus-visible:outline-none *:focus-visible:ring-2
                              *:focus-visible:ring-offset-2 *:focus-visible:bg-pp-pale-grey">
                             <a href="{% url 'about:index' %}" role="menuitem">About Swedish Pathogens Portal</a>
-                            <a href="{% url 'about:funders' %}" role="menuitem">Funders</a>
-                            <a href="{% url 'about:partners' %}" role="menuitem">Partners</a>
-                            <a href="{% url 'about:nodes' %}" role="menuitem">Other National Nodes</a>
                             <a href="{% url 'contact:index' %}" role="menuitem">Contact Us</a>
+                            <a href="{% url 'about:funders' %}" role="menuitem">Funders</a>
+                            <a href="{% url 'about:nodes' %}" role="menuitem">Other National Nodes</a>
+                            <a href="{% url 'about:partners' %}" role="menuitem">Partners</a>
                         </div>
                     </div>
                 </div>
@@ -218,8 +218,8 @@
                         <ul class="flex flex-col gap-3 border-l-2 border-pp-pale-grey mt-2 ml-4 pl-4
                            *:text-pp-mid-blue *:focus-visible:outline-none *:focus-visible:ring-2
                             *:focus-visible:ring-offset-2 *:focus-visible:rounded">
-                            <li><a href="{% url 'dashboards:index' %}">Our dashboards</a></li>
-                            <li><a href="{% url 'dashboards:external_dashboards' %}">External dashboards</a></li>
+                            <li><a href="{% url 'dashboards:index' %}">Our Dashboards</a></li>
+                            <li><a href="{% url 'dashboards:external_dashboards' %}">External Dashboards</a></li>
                         </ul>
                     </details>
                 </div>
@@ -238,14 +238,14 @@
                         <ul class="flex flex-col gap-3 border-l-2 border-pp-pale-grey mt-2 ml-4 pl-4
                            *:text-pp-mid-blue *:focus-visible:outline-none *:focus-visible:ring-2
                             *:focus-visible:ring-offset-2 *:focus-visible:rounded">
-                            <li><a href="{% url 'share_data:index' %}">Share data</a></li>
-                            <li><a href="{% url 'catalogue:data_repositories' %}">Data repositories</a></li>
+                            <li><a href="{% url 'available_data:index' %}">Available Datasets</a></li>
+                            <li><a href="https://biobanks.pathogens.se">COVID-19 Biobanks Samples</a></li>
+                            <li><a href="{% url 'catalogue:data_repositories' %}">Data Repositories</a></li>
                             <li><a href="{% url 'catalogue:data_sources' %}">Data Sources</a></li>
-                            <li><a href="{% url 'available_data:index' %}">Available datasets</a></li>
-                            <li><a href="https://biobanks.pathogens.se">COVID-19 biobanks samples</a></li>
-                            <li><a href="{% url 'register_based_research:index' %}">Register-based data</a></li>
-                            <li><a href="{% url 'catalogue:tools_catalogue' %}">Tools catalogue</a></li>
-                            <li><a href="#">Services catalogue</a></li>
+                            <li><a href="{% url 'register_based_research:index' %}">Register-based Data</a></li>
+                            {% comment %} <li><a href="#">Services Catalogue</a></li> {% endcomment %}
+                            <li><a href="{% url 'share_data:index' %}">Share Data</a></li>
+                            <li><a href="{% url 'catalogue:tools_catalogue' %}">Tools Catalogue</a></li>
                         </ul>
                     </details>
                 </div>
@@ -282,9 +282,9 @@
                         <ul class="flex flex-col gap-3 border-l-2 border-pp-pale-grey mt-2 ml-4 pl-4
                            *:text-pp-mid-blue *:focus-visible:outline-none *:focus-visible:ring-2
                             *:focus-visible:ring-offset-2 *:focus-visible:rounded">
-                            <li><a href="{% url 'plp:index' %}">SciLifeLab PLP program</a></li>
-                            <li><a href="{% url 'publications:index' %}">Publications</a></li>
                             <li><a href="{% url 'highlights_and_editorials:index' %}">Data Highlights & Editorials</a></li>
+                            <li><a href="{% url 'publications:index' %}">Publications</a></li>
+                            <li><a href="{% url 'plp:index' %}">SciLifeLab PLP Program</a></li>
                         </ul>
                     </details>
                 </div>
@@ -304,10 +304,10 @@
                            *:text-pp-mid-blue *:focus-visible:outline-none *:focus-visible:ring-2
                             *:focus-visible:ring-offset-2 *:focus-visible:rounded">
                             <li><a href="{% url 'about:index' %}">About Swedish Pathogens Portal</a></li>
-                            <li><a href="{% url 'about:funders' %}">Funders</a></li>
-                            <li><a href="{% url 'about:partners' %}">Partners</a></li>
-                            <li><a href="{% url 'about:nodes' %}">Other National Nodes</a></li>
                             <li><a href="{% url 'contact:index' %}">Contact Us</a></li>
+                            <li><a href="{% url 'about:funders' %}">Funders</a></li>
+                            <li><a href="{% url 'about:nodes' %}">Other National Nodes</a></li>
+                            <li><a href="{% url 'about:partners' %}">Partners</a></li>
                         </ul>
                     </details>
                 </div>
