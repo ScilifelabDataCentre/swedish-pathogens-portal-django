@@ -10,7 +10,7 @@
 @import "tailwindcss/preflight.css" layer(reboot);
 @import "tailwindcss/utilities.css" layer(tw-utilities);
 
-/* Global theme with Pathogens portal visual identity colors */
+/* Global theme with Pathogens portal visual identity colours */
 @theme {
     --color-pp-teal: #37ae94;
     --color-pp-mid-blue: #4770b1;
@@ -33,13 +33,13 @@ https://daisyui.com/docs/utilities/#theme-css-variables
     name: "pathogens-portal";
     default: true;
 
-    /* Base text and backgroud color */
+    /* Base text and background colour */
     --color-base-100: #ffffff;
     --color-base-200: #f3f4f6;
     --color-base-300: #e5e7eb;
     --color-base-content: var(--color-pp-almost-black);
 
-    /* Background and text color for components utilities
+    /* Background and text colour for components utilities
     like '*-primary', '*-info', etc */
     --color-primary: var(--color-pp-dark-blue);
     --color-primary-content: #ffffff;
@@ -75,10 +75,11 @@ https://daisyui.com/docs/utilities/#theme-css-variables
 
 /* Site's default element level styling */
 @layer base {
-    /* Enables transition between absolute values and derived ones */
+    /* If no reduced motion preference, apply the scoped styling */
     @media (prefers-reduced-motion: no-preference) {
         html {
             interpolate-size: allow-keywords;
+            @apply scroll-smooth;
         }
     }
 
