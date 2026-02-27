@@ -10,19 +10,8 @@
 @import "tailwindcss/preflight.css" layer(reboot);
 @import "tailwindcss/utilities.css" layer(tw-utilities);
 
-/* Daisy UI, downloaded to path specified during build time */
-@plugin "./daisyui.mjs";
-
-/* Register pathogens portal theme for DaisyUI */
-@plugin "./daisyui-theme.mjs" {
-    name: "pathogens-portal";
-    default: false;
-    /* TO BE ADDED */
-}
-
-/* Custom variable and styling values */
+/* Global theme with Pathogens portal visual identity colors */
 @theme {
-    /* Pathogens portal visual identity colours */
     --color-pp-teal: #37ae94;
     --color-pp-mid-blue: #4770b1;
     --color-pp-dark-blue: #295986;
@@ -30,6 +19,58 @@
     --color-pp-pale-grey: #d8d8d8;
     --color-pp-dark-grey: #55585a;
     --color-pp-almost-black: #1a1c1a;
+}
+
+/* Daisy UI, downloaded to path specified during build time */
+@plugin "./daisyui.mjs";
+
+/*
+Register pathogens portal theme for DaisyUI
+For more detailed description of variables refer
+https://daisyui.com/docs/utilities/#theme-css-variables
+*/
+@plugin "./daisyui-theme.mjs" {
+    name: "pathogens-portal";
+    default: true;
+
+    /* Base text and backgroud color */
+    --color-base-100: #ffffff;
+    --color-base-200: #f3f4f6;
+    --color-base-300: #e5e7eb;
+    --color-base-content: var(--color-pp-almost-black);
+
+    /* Background and text color for components utilities
+    like '*-primary', '*-info', etc */
+    --color-primary: var(--color-pp-dark-blue);
+    --color-primary-content: #ffffff;
+    --color-secondary: var(--color-pp-pale-grey);
+    --color-secondary-content: var(--color-pp-almost-black);
+    --color-accent: var(--color-pp-teal);
+    --color-accent-content: var(--color-pp-almost-black);
+    --color-neutral: var(--color-pp-dark-grey);
+    --color-neutral-content: #ffffff;
+    --color-info: var(--color-pp-teal);
+    --color-info-content: var(--color-pp-almost-black);
+    --color-success: var(--color-pp-teal);
+    --color-success-content: var(--color-pp-almost-black);
+    --color-warning: #fcb700;
+    --color-warning-content: #793205;
+    --color-error: #ff627d;
+    --color-error-content: #4d0218;
+
+    /* Border radius for components */
+    --radius-box: 0.75rem;
+    --radius-field: 0.5rem;
+    --radius-selector: 0.25rem;
+
+    /* Base size for components */
+    --size-selector: 0.25rem;
+    --size-field: 0.25rem;
+
+    /* Border and shadow control */
+    --border: 1px;
+    --depth: 1;
+    --noise: 0;
 }
 
 /* Site's default element level styling */
