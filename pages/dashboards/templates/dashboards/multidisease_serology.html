@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load django_htmx %}
 
 {% block content %}
 
@@ -6,7 +7,6 @@
     TODO: improve after soft launch
     - last updated date
     - double check django URL paths (few PRs still ongoing)
-    - improve tables UX (pagination, search, etc.)
 {% endcomment %}
 
     <a href="#content-start" class="sr-only focus:not-sr-only focus:outline-none focus:ring-2 focus:ring-pp-mid-blue px-3 py-2 bg-white">Skip to content</a>
@@ -87,39 +87,7 @@
             a national research infrastructure funded by the Swedish Research Council. They have been expressed either in HEK
             or CHO cells or in <em>E. coli</em>, with different affinity tags and either as fragments or full‑length proteins.
         </p>
-        <div class="sm:hidden bg-pp-pale-grey/30 border-l-4 border-pp-mid-blue text-pp-dark-blue p-3" role="note">
-            Rotating your phone will improve the view of this table.
-        </div>
-        <div class="overflow-x-auto rounded-lg shadow ring-1 ring-gray-200">
-        {% comment %}
-            TODO Rework table generation to make it more ergonomic and better UX (htmx?)
-        {% endcomment %}
-            <table class="min-w-full text-sm text-left table-fixed" aria-labelledby="table-of-proteins-created-at-kth">
-            <caption class="sr-only">Proteins designed, expressed, purified, and characterised at KTH</caption>
-            <thead class="bg-pp-pale-grey text-pp-dark-grey text-xs uppercase tracking-wide sticky top-0">
-                <tr>
-                {% for header in kth_headers %}
-                    <th scope="col" class="px-4 py-3 font-semibold whitespace-nowrap">{{ header }}</th>
-                {% endfor %}
-                </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-200">
-                {% if kth_rows %}
-                {% for row in kth_rows %}
-                    <tr class="odd:bg-white even:bg-pp-pale-grey/20 hover:bg-pp-pale-grey/50">
-                    {% for cell in row %}
-                        <td class="px-4 py-3 whitespace-normal break-normal">{{ cell }}</td>
-                    {% endfor %}
-                    </tr>
-                {% endfor %}
-                {% else %}
-                <tr>
-                    <td class="px-4 py-3 text-pp-dark-grey" colspan="{{ kth_headers|length }}">No data available.</td>
-                </tr>
-                {% endif %}
-            </tbody>
-            </table>
-        </div>
+        {% include "components/data_table.html#data_table" with t=kth_table %}
 
         <h2 id="ongoing-work-and-collaborations">Ongoing work and collaborations</h2>
         <p>
@@ -148,33 +116,9 @@
         </p>
 
         <h2 id="externally-produced-antigens">Externally produced antigens</h2>
-        <div class="overflow-x-auto rounded-lg shadow ring-1 ring-gray-200">
-            <table class="min-w-full text-sm text-left table-fixed" aria-labelledby="externally-produced-antigens">
-            <caption class="sr-only">Externally produced antigens included in the multi‑disease serology assay</caption>
-            <thead class="bg-pp-pale-grey text-pp-dark-grey text-xs uppercase tracking-wide sticky top-0">
-                <tr>
-                {% for header in external_headers %}
-                    <th scope="col" class="px-4 py-3 font-semibold whitespace-nowrap">{{ header }}</th>
-                {% endfor %}
-                </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-200">
-                {% if external_rows %}
-                {% for row in external_rows %}
-                    <tr class="odd:bg-white even:bg-pp-pale-grey/20 hover:bg-pp-pale-grey/50">
-                    {% for cell in row %}
-                        <td class="px-4 py-3 whitespace-normal break-normal">{{ cell }}</td>
-                    {% endfor %}
-                    </tr>
-                {% endfor %}
-                {% else %}
-                <tr>
-                    <td class="px-4 py-3 text-pp-dark-grey" colspan="{{ external_headers|length }}">No data available.</td>
-                </tr>
-                {% endif %}
-            </tbody>
-            </table>
-        </div>
+        {% include "components/data_table.html#data_table" with t=external_table %}
         </div>
     </div>
+
+{% htmx_script %}
 {% endblock %}
