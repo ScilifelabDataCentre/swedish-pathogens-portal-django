@@ -2,7 +2,9 @@
 
 This module defines the `MultiDiseaseSerology` view which renders a dashboard
 by fetching two Excel files from blobserver, parsing them server-side, and
-exposing normalised table data to the template.
+exposing normalised table data to the template. The view uses `DataTableMixin`
+to provide search, pagination, and configurable entries per page via the
+reusable data table component.
 """
 
 from __future__ import annotations
@@ -19,11 +21,16 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.views import View
 
+from core.mixins import DataTableMixin
+
 KTH_XLSX_URL = "https://blobserver.dc.scilifelab.se/blob/KTH-produced-antigens.xlsx"
 EXTERNAL_XLSX_URL = "https://blobserver.dc.scilifelab.se/blob/External-PLP-proteinlist.xlsx"
 REQUEST_TIMEOUT_SECONDS = 10
 USER_AGENT = "pathogens-portal/multidisease-serology"
 CACHE_TTL_SECONDS = 15 * 60  # cache XLSX-derived rows for 15 minutes
+
+KTH_TABLE_ID = "kth-proteins"
+EXTERNAL_TABLE_ID = "external-antigens"
 
 # Explicit column orders for deterministic display
 KTH_HEADERS: list[str] = ["Virus type", "Variant", "Protein", "Details", "Host"]
@@ -32,12 +39,15 @@ EXTERNAL_HEADERS: list[str] = ["Pathogen", "Variant", "Protein", "Details", "Hos
 logger = logging.getLogger(__name__)
 
 
-class MultiDiseaseSerology(View):
+class MultiDiseaseSerology(DataTableMixin, View):
     """Render the multidisease serology dashboard.
 
-    The view performs three lightweight steps on every request: download the two
-    XLSX blobs, parse the first worksheet of each with Polars, and normalise the
-    tables into ordered rows so the template can render simple loops.
+    On a full-page GET the view fetches two XLSX blobs (KTH-produced and external antigens),
+    parses them with Polars, and passes each dataset through `DataTableMixin.get_table_context()`
+    so the template renders them as interactive, searchable, paginated tables.
+
+    On an HTMX request (search / pagination / entries-per-page change) only the affected
+    table's content partial is returned for an in-place swap.
 
     Attributes:
         template_name: Template that renders the descriptive copy and tables.
@@ -51,32 +61,76 @@ class MultiDiseaseSerology(View):
     page_heading = "Dashboards"
 
     def get(self, request: HttpRequest, *args: object, **kwargs: object) -> HttpResponse:
-        """Render the dashboard template with the computed serology context."""
-        context = self._build_context()
-        return render(request, self.template_name, context)
+        """Handle both full-page and HTMX partial requests."""
+        # HTMX controls on the table send requests back to this same URL
+        table_url = request.path
 
-    def _build_context(self) -> dict[str, Any]:
-        """Build template context with normalised serology tables."""
-        kth_rows_aligned = self._load_rows(KTH_XLSX_URL, KTH_HEADERS, "kth")
-        external_rows_aligned = self._load_rows(EXTERNAL_XLSX_URL, EXTERNAL_HEADERS, "external")
+        # HTMX request: return only the content partial for the table the
+        # user interacted with (identified by the hidden table_id field)
+        if request.htmx:
+            return self._htmx_response(request, table_url)
 
-        logger.debug(
-            "serology_context_built",
-            extra={
-                "kth_rows": len(kth_rows_aligned),
-                "external_rows": len(external_rows_aligned),
-                "kth_headers": len(KTH_HEADERS),
-                "external_headers": len(EXTERNAL_HEADERS),
-            },
-        )
-        return {
+        # Full-page request: load both datasets and build table contexts
+        return self._full_page_response(request, table_url)
+
+    def _full_page_response(self, request: HttpRequest, table_url: str) -> HttpResponse:
+        """Load both datasets and render the complete page."""
+        kth_rows = self._load_rows(KTH_XLSX_URL, KTH_HEADERS, "kth")
+        external_rows = self._load_rows(EXTERNAL_XLSX_URL, EXTERNAL_HEADERS, "external")
+
+        context = {
             "title": self.title,
             "page_heading": self.page_heading,
-            "kth_headers": KTH_HEADERS,
-            "kth_rows": kth_rows_aligned,
-            "external_headers": EXTERNAL_HEADERS,
-            "external_rows": external_rows_aligned,
+            "kth_table": self.get_table_context(
+                request,
+                kth_rows,
+                KTH_HEADERS,
+                table_url,
+                table_id=KTH_TABLE_ID,
+            ),
+            "external_table": self.get_table_context(
+                request,
+                external_rows,
+                EXTERNAL_HEADERS,
+                table_url,
+                table_id=EXTERNAL_TABLE_ID,
+            ),
         }
+        return render(request, self.template_name, context)
+
+    def _htmx_response(self, request: HttpRequest, table_url: str) -> HttpResponse:
+        """Return only the swappable content partial for the requested table.
+
+        The hidden `table_id` field sent via `hx-include` tells us which table the
+        user interacted with. Only that table's data is loaded and paginated.
+        """
+        requested_id = request.GET.get("table_id")
+
+        if requested_id == KTH_TABLE_ID:
+            rows = self._load_rows(KTH_XLSX_URL, KTH_HEADERS, "kth")
+            ctx = self.get_table_context(
+                request,
+                rows,
+                KTH_HEADERS,
+                table_url,
+                table_id=KTH_TABLE_ID,
+            )
+        elif requested_id == EXTERNAL_TABLE_ID:
+            rows = self._load_rows(EXTERNAL_XLSX_URL, EXTERNAL_HEADERS, "external")
+            ctx = self.get_table_context(
+                request,
+                rows,
+                EXTERNAL_HEADERS,
+                table_url,
+                table_id=EXTERNAL_TABLE_ID,
+            )
+        else:
+            # Unexpected or missing table_id falls back to full-page render
+            return self._full_page_response(request, table_url)
+
+        # Render the content partial under the "t" namespace expected by
+        # data_table_content.html (e.g. {{ t.page_obj }}, {{ t.headers }})
+        return render(request, "components/data_table_content.html", {"t": ctx})
 
     def _load_rows(self, url: str, headers: list[str], source: str) -> list[list[Any]]:
         """Fetch, parse, normalise, and cache table data."""
