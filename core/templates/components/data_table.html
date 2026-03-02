@@ -8,6 +8,7 @@
 
 <div id="data-table-{{ t.table_id }}">
 
+    {% if t.show_controls %}
     <div id="data-table-{{ t.table_id }}-controls"
          class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4">
 
@@ -48,6 +49,7 @@
 
         <input type="hidden" name="table_id" value="{{ t.table_id }}" />
     </div>
+    {% endif %}
 
     <div class="relative min-h-20">
         <div id="data-table-{{ t.table_id }}-loading"

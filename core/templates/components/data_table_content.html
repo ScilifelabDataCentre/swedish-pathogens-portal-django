@@ -28,6 +28,7 @@
     </table>
 </div>
 
+{% if t.show_controls %}
 <div class="flex flex-col sm:flex-row items-center justify-between gap-3 mt-4 text-sm">
     <span class="text-neutral">
         Showing {{ t.start_index }} to {{ t.end_index }} of {{ t.total_count }} entries{% if t.search %} <span class="italic">(filtered)</span>{% endif %}
@@ -84,6 +85,7 @@
     </nav>
     {% endif %}
 </div>
+{% endif %}
 
 {% else %}
 

@@ -29,16 +29,20 @@ class DataTableMixin:
         table_url: str,
         *,
         table_id: str | None = None,
+        show_controls: bool = True,
     ) -> dict[str, Any]:
         """Build the context dict that both table templates expect.
 
         Args:
-            request:   The current HTTP request (GET params are read from it).
-            rows:      Full dataset as a list-of-lists (one inner list per row).
-            headers:   Column header strings, same length as each row.
-            table_url: The URL that HTMX controls will call for updates.
-            table_id:  Optional override for self.table_id (useful when a
-                       single view renders more than one table).
+            request:       The current HTTP request (GET params are read from it).
+            rows:          Full dataset as a list-of-lists (one inner list per row).
+            headers:       Column header strings, same length as each row.
+            table_url:     The URL that HTMX controls will call for updates.
+            table_id:      Optional override for self.table_id (useful when a
+                           single view renders more than one table).
+            show_controls: When False, the template hides the search bar,
+                           entries-per-page selector, and status line.
+                           Useful for small, static tables.
 
         Returns:
             A dict ready to pass (or nest) into a template context.
@@ -99,4 +103,5 @@ class DataTableMixin:
             "total_count": paginator.count,
             "start_index": page_obj.start_index(),  # 1-based first visible row
             "end_index": page_obj.end_index(),  # 1-based last visible row
+            "show_controls": show_controls,  # hide search/pagination for small tables
         }
