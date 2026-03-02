@@ -1,11 +1,7 @@
 {% extends "base.html" %}
+{% load django_htmx %}
 
 {% block content %}
-
-{% comment %}
-    TODO: rework in phase 2
-        - homogenise table with other pages
-{% endcomment %}
 
 <h4>Background</h4>
 <p>
@@ -43,119 +39,11 @@
             </svg>
         </span>
     </summary>
-    <div class="border-t border-pp-pale-grey/20">
-        <div class="overflow-x-auto shadow-sm ring-1 ring-pp-pale-grey/20">
-            <table class="min-w-full text-sm text-left table-fixed [&_th]:px-4 [&_th]:py-4 [&_th]:font-bold [&_th]:whitespace-nowrap [&_td]:align-top [&_td]:px-4 [&_td]:py-3 [&_td]:whitespace-normal [&_td]:break-normal"
-                aria-label="Timeline of the PLP program">
-            <thead class="bg-pp-dark-blue text-white text-xs uppercase tracking-wider sticky top-0">
-                <tr>
-                    <th scope="col">Date</th>
-                    <th scope="col">Milestone</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Status</th>
-                </tr>
-            </thead>
-            <tbody class="divide-y divide-pp-pale-grey/20 [&>tr]:odd:bg-white [&>tr]:even:bg-pp-pale-grey/10 [&>tr:hover]:bg-pp-pale-grey/20 [&>tr]:transition-colors [&>tr]:duration-150">
-                <tr>
-                    <td>2025-06-01</td>
-                    <td>
-                        <a href="https://www.scilifelab.se/news/call-for-grants-for-technology-development-projects-within-pandemic-laboratory-preparedness-plp-tdp/"
-                            target="_blank" rel="noopener noreferrer">PLPTDP25 Call</a>
-                    </td>
-                    <td>Launch of new TDP funding to drive
-                        diagnostics and host response innovation that will support during outbreaks.</td>
-                    <td>Call open (as of Jun 2025)</td>
-                </tr>
-                <tr>
-                    <td>2024-02-01</td>
-                    <td>PM TDP Call</td>
-                    <td>Call for clinical tech development
-                        in collaboration with Precision Medicine to address healthcare needs.</td>
-                    <td>Call closed (Apr 2024)</td>
-                </tr>
-                <tr>
-                    <td>2023-09-01</td>
-                    <td>
-                        <a href="https://www.scilifelab.se/news/grants-for-testing-of-plp-capabilities-plp-test/"
-                            target="_blank" rel="noopener noreferrer">PLP-Test Call</a>
-                    </td>
-                    <td>Support up to 9 projects to test
-                        and improve PLP capabilities.</td>
-                    <td>Ongoing</td>
-                </tr>
-                <tr>
-                    <td>2023-02-01</td>
-                    <td>
-                        <a href="https://anubis.scilifelab.se/call/REPLPCM" target="_blank" rel="noopener noreferrer">
-                            REPLPCM Call
-                        </a>
-                    </td>
-                    <td>Extend funding for TDP projects
-                        until 2025.</td>
-                    <td>Ongoing (until 2025)</td>
-                </tr>
-                <tr>
-                    <td>2022-09-01</td>
-                    <td>
-                        <a href="https://anubis.scilifelab.se/call/REPLP1" target="_blank" rel="noopener noreferrer">
-                            REPLP-1 Call
-                        </a>
-                    </td>
-                    <td>Extend funding for PLP1 projects
-                        until 2025.</td>
-                    <td>Ongoing (until 2025)</td>
-                </tr>
-                <tr>
-                    <td>2022-04-01</td>
-                    <td>PLP2 Call</td>
-                    <td>To create nationally significant
-                        infrastructure capabilities with a functional expectation within a year.</td>
-                    <td>Completed</td>
-                </tr>
-                <tr>
-                    <td>2021-12-01</td>
-                    <td>TDP Funding Call</td>
-                    <td>The intention with this call was to
-                        build closer connections between clinical microbiology laboratories in Sweden and to develop
-                        capabilities in major clinical microbiology labs in Sweden.</td>
-                    <td>Completed</td>
-                </tr>
-                <tr>
-                    <td>2021-07-01</td>
-                    <td>PLP1: First 8 Capabilities Selected</td>
-                    <td>Focused on BSL3, biobanking,
-                        environmental detection, immunomonitoring, serology, sequencing.</td>
-                    <td>Completed</td>
-                </tr>
-                <tr>
-                    <td>2021-02-01</td>
-                    <td>PLP National Open Call</td>
-                    <td>Call for letters of intent to
-                        detect/monitor COVID-19 and future pandemics.</td>
-                    <td>Completed</td>
-                </tr>
-                <tr>
-                    <td>2020-12-01</td>
-                    <td>
-                    <a href="https://www.regeringen.se/rattsliga-dokument/proposition/2020/12/forskning-frihet-framtid--kunskap-och-innovation-for-sverige/"
-                            target="_blank" rel="noopener noreferrer">
-                            Swedish government commissioned SciLifeLab
-                        </a>
-                    </td>
-                    <td>
-                        The assignment broadly involved supporting research related to infectious diseases (e.g. in
-                        diagnostics, analysis of infection, immunity, and the development of resistance to therapies in
-                        pathogens), and developing competence and technologies related to pandemic research (e.g. in
-                        sequencing, genetic analysis, immunology, and big data).
-                    </td>
-                    <td>Completed</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <p class="px-3">To view any current funding available from PLP, view our
-        <a href="{% url 'about:funders' %}">funding page.</a>
-    </p>
+    <div class="border-t border-pp-pale-grey/20 p-4">
+        {% include "components/data_table.html#data_table" with t=timeline_table %}
+        <p>To view any current funding available from PLP, view our
+            <a href="{% url 'about:funders' %}">funding page.</a>
+        </p>
     </div>
 </details>
 
@@ -196,4 +84,5 @@
     <p class="text-center py-8 text-pp-dark-grey italic">No projects to display</p>
 {% endif %}
 
+{% htmx_script %}
 {% endblock %}
