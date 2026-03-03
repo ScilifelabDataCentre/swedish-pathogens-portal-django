@@ -140,8 +140,13 @@ class PlpListView(DataTableMixin, BaseListView):
     per_page_default = 20
 
     def get(self, request: HttpRequest, *args: object, **kwargs: object) -> HttpResponse:
-        """Handle full-page and HTMX partial requests."""
-        # HTMX request from the timeline table returns only the content partial
+        """Handle full-page and HTMX partial requests.
+
+        Show_controls=False means no HTMX controls are rendered, so no partial
+        requests can be triggered by the client as of now.
+        However, the HTMX branch is ready to be used as soon as the controls
+        are made visible when we will have to many entries to display at once.
+        """
         if request.htmx:
             ctx = self.get_table_context(
                 request,
