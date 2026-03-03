@@ -6,6 +6,7 @@ from typing import Any
 
 from django.core.paginator import Paginator
 from django.http import HttpRequest
+from django.utils.html import strip_tags
 
 
 class DataTableMixin:
@@ -22,7 +23,7 @@ class DataTableMixin:
     table_id: str = "data-table"
     table_label: str = ""
     per_page_default: int = 10
-    per_page_options: list[int] = [10, 25, 50]
+    per_page_options: tuple[int, ...] = (10, 25, 50)
 
     def get_table_context(
         self,
@@ -81,7 +82,9 @@ class DataTableMixin:
         # Keep a row if any cell contains the search term
         if search:
             term = search.lower()
-            rows = [row for row in rows if any(term in str(cell).lower() for cell in row)]
+            rows = [
+                row for row in rows if any(term in strip_tags(str(cell)).lower() for cell in row)
+            ]
 
         # --- Paginate the (possibly filtered) rows ------------------------
 
