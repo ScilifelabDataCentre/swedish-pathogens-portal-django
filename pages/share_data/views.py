@@ -6,6 +6,8 @@ with the reusable data table component for consistent styling.
 
 from typing import Any
 
+from django.http import HttpRequest, HttpResponse
+from django.shortcuts import render
 from django.utils.safestring import mark_safe
 
 from core.mixins import DataTableMixin
@@ -274,6 +276,28 @@ class ShareData(DataTableMixin, BaseTemplateView):
 
     # Show up to 30 rows on the page
     per_page_default = 30
+
+    def get(self, request: HttpRequest, *args: object, **kwargs: object) -> HttpResponse:
+        """Handle full-page and HTMX partial requests.
+
+        Show_controls=False means no HTMX controls are rendered, so no partial
+        requests can be triggered by the client as of now.
+        However, the HTMX branch is ready to be used as soon as the controls
+        are made visible when we will have to many entries to display at once.
+        """
+        if request.htmx:
+            ctx = self.get_table_context(
+                request,
+                METADATA_ROWS,
+                METADATA_HEADERS,
+                request.path,
+                table_id=METADATA_TABLE_ID,
+                table_label=METADATA_TABLE_LABEL,
+                show_controls=False,
+            )
+            return render(request, "components/data_table_content.html", {"t": ctx})
+
+        return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         """Add the metadata standards table context."""
