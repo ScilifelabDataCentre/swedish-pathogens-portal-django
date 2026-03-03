@@ -159,15 +159,13 @@ https://daisyui.com/docs/utilities/#theme-css-variables
     }
 }
 
-/* Custom components for shared use across apps */
+/* Custom component classes composing DaisyUI modifiers */
 @layer components {
-    /* Base badge styling */
-    .badge {
-        @apply inline-block px-1 py-1 font-bold leading-none text-center whitespace-nowrap align-baseline rounded mr-1 mb-1;
+    .badge-category {
+        @apply badge badge-soft badge-primary;
     }
-    
-    /* Topic badge specific properties */
+
     .badge-topic {
-        @apply text-white *:text-white bg-pp-dark-blue text-xs;
+        @apply badge badge-ghost;
     }
 }
