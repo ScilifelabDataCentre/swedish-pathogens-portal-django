@@ -30,7 +30,9 @@ USER_AGENT = "pathogens-portal/multidisease-serology"
 CACHE_TTL_SECONDS = 15 * 60  # cache XLSX-derived rows for 15 minutes
 
 KTH_TABLE_ID = "kth-proteins"
+KTH_TABLE_LABEL = "KTH-produced proteins"
 EXTERNAL_TABLE_ID = "external-antigens"
+EXTERNAL_TABLE_LABEL = "Externally produced antigens"
 
 # Explicit column orders for deterministic display
 KTH_HEADERS: list[str] = ["Virus type", "Variant", "Protein", "Details", "Host"]
@@ -87,6 +89,7 @@ class MultiDiseaseSerology(DataTableMixin, View):
                 KTH_HEADERS,
                 table_url,
                 table_id=KTH_TABLE_ID,
+                table_label=KTH_TABLE_LABEL,
             ),
             "external_table": self.get_table_context(
                 request,
@@ -94,6 +97,7 @@ class MultiDiseaseSerology(DataTableMixin, View):
                 EXTERNAL_HEADERS,
                 table_url,
                 table_id=EXTERNAL_TABLE_ID,
+                table_label=EXTERNAL_TABLE_LABEL,
             ),
         }
         return render(request, self.template_name, context)
@@ -114,6 +118,7 @@ class MultiDiseaseSerology(DataTableMixin, View):
                 KTH_HEADERS,
                 table_url,
                 table_id=KTH_TABLE_ID,
+                table_label=KTH_TABLE_LABEL,
             )
         elif requested_id == EXTERNAL_TABLE_ID:
             rows = self._load_rows(EXTERNAL_XLSX_URL, EXTERNAL_HEADERS, "external")
@@ -123,6 +128,7 @@ class MultiDiseaseSerology(DataTableMixin, View):
                 EXTERNAL_HEADERS,
                 table_url,
                 table_id=EXTERNAL_TABLE_ID,
+                table_label=EXTERNAL_TABLE_LABEL,
             )
         else:
             # Unexpected or missing table_id falls back to full-page render

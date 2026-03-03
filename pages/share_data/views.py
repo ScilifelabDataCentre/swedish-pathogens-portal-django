@@ -13,6 +13,7 @@ from utils.html import safe_link
 from utils.views import BaseTemplateView
 
 METADATA_TABLE_ID = "metadata-standards"
+METADATA_TABLE_LABEL = "Metadata standards by data type"
 METADATA_HEADERS: list[str] = ["Data Type", "Standards", "Description"]
 
 # Each row is [Data Type, Standard, Description].
@@ -283,6 +284,7 @@ class ShareData(DataTableMixin, BaseTemplateView):
             METADATA_HEADERS,
             self.request.path,
             table_id=METADATA_TABLE_ID,
+            table_label=METADATA_TABLE_LABEL,
             show_controls=False,
         )
         return context

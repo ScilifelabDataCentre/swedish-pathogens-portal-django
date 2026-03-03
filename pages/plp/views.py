@@ -16,6 +16,7 @@ from utils.views import BaseDetailView, BaseListView
 from .models import PlpProject
 
 TIMELINE_TABLE_ID = "plp-timeline"
+TIMELINE_TABLE_LABEL = "PLP programme timeline"
 TIMELINE_HEADERS: list[str] = ["Date", "Milestone", "Description", "Status"]
 
 # Each row is [Date, Milestone, Description, Status].
@@ -148,6 +149,7 @@ class PlpListView(DataTableMixin, BaseListView):
                 TIMELINE_HEADERS,
                 request.path,
                 table_id=TIMELINE_TABLE_ID,
+                table_label=TIMELINE_TABLE_LABEL,
                 show_controls=False,
             )
             return render(request, "components/data_table_content.html", {"t": ctx})
@@ -188,6 +190,7 @@ class PlpListView(DataTableMixin, BaseListView):
             TIMELINE_HEADERS,
             self.request.path,
             table_id=TIMELINE_TABLE_ID,
+            table_label=TIMELINE_TABLE_LABEL,
             show_controls=False,
         )
         return context

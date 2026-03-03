@@ -13,11 +13,14 @@ class DataTableMixin:
 
     Class attributes can be overridden per-view to customise defaults:
         table_id:          HTML id prefix used by the template and HTMX targets.
+        table_label:       Human-readable label for screen readers (falls back
+                           to table_id when not set).
         per_page_default:  Number of rows shown when the user hasn't chosen.
         per_page_options:  Choices offered in the "entries per page" select.
     """
 
     table_id: str = "data-table"
+    table_label: str = ""
     per_page_default: int = 10
     per_page_options: list[int] = [10, 25, 50]
 
@@ -29,6 +32,7 @@ class DataTableMixin:
         table_url: str,
         *,
         table_id: str | None = None,
+        table_label: str | None = None,
         show_controls: bool = True,
     ) -> dict[str, Any]:
         """Build the context dict that both table templates expect.
@@ -40,6 +44,8 @@ class DataTableMixin:
             table_url:     The URL that HTMX controls will call for updates.
             table_id:      Optional override for self.table_id (useful when a
                            single view renders more than one table).
+            table_label:   Optional human-readable label for the table's
+                           aria-label attribute.  Falls back to table_id.
             show_controls: When False, the template hides the search bar,
                            entries-per-page selector, and status line.
                            Useful for small, static tables.
@@ -49,6 +55,7 @@ class DataTableMixin:
         """
         # Allow per-call override so one view can serve multiple tables
         resolved_id = table_id or self.table_id
+        resolved_label = table_label or self.table_label or resolved_id
 
         # --- Read and sanitise query parameters from the request ----------
 
@@ -93,6 +100,7 @@ class DataTableMixin:
 
         return {
             "table_id": resolved_id,
+            "table_label": resolved_label,
             "table_url": table_url,
             "headers": headers,
             "page_obj": page_obj,  # Django Page with iterable rows
