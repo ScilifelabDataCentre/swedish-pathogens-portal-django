@@ -22,7 +22,10 @@
 }
 
 /* Daisy UI, downloaded to path specified during build time */
-@plugin "./daisyui.mjs";
+@plugin "./daisyui.mjs" {
+    /* disable default themes */
+    themes: false;
+}
 
 /*
 Register pathogens portal theme for DaisyUI
