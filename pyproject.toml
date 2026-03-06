@@ -24,7 +24,7 @@ dev = [
     "django-extensions>=4.1",
     "pre-commit>=4.5.0",
     "psycopg[binary]>=3.2.9",
-    "ruff==0.14.8",
+    "ruff==0.15.5",
     "watchdog>=6.0.0",
     "werkzeug[watchdog]>=3.1.3",
 ]
