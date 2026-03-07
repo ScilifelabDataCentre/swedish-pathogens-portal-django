@@ -40,7 +40,7 @@ RUN case "${TARGETARCH}" in \
  && curl --fail --silent --show-error --location --output /usr/local/lib/daisyui-theme.mjs https://github.com/saadeghi/daisyui/releases/download/v5.5.19/daisyui-theme.mjs
 
 # Retrieve `uv` from the third-party image (pin version)
-COPY --from=ghcr.io/astral-sh/uv:0.8.10 /uv /usr/local/bin/uv
+COPY --from=ghcr.io/astral-sh/uv:0.10.9 /uv /usr/local/bin/uv
 
 # Set working directory
 WORKDIR /app
