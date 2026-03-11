@@ -33,10 +33,7 @@
                     <span></span>
                     {% endif %}
                     {% if badge_text %}
-                    <span class="mb-1 px-2 py-1 font-semibold text-pp-dark-grey rounded shadow-sm
-                    bg-pp-pale-grey/60 ring-pp-pale-grey/90 ring-1">
-                        {{ badge_text }}
-                    </span>
+                    <span class="badge badge-ghost badge-sm">{{ badge_text }}</span>
                     {% endif %}
                 </div>
                 {% endif %}
@@ -56,9 +53,7 @@
         {% if topics %}
         <div class="flex flex-wrap gap-1 px-5 pb-5 pt-0">
             {% for t in topics %}
-            <span class="badge badge-topic">
-                <a href="{{ t.url|default:t.get_absolute_url }}">{{ t.title }}</a>
-            </span>
+            <a class="badge badge-soft badge-primary badge-sm" href="{{ t.url|default:t.get_absolute_url }}">{{ t.title }}</a>
             {% endfor %}
         </div>
         {% endif %}
