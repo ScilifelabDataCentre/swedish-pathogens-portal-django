@@ -8,9 +8,7 @@
 
     <!-- Publication Date and type -->
     <p class="text-pp-dark-grey mb-6 flex items-center gap-2 flex-wrap">
-        <span class="mb-1 px-2 py-1 text-sm font-semibold text-pp-dark-grey rounded shadow-sm bg-pp-pale-grey/60 ring-pp-pale-grey/90 ring-1">
-            {{ article.get_type_display }}
-        </span>
+        <span class="badge badge-ghost badge-lg">{{ article.get_type_display }}</span>
         <span>Published: {{ article.created_at|date:"F j, Y" }}</span>
         {% if article.type == "editorial" and article.author %}
             <span>| Written by: {{ article.author }}</span>
@@ -46,11 +44,7 @@
         <div class="mb-4 md:mb-0">
             <span class="font-semibold text-pp-dark-blue">Topics: </span>
             {% for topic in article.topics.all %}
-                <span class="badge badge-topic">
-                    <a href="{{ topic.get_absolute_url }}">
-                        {{ topic.title }}
-                    </a>
-                </span>
+                <a class="badge badge-soft badge-primary badge-lg" href="{{ topic.get_absolute_url }}">{{ topic.title }}</a>
             {% empty %}
                 <span class="text-pp-dark-grey italic">
                     No topics assigned
