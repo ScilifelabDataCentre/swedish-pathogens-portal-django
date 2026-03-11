@@ -158,14 +158,3 @@ https://daisyui.com/docs/utilities/#theme-css-variables
         clip: auto;
     }
 }
-
-/* Custom component classes composing DaisyUI modifiers */
-@layer components {
-    .badge-category {
-        @apply badge badge-soft badge-primary;
-    }
-
-    .badge-topic {
-        @apply badge badge-ghost;
-    }
-}
