@@ -106,6 +106,10 @@ zero_margin = {
     "l": 0,
 }
 
+# Viruses of interest i.e. only these virus data are used in the visualisation.
+
+VIRUSES_OF_INTEREST = ["Influenza A virus", "Influenza B virus", "RSV", "SARS CoV-2"]
+
 
 def get_compiled_data(data_url: str) -> dict:
     """Compile dashboard-ready data from a CSV data source.
@@ -121,7 +125,9 @@ def get_compiled_data(data_url: str) -> dict:
     data = read_data(data_url)
 
     # store raw data to be used by plots with filters
-    compiled_data["raw_data"] = data.replace(np.nan, None).to_dict()
+    compiled_data["raw_data"] = (
+        data[data.target.isin(VIRUSES_OF_INTEREST)].replace(np.nan, None).to_dict()
+    )
 
     # site info for methodology page
     compiled_data["sites_info"] = get_sites_info(data=data)

@@ -9,6 +9,7 @@ from django.views import View
 
 from ..models import DashboardData
 from ..visualisation.slu_ww import (
+    VIRUSES_OF_INTEREST,
     get_all_sites_plot,
     get_compiled_data,
     get_quant_overview_plot,
@@ -45,7 +46,7 @@ class SluWasteWater(View):
     """
 
     dashboard = "slu_wastewater"
-    virus_pages = ["Influenza A virus", "Influenza B virus", "RSV", "SARS CoV-2"]
+    virus_pages = VIRUSES_OF_INTEREST
     pages = ["Overview", "Methodology"] + virus_pages
     active_page = "Overview"
 
