@@ -12,8 +12,32 @@
     detection and quantification of generic material from influenza A virus, influenza B virus, respiratory
     syncytial virus (RSV) and SARS CoV-2 in untreated wastewater. We thank all participating wastewater
     treatment plants for their invaluable efforts in collecting samples and associated data. For more
-    information kindly visit methodology page.
+    information kindly visit the <a href="{% url 'dashboards:slu_methodology' %}">methodology</a> tab.
 </p>
+
+<!-- Dataset -->
+<details class="my-6 group">
+    <summary class="bg-gray-200 px-5 py-2 marker:text-gray-600 cursor-pointer
+                after:text-xs group-not-open:after:content-['(click_to_expand)']
+                group-open:after:content-['(click_to_close)']">
+        Dataset
+    </summary>
+
+    <p>
+        <strong>Download the data:</strong> <a href="https://blobserver.dc.scilifelab.se/blob/new_slu_ww_data.csv">
+        Respiratory viruses in wastewater (multiple normalisation methods)</a>.
+    </p>
+
+    <p><strong>Contact: </strong><a href="mailto:SEEC@slu.se">SEEC@slu.se</a></p>
+
+    <p>
+        <strong>How to cite the dataset:</strong><br>
+        Székely, A. J., Malmberg, M., Coker, S., Vargas, J., Mohamed, N., Dafalla, I., Petrini, F., Davies, L., Cekol, A. (2026).
+        Dataset of SARS-CoV-2, influenza A and influenza B virus content in wastewater samples from wastewater
+        treatment plants in Sweden. <a href="https://doi.org/10.17044/scilifelab.14256317" target="_blank"
+        rel="noopener noreferrer">https://doi.org/10.17044/scilifelab.14256317</a>.
+    </p>
+</details>
 
 <!-- Recent data details -->
 <details class="group">
@@ -35,10 +59,6 @@
                 <div>
                     {{ sampling_sites }}
                     Collectively, these sites represent {{ sampling_sites_pop }}% of Sweden's population.
-                </div>
-                <div class="text-lg">Comments from research group</div>
-                <div>
-                    To be implemented
                 </div>
             </div>
 

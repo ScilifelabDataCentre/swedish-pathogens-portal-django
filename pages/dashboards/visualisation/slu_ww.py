@@ -51,7 +51,6 @@ linecolor = "#d6d6d6"
 plotly_to_html_settings = {
     "include_plotlyjs": False,
     "full_html": False,
-    "config": {"displayModeBar": False},
 }
 
 norm_methods_map = {
@@ -73,7 +72,6 @@ common_axes_settings = {
     "linecolor": linecolor,
     "mirror": True,
     "zerolinecolor": bgcolor,
-    "fixedrange": True,
 }
 
 scatter_axes_settings = {
@@ -123,11 +121,10 @@ def get_compiled_data(data_url: str) -> dict:
     """
     compiled_data = {}
     data = read_data(data_url)
+    data = data[data.target.isin(VIRUSES_OF_INTEREST)]
 
     # store raw data to be used by plots with filters
-    compiled_data["raw_data"] = (
-        data[data.target.isin(VIRUSES_OF_INTEREST)].replace(np.nan, None).to_dict()
-    )
+    compiled_data["raw_data"] = data.replace(np.nan, None).to_dict()
 
     # site info for methodology page
     compiled_data["sites_info"] = get_sites_info(data=data)
@@ -203,21 +200,7 @@ def get_timeline_annotation_updatemenus(
         A tuple (annotations, updatemenus) where each element is a list for Plotly layout.
 
     """
-    annotations = [
-        {
-            "text": "Select Timeline:",
-            "showarrow": False,
-            "borderpad": 5,
-            "x": x,
-            "y": y + 0.02,
-            "xshift": -135,
-            "xanchor": "center",
-            "yanchor": "bottom",
-            "xref": "paper",
-            "yref": "paper",
-            "font": {"size": 12},
-        }
-    ]
+    annotations = []
 
     updatemenus = [
         {
@@ -678,7 +661,7 @@ def get_single_site_plot(
     fig.update_xaxes(range=get_range_date(data.sampling_date, str(years[-1])))
 
     annotations, updatemenus = get_timeline_annotation_updatemenus(
-        data.sampling_date, years, x=0.53, y=-0.39
+        data.sampling_date, years, x=0.5, y=-0.39
     )
 
     fig.update_layout(
@@ -790,7 +773,7 @@ def get_qual_plots(data: pd.DataFrame | dict, virus: str, as_json: bool = False)
     fig.update_xaxes(range=get_range_date(data.sampling_date, str(years[-1])), row=2, col=1)
 
     annotations, updatemenus = get_timeline_annotation_updatemenus(
-        data.sampling_date, years, x=0.53, y=-0.2
+        data.sampling_date, years, x=0.5, y=-0.2
     )
 
     fig.update_layout(
