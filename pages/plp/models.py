@@ -28,6 +28,7 @@ class PlpProject(models.Model):
     """
 
     CATEGORY_CHOICES = [
+        ("tdp2", "TDP2"),
         ("tdp", "TDP"),
         ("pmt", "PM TDP"),
         ("test", "PLP-Test"),
@@ -35,6 +36,7 @@ class PlpProject(models.Model):
         ("plp1", "PLP1"),
     ]
     CATEGORY_GROUP_LABELS = {
+        "tdp2": "Technology Development Projects 2025 (PLP TDPs)",
         "tdp": "Technology Development Projects",
         "pmt": "Precision Medicine Technology Development Projects",
         "test": "Testing PLP Capabilities",
