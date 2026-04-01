@@ -94,6 +94,9 @@ README.md
       "notes": "Precompiled bundle for portal ingestion"
   }
 }
+
+````
+
 ###pre-indexing
 
 - A scheduled job (e.g. Celery beat or a CRON run in DC-Dynamic) scans configured bucket prefixes, reads manifests, and writes a small searchable index into a lightweight store or cache (Postgres JSONB). This index contains only metadata required for search/facets.
