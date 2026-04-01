@@ -18,30 +18,25 @@ This ADR is informed by the portal architecture described in the Swedish Pathoge
 
 ### What is implemented today
 
-We currently expose a **data browsing UX** that lives under the `pages` app as `pages.portal_data` in the prototype branch (Rickard/Data-hosting-prototype). Key delivered pieces:
+We currently expose a **data browsing UX** that lives under the `pages` app as `pages.portal_data` 
 
 - A small, self-contained Django sub-app `pages/portal_data` with:
-  - URL routes under `/data/` (e.g. `/data/metabolomics/`).
+  - URL routes under `/data/` (e.g. in the future `/data/metabolomics/`).
   - `views.py` that implements `DataTypeListView` and `export_selected`.
-  - `services.py` that provides a single `query_data_backend(...)` adapter layer. The adapter currently returns mock data and is the single place to replace with real upstream calls.
-  - Templates under `templates/pages/portal_data/` using Tailwind and Core CSS (`base.css`) for styling.
 - A UI that supports:
   - Free-text search and faceted filters (pathogen, matrix, instrument, country, year, repository).
   - Per-record repository badge + direct download link to the repository-of-record.
-  - Bulk export of selected records as TSV or JSON (metadata-only exports).
   - An “Available data” widget for Topics pages that reuses the same service layer.
-- The (intentional) design decision: the portal **does not store primary data**. It surfaces dataset metadata (or mock metadata at present) and direct links to repositories where the primary data are hosted.
+- The (intentional) design decision: the portal **does not store primary data**. 
 
 ### Implementation notes & responsibilities
 
-- The code is implemented using Django templates (server-side rendering), Tailwind utilities, and your Core CSS tokens. The adapter pattern in `services.py` makes it straightforward to replace the mock data with real API calls (Pathogens Portal / EMBL / MetaboLights / ENA).
+- The code is implemented using Django templates (server-side rendering), Tailwind utilities, and your Core CSS tokens. The adapter pattern in `services.py` makes it straightforward to replace the data with API calls (Pathogens Portal / EMBL / MetaboLights / ENA).
 - Data-producing units are expected to deposit files in their chosen authoritative repositories. The portal’s role today is discovery and UX — mapping repository records into a consistent UI and pointing users to repository-hosted files.
-- Current exports and download UX are metadata-focused. The dataset “Download” buttons point to the repository-of-record (i.e. the portal is not acting as a file server).
 
 ### Gaps / short-term work
 
-- The current adapter is a mock; it needs implementation to call upstream APIs and to normalise fields for the template/UI.
-- There is no central metadata index in this phase; queries either call upstream APIs at request time or rely on per-page caching. This can cause latency or freshness issues depending on upstream performance.
+- The current adapter is a proof of concept; it needs implementation to call upstream APIs and to normalise fields for the template/UI.
 - For unit-provided data bundles (not yet hosted in an external repository), the portal currently has no standardised ingestion path.
 
 ---
@@ -59,7 +54,7 @@ As a pragmatic next step toward supporting datasets produced by SciLifeLab units
 
 ### Bucket layout and artifact model
 
-- Use one or more S3 buckets under the `scilifelab-datacentre` account (or equivalent): e.g. `spp-unit-bundles` with optional per-unit prefixes.  
+- Use one or more S3 buckets under the `scilifelab-dc-spp` account (or equivalent): e.g. `scilifelab-dc-spp-metabolights` or here called spp-unit-bundles
 - Standard layout (example):
 
 ```
@@ -82,7 +77,7 @@ README.md
   "id": "UNIT-2025-0001",
   "title": "Serum metabolomics of Orthoflavivirus dengue",
   "pathogen": "Orthoflavivirus denguei",
-  "repository": "spp-unit-bundles",
+  "repository": "scilifelab-dc-spp",
   "unit": "Unit Name",
   "datatype": "metabolomics",
   "year": 2025,
@@ -101,7 +96,7 @@ README.md
 }
 ###pre-indexing
 
-- A scheduled job (e.g. Celery beat or a CRON run in DC-Dynamic) scans configured bucket prefixes, reads manifests, and writes a small searchable index into a lightweight store or cache (e.g. Redis, or Postgres JSONB if you already use Postgres). This index contains only metadata required for search/facets.
+- A scheduled job (e.g. Celery beat or a CRON run in DC-Dynamic) scans configured bucket prefixes, reads manifests, and writes a small searchable index into a lightweight store or cache (Postgres JSONB). This index contains only metadata required for search/facets.
  
 - Store the mapping {dataset_id} -> manifest_s3_path and a small metadata payload used by the UI. Portal reads the index for fast search and then fetches full manifests lazily on-demand for downloads or detailed views.
  
@@ -130,7 +125,7 @@ README.md
  
  - If units wish to make some bundles public, we can support a public: true flag in the manifest and expose public URLs or copy objects to a public S3 prefix / static host.
 
- - For controlled-access datasets the portal will show metadata but direct users to the unit’s authorised access procedures. (Handling truly sensitive data is out of scope for this ADR.)
+ - For controlled-access datasets the portal will show metadata but direct users to the unit’s authorised access procedures.
 
 ###Lifecycle & cost management
 
@@ -178,22 +173,3 @@ README.md
 
 - Requires operational setup for S3 buckets, IAM policies, and ingestion jobs.
 
-- Costs for S3 GETs and storage must be monitored and managed.
-
-##Next steps / Implementation checklist
-
-1. Finalise the manifest schema and example bundles for unit onboarding.
-
-2- Provision S3 bucket(s) and IAM roles for unit uploads and portal ingestion.
-
-3. Implement a small ingestion/scan job (Python + boto3) that:
-
-        - Reads {unit}/{datatype}/index.json or scans prefixes, validates manifest.json, and writes a thin index to Redis or Postgres JSONB.
-
-4. Extend pages.portal_data.services.query_data_backend to:
-
-        - Read the thin index for fast search; fall back to reading manifests directly when needed.
-
-        - Generate pre-signed URLs for download actions.
-
-5. Add manifest validation and monitoring, plus documentation + onboarding instructions for units.
