@@ -572,7 +572,7 @@ def get_all_sites_plot(
         hoverdistance=1,
         annotations=annotations,
         updatemenus=updatemenus,
-        legend={"font": {"size": 10}},
+        legend={"font": {"size": 10}, "y": 0.95},
         margin=zero_margin,
     )
 
@@ -782,7 +782,7 @@ def get_qual_plots(data: pd.DataFrame | dict, virus: str, as_json: bool = False)
         bargap=0,
         annotations=annotations,
         updatemenus=updatemenus,
-        legend=base_legend,
+        legend={**base_legend, "y": 0.95},
         hoverlabel={"bgcolor": bgcolor},
         margin=zero_margin,
     )
