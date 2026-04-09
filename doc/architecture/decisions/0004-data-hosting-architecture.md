@@ -87,7 +87,6 @@ README.md
     {"name": "raw-data-file-1.gz", "path": "files/raw-data-file-1.gz", "size": 12345},
     {"name": "processed-table.tsv", "path": "files/processed-table.tsv", "size": 2345}
   ],
-  "checksum": "sha256:...",
   "provenance": {
       "submitted_by": "researcher@example.org",
       "submitted_at": "2025-01-10T12:34:00Z",
@@ -110,7 +109,7 @@ README.md
 
 ###Download flow
 
- - For dataset download, portal should generate pre-signed S3 URLs (short-lived, e.g. 15–60 minutes) for files listed in manifest.json and present them as the Download action in the UI.
+ - For dataset download, portal should generate pre-signed S3 URLs (suggested timelimit of 10h) for files listed in manifest.json and present them as the Download action in the UI.
  
  - This keeps the portal server out of the file data path and avoids high bandwidth on the application servers.
  
@@ -126,7 +125,7 @@ README.md
 
  - Preferred model: bucket objects are private, portal issues pre-signed URLs for downloads.
  
- - If units wish to make some bundles public, we can support a public: true flag in the manifest and expose public URLs or copy objects to a public S3 prefix / static host.
+ - If units wish to make some bundles public, we can support a public: true flag in the database. This makes it easy to allow for things such as embargo times. Keeping the info in our database removes the risk of getting out of sync with the S3 state.
 
  - For controlled-access datasets the portal will show metadata but direct users to the unit’s authorised access procedures.
 
