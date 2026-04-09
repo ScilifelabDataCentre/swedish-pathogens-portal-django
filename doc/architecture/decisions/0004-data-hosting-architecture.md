@@ -1,4 +1,4 @@
-# ADR-00XX: Data Hosting and Access Architecture for the Swedish Pathogens Portal
+# ADR-0004: Data Hosting and Access Architecture for the Swedish Pathogens Portal
 
 ## Status
 
