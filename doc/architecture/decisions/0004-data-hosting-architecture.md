@@ -52,6 +52,20 @@ As a pragmatic next step toward supporting datasets produced by SciLifeLab units
 3. Keep the portal stateless with respect to large file hosting — portal only serves manifests and short-lived signed URLs for downloads.  
 4. Support provenance, access control (if required), and lifecycle policies.
 
+### Expected scale and usage assumptions
+
+This proposal is currently intended as a proof of concept for incorporating unit-produced and user-relevant data into the Pathogens Portal as part of ongoing work with IDS. So far, the data shown has already been published and has been added manually as part of prototype development.
+
+The expected end-state is that participating SciLifeLab unit(s) will upload relevant datasets to this repository once a dataset is ready for publication or portal exposure. At present, we do not have a reliable global estimate for submission volumes; those numbers ultimately depend on the contributing unit(s).
+
+For architectural planning, we assume:
+
+ingestion frequency is relatively low, likely a few uploads per month at most in the near term;
+each upload consists of a dataset bundle containing a few GB of files, with occasional larger submissions;
+upper-bound bundle size is expected to be up to a few hundred GB.
+
+These assumptions suggest that an S3-backed bundle model with periodic indexing is sufficient for the near-term scope. If submission frequency or data volume grows materially beyond this, the ingestion and indexing design should be revisited.
+
 ### Bucket layout and artifact model
 
 - Use one or more S3 buckets under the `scilifelab-dc-spp` account (or equivalent): e.g. `scilifelab-dc-spp-metabolights` or here called spp-unit-bundles
@@ -96,32 +110,69 @@ README.md
 
 ```
 
-###pre-indexing
+### Pre-indexing and ingestion behaviour
 
-- A scheduled job (e.g. Celery beat or a CRON run in DC-Dynamic) scans configured bucket prefixes, reads manifests, and writes a small searchable index into a lightweight store or cache (Postgres JSONB). This index contains only metadata required for search/facets.
- 
-- Store the mapping {dataset_id} -> manifest_s3_path and a small metadata payload used by the UI. Portal reads the index for fast search and then fetches full manifests lazily on-demand for downloads or detailed views.
- 
-- Advantages: low-latency user search; fewer S3 operations; more control over freshness via scheduled runs.
- 
-- Trade-offs: requires a periodic job and a small index storage (note: this is not a full metadata DB; it is a thin index).
+A scheduled job (for example Celery beat or a CRON-triggered worker in DC-Dynamic) scans configured bucket prefixes, reads manifests, and writes a small searchable index into a lightweight store such as Postgres JSONB. This index contains only the metadata required for search and faceting.
+
+The index stores:
+
+a mapping from dataset_id to manifest_s3_path;
+a small metadata payload used by the portal UI;
+ingestion state metadata, for example whether the dataset is currently in sync with the uploaded files.
+
+The portal reads this index for low-latency search and fetches full manifests lazily for downloads or detailed views.
+
+Advantages:
+
+low-latency user search;
+fewer S3 operations;
+more control over freshness via scheduled runs.
+
+Trade-offs:
+
+requires a periodic worker;
+requires a small index store, even though this is not yet a full central metadata database.
+
+To avoid indexing incomplete uploads, the ingestion worker should validate dataset completeness before publishing or refreshing an indexed entry. Early in the sync/update job it should:
+
+verify that a mandatory manifest.json exists;
+verify that all files listed in manifest.json are present in the bucket;
+optionally verify whether unexpected files exist in the dataset prefix that are not listed in the manifest.
+
+If any of these checks fail, the worker should reject the update and avoid exposing a partial dataset through the portal.
+
+Rather than immediately deleting existing indexed metadata on mismatch, the preferred behaviour is to track dataset state explicitly in the index, for example with a field such as in_sync: true|false or ingestion_status. This allows the portal to suppress display of invalid or incomplete datasets while preserving enough state for debugging and recovery.
+
+The ingestion process should also record validation failures in a way that is actionable for the submitting or “power” user, for example by reporting:
+
+missing manifest;
+missing expected files;
+unexpected extra files;
+checksum or schema validation failures.
 
 
-###Download flow
+### Download flow
 
- - For dataset download, portal should generate pre-signed S3 URLs (suggested timelimit of 10h) for files listed in manifest.json and present them as the Download action in the UI.
+ - For dataset download, portal should generate pre-signed S3 URLs (suggested time limit of 10h) for files listed in manifest.json and present them as the Download action in the UI.
  
  - This keeps the portal server out of the file data path and avoids high bandwidth on the application servers.
  
- - ###Validation & provenance
+ - ### Validation & provenance
  
- - Units are responsible for producing a valid manifest.json and for uploading checksummed files.
- 
- - Ingestion/scan job validates manifest schema and file checksums (optionally). Bad manifests are flagged in a monitoring/logging channel for manual curation.
- 
- - The manifest’s provenance is shown in the portal UI to indicate who submitted the bundle and when.
+Units are responsible for producing a valid `manifest.json and for uploading the referenced files, ideally with checksums.
 
-###Access control & public access
+Before a dataset becomes visible in the portal, the ingestion job validates:
+
+manifest schema;
+presence of all files referenced in the manifest;
+optional checksum integrity checks;
+optional detection of unlisted files in the dataset prefix.
+
+Datasets that fail validation must not be exposed as downloadable portal entries. Instead, they should be marked as invalid or out-of-sync in the thin index and surfaced through monitoring/logging so the submitting user can correct the upload.
+
+The manifest provenance is shown in the portal UI to indicate who submitted the bundle and when.
+
+### Access control & public access
 
  - Preferred model: bucket objects are private, portal issues pre-signed URLs for downloads.
  
@@ -129,13 +180,27 @@ README.md
 
  - For controlled-access datasets the portal will show metadata but direct users to the unit’s authorised access procedures.
 
-###Lifecycle & cost management
+ ### Update and deletion semantics
+
+The expected normal case is additive ingestion: new dataset bundles are added over time, and existing published bundles remain stable.
+
+Deletion or withdrawal must still be supported, but it is expected to be an exception path rather than a routine operation. Reasons may include erroneous publication, withdrawn data, policy changes, or replacement by a corrected dataset version.
+
+For that reason, the ingestion/indexing design should support:
+
+adding new dataset bundles as the primary workflow;
+marking datasets as withdrawn, hidden, or no longer in sync without immediately removing all trace of them;
+eventual hard deletion of index entries and/or objects when explicitly requested through an administrative workflow.
+
+This supports safer operations and better auditability than assuming immediate destructive deletion as the default behaviour.
+
+### Lifecycle & cost management
 
  - Recommend lifecycle rules on the bucket to move older artifacts to IA/Glacier after configurable time, and eventual deletion policies if desired.
 
  - Encourage unit-level quotas and tagging for cost allocation.
 
-###Security & operational considerations
+### Security & operational considerations
 
 - Use IAM roles and restricted service principals for the portal ingestion worker. Grant least-privilege: read-only for listing and GetObject, and PutObject only for unit-side upload flows.
 
@@ -143,7 +208,7 @@ README.md
 
 - Ensure manifests are scanned for malicious content (e.g. no executable scripts embedded where not expected) before exposing file links.
 
-###UX considerations
+### UX considerations
 
 - Show repository badge spp-unit-bundles for bundles served from S3, including a link to the unit contact and the manifest provenance.
 
@@ -159,9 +224,14 @@ README.md
 
 - Emit alerts for manifest validation failures and pipeline errors.
 
+- Emit dataset-level validation reports that can be surfaced to maintainers or designated submitters.
 
-##Consequences
-###Benefits
+- Track counts of in_sync, invalid, hidden, and withdrawn datasets in the ingestion index.
+
+- Alert on repeated ingestion failures for the same dataset prefix, as this likely indicates a broken upload workflow rather than a transient error.
+
+## Consequences
+### Benefits
 
 - Immediate way to host unit-produced bundles without building a full metadata DB.
 
@@ -169,9 +239,15 @@ README.md
 
 - Allows units to prepare fully-formed bundles (including checksums and README) so portal UX is consistent.
 
-###Trade-offs
+- Matches the currently expected usage pattern of low-frequency, relatively large uploads without requiring a full ingestion platform.
+
+- Makes incomplete uploads safer to handle by validating manifest/file consistency before surfacing datasets.
+### Trade-offs
 
 - This approach defers building a central metadata store; searching across many buckets/units at scale will require the recommended pre-indexing job.
 
 - Requires operational setup for S3 buckets, IAM policies, and ingestion jobs.
 
+- Requires explicit state handling for incomplete, invalid, withdrawn, or deleted datasets in the thin index.
+
+- User-facing feedback for failed uploads must be designed carefully, otherwise operational issues may be hard for units to diagnose.
