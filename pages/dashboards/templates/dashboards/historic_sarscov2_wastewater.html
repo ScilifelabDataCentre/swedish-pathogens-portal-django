@@ -5,6 +5,12 @@
 
     {% include "dashboards/partials/load_plotlyjs.html" %}
 
+    {% comment %}
+        TODO: cleanup in second phase
+        TODO: change URL with django URL after merging other dashboards
+        TODO:  change the visualisation scripts source code URL after rework
+    {% endcomment %}
+    
     <div id="content-start" class="mt-4">
         <div class="prose max-w-none space-y-6">
             <div class="bg-pp-pale-grey/30 border-l-4 border-pp-mid-blue text-pp-dark-blue p-4" role="status">
@@ -16,156 +22,199 @@
                 </p>
             </div>
 
-            <h2 id="historic-sars-cov-2-wastewater">Historic SARS-CoV-2 wastewater data (SEEC-SLU)</h2>
-            <p>
-                The data presented on this page was generated in the SLU (Swedish University of Agricultural Sciences)
-                laboratories of SEEC (Swedish Environmental Epidemiology Center). The project was part of
-                <a href="{% url 'plp:index' %}">
-                    SciLifeLab's Pandemic Laboratory Preparedness (PLP) Program
-                </a>, led by Anna J. Székely (Department of Aquatic Sciences and Assessment, SLU).
-                Wastewater analyses were overseen by Anna J. Székely and Maja Malmberg (Virology Unit of the Department
-                of Biomedical Science and Veterinary Public Health, SLU). This page describes the historic quantification
-                of SARS-CoV-2 levels in wastewater across multiple Swedish cities. The project achieved the broadest
-                geographic coverage across Sweden, covering data for approximately 43% of the Swedish population.
-            </p>
-            <p>
-                Please note that the data and visualisations on this page are historic snapshots. The scores in the
-                datasets and plots below are final, although minor corrections may have been applied retrospectively.
-                This dashboard serves as a record of the project’s results during the active monitoring period.
-            </p>
-
-            <h2 id="collection-sites">Wastewater collection sites</h2>
-            <p>
-                SLU-SEEC collected and analysed samples from multiple wastewater treatment plants (WWTP). The table
-                below summarises the monitored towns/cities, associated WWTPs, estimated population sizes for each
-                catchment, and the start and end dates for monitoring. Values marked with an asterisk (\*) indicate
-                BOD-7 estimates rather than the exact number of connected residents. A copy of the table is also
-                available as an
-                <a href="https://blobserver.dc.scilifelab.se/blob/SLU_COVID_collection_sites.xlsx"
-                   target="_blank" rel="noopener noreferrer">
-                    Excel download
-                </a>.
-            </p>
-            <div class="rounded border border-pp-pale-grey/80 bg-white shadow">
-                <div class="overflow-x-auto">
-                    {% if slu_sites_table %}
-                        {{ slu_sites_table|safe }}
-                    {% else %}
-                        {% include "dashboards/partials/plot_loading_error.html" %}
-                    {% endif %}
-                </div>
-            </div>
-
-            <h2 id="visualisations">Visualisations</h2>
-            <div class="bg-pp-pale-grey/40 border-l-4 border-pp-mid-blue text-pp-dark-blue p-4" role="status">
-                <p class="m-0">
-                    <span class="font-semibold">Last updated:</span> 2024-09-30
+             <h4 id="historic-sars-cov-2-wastewater">Historic SARS-CoV-2 wastewater data (SEEC-SLU)</h4>
+                <p>
+                    The data presented on this page was generated in the SLU (Swedish University of Agricultural Sciences)
+                    laboratories of SEEC (Swedish Environmental Epidemiology Center). The project was part of
+                    <a href="{% url 'plp:index' %}">
+                        SciLifeLab's Pandemic Laboratory Preparedness (PLP) Program
+                    </a>, led by Anna J. Székely (Department of Aquatic Sciences and Assessment, SLU).
+                    Wastewater analyses were overseen by Anna J. Székely and Maja Malmberg (Virology Unit of the Department
+                    of Biomedical Science and Veterinary Public Health, SLU). This page describes the historic quantification
+                    of SARS-CoV-2 levels in wastewater across multiple Swedish cities. The project achieved the broadest
+                    geographic coverage across Sweden, covering data for approximately 43% of the Swedish population.
                 </p>
-            </div>
-            <p>
-                <strong>Important note:</strong> Historical data for Ekerö, Enköping, Knivsta, Tierp, Vaxholm,
-                Älvkarleby, and Österåker remain available in the dataset but are not displayed in the plot below.
-            </p>
-            <p>
-                While identical laboratory methods were used across sites, differences in wastewater collection systems
-                and population sizes can bias direct comparisons between localities.
-            </p>
+                <p>
+                    Please note that the data and visualisations on this page are historic snapshots. The scores in the
+                    datasets and plots below are final, although minor corrections may have been applied retrospectively.
+                    This dashboard serves as a record of the project’s results during the active monitoring period.
+                </p>
 
-            <details class="border border-pp-pale-grey rounded bg-white p-4 space-y-3">
-                <summary class="font-semibold cursor-pointer text-pp-dark-blue">How to use the interactive features of the plot</summary>
-                <div class="space-y-3 text-pp-dark-grey">
-                    <p>
-                        <strong>View data from particular sites:</strong> Double-click a site name in the legend to
-                        focus on a single site. Single-click to toggle a site on or off. Use the &ldquo;Deselect all
-                        areas&rdquo;/&ldquo;Reselect all areas&rdquo; buttons to quickly adjust the selection.
-                    </p>
-                    <p>
-                        <strong>Adjust axis ranges:</strong> Click and drag to define a rectangle across the axes to
-                        zoom in on a specific time window or value range.
-                    </p>
-                    <p>
-                        <strong>Inspect exact values:</strong> Hover over a data point to show a tooltip with the
-                        precise values for all sites on that date.
-                    </p>
-                    <p>
-                        <strong>Additional plot controls:</strong> Use the toolbar in the top-right corner of the plot
-                        to zoom, autoscale, or reset the axes.
-                    </p>
+            <h4 id="collection-sites">Wastewater collection sites</h4>
+                <p>
+                    SLU-SEEC collected and analysed samples from multiple wastewater treatment plants (WWTP). The table
+                    below summarises the monitored towns/cities, associated WWTPs, estimated population sizes for each
+                    catchment, and the start and end dates for monitoring. Values marked with an asterisk (\*) indicate
+                    BOD-7 estimates rather than the exact number of connected residents. A copy of the table is also
+                    available as an
+                    <a href="https://blobserver.dc.scilifelab.se/blob/SLU_COVID_collection_sites.xlsx"
+                    target="_blank" rel="noopener noreferrer">
+                        Excel download
+                    </a>.
+                </p>
+
+            <details class="mb-4 border border-gray-300 rounded-md" id="historic_covid_gu">
+                <summary class="cursor-pointer bg-pp-pale-grey hover:bg-gray-200 p-4 font-semibold text-lg">
+                    Wastewater collection site summary table
+                </summary>
+                <div class="p-4">
+
+                    <div class="rounded border border-pp-pale-grey/80 bg-white shadow">
+                        <div class="overflow-x-auto">
+                            {% if slu_sites_table %}
+                                {{ slu_sites_table|safe }}
+                            {% else %}
+                                {% include "dashboards/partials/plot_loading_error.html" %}
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
             </details>
 
-            <div class="bg-pp-pale-grey/40 text-pp-dark-blue px-4 py-3 rounded md:hidden" role="status">
-                Rotating your phone may improve the layout of the plot.
-            </div>
+        <details class="mb-4 border border-gray-300 rounded-md" id="historic_covid_gu">
+            <summary class="cursor-pointer bg-pp-pale-grey hover:bg-gray-200 p-4 font-semibold text-lg">
+                SARS-CoV-2 quantification (Method used until Sept 2024)
+            </summary>
+            <div class="p-4">
 
-            <div class="rounded border border-pp-pale-grey/80 bg-white shadow">
-                <div class="overflow-x-auto">
-                    {% if slu_combined_timeseries %}
-                        {{ slu_combined_timeseries|safe }}
-                    {% else %}
-                        {% include "dashboards/partials/plot_loading_error.html" %}
-                    {% endif %}
+                <h4>Visualisations</h4>
+
+                <div class="mt-6 p-4 bg-pp-pale-grey">
+                    Last updated:
+                    <span id="visualisations_date_modified">
+                        2024-09-30 (no longer updating)
+                    </span>
                 </div>
-            </div>
-            <p>
-                <strong>Code used to produce plot:</strong>
-                <a href="https://github.com/ScilifelabDataCentre/pathogens-portal-visualisations/blob/main/wastewater/archive/historic_combined_slu_regular.py"
-                   target="_blank" rel="noopener noreferrer">Script to produce plot</a>.
-            </p>
 
-            <h2 id="commentary">Commentary from the research group</h2>
-            <div class="rounded border border-pp-pale-grey bg-white p-4 shadow">
-                <p class="m-0"><strong>Date:</strong> 2024-03-20</p>
-                <p class="mt-2">
-                    <strong>Commentary:</strong> An error occurred during the processing of the data for week 11-2024,
+                <div class="md:hidden mt-6 p-4 bg-pp-pale-grey">
+                    Rotating your phone may improve graph layout
+                </div>
+                
+                <p>
+                    <strong>Important note:</strong> Historical data for Ekerö, Enköping, Knivsta, Tierp, Vaxholm,
+                    Älvkarleby, and Österåker remain available in the dataset but are not displayed in the plot below.
+                </p>
+                
+                <p>
+                    While identical laboratory methods were used across sites, differences in wastewater collection systems
+                    and population sizes can bias direct comparisons between localities.
+                </p>
+                
+                <div id="interactiveFeaturesModal" class="hidden fixed inset-0 z-50 overflow-y-auto" tabindex="-1" aria-labelledby="interactiveFeaturesModalLabel" aria-hidden="true">
+                    <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity" onclick="document.getElementById('interactiveFeaturesModal').classList.add('hidden')"></div>
+                    <div class="flex min-h-full items-center justify-center p-4">
+                        <div class="relative bg-white rounded-lg shadow-xl w-full max-w-4xl transform transition-all" onclick="event.stopPropagation()">
+                            <div class="flex items-center justify-between p-4 border-b border-pp-pale-grey">
+                                <h5 class="text-lg font-medium text-pp-almost-black" id="interactiveFeaturesModalLabel">Information on how to use the interactive features of the plot</h5>
+                                <button type="button" class="text-pp-dark-grey hover:text-pp-almost-black bg-transparent border-0 text-2xl leading-none opacity-50 hover:opacity-75 focus:outline-none" onclick="document.getElementById('interactiveFeaturesModal').classList.add('hidden')" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="p-4">
+                                <p>
+                                    <strong>View data from particular sites:</strong> Double-click a site name in the legend to
+                                    focus on a single site. Single-click to toggle a site on or off. Use the &ldquo;Deselect all
+                                    areas&rdquo;/&ldquo;Reselect all areas&rdquo; buttons to quickly adjust the selection.
+                                </p>
+                                <p>
+                                    <strong>Adjust axis ranges:</strong> Click and drag to define a rectangle across the axes to
+                                    zoom in on a specific time window or value range.
+                                </p>
+                                <p>
+                                    <strong>Inspect exact values:</strong> Hover over a data point to show a tooltip with the
+                                    precise values for all sites on that date.
+                                </p>
+                                <p>
+                                    <strong>Additional plot controls:</strong> Use the toolbar in the top-right corner of the plot
+                                    to zoom, autoscale, or reset the axes.
+                                </p>
+                            </div>
+                            <div class="flex items-center justify-end p-4 border-t border-pp-pale-grey">
+                                <button type="button" class="px-4 py-2 text-sm font-medium text-white bg-pp-dark-grey rounded hover:bg-pp-almost-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pp-mid-blue" onclick="document.getElementById('interactiveFeaturesModal').classList.add('hidden')">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="rounded border border-pp-pale-grey/80 bg-white shadow">
+                        <div class="overflow-x-auto">
+                            {% if slu_combined_timeseries %}
+                                {{ slu_combined_timeseries|safe }}
+                            {% else %}
+                                {% include "dashboards/partials/plot_loading_error.html" %}
+                            {% endif %}
+                        </div>
+                </div>
+
+                <p>
+
+                    {% comment %}
+                    TODO change URL when we will have reworked the data visualisation flow
+                    {% endcomment %}
+
+                    <b>Code used to produce plot:</b> 
+                    <a href="https://github.com/ScilifelabDataCentre/pathogens-portal-visualisations/blob/main/wastewater/archive/historic_combined_slu_regular.py"
+                    target="_blank" rel="noopener noreferrer">Script to produce plot.</a>
+                </p>
+
+                <h4>Commentary from the research group</h4>
+
+                <div>
+                    <b>Date:</b> 2024-03-20<br>
+                    <b>Commentary:</b> An error occurred during the processing of the data for week 11-2024,
                     due to a normalization issue. Consequently, the SCV2 data appeared to be 16 times higher and the
                     influenza A data 4 times higher than their actual values. We identified and corrected this error the
                     following day while preparing our official report, and promptly updated the website. We appreciate
                     those who brought this to our attention and apologize to anyone alarmed by the inaccurate results.
                     It's important to note that the data on the website is always preliminary. Please feel free to contact
                     us with any questions or concerns.
+                </div>
+                
+                <h4 id="reports">Reports from the research group</h4>
+                <p>
+                    Summaries of the latest findings are available as downloadable reports.
+                    The most recent version (in Swedish) can be accessed
+                    <a href="https://blobserver.dc.scilifelab.se/blob/Latest_weekly_report_SEEC-SLU.pdf"
+                    target="_blank" rel="noopener noreferrer">here</a>.
                 </p>
-            </div>
 
-            <h2 id="reports">Reports from the research group</h2>
+                <h4>Dataset</h4>
+
             <p>
-                Summaries of the latest findings are available as downloadable reports.
-                The most recent version (in Swedish) can be accessed
-                <a href="https://blobserver.dc.scilifelab.se/blob/Latest_weekly_report_SEEC-SLU.pdf"
-                   target="_blank" rel="noopener noreferrer">here</a>.
+                <strong>Download the data:</strong><br /><a
+                href="https://blobserver.dc.scilifelab.se/blob/historic_SLU_wastewater_data.csv"
+                target="_blank" rel="noopener noreferrer">Respiratory virus gene copy numbers normalised per 
+                PMMoV gene copy number (CSV)
             </p>
 
-            <h2 id="dataset">Dataset</h2>
-            <div class="space-y-3">
-                <p><strong>Contact:</strong> <a href="mailto:anna.szekely@slu.se">anna.szekely@slu.se</a> and <a href="mailto:javier.vargas@slu.se">javier.vargas@slu.se</a></p>
-                <p>
-                    <strong>Download the data:</strong>
-                    <a href="https://blobserver.dc.scilifelab.se/blob/historic_SLU_wastewater_data.csv"
-                       target="_blank" rel="noopener noreferrer">
-                        Respiratory virus gene copy numbers normalised per PMMoV gene copy number (CSV)
-                    </a>.
-                    Data spans week 38 of 2020 onward.
-                </p>
-                <div>
-                    <p class="font-semibold mb-1">How to cite the dataset:</p>
-                    <p>
-                        Székely, A. J., Malmberg, M., Vargas, J., Mohamed, N., Dafalla, I., Petrini, F., Davies, L. (2023).
-                        Dataset of SARS-CoV-2, influenza A and influenza B virus content in wastewater samples from wastewater treatment plants in Sweden.
-                        <a href="https://doi.org/10.17044/scilifelab.14256317" target="_blank" rel="noopener noreferrer">https://doi.org/10.17044/scilifelab.14256317</a>.
-                    </p>
-                </div>
-                <div>
-                    <p class="font-semibold mb-1">How to cite the method:</p>
-                    <p>
-                        Isaksson, F., Lundy, L., Hedström, A., Székely, A. J., Mohamed, N. (2022).
-                        Evaluating the Use of Alternative Normalization Approaches on SARS-CoV-2 Concentrations in Wastewater:
-                        Experiences from Two Catchments in Northern Sweden. <em>Environments</em>, <em>9</em>, 39.
-                        <a href="https://doi.org/10.3390/environments9030039" target="_blank" rel="noopener noreferrer">https://doi.org/10.3390/environments9030039</a>.
-                    </p>
-                </div>
-            </div>
+            <p>
+                <strong>Contact:</strong> <a href="mailto:anna.szekely@slu.se">anna.szekely@slu.se</a> 
+                and <a href="mailto:javier.vargas@slu.se">javier.vargas@slu.se</a>
+            </p>
 
-            <h2 id="methods">Methods</h2>
+            <p>
+                <strong>How to cite the dataset:</strong><br />
+                Székely, A. J., Malmberg, M., Vargas, J., Mohamed, N., Dafalla, I., Petrini, F., Davies, L. (2023).
+                Dataset of SARS-CoV-2, influenza A and influenza B virus content in wastewater samples from wastewater 
+                treatment plants in Sweden. <a href="https://doi.org/10.17044/scilifelab.14256317"
+                target="_blank" rel="noopener noreferrer">
+                https://doi.org/10.17044/scilifelab.14256317</a>
+            </p>
+
+            <p>
+                <strong>How to cite method:</strong><br />
+            </p>
+
+            <p>
+                Isaksson, F., Lundy, L., Hedström, A., Székely, A. J., Mohamed, N. (2022).
+                Evaluating the Use of Alternative Normalization Approaches on SARS-CoV-2 Concentrations in Wastewater:
+                Experiences from Two Catchments in Northern Sweden. <em>Environments</em>, <em>9</em>, 39. 
+                <a href="https://doi.org/10.3390/environments9030039"
+                target="_blank" rel="noopener noreferrer">
+                https://doi.org/10.3390/environments9030039</a>
+            </p>
+
+            <h4 id="methods">Methods</h4>
             <p>
                 For most cities, raw untreated wastewater samples that represent a single day are collected using flow-compensated samplers at the WWTP.
                 Uppsala is the exception: since week 16 of 2021, daily samples have been combined flow-proportionally into one composite weekly sample for the purpose of analyses.
@@ -196,48 +245,30 @@
                 To align the data generated by the current method with the data generated by methods and quantification assays used earlier, older data has been
                 transformed using conversion factors. The conversion factors are estimated based on common alignment periods when old and new methods are used in parallel.
             </p>
+        </div>
+    </details>
 
-            <h2 id="umea-orebro">Historic wastewater data for Umeå and Örebro</h2>
-            <p>
-                This page displays data on the amount of SARS-CoV-2 in Umeå and Örebro wastewater between October 2020 and June 2021.
-                A new method was used after June 2021, and <a href="{% url 'dashboards:slu_overview' %}">the most recent data can be found here</a>.
-            </p>
-            <p>
-                The data displayed here were collected as part of a research project led by associate professor Maja Malmberg (SLU, Swedish University of Agricultural Sciences:
-                <a href="mailto:maja.malmberg@slu.se">maja.malmberg@slu.se</a>), in collaboration with the SciLifeLab COVID-19 National Research Program,
-                and associate professor Mette Myrmel at the Norwegian University of Life Sciences.
-            </p>
-            <p>
-                Samples of wastewater were taken from the wastewater treatment facilities in Umeå and Örebro to determine the amount of SARS-CoV-2 in wastewater.
-                Consult the catchment area maps for
-                <a href="{% static 'dashboards/images/map_umeaa.jpg' %}">Umeå</a>
-                and
-                <a href="{% static 'dashboards/wastewater/map_orebro.pdf' %}">Örebro</a>
-                to see where the wastewater came from in each case. To determine the levels of SARS-CoV-2 in wastewater samples, ultrafiltration and qPCR were used after sample preparation.
-                Primers previously used and verified by <a href="https://doi.org/10.2807/1560-7917.ES.2020.25.3.2000045" target="_blank" rel="noopener noreferrer">Corman et al. (2020)</a>
-                were used to detect SARS-CoV-2, and qPCR samples were normalised against the levels of pepper mild mottle virus (PMMV). Up until January 2021, three samples of wastewater were taken
-                from each wastewater facility each week, and the results were pooled to provide a weekly estimate. After January 2021, samples were instead collected weekly.
-            </p>
-            <p>
-                In the plots below, the amount of SARS-CoV-2 for each week is shown relative to the amount of SARS-CoV-2 on 6th November 2020.
-            </p>
+    <details class="mb-4 border border-gray-300 rounded-md">
+        <summary class="cursor-pointer bg-pp-pale-grey hover:bg-gray-200 p-4 font-semibold text-lg">
+            Historic wastewater data for Umeå and Örebro
+        </summary>
+        <div class="p-4">
+            
+            <h4>Visualisations</h4>
 
-            <h3 id="umea">Amount of SARS-CoV-2 in Umeå wastewater (Oct 2020 &ndash; Jun 2021)</h3>
-            <p>
-                <strong>Download the data:</strong>
-                <a href="https://blobserver.dc.scilifelab.se/blob/wastewater_data_Umeaa.xlsx"
-                   target="_blank" rel="noopener noreferrer">
-                    Gene copy number change (%) relative to 6th Nov 2020 and flow level at each measurement, Excel file
-                </a>.
-                Data are available from week 44 of 2020 until week 22 of 2021.
-            </p>
-            <p>
-                <strong>How to cite:</strong> Malmberg, M., Myrmel, M. &amp; Khatri, M. (2021). Dataset of SARS-CoV-2 in wastewater in Umeå, Sweden.
-                <a href="https://doi.org/10.17044/scilifelab.14376881.v1" target="_blank" rel="noopener noreferrer">https://doi.org/10.17044/scilifelab.14376881.v1</a>.
-            </p>
-            <div class="bg-pp-pale-grey/40 text-pp-dark-blue px-4 py-3 rounded md:hidden" role="status">
-                Scroll the plot sideways to view all data.
+            <h4 id="umea">Amount of SARS-CoV-2 in Umeå wastewater (Oct 2020 &ndash; Jun 2021)</h4>
+
+            <div class="mt-6 p-4 bg-pp-pale-grey">
+                Last updated:
+                <span id="visualisations_date_modified">
+                    June 2021 (no longer updating)
+                </span>
             </div>
+
+            <div class="md:hidden mt-6 p-4 bg-pp-pale-grey">
+                Rotating your phone may improve graph layout
+            </div>
+
             <div class="rounded border border-pp-pale-grey/80 bg-white shadow">
                 <div class="overflow-x-auto">
                     {% if umea_timeseries %}
@@ -252,27 +283,52 @@
                 **Samples were stored at +4 &deg;C for 2-3 weeks, unlike all other samples.
             </p>
             <p>
-                <strong>Code used to produce plot:</strong>
-                <a href="https://github.com/ScilifelabDataCentre/pathogens-portal-visualisations/blob/main/wastewater/archive/umea_covid.py"
-                   target="_blank" rel="noopener noreferrer">Script to produce plot</a>.
-            </p>
+                <b>Code used to produce plot:</b> 
 
-            <h3 id="orebro">Amount of SARS-CoV-2 in Örebro wastewater (Oct 2020 &ndash; Jun 2021)</h3>
+                {% comment %}
+                  TODO change URL when we will have reworked the data visualisation flow
+                {% endcomment %}
+
+                <a href="https://github.com/ScilifelabDataCentre/pathogens-portal-visualisations/blob/main/wastewater/archive/umea_covid.py"
+                target="_blank" rel="noopener noreferrer">Script to produce plot.</a>
+            </p>
+            
+            <h4>Dataset</h4>
+
             <p>
-                <strong>Download the data:</strong>
-                <a href="https://blobserver.dc.scilifelab.se/blob/wastewater_data_Orebro.xlsx"
-                   target="_blank" rel="noopener noreferrer">
-                    Gene copy number change (%) relative to 6th Nov 2020 and flow level at each measurement, Excel file
-                </a>.
+                <strong>Download the data:</strong><br /><a
+                href="https://blobserver.dc.scilifelab.se/blob/wastewater_data_Umeaa.xlsx"
+                target="_blank" rel="noopener noreferrer">Gene copy number change (%) relative to 
+                6th Nov 2020 and flow level at each measurement, Excel file</a>.
                 Data are available from week 44 of 2020 until week 22 of 2021.
             </p>
+
             <p>
-                <strong>How to cite:</strong> Malmberg, M., Myrmel, M. &amp; Khatri, M. (2021). Dataset of SARS CoV-2 in wastewater in Örebro, Sweden.
-                <a href="https://doi.org/10.17044/scilifelab.14377097.v1" target="_blank" rel="noopener noreferrer">https://doi.org/10.17044/scilifelab.14377097.v1</a>.
+                <strong>How to cite the dataset:</strong><br />
+                Malmberg, M., Myrmel, M. &amp; Khatri, M. (2021). 
+                Dataset of SARS-CoV-2 in wastewater in Umeå, Sweden.
+                <a href="https://doi.org/10.17044/scilifelab.14376881.v1"
+                target="_blank" rel="noopener noreferrer">
+                https://doi.org/10.17044/scilifelab.14376881.v1</a>
             </p>
+
+            <h4 id="umea">Amount of SARS-CoV-2 in Örebro wastewater (Oct 2020 &ndash; Jun 2021)</h4>
+
+            <div class="mt-6 p-4 bg-pp-pale-grey">
+                Last updated:
+                <span id="visualisations_date_modified">
+                    June 2021 (no longer updating)
+                </span>
+            </div>
+
+            <div class="md:hidden mt-6 p-4 bg-pp-pale-grey">
+                Rotating your phone may improve graph layout
+            </div>
+
             <div class="bg-pp-pale-grey/40 text-pp-dark-blue px-4 py-3 rounded md:hidden" role="status">
                 Scroll the plot sideways to view all data.
             </div>
+
             <div class="rounded border border-pp-pale-grey/80 bg-white shadow">
                 <div class="overflow-x-auto">
                     {% if orebro_timeseries %}
@@ -282,16 +338,80 @@
                     {% endif %}
                 </div>
             </div>
+
             <p class="text-sm text-pp-dark-grey">
                 *Data for these weeks is not available.<br>
                 **Samples were stored at +4 &deg;C for 2-3 weeks, unlike all other samples.
             </p>
+
             <p>
-                <strong>Code used to produce plot:</strong>
+                <b>Code used to produce plot:</b> 
+
+                {% comment %}
+                  TODO change URL when we will have reworked the data visualisation flow
+                {% endcomment %}
+
                 <a href="https://github.com/ScilifelabDataCentre/pathogens-portal-visualisations/blob/main/wastewater/archive/orebro_covid.py"
-                   target="_blank" rel="noopener noreferrer">Script to produce plot</a>.
+                target="_blank" rel="noopener noreferrer">Script to produce plot.</a>
+            </p>
+            
+            <h4>Dataset</h4>
+
+            <p>
+                <strong>Download the data:</strong><br /><a
+                href="https://blobserver.dc.scilifelab.se/blob/wastewater_data_Orebro.xlsx"
+                target="_blank" rel="noopener noreferrer">Gene copy number change (%) relative to 
+                6th Nov 2020 and flow level at each measurement, Excel file</a>.
+                Data are available from week 44 of 2020 until week 22 of 2021.
+            </p>
+
+            <p>
+                <strong>How to cite the dataset:</strong><br />
+                Malmberg, M., Myrmel, M. &amp; Khatri, M. (2021). 
+                Dataset of SARS CoV-2 in wastewater in Örebro, Sweden.
+                <a href="https://doi.org/10.17044/scilifelab.14377097.v1"
+                target="_blank" rel="noopener noreferrer">
+                https://doi.org/10.17044/scilifelab.14377097.v1</a>
+            </p>
+
+            <h4>Methods</h4>
+            <p>
+                This page displays data on the amount of SARS-CoV-2 in Umeå and 
+                Örebro wastewater between October 2020 and June 2021. A new method 
+                was used after June 2021, and 
+                <a href="{% url 'dashboards:slu_overview' %}">the most recent data 
+                can be found here</a>.
+            </p>
+            <p>
+                The data displayed here were collected as part of a research project 
+                led by associate professor Maja Malmberg (SLU, Swedish University of 
+                Agricultural Sciences: <a href="mailto:maja.malmberg@slu.se">
+                maja.malmberg@slu.se</a>), in collaboration with the SciLifeLab 
+                COVID-19 National Research Program, and associate professor Mette 
+                Myrmel at the Norwegian University of Life Sciences.
+            </p>
+            <p>
+                Samples of wastewater were taken from the wastewater treatment facilities 
+                in Umeå and Örebro to determine the amount of SARS-CoV-2 in wastewater.
+                Consult the catchment area maps for
+                <a href="{% static 'dashboards/images/map_umeaa.jpg' %}">Umeå</a>
+                and
+                <a href="{% static 'dashboards/wastewater/map_orebro.pdf' %}">Örebro</a>
+                to see where the wastewater came from in each case. To determine the levels 
+                of SARS-CoV-2 in wastewater samples, ultrafiltration and qPCR were 
+                used after sample preparation. Primers previously used and verified by 
+                <a href="https://doi.org/10.2807/1560-7917.ES.2020.25.3.2000045" 
+                target="_blank" rel="noopener noreferrer">Corman et al. (2020)</a>
+                were used to detect SARS-CoV-2, and qPCR samples were normalised against 
+                the levels of pepper mild mottle virus (PMMV). Up until January 2021, 
+                three samples of wastewater were taken from each wastewater facility each 
+                week, and the results were pooled to provide a weekly estimate. After January 
+                2021, samples were instead collected weekly.
+            </p>
+            <p>
+                In the plots below, the amount of SARS-CoV-2 for each week is shown relative 
+                to the amount of SARS-CoV-2 on 6th November 2020.
             </p>
         </div>
-    </div>
+    </details>
 {% endblock %}
-
