@@ -13,7 +13,7 @@ dependencies = [
     "markdown>=3.5.0",
     "numpy>=2.4.1",
     "pandas>=3.0.0",
-    "pillow>=10.0.0",
+    "pillow>=12.2.0",
     "plotly>=6.4.0",
     "polars>=1.12.0",
 ]
