@@ -58,6 +58,7 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     "pages.about",
     "pages.available_data",
+    "pages.bsl3",
     "pages.catalogue",
     "pages.citation",
     "pages.contact",

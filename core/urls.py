@@ -38,6 +38,7 @@ page_urls = [
     path("", include("pages.home.urls")),
     path("about/", include("pages.about.urls")),
     path("available-data/", include("pages.available_data.urls")),
+    path("bsl3/", include("pages.bsl3.urls")),
     path("catalogue/", include("pages.catalogue.urls")),
     path("citation/", include("pages.citation.urls")),
     path("contact/", include("pages.contact.urls")),
