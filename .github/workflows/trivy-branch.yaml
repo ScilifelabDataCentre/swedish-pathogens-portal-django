@@ -47,7 +47,11 @@ jobs:
           scan-type: "fs"
           scan-ref: "."  # Default but being explicit
           scanners: "vuln,secret"  # Default but being explicit
-          # ignore-unfixed: true
+          # Only surface vulnerabilities that have a fix available. Debian
+          # trixie base-image CVEs with no fixed version (perl-base, util-linux,
+          # ncurses, gzip, libacl) are unpatchable today and only add noise;
+          # the scheduled re-scan will resurface them once a fix ships.
+          ignore-unfixed: true
           format: 'sarif'
           output: 'trivy-results.sarif'
           severity: 'CRITICAL,HIGH,MEDIUM'
