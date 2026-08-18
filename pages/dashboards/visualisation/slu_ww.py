@@ -104,6 +104,14 @@ zero_margin = {
     "l": 0,
 }
 
+category_map = {
+    "Invalid sample": "1",
+    "Negative sample": "2",
+    "Positive sample": "3",
+}
+
+category_order = [c for c, _ in sorted(category_map.items(), key=lambda i: int(i[1]), reverse=True)]
+
 # Viruses of interest i.e. only these virus data are used in the visualisation.
 
 VIRUSES_OF_INTEREST = ["Influenza A virus", "Influenza B virus", "RSV", "SARS CoV-2"]
@@ -463,6 +471,7 @@ def get_qual_overview_plot(data: pd.DataFrame, as_json: bool = False) -> str:
         y="category_percent",
         color="category",
         color_discrete_map=hmapcolors_map,
+        category_orders={"category": category_order},
         facet_col="target",
         facet_col_wrap=2,
         facet_col_spacing=0.05,
@@ -705,11 +714,6 @@ def get_qual_plots(data: pd.DataFrame | dict, virus: str, as_json: bool = False)
         "copies_day_inhabitant",
         "copies_l",
     ]
-    category_map = {
-        "Invalid sample": "1",
-        "Negative sample": "2",
-        "Positive sample": "3",
-    }
 
     data = (
         data[data.target == virus]
@@ -760,6 +764,7 @@ def get_qual_plots(data: pd.DataFrame | dict, virus: str, as_json: bool = False)
         y="category_percent",
         color="category",
         color_discrete_map=hmapcolors_map,
+        category_orders={"category": category_order},
     )
     fig.add_traces(bar_fig["data"], rows=2, cols=1)
     fig.update_traces(marker_line_width=0, row=2)
