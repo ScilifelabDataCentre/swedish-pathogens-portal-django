@@ -30,7 +30,7 @@ The source code for the current (live) Swedish Pathogens Portal can be found in 
 Open a terminal window, go to the directory where you want to clone the repository and run
 
 ```bash
-git clone git@github.com:ScilifelabDataCentre/swedish-pathogens-portal.git
+git clone git@github.com:ScilifelabDataCentre/swedish-pathogens-portal-django.git
 ```
 
 **NOTE:** The sections below assume you are in the project's root
@@ -166,7 +166,7 @@ docker compose down --rmi
 ## Project Structure
 
 ```text
-swedish-pathogens-portal/
+swedish-pathogens-portal-django/
 ├── core/                     # Django project configuration (settings, root URLs, WSGI/ASGI, etc.)
 ├── pages/                    # Django apps that implement the site’s public-facing pages
 ├── utils/                    # Shared helper code used across the project

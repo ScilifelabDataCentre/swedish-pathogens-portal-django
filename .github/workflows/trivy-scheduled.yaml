@@ -36,7 +36,7 @@ jobs:
             ghcr.io/aquasecurity/trivy-db,public.ecr.aws/aquasecurity/trivy-db
         uses: aquasecurity/trivy-action@0.35.0
         with:
-          image-ref: ghcr.io/scilifelabdatacentre/swedish-pathogens-portal:main
+          image-ref: ghcr.io/scilifelabdatacentre/swedish-pathogens-portal-django:main
           scanners: "vuln,secret"  # Default but being explicit
           # Only surface vulnerabilities that have a fix available. Debian
           # trixie base-image CVEs with no fixed version (perl-base, util-linux,
