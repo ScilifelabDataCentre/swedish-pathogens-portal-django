@@ -28,4 +28,4 @@ authors:
   given-names: "Johan"
   orcid: 0000-0001-5875-8429
 title: "Swedish Pathogens Portal"
-url: "https://github.com/ScilifelabDataCentre/swedish-pathogens-portal"
+url: "https://github.com/ScilifelabDataCentre/swedish-pathogens-portal-django"

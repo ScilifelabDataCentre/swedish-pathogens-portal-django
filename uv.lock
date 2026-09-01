@@ -693,7 +693,7 @@ wheels = [
 ]
 
 [[package]]
-name = "swedish-pathogens-portal"
+name = "swedish-pathogens-portal-django"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [

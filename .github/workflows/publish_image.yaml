@@ -5,14 +5,14 @@ name: Publish Docker image
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
-#  release:
-#    types: [published]
+  # push:
+  #   branches:
+  #     - main
+  # release:
+  #   types: [published]
 jobs:
   push_to_registry:
-    if: github.repository == 'scilifelabdatacentre/swedish-pathogens-portal'
+    if: github.repository == 'scilifelabdatacentre/swedish-pathogens-portal-django'
     name: Publish Docker image
     runs-on: ubuntu-latest
     concurrency:
@@ -34,7 +34,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v6
         with:
-          images: ghcr.io/scilifelabdatacentre/swedish-pathogens-portal
+          images: ghcr.io/scilifelabdatacentre/swedish-pathogens-portal-django
           tags: |
              type=sha,format=long
              type=sha,prefix={{branch}}-
